@@ -1,0 +1,31 @@
+# Vendored upstream skill libraries (populated by scripts/sync-vendor.sh)
+vendor/
+
+# Runtime / agent work product
+.work/
+.tmp/
+*.pyc
+__pycache__/
+.Python
+.venv/
+venv/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*~
+
+# Secrets and local env
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets/
+**/credentials.json
+**/op-session*
+
+# Acceptance fixtures (link from baslide01; do not commit large copies)
+fixtures/local/
