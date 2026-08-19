@@ -13,6 +13,107 @@ function packBadge(pack) {
   return pack.ready ? badge("ok", "文件包就绪") : badge("warn", "文件包未齐");
 }
 
+function itemHay(it) {
+  const pathText = Array.isArray(it.path) ? it.path.join(" ") : String(it.path || "");
+  const chapters = Array.isArray(it.chapters) ? it.chapters.join(" ") : "";
+  return `${it.id} ${it.label} ${it.sub || ""} ${it.meta || ""} ${it.page || ""} ${pathText} ${chapters}`.toLowerCase();
+}
+
+function deckPages(items) {
+  return (items || []).filter((it) => it.kind === "html" && it.id !== "deck.html");
+}
+
+function deckMetaHtml(stats, viz) {
+  const s = stats || {};
+  const v = viz || {};
+  const planned = s.vizPlanned ?? v.planned ?? 0;
+  const drawn = s.vizDrawn ?? v.drawn ?? 0;
+  const fillBits = Object.entries(s.fills || {})
+    .filter(([, n]) => n)
+    .map(([k, n]) => `${k} ${n}`)
+    .join(" · ");
+  return `<div class="deck-meta">
+    <span>HTML <b>${s.slides ?? "—"}</b></span>
+    <span>数据页 <b>${s.data ?? 0}</b><span class="muted">（kpi ${s.kpi ?? 0} · 表 ${s.tables ?? 0}）</span></span>
+    <span>可视化 <b>${planned}</b> 规划 / <b>${drawn}</b> 绘制</span>
+    ${fillBits ? `<span class="muted">${esc(fillBits)}</span>` : ""}
+  </div>`;
+}
+
+function paintDeckFinder(pane, q) {
+  const box = pane.querySelector("#deck-finder");
+  if (!box) return;
+  const pages = deckPages(pane._deckNav?.items);
+  const needle = (q || "").trim().toLowerCase();
+  if (needle) {
+    const hits = pages.filter((it) => itemHay(it).includes(needle) || String(it.page) === needle);
+    box.innerHTML = hits.length
+      ? hits
+          .slice(0, 80)
+          .map(
+            (it) =>
+              `<button type="button" class="deck-hit" data-id="${esc(it.id)}"><span class="mono">${esc(String(it.page))}</span> ${esc(it.sub || it.label)}${it.meta ? ` <span class="muted">${esc(it.meta)}</span>` : ""}</button>`
+          )
+          .join("")
+      : `<p class="muted">无匹配</p>`;
+    box.hidden = false;
+    return;
+  }
+  const groups = [];
+  for (const it of pages) {
+    const name = (it.chapters && it.chapters[0]) || "未分章";
+    const last = groups[groups.length - 1];
+    if (!last || last.name !== name) groups.push({ name, items: [it] });
+    else last.items.push(it);
+  }
+  box.innerHTML = groups
+    .map((g) => {
+      const start = g.items[0]?.page;
+      const end = g.items[g.items.length - 1]?.page;
+      return `<button type="button" class="deck-ch" data-id="${esc(g.items[0].id)}">${esc(g.name)} <span class="mono muted">${start}–${end} · ${g.items.length}</span></button>`;
+    })
+    .join("");
+}
+
+function bindDeckFinder(pane) {
+  const q = pane.querySelector("#deck-q");
+  const box = pane.querySelector("#deck-finder");
+  const goId = (id) => pane._deckNav?.selectItem?.(id);
+  q?.addEventListener("input", () => {
+    const v = q.value;
+    const left = pane._deckNav?.qEl;
+    if (left && left.value !== v) {
+      left.value = v;
+      pane._deckNav.paintDir?.(v);
+    }
+    paintDeckFinder(pane, v);
+  });
+  q?.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const first = box?.querySelector("[data-id]");
+      if (first) goId(first.getAttribute("data-id"));
+    }
+    if (e.key === "Escape") {
+      box.hidden = true;
+      q.blur();
+    }
+  });
+  q?.addEventListener("focus", () => paintDeckFinder(pane, q.value));
+  pane.querySelector("[data-deck=finder]")?.addEventListener("click", () => {
+    if (q) q.value = "";
+    paintDeckFinder(pane, "");
+    box.hidden = !box.hidden;
+    if (!box.hidden) q?.focus();
+  });
+  box?.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-id]");
+    if (!btn) return;
+    goId(btn.getAttribute("data-id"));
+    box.hidden = true;
+  });
+}
+
 export async function renderProjects(root, parts) {
   unbindStudioKeys();
   if (parts[1] === "new") {
@@ -208,10 +309,125 @@ function bindJobButtons(root, p) {
   });
 }
 
+function setDecking(pane, on) {
+  pane.classList.toggle("decking", on);
+  pane.closest("#studio")?.classList.toggle("decking", on);
+  if (!on) pane.classList.remove("theater");
+}
+
+function injectSdGo(iframe) {
+  const win = iframe?.contentWindow;
+  const doc = iframe?.contentDocument;
+  if (!win || !doc || win.sdGo) return;
+  const script = doc.createElement("script");
+  script.textContent = `(function () {
+  var slides = [].slice.call(document.querySelectorAll(".sd-slide"));
+  function idx() {
+    var n = slides.findIndex(function (el) { return el.classList.contains("on"); });
+    return n < 0 ? 0 : n;
+  }
+  function go(n) {
+    if (!slides.length) return 0;
+    var i = ((Number(n) % slides.length) + slides.length) % slides.length;
+    slides.forEach(function (el, j) { el.classList.toggle("on", j === i); });
+    var hint = document.querySelector("#sd-nav-hint [data-idx]");
+    if (hint) hint.textContent = (i + 1) + " / " + slides.length;
+    if (slides.length > 1) try { history.replaceState(null, "", "#p=" + (i + 1)); } catch (e) {}
+    if (parent !== window) parent.postMessage({ type: "sd-page", page: i + 1, total: slides.length }, "*");
+    return i + 1;
+  }
+  window.sdGo = function (page) { return go(Number(page) - 1); };
+  document.addEventListener("keydown", function (ev) {
+    if (ev.metaKey || ev.ctrlKey || ev.altKey) return;
+    if (ev.target && (ev.target.tagName === "INPUT" || ev.target.tagName === "TEXTAREA")) return;
+    if (ev.key === "ArrowRight" || ev.key === " " || ev.key === "PageDown") { ev.preventDefault(); ev.stopImmediatePropagation(); go(idx() + 1); }
+    else if (ev.key === "ArrowLeft" || ev.key === "PageUp") { ev.preventDefault(); ev.stopImmediatePropagation(); go(idx() - 1); }
+    else if (ev.key === "Home") { ev.preventDefault(); ev.stopImmediatePropagation(); go(0); }
+    else if (ev.key === "End") { ev.preventDefault(); ev.stopImmediatePropagation(); go(slides.length - 1); }
+  }, true);
+})();`;
+  doc.documentElement.appendChild(script);
+}
+
+function deckGo(pane, page) {
+  const iframe = pane.querySelector("iframe.deck-frame");
+  const win = iframe?.contentWindow;
+  const doc = iframe?.contentDocument;
+  if (!win || !doc) return 0;
+  if (typeof win.sdGo === "function") return win.sdGo(page) || 0;
+  const slides = [...doc.querySelectorAll(".sd-slide")];
+  if (!slides.length) return 0;
+  const i = ((Number(page) - 1) % slides.length + slides.length) % slides.length;
+  slides.forEach((el, idx) => el.classList.toggle("on", idx === i));
+  const hint = doc.getElementById("sd-nav-hint")?.querySelector("[data-idx]");
+  if (hint) hint.textContent = `${i + 1} / ${slides.length}`;
+  const input = pane.querySelector("#deck-page");
+  if (input) input.value = String(i + 1);
+  const total = pane.querySelector("#deck-total");
+  if (total) total.textContent = String(slides.length);
+  pane.dispatchEvent(new CustomEvent("deck-page", { detail: { page: i + 1 } }));
+  return i + 1;
+}
+
+function bindDeckChrome(pane, startPage) {
+  const iframe = pane.querySelector("iframe.deck-frame");
+  const go = (delta) => {
+    const cur = Number(pane.querySelector("#deck-page")?.value) || 1;
+    deckGo(pane, cur + delta);
+  };
+  pane.querySelector("[data-deck=prev]")?.addEventListener("click", () => go(-1));
+  pane.querySelector("[data-deck=next]")?.addEventListener("click", () => go(1));
+  pane.querySelector("[data-deck=theater]")?.addEventListener("click", () => {
+    pane.classList.toggle("theater");
+  });
+  const input = pane.querySelector("#deck-page");
+  input?.addEventListener("change", (e) => deckGo(pane, e.target.value));
+  input?.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      deckGo(pane, e.target.value);
+    }
+  });
+  if (!pane.dataset.deckMsg) {
+    pane.dataset.deckMsg = "1";
+    window.addEventListener("message", (e) => {
+      const frame = pane.querySelector("iframe.deck-frame");
+      if (!frame || e.source !== frame.contentWindow || e.data?.type !== "sd-page") return;
+      const pageInput = pane.querySelector("#deck-page");
+      if (pageInput) {
+        pageInput.value = String(e.data.page);
+        pageInput.max = String(e.data.total);
+      }
+      const total = pane.querySelector("#deck-total");
+      if (total) total.textContent = String(e.data.total);
+      pane.dispatchEvent(new CustomEvent("deck-page", { detail: { page: e.data.page } }));
+    });
+  }
+  const arm = () => {
+    injectSdGo(iframe);
+    deckGo(pane, startPage);
+  };
+  if (iframe?.contentDocument?.readyState === "complete" && iframe.contentDocument.querySelector(".sd-slide")) arm();
+  else iframe?.addEventListener("load", arm, { once: true });
+}
+
 async function showPreview(pane, p, runId, item) {
   if (!item) {
+    setDecking(pane, false);
     pane.innerHTML = `<div class="empty">从左边目录选一项预览。</div>`;
     return;
+  }
+  if (item.kind !== "html") setDecking(pane, false);
+  if (item.kind === "html") {
+    const base = String(item.href || "").split("#")[0];
+    const page = Number(item.page) || 1;
+    const existing = pane.querySelector("iframe.deck-frame");
+    if (existing && existing.dataset.deck === base) {
+      const title = pane.querySelector(".preview-head h3");
+      if (title) title.textContent = item.label;
+      deckGo(pane, page);
+      return;
+    }
   }
   pane.innerHTML = `<p class="muted">Loading ${esc(item.label)}…</p>`;
   try {
@@ -241,9 +457,35 @@ async function showPreview(pane, p, runId, item) {
       return;
     }
     if (item.kind === "html") {
-      pane.innerHTML = `<div class="preview-head"><h3>${esc(item.label)}</h3><a class="btn ghost" href="${esc(item.href)}" target="_blank">打开 HTML</a></div>
-        <p class="muted">这是下一步 Baslide01 幻灯片，不是当前完成物。</p>
-        <iframe class="preview-frame" src="${esc(item.href)}" title="deck"></iframe>`;
+      const base = String(item.href || "").split("#")[0];
+      const page = Number(item.page) || 1;
+      const viz = item.viz || {};
+      setDecking(pane, true);
+      const vizNote =
+        viz.drawn > 0
+          ? badge("ok", `L3 ${viz.drawn} 已绘制`)
+          : viz.planned > 0
+            ? badge("warn", `L3 ${viz.planned} 已规划 · HTML 尚未画图`)
+            : badge("", "无 L3");
+      pane.innerHTML = `<div class="preview-head">
+        <h3>${esc(item.label)}</h3>${vizNote}
+        <span class="spacer"></span>
+        <div class="deck-nav">
+          <button type="button" class="btn ghost" data-deck="prev">←</button>
+          <input id="deck-page" type="number" min="1" value="${page}" />
+          <span class="mono muted">/ <span id="deck-total">…</span></span>
+          <button type="button" class="btn ghost" data-deck="next">→</button>
+        </div>
+        <button type="button" class="btn ghost" data-deck="finder">大纲</button>
+        <button type="button" class="btn ghost" data-deck="theater">铺满</button>
+        <a class="btn ghost" href="${esc(base)}" target="_blank">整页打开</a>
+        ${deckMetaHtml(item.stats, viz)}
+        <input id="deck-q" class="search" type="search" placeholder="搜索页码 / 标题 / 图型…" />
+      </div>
+      <div id="deck-finder" class="deck-finder" hidden></div>
+      <iframe class="preview-frame deck-frame" data-deck="${esc(base)}" src="${esc(`${base}#p=${page}`)}" title="deck"></iframe>`;
+      bindDeckChrome(pane, page);
+      bindDeckFinder(pane);
       return;
     }
     if (item.kind === "dir") {
@@ -344,7 +586,7 @@ async function renderProjectDetail(root, id, stageId) {
     </div>
     <div id="studio" class="studio">
       <div class="studio-nav">
-        <input class="search" id="dir-q" placeholder="过滤目录…  /" />
+        <input class="search" id="dir-q" placeholder="${current === "slides" ? "大纲搜索：页码 / 标题 / 图型…" : "过滤目录…  /"}" />
         <div id="dir-count" class="dir-count">目录加载中…</div>
         <div id="dir" class="dir-list"><p class="muted">Loading…</p></div>
       </div>
@@ -367,11 +609,6 @@ async function renderProjectDetail(root, id, stageId) {
     if (Array.isArray(it.chapters)) return it.chapters.filter(Boolean);
     if (Array.isArray(it.path)) return it.path.filter(Boolean);
     return [];
-  }
-
-  function itemHay(it) {
-    const pathText = Array.isArray(it.path) ? it.path.join(" ") : String(it.path || "");
-    return `${it.id} ${it.label} ${it.sub || ""} ${it.meta || ""} ${pathText}`.toLowerCase();
   }
 
   function buildTree(list) {
@@ -461,6 +698,12 @@ async function renderProjectDetail(root, id, stageId) {
     return buildTree(q ? items.filter((it) => itemHay(it).includes(q)) : items);
   }
 
+  pane.addEventListener("deck-page", (e) => {
+    const page = Number(e.detail?.page);
+    const match = items.find((it) => it.kind === "html" && Number(it.page) === page && it.id !== "deck.html");
+    if (match && match.id !== selectedId) selectItem(match.id, { preview: false });
+  });
+
   function selectItem(id, { preview = true, reveal = true } = {}) {
     const item = items.find((it) => it.id === id);
     if (!item) return;
@@ -501,10 +744,16 @@ async function renderProjectDetail(root, id, stageId) {
       if (help && !help.hidden) return;
       const tag = (e.target?.tagName || "").toLowerCase();
       const typing = tag === "input" || tag === "textarea" || tag === "select" || e.target?.isContentEditable;
+      if (e.key === "Escape" && pane.classList.contains("theater")) {
+        pane.classList.remove("theater");
+        e.preventDefault();
+        return;
+      }
       if (e.key === "/" && !typing) {
         e.preventDefault();
-        qEl?.focus();
-        qEl?.select();
+        const deckQ = pane.querySelector("#deck-q");
+        (deckQ || qEl)?.focus();
+        (deckQ || qEl)?.select();
         return;
       }
       if (e.key === "Escape" && typing) {
@@ -533,6 +782,21 @@ async function renderProjectDetail(root, id, stageId) {
         return;
       }
       const leaves = walkVisibleLeaves(currentTree(), []);
+      const deckPane = pane.classList.contains("decking") ? pane : null;
+      if (deckPane && e.key === "t") {
+        e.preventDefault();
+        pane.classList.toggle("theater");
+        return;
+      }
+      if (deckPane && (e.key === "ArrowLeft" || e.key === "ArrowRight" || e.key === "PageUp" || e.key === "PageDown" || e.key === "Home" || e.key === "End" || e.key === " ")) {
+        e.preventDefault();
+        const cur = Number(deckPane.querySelector("#deck-page")?.value) || 1;
+        const total = Number(deckPane.querySelector("#deck-total")?.textContent) || 1;
+        if (e.key === "Home") deckGo(deckPane, 1);
+        else if (e.key === "End") deckGo(deckPane, total);
+        else deckGo(deckPane, cur + (e.key === "ArrowRight" || e.key === "PageDown" || e.key === " " ? 1 : -1));
+        return;
+      }
       if (e.key === "j" || e.key === "ArrowDown" || e.key === "k" || e.key === "ArrowUp") {
         e.preventDefault();
         if (!leaves.length) return;
@@ -565,10 +829,12 @@ async function renderProjectDetail(root, id, stageId) {
   try {
     const view = await api(`/api/projects/${encodeURIComponent(p.id)}/stage/${encodeURIComponent(current)}`);
     items = view.items || [];
+    pane._deckNav = { items, selectItem, paintDir, qEl };
     const tree = buildTree(items);
     collapseDeep(tree, 1, 0);
     paintDir("");
-    const firstLeaf = items.find((it) => it.kind !== "dir");
+    const firstLeaf =
+      items.find((it) => it.kind === "html" && it.id !== "deck.html") || items.find((it) => it.kind !== "dir");
     if (firstLeaf) selectItem(firstLeaf.id);
     else if (active?.later && !items.length) {
       pane.innerHTML = `<div class="empty">幻灯片还没做。当前完成物是左边「3 · pages」的页面素材。需要时点「下一步 · 开发幻灯片」。</div>`;
@@ -579,6 +845,8 @@ async function renderProjectDetail(root, id, stageId) {
   qEl?.addEventListener("input", () => {
     collapsed.clear();
     paintDir(qEl.value);
+    const deckQ = pane.querySelector("#deck-q");
+    if (deckQ && deckQ.value !== qEl.value) deckQ.value = qEl.value;
   });
   bindStudioKeys();
 }

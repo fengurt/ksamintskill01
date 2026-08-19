@@ -263,12 +263,63 @@ export function getStageView(runId, stageId, { source = null } = {}) {
     }
   } else if (abs && spec.id === "slides") {
     if (presentAt(abs, "slides/deck.html")) {
+      const plan = readJsonSafe(join(abs, "slide-plan.json"));
+      const packMeta = readJsonSafe(join(abs, "pack.json"));
+      const fillCounts = plan?.fill_counts || packMeta?.fill_counts || {};
+      let planned = Object.values(fillCounts).reduce((n, v) => n + Number(v || 0), 0);
+      if (!planned) planned = Number(packMeta?.counts?.fills || 0);
+      let drawn = 0;
+      try {
+        drawn = (readFileSync(join(abs, "slides/deck.html"), "utf8").match(/<svg\b/gi) || []).length;
+      } catch {
+        drawn = 0;
+      }
+      const deck = readJsonSafe(join(abs, "deck.json"));
+      const pages = deck?.pages || [];
+      const roles = { ...(packMeta?.counts?.roles || {}) };
+      if (!Object.keys(roles).length) {
+        for (const page of pages) {
+          const role = page.role || "other";
+          roles[role] = (roles[role] || 0) + 1;
+        }
+      }
+      const stats = {
+        slides: pages.length || Number(packMeta?.counts?.pages || 0),
+        data: (roles.kpi || 0) + (roles["chart-table"] || 0),
+        kpi: roles.kpi || 0,
+        tables: roles["chart-table"] || 0,
+        viz: pages.filter((page) => page.fill).length || planned,
+        vizPlanned: planned,
+        vizDrawn: drawn,
+        roles,
+        fills: fillCounts,
+      };
+      const viz = { planned, drawn };
+      const href = `/slides/${runId}/deck.html`;
       items.push({
         id: "deck.html",
         kind: "html",
-        label: "slides/deck.html",
-        href: `/slides/${runId}/deck.html`,
-        sub: "Baslide01 HTML",
+        label: "整份 HTML 报告",
+        href,
+        page: 1,
+        viz,
+        stats,
+        sub: `${stats.slides} 页 · 数据 ${stats.data} · L3 ${stats.vizPlanned}/${stats.vizDrawn}`,
+      });
+      pages.forEach((p, i) => {
+        items.push({
+          id: p.id,
+          kind: "html",
+          label: p.id,
+          sub: p.title || "",
+          meta: p.fill || p.role,
+          href: `${href}#p=${i + 1}`,
+          page: i + 1,
+          viz,
+          stats,
+          chapters: p.outline_path || [],
+          path: p.outline_path || [],
+        });
       });
     }
     if (presentAt(abs, "slides.json")) {

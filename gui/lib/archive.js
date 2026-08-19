@@ -1,8 +1,17 @@
 import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { spawn, spawnSync } from "node:child_process";
 import { tmpdir } from "node:os";
-import { basename, join } from "node:path";
-import { safeResolve, safeWorkDir } from "./paths.js";
+import { basename, dirname, join } from "node:path";
+import { REPO_ROOT, safeResolve, safeWorkDir, underRoot } from "./paths.js";
+
+/** Extra files a skill zip must carry because SKILL.md only points at them. */
+export const SKILL_RUNTIME = {
+  "md-to-html-slides": [
+    { from: "modules/baslide01/templates/TIANSIGHT", to: "runtime/templates/TIANSIGHT", why: "L2 HTML 壳 + TIANSIGHT CSS" },
+    { from: "modules/baslide01/prompts/loop", to: "runtime/prompts/loop", why: "brand.md + 各 job 循环规范" },
+    { from: "modules/baslide01/scripts/build-TIANSIGHT-deck.py", to: "runtime/scripts/build-TIANSIGHT-deck.py", why: "L3 svg_figure" },
+  ],
+};
 
 const PACK_ENTRIES = [
   "MANIFEST.md",
@@ -189,5 +198,76 @@ export function streamSlidesZip(runId, res) {
     entries: SLIDES_ENTRIES,
     suffix: "slides-review",
     emptyError: "slides empty",
+  });
+}
+
+export function skillZipName(folder) {
+  return `${safeStem(String(folder).split("/").pop())}-skill.zip`;
+}
+
+export function skillRuntimeExtras(folder) {
+  const key = String(folder || "").split("/").pop();
+  return SKILL_RUNTIME[key] || SKILL_RUNTIME[folder] || [];
+}
+
+export function assembleSkillZipStage({ path, folder, name }) {
+  const abs = join(REPO_ROOT, path);
+  if (!existsSync(abs)) throw new Error("skill folder missing");
+  if (!underRoot(abs, join(REPO_ROOT, "skills")) && !underRoot(abs, join(REPO_ROOT, "vendor"))) {
+    throw new Error("skill path denied");
+  }
+  const rootName = safeStem(name || String(folder).split("/").pop() || "skill");
+  const extras = skillRuntimeExtras(folder);
+  const stage = join(tmpdir(), `ksamint-skill-${rootName}-${Date.now()}`);
+  const root = join(stage, rootName);
+  mkdirSync(root, { recursive: true });
+  for (const ent of readdirSync(abs)) {
+    if (ent.startsWith(".") || ent === "runtime") continue;
+    symlinkSync(join(abs, ent), join(root, ent));
+  }
+  const included = [];
+  for (const extra of extras) {
+    const from = join(REPO_ROOT, extra.from);
+    if (!existsSync(from)) continue;
+    const to = join(root, extra.to);
+    mkdirSync(dirname(to), { recursive: true });
+    symlinkSync(from, to);
+    included.push(extra);
+  }
+  if (included.length) {
+    const lines = [
+      "# Runtime (not in SKILL.md alone)",
+      "",
+      ...included.map((e) => `- \`${e.to}\` — ${e.why}`),
+      "",
+    ];
+    writeFileSync(join(root, "RUNTIME.md"), lines.join("\n"), "utf8");
+  }
+  return {
+    stage,
+    rootName,
+    extras: included,
+    cleanup() {
+      try {
+        rmSync(stage, { recursive: true, force: true });
+      } catch {
+        /* ignore */
+      }
+    },
+  };
+}
+
+export function streamSkillZip(skill, res) {
+  if (!zipHasBin()) throw new Error("zip command not found");
+  const { stage, rootName, cleanup } = assembleSkillZipStage(skill);
+  const name = skillZipName(skill.folder || skill.name);
+  const child = streamZipFrom(stage, [rootName], res, name);
+  child.on("close", cleanup);
+  child.on("error", (err) => {
+    cleanup();
+    if (!res.writableEnded) {
+      if (!res.headersSent) res.writeHead(500, { "content-type": "application/json" });
+      res.end(JSON.stringify({ error: err.message }));
+    }
   });
 }
