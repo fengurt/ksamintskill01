@@ -42,3 +42,24 @@ export function listThemes() {
     })),
   };
 }
+
+export function baslideSummary() {
+  const taxonomy = join(BASLIDE_ROOT, "skills/md-to-html-slides/taxonomy.json");
+  let counts = {};
+  if (existsSync(taxonomy)) {
+    try {
+      counts = JSON.parse(readFileSync(taxonomy, "utf8")).counts || {};
+    } catch {
+      counts = {};
+    }
+  }
+  return {
+    present: existsSync(BASLIDE_ROOT),
+    root: BASLIDE_ROOT,
+    skins: listThemes().themes.length,
+    genres: counts.genres || 0,
+    shells: counts.l1_shells || 0,
+    jobs: counts.l2_jobs || 0,
+    fills: counts.l3_viz || 0,
+  };
+}

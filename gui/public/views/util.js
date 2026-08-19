@@ -50,6 +50,40 @@ export function fmtTime(ts) {
   }
 }
 
+export async function copyText(text) {
+  const value = String(text || "");
+  if (navigator.clipboard?.writeText) {
+    await navigator.clipboard.writeText(value);
+    return;
+  }
+  const ta = document.createElement("textarea");
+  ta.value = value;
+  document.body.appendChild(ta);
+  ta.select();
+  document.execCommand("copy");
+  ta.remove();
+}
+
+export function bindCopyButtons(root) {
+  root.querySelectorAll("[data-copy]").forEach((btn) => {
+    btn.addEventListener("click", async (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const text = btn.getAttribute("data-copy");
+      const prev = btn.textContent;
+      try {
+        await copyText(text);
+        btn.textContent = "已复制";
+        setTimeout(() => {
+          btn.textContent = prev;
+        }, 1200);
+      } catch {
+        btn.textContent = text || prev;
+      }
+    });
+  });
+}
+
 export function el(html) {
   const t = document.createElement("template");
   t.innerHTML = html.trim();

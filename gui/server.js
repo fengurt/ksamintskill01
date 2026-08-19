@@ -28,9 +28,9 @@ import {
 import { listTemplates, getTemplate } from "./lib/templates.js";
 import { listJobs, getJob, startJob, cancelJob, subscribe } from "./lib/jobs.js";
 import { healthSnapshot, symlinkIntegrity } from "./lib/health.js";
-import { listThemes } from "./lib/themes.js";
+import { baslideSummary, listThemes } from "./lib/themes.js";
 import { getPack, skillStagesFor, VIEW_STAGES, stageReady, getStageView } from "./lib/pack.js";
-import { streamPackZip } from "./lib/archive.js";
+import { streamPackZip, streamSlidesZip } from "./lib/archive.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PUBLIC = join(__dirname, "public");
@@ -125,6 +125,14 @@ async function handleApi(req, res, method, path, u) {
       recentProjects: projects.slice(0, 8),
       recentJobs: jobs.slice(0, 8),
       recentRuns: runs.slice(0, 8),
+      totals: {
+        projects: projects.length,
+        jobs: jobs.length,
+        runs: runs.length,
+        templates: listTemplates().length,
+        sources: registry.sources.length,
+      },
+      baslide: baslideSummary(),
       port: PORT,
       repoRoot: REPO_ROOT,
     });
@@ -230,14 +238,15 @@ async function handleApi(req, res, method, path, u) {
     return send(res, 201, createProject(body));
   }
   {
-    const m = path.match(/^\/api\/projects\/([^/]+)\/pack\.zip$/);
+    const m = path.match(/^\/api\/projects\/([^/]+)\/(pack|slides)\.zip$/);
     if (method === "GET" && m) {
       const p = getProject(decodeURIComponent(m[1]));
       if (!p) return send(res, 404, { error: "not found" });
       const runId = (p.work || "").replace(/^\.work\//, "");
       if (!runId) return send(res, 400, { error: "no work dir" });
       try {
-        streamPackZip(runId, res);
+        if (m[2] === "slides") streamSlidesZip(runId, res);
+        else streamPackZip(runId, res, { source: p.source });
       } catch (e) {
         return send(res, 400, { error: e.message });
       }

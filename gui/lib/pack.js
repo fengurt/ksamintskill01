@@ -85,6 +85,7 @@ export function getPack(runId) {
     emitted_at: packJson?.emitted_at || null,
     files,
     manifest: files.find((f) => f.id === "MANIFEST.md")?.present || false,
+    slides: presentAt(abs, "slides/deck.html"),
   };
 }
 
