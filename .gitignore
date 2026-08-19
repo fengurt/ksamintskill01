@@ -37,6 +37,6 @@ venv/
 fixtures/local/
 
 # Skill Hub GUI runtime state
-gui/data/
+gui/data/*
 !gui/data/.gitkeep
 gui/node_modules/
