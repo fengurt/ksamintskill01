@@ -43,6 +43,11 @@ python3 skills/longdoc-to-deck/scripts/segment.py path/to/doc.md -o .work/run1
 python3 skills/longdoc-to-deck/scripts/check-coverage.py --stage index --work .work/run1
 ```
 
+To reuse vendored skills, star the ones you want in the Skill Hub and export
+the bundle. Extract it into a project's `.agents/skills/`, or into
+`~/.codex/skills/` to make those skills available to existing and future Codex
+projects. Avoid installing a name already supplied by another skill source.
+
 ## Skill Hub GUI
 
 See [gui/README.md](gui/README.md). Observability + allowlisted job launcher; coverage and fidelity **gates remain the Python scripts**.

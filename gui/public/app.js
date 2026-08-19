@@ -1,6 +1,6 @@
 import { renderHome } from "./views/home.js";
-import { renderSkills } from "./views/skills.js?v=20260819f";
-import { renderProjects } from "./views/projects.js?v=20260819d";
+import { renderSkills } from "./views/skills.js?v=20260819i";
+import { renderProjects } from "./views/projects.js?v=20260819e";
 import { renderRuns } from "./views/runs.js";
 import { renderJobs } from "./views/jobs.js";
 import { renderRegistry } from "./views/registry.js";

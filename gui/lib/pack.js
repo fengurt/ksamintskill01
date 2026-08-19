@@ -1,7 +1,8 @@
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
-import { join } from "node:path";
+import { basename, join } from "node:path";
 import { safeWorkDir, relToRepo } from "./paths.js";
 import { getTemplate } from "./templates.js";
+import { PACK_FOLDERS, resolvePackSource } from "./archive.js";
 
 function readJsonSafe(p) {
   if (!existsSync(p)) return null;
@@ -224,20 +225,56 @@ export function getStageView(runId, stageId, { source = null } = {}) {
       });
     }
   } else if (abs && spec.id === "d-emit") {
-    for (const f of PACK_OUTPUTS) {
-      const meta = fileMeta(abs, f.dir ? `${f.dir}/` : f.id);
-      if (!meta.present) continue;
-      if (f.dir) {
-        items.push({ id: f.dir, kind: "dir", label: f.label, sub: `${meta.count} files`, path: relToRepo(join(abs, f.dir)) });
-        continue;
-      }
+    const manifest = fileMeta(abs, "MANIFEST.md");
+    if (manifest.present) {
       items.push({
-        id: f.id,
+        id: "MANIFEST.md",
         kind: "file",
-        label: f.label,
-        path: relToRepo(join(abs, f.id)),
-        sub: meta.bytes ? `${Math.round(meta.bytes / 1024)} KB` : "",
+        label: "MANIFEST.md",
+        path: relToRepo(join(abs, "MANIFEST.md")),
+        sub: manifest.bytes ? `${Math.round(manifest.bytes / 1024)} KB` : "包说明",
+        chapters: ["audit"],
       });
+    }
+    for (const folder of PACK_FOLDERS) {
+      if (folder.source) {
+        const src = resolvePackSource(abs, source);
+        if (src) {
+          items.push({
+            id: "source",
+            kind: "file",
+            label: basename(src),
+            path: src,
+            sub: "原文",
+            chapters: [folder.id],
+          });
+        }
+      }
+      if (folder.pages) {
+        const meta = fileMeta(abs, "pages/");
+        if (meta.present) {
+          items.push({
+            id: "pages",
+            kind: "dir",
+            label: "pages/*.md",
+            sub: `${meta.count} 页`,
+            path: relToRepo(join(abs, "pages")),
+            chapters: [folder.id],
+          });
+        }
+      }
+      for (const id of folder.files) {
+        const meta = fileMeta(abs, id);
+        if (!meta.present) continue;
+        items.push({
+          id,
+          kind: "file",
+          label: id,
+          path: relToRepo(join(abs, id)),
+          sub: meta.bytes ? `${Math.round(meta.bytes / 1024)} KB` : folder.title,
+          chapters: [folder.id],
+        });
+      }
     }
   } else if (abs && spec.id === "hop1") {
     if (presentAt(abs, "audit.md")) {

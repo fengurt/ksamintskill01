@@ -10,6 +10,7 @@ This private monorepo vendors **indexes and sync scripts** for third-party skill
 | [obra/superpowers](https://github.com/obra/superpowers) | See upstream LICENSE | `vendor/obra-superpowers` |
 | [travisvn/awesome-claude-skills](https://github.com/travisvn/awesome-claude-skills) | Curated list | `vendor/awesome-claude-skills` |
 | [ComposioHQ/awesome-claude-skills](https://github.com/ComposioHQ/awesome-claude-skills) | Curated list | `vendor/composio-awesome-claude-skills` |
+| [fengurt/ksa-mat-skills](https://github.com/fengurt/ksa-mat-skills) | MIT; fork of Matt Pocock's engineering skill set | `vendor/ksa-mat-skills` |
 
 ## Local-only mirrors (not cloned from GitHub)
 

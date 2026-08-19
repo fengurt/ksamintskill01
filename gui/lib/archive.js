@@ -13,19 +13,26 @@ export const SKILL_RUNTIME = {
   ],
 };
 
-const PACK_ENTRIES = [
-  "MANIFEST.md",
-  "pack.json",
-  "slide-plan.json",
-  "deck.json",
-  "pages",
-  "outline.md",
-  "index.json",
-  "index.md",
-  "units.json",
-  "anchors.json",
-  "audit-source.json",
-  "fit-report.json",
+/** Zip / studio folders. Work dir on disk stays flat for the Python gates. */
+export const PACK_FOLDERS = [
+  {
+    id: "original",
+    title: "原文",
+    files: ["index.json", "index.md", "units.json", "anchors.json"],
+    source: true,
+  },
+  {
+    id: "pages",
+    title: "逐页 md · HTML slides 开发",
+    files: ["deck.json", "outline.md", "slide-plan.json", "pack.json"],
+    pages: true,
+  },
+  {
+    id: "audit",
+    title: "审阅",
+    files: ["audit.md", "audit-source.json", "fit-report.json"],
+    review: true,
+  },
 ];
 
 /** HTML slides plus the files another agent needs to review / give feedback. */
@@ -58,7 +65,7 @@ function presentEntries(abs, entries) {
   return entries.filter((e) => existsSync(join(abs, e)));
 }
 
-function resolvePackSource(abs, source) {
+export function resolvePackSource(abs, source) {
   const named = join(abs, "source.md");
   if (existsSync(named)) return named;
   const candidates = [source, readJsonSafe(join(abs, "index.json"))?.source, readJsonSafe(join(abs, "pack.json"))?.source];
@@ -89,17 +96,16 @@ export function buildPackReviewMd(abs, sourcePath) {
   const lines = [
     "# 审阅报告（简要）",
     "",
-    `- 原文：\`${srcName}\` → 包内 \`source.md\``,
+    `- 原文：\`${srcName}\` → 包内 \`original/${srcName}\``,
     `- 单元：${index.total_units ?? "—"} · 分页：${deck.pages?.length ?? pageFiles} （\`pages/*.md\` ${pageFiles} 个）`,
     `- hop1 原文→分页：hard **${hard}** · warn **${warn}**`,
     `- 结论：${ok ? "可交给开发（hop1 hard=0，逐页 md 已齐）" : "先修 hop1 hard / 补齐 pages/"}`,
     "",
     "## 包内必读",
     "",
-    "- `source.md` — 原始长文档",
-    "- `pages/` — 无损分页后的逐页素材",
-    "- `REVIEW.md` — 本简要审阅",
-    "- `slide-plan.json` — 后续 md-to-html-slides 输入",
+    "- `original/` — 原始长文档（及切分账本）",
+    "- `pages/` — 逐页 Markdown + slide-plan，给 HTML slides 开发",
+    "- `audit/REVIEW.md` — 本简要审阅",
     "",
   ];
   if (findings.length) {
@@ -147,40 +153,79 @@ export function slidesZipName(runId) {
   return `${safeStem(runId)}-slides-review.zip`;
 }
 
-export function streamPackZip(runId, res, { source = null } = {}) {
-  if (!zipHasBin()) throw new Error("zip command not found");
-  const abs = safeWorkDir(runId);
-  const found = presentEntries(abs, PACK_ENTRIES);
+function linkIfPresent(from, to) {
+  if (!existsSync(from) || existsSync(to)) return false;
+  mkdirSync(dirname(to), { recursive: true });
+  symlinkSync(from, to);
+  return true;
+}
+
+export function assemblePackZipStage(abs, { source = null } = {}) {
   const sourcePath = resolvePackSource(abs, source);
-  if (!found.length && !sourcePath) throw new Error("pack empty");
   const stage = join(tmpdir(), `ksamint-pack-${safeStem(basename(abs))}-${Date.now()}`);
   mkdirSync(stage, { recursive: true });
+  let linked = 0;
   try {
-    for (const e of found) {
-      symlinkSync(join(abs, e), join(stage, e));
+    for (const folder of PACK_FOLDERS) {
+      const dest = join(stage, folder.id);
+      if (folder.source && sourcePath && existsSync(sourcePath)) {
+        const name = basename(sourcePath) || "source.md";
+        mkdirSync(dest, { recursive: true });
+        copyFileSync(sourcePath, join(dest, name));
+        linked += 1;
+      }
+      if (folder.pages) {
+        const pagesAbs = join(abs, "pages");
+        if (existsSync(pagesAbs)) {
+          mkdirSync(dest, { recursive: true });
+          for (const ent of readdirSync(pagesAbs)) {
+            if (ent.startsWith(".")) continue;
+            if (linkIfPresent(join(pagesAbs, ent), join(dest, ent))) linked += 1;
+          }
+        }
+      }
+      for (const rel of folder.files) {
+        if (linkIfPresent(join(abs, rel), join(dest, rel))) linked += 1;
+      }
     }
-    if (sourcePath) copyFileSync(sourcePath, join(stage, "source.md"));
-    writeFileSync(join(stage, "REVIEW.md"), buildPackReviewMd(abs, sourcePath), "utf8");
-    const entries = [...found];
-    if (sourcePath) entries.unshift("source.md");
-    entries.unshift("REVIEW.md");
-    const name = packZipName(basename(abs));
-    const child = streamZipFrom(stage, entries, res, name);
-    const done = () => {
-      try {
-        rmSync(stage, { recursive: true, force: true });
-      } catch {
-        /* ignore */
-      }
+    const hasWorkManifest = linkIfPresent(join(abs, "MANIFEST.md"), join(stage, "WORK-MANIFEST.md"));
+    if (hasWorkManifest) linked += 1;
+    if (!linked) {
+      rmSync(stage, { recursive: true, force: true });
+      throw new Error("pack empty");
+    }
+    mkdirSync(join(stage, "audit"), { recursive: true });
+    writeFileSync(join(stage, "audit", "REVIEW.md"), buildPackReviewMd(abs, sourcePath), "utf8");
+    const readme = [
+      "# 文件包",
+      "",
+      ...PACK_FOLDERS.map((f) => `- \`${f.id}/\` — ${f.title}`),
+      "",
+    ].join("\n");
+    writeFileSync(join(stage, "README.md"), readme, "utf8");
+    const manifest = [
+      "# ZIP manifest",
+      "",
+      "This archive reorganizes the flat work-directory outputs for handoff.",
+      "",
+      "- `README.md` — folder guide",
+      ...(hasWorkManifest ? ["- `WORK-MANIFEST.md` — original `emit-pack.py` work-directory manifest"] : []),
+      ...PACK_FOLDERS.filter((f) => existsSync(join(stage, f.id))).map((f) => `- \`${f.id}/\` — ${f.title}`),
+      "",
+    ].join("\n");
+    writeFileSync(join(stage, "MANIFEST.md"), manifest, "utf8");
+    const entries = ["README.md", "MANIFEST.md", "WORK-MANIFEST.md", ...PACK_FOLDERS.map((f) => f.id)].filter((e) => existsSync(join(stage, e)));
+    return {
+      stage,
+      entries,
+      cleanup() {
+        try {
+          rmSync(stage, { recursive: true, force: true });
+        } catch {
+          /* ignore */
+        }
+      },
     };
-    child.on("close", done);
-    child.on("error", (err) => {
-      done();
-      if (!res.writableEnded) {
-        if (!res.headersSent) res.writeHead(500, { "content-type": "application/json" });
-        res.end(JSON.stringify({ error: err.message }));
-      }
-    });
   } catch (e) {
     try {
       rmSync(stage, { recursive: true, force: true });
@@ -189,6 +234,22 @@ export function streamPackZip(runId, res, { source = null } = {}) {
     }
     throw e;
   }
+}
+
+export function streamPackZip(runId, res, { source = null } = {}) {
+  if (!zipHasBin()) throw new Error("zip command not found");
+  const abs = safeWorkDir(runId);
+  const { stage, entries, cleanup } = assemblePackZipStage(abs, { source });
+  const name = packZipName(basename(abs));
+  const child = streamZipFrom(stage, entries, res, name);
+  child.on("close", cleanup);
+  child.on("error", (err) => {
+    cleanup();
+    if (!res.writableEnded) {
+      if (!res.headersSent) res.writeHead(500, { "content-type": "application/json" });
+      res.end(JSON.stringify({ error: err.message }));
+    }
+  });
 }
 
 export function streamSlidesZip(runId, res) {
@@ -210,8 +271,9 @@ export function skillRuntimeExtras(folder) {
   return SKILL_RUNTIME[key] || SKILL_RUNTIME[folder] || [];
 }
 
-export function assembleSkillZipStage({ path, folder, name }) {
+export function assembleSkillZipStage({ path, folder, name, sourceId }) {
   const abs = join(REPO_ROOT, path);
+  const vendorRoot = join(REPO_ROOT, "vendor");
   if (!existsSync(abs)) throw new Error("skill folder missing");
   if (!underRoot(abs, join(REPO_ROOT, "skills")) && !underRoot(abs, join(REPO_ROOT, "vendor"))) {
     throw new Error("skill path denied");
@@ -224,6 +286,14 @@ export function assembleSkillZipStage({ path, folder, name }) {
   for (const ent of readdirSync(abs)) {
     if (ent.startsWith(".") || ent === "runtime") continue;
     symlinkSync(join(abs, ent), join(root, ent));
+  }
+  const sourceRoot = sourceId ? join(vendorRoot, sourceId) : null;
+  if (sourceRoot && underRoot(sourceRoot, vendorRoot)) {
+    for (const license of ["LICENSE", "LICENSE.txt", "LICENSE.md", "NOTICE"]) {
+      const from = join(sourceRoot, license);
+      const to = join(root, license);
+      if (existsSync(from) && !existsSync(to)) symlinkSync(from, to);
+    }
   }
   const included = [];
   for (const extra of extras) {
@@ -270,4 +340,44 @@ export function streamSkillZip(skill, res) {
       res.end(JSON.stringify({ error: err.message }));
     }
   });
+}
+
+export function streamSkillsBundleZip(skills, res, name = "skills-starred.zip") {
+  if (!zipHasBin()) throw new Error("zip command not found");
+  if (!skills.length) throw new Error("no skills to export");
+  if (skills.length === 1) return streamSkillZip(skills[0], res);
+  const stage = join(tmpdir(), `ksamint-skills-${Date.now()}`);
+  mkdirSync(stage, { recursive: true });
+  const parts = [];
+  const names = [];
+  const cleanup = () => {
+    for (const p of parts) p.cleanup();
+    try {
+      rmSync(stage, { recursive: true, force: true });
+    } catch {
+      /* ignore */
+    }
+  };
+  try {
+    for (const s of skills) {
+      const part = assembleSkillZipStage(s);
+      parts.push(part);
+      const dest = join(stage, part.rootName);
+      if (existsSync(dest)) continue;
+      symlinkSync(join(part.stage, part.rootName), dest);
+      names.push(part.rootName);
+    }
+    const child = streamZipFrom(stage, names, res, name);
+    child.on("close", cleanup);
+    child.on("error", (err) => {
+      cleanup();
+      if (!res.writableEnded) {
+        if (!res.headersSent) res.writeHead(500, { "content-type": "application/json" });
+        res.end(JSON.stringify({ error: err.message }));
+      }
+    });
+  } catch (e) {
+    cleanup();
+    throw e;
+  }
 }

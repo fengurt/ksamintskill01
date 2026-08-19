@@ -7,7 +7,7 @@ import { dirname, join, extname, basename } from "node:path";
 import { fileURLToPath } from "node:url";
 import { PORT, DATA_DIR, REPO_ROOT, GUI_ROOT, safeResolve, isDeniedPath, relToRepo, safeWorkDir } from "./lib/paths.js";
 import { repoStatus } from "./lib/repo.js";
-import { listSkills, getSkillDetail, skillGraph, searchSkills } from "./lib/skills.js";
+import { listSkills, getSkillDetail, skillGraph, searchSkills, toggleStar } from "./lib/skills.js";
 import { registryStatus, checkUpstreamDrift } from "./lib/registry.js";
 import {
   listRuns,
@@ -30,7 +30,7 @@ import { listJobs, getJob, startJob, cancelJob, subscribe } from "./lib/jobs.js"
 import { healthSnapshot, symlinkIntegrity } from "./lib/health.js";
 import { baslideSummary, listThemes } from "./lib/themes.js";
 import { getPack, skillStagesFor, VIEW_STAGES, stageReady, getStageView } from "./lib/pack.js";
-import { streamPackZip, streamSkillZip, streamSlidesZip } from "./lib/archive.js";
+import { streamPackZip, streamSkillZip, streamSkillsBundleZip, streamSlidesZip } from "./lib/archive.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PUBLIC = join(__dirname, "public");
@@ -153,6 +153,30 @@ async function handleApi(req, res, method, path, u) {
   if (method === "GET" && path === "/api/skills/search") {
     return send(res, 200, { hits: await searchSkills(u.searchParams.get("q") || "") });
   }
+  if (method === "POST" && path === "/api/skills/star") {
+    const body = await readBody(req);
+    const key = body.id || body.key || (body.kind && body.folder ? `${body.kind}/${body.folder}` : "");
+    if (!key) return send(res, 400, { error: "missing skill key" });
+    try {
+      return send(res, 200, toggleStar(key, body.on));
+    } catch (e) {
+      return send(res, 400, { error: e.message });
+    }
+  }
+  if (method === "GET" && path === "/api/skills/export.zip") {
+    const { items } = await listSkills();
+    const ids = (u.searchParams.get("ids") || "")
+      .split(",")
+      .map((s) => s.trim().toLowerCase())
+      .filter(Boolean);
+    const picked = ids.length ? items.filter((s) => ids.includes(s.id)) : items.filter((s) => s.starred);
+    if (!picked.length) return send(res, 400, { error: "no skills to export" });
+    try {
+      return streamSkillsBundleZip(picked, res);
+    } catch (e) {
+      return send(res, 400, { error: e.message });
+    }
+  }
   {
     const z = path.match(/^\/api\/skills\/([^/]+)\/(.+)\.zip$/);
     if (method === "GET" && z) {
@@ -254,7 +278,11 @@ async function handleApi(req, res, method, path, u) {
       if (!runId) return send(res, 400, { error: "no work dir" });
       try {
         if (m[2] === "slides") streamSlidesZip(runId, res);
-        else streamPackZip(runId, res, { source: p.source });
+        else {
+          const pack = getPack(runId);
+          if (!pack?.ready) return send(res, 409, { error: "pack not ready — run emit-pack.py" });
+          streamPackZip(runId, res, { source: p.source });
+        }
       } catch (e) {
         return send(res, 400, { error: e.message });
       }

@@ -131,7 +131,7 @@ export async function renderProjects(root, parts) {
   root.innerHTML = `
     <div class="row"><h1 style="margin:0">Projects</h1><span class="spacer"></span>
       <a class="btn" href="#/projects/new">New project</a></div>
-    <p class="lede">文件包 = 原始长 md + 无损分页逐页 md + 简要审阅报告。点进项目看 skill / 阶段，或直接复制 ID、下载 zip。</p>
+    <p class="lede">文件包 zip 分三栏：original/ 原文 · pages/ 逐页 md · audit/ 审阅。点进项目看 skill / 阶段，或直接复制 ID、下载 zip。</p>
     <div class="grid grid-3">
       ${
         projects

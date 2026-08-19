@@ -1,9 +1,66 @@
-import { readFileSync, readdirSync, existsSync, statSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from "node:fs";
 import { join, relative, sep } from "node:path";
-import { REPO_ROOT } from "./paths.js";
+import { DATA_DIR, REPO_ROOT } from "./paths.js";
 import { pathVersion } from "./repo.js";
 import { loadSources } from "./registry.js";
 import { skillRuntimeExtras, skillZipName } from "./archive.js";
+
+const STARS_FILE = join(DATA_DIR, "stars.json");
+
+export function skillKey(skill) {
+  return `${skill.kind}/${skill.folder}`;
+}
+
+export function skillId(skill) {
+  return String(skill.name || skill.folder || "")
+    .toLowerCase()
+    .trim();
+}
+
+export function starId(key) {
+  return (
+    String(key || "")
+      .trim()
+      .toLowerCase()
+      .split("/")
+      .filter(Boolean)
+      .pop() || ""
+  );
+}
+
+export function loadStars() {
+  try {
+    const data = JSON.parse(readFileSync(STARS_FILE, "utf8"));
+    return new Set(data.keys || []);
+  } catch {
+    return new Set();
+  }
+}
+
+export function hasStar(stars, skill) {
+  const id = skillId(skill);
+  if (!id) return false;
+  if (stars.has(id) || stars.has(skillKey(skill))) return true;
+  for (const k of stars) {
+    if (starId(k) === id) return true;
+  }
+  return false;
+}
+
+export function toggleStar(key, on) {
+  const id = starId(key);
+  if (!id) throw new Error("missing skill key");
+  if (!existsSync(DATA_DIR)) mkdirSync(DATA_DIR, { recursive: true });
+  const set = loadStars();
+  const has = [...set].some((k) => starId(k) === id);
+  const next = on == null ? !has : Boolean(on);
+  for (const k of [...set]) {
+    if (starId(k) === id) set.delete(k);
+  }
+  if (next) set.add(id);
+  writeFileSync(STARS_FILE, JSON.stringify({ version: 1, keys: [...set] }, null, 2) + "\n");
+  return { key: id, starred: next, keys: [...set] };
+}
 
 const FRONTMATTER_RE = /^---\s*\n([\s\S]*?)\n---\s*\n/;
 
@@ -110,8 +167,8 @@ function vendorSourceFor(skillMdPath, sources) {
   return src || { id: top };
 }
 
-/** ksamint = this repo. matt = ~/.agents (Matt Pocock). system = Cursor/CC shipped. */
-export const ORIGIN_RANK = { ksamint: 0, matt: 1, other: 2, system: 3 };
+/** ksamint = this repo. ksa = KSA MAT fork. matt = ~/.agents. system = Cursor/CC shipped. */
+export const ORIGIN_RANK = { ksamint: 0, ksa: 1, matt: 2, other: 3, system: 4 };
 
 const SYSTEM_SOURCES = new Set([
   "cursor-skills-cursor",
@@ -123,6 +180,7 @@ const SYSTEM_SOURCES = new Set([
 export function skillOrigin(skill) {
   if (skill.kind === "authored") return "ksamint";
   const id = skill.sourceId || skill.source || "";
+  if (id === "ksa-mat-skills") return "ksa";
   if (id === "agents-skills-local") return "matt";
   if (SYSTEM_SOURCES.has(id)) return "system";
   return "other";
@@ -135,14 +193,96 @@ export function skillAgent(skill) {
   return "";
 }
 
-function withOrigin(skill) {
+export function skillCredit(skill, src = null) {
+  if (skill.kind === "authored" || skill.origin === "ksamint") {
+    return { author: "ksamint", repo: "fengurt/ksamintskill01" };
+  }
+  const id = skill.sourceId || "";
+  if (id === "ksa-mat-skills") {
+    return { author: "Matt Pocock · KSA MAT", repo: "fengurt/ksa-mat-skills" };
+  }
+  if (id === "agents-skills-local") return { author: "matt", repo: "~/.agents/skills" };
+  if (id === "cursor-skills-cursor") return { author: "cursor", repo: "Cursor built-in" };
+  if (id === "cursor-public-plugins") return { author: "cursor", repo: "cursor-public plugins" };
+  if (id === "cc-switch-skills") return { author: "cc", repo: "~/.cc-switch/skills" };
+  const url = src?.url || "";
+  const gh = String(url).match(/github\.com\/([^/]+\/[^/.]+)/);
+  if (gh) {
+    const owner = gh[1].split("/")[0];
+    return { author: owner, repo: gh[1] };
+  }
+  return { author: skill.origin || "vendor", repo: id || skill.source || "vendor" };
+}
+
+export function skillUpdatedAt(skillMdAbs, gitDate) {
+  if (gitDate) {
+    const t = Date.parse(gitDate);
+    if (!Number.isNaN(t)) return t;
+  }
+  try {
+    return statSync(skillMdAbs).mtimeMs;
+  } catch {
+    return 0;
+  }
+}
+
+export function sortSkills(list) {
+  return [...list].sort((a, b) => {
+    if (!!b.starred !== !!a.starred) return a.starred ? -1 : 1;
+    return (b.updatedAt || 0) - (a.updatedAt || 0);
+  });
+}
+
+function decorate(skill, src, skillMdAbs, stars) {
   const origin = skillOrigin(skill);
-  return { ...skill, origin, agent: skillAgent(skill) };
+  const credit = skillCredit({ ...skill, origin }, src);
+  return {
+    ...skill,
+    origin,
+    agent: skillAgent(skill),
+    author: credit.author,
+    repo: credit.repo,
+    updatedAt: skillUpdatedAt(skillMdAbs, skill.version?.date),
+    starred: hasStar(stars, skill),
+  };
+}
+
+export function pickCanonical(a, b) {
+  const ra = ORIGIN_RANK[a.origin] ?? 9;
+  const rb = ORIGIN_RANK[b.origin] ?? 9;
+  if (ra !== rb) return ra < rb ? a : b;
+  return (a.updatedAt || 0) >= (b.updatedAt || 0) ? a : b;
+}
+
+export function unifySkills(rows) {
+  const map = new Map();
+  for (const s of rows) {
+    const id = skillId(s);
+    if (!id) continue;
+    const loc = { path: s.path, source: s.source, sourceId: s.sourceId, kind: s.kind, folder: s.folder };
+    const cur = map.get(id);
+    if (!cur) {
+      map.set(id, { ...s, id, copies: [loc] });
+      continue;
+    }
+    cur.copies.push(loc);
+    if (pickCanonical(s, cur) === s) {
+      map.set(id, { ...s, id, copies: cur.copies, starred: cur.starred || s.starred });
+    } else {
+      cur.starred = cur.starred || s.starred;
+    }
+  }
+  return [...map.values()].map((s) => ({
+    ...s,
+    zip: `/api/skills/${s.kind}/${encodeURIComponent(s.folder)}.zip`,
+    zipName: skillZipName(s.folder),
+  }));
 }
 
 export async function listSkills({ includeVendored = true } = {}) {
   const installMap = loadInstallMap();
   const sources = loadSources();
+  const stars = loadStars();
   const authored = [];
   const vendored = [];
 
@@ -166,7 +306,7 @@ export async function listSkills({ includeVendored = true } = {}) {
       installTargets: installMap[folder] || installMap[name] || [],
       version: ver,
     });
-    authored[authored.length - 1] = withOrigin(authored[authored.length - 1]);
+    authored[authored.length - 1] = decorate(authored[authored.length - 1], null, skillMd, stars);
   }
 
   if (includeVendored) {
@@ -200,25 +340,37 @@ export async function listSkills({ includeVendored = true } = {}) {
           synced_commit: src?.synced_commit || null,
         },
       });
-      vendored[vendored.length - 1] = withOrigin(vendored[vendored.length - 1]);
+      vendored[vendored.length - 1] = decorate(vendored[vendored.length - 1], src, skillMd, stars);
     }
   }
 
-  const byOrigin = { ksamint: 0, matt: 0, system: 0, other: 0 };
-  for (const s of [...authored, ...vendored]) byOrigin[s.origin] = (byOrigin[s.origin] || 0) + 1;
+  const items = sortSkills(unifySkills([...authored, ...vendored]));
+  const byOrigin = { ksamint: 0, ksa: 0, matt: 0, system: 0, other: 0 };
+  for (const s of items) byOrigin[s.origin] = (byOrigin[s.origin] || 0) + 1;
   return {
     authored,
     vendored,
-    totals: { authored: authored.length, vendored: vendored.length, ...byOrigin },
+    items,
+    totals: {
+      authored: authored.length,
+      vendored: vendored.length,
+      copies: authored.length + vendored.length,
+      unique: items.length,
+      ...byOrigin,
+    },
   };
 }
 
 export async function getSkillDetail(kind, id) {
-  const { authored, vendored } = await listSkills();
-  const pool = kind === "vendored" ? vendored : authored;
-  const skill =
-    pool.find((s) => s.folder === id || s.name === id || s.path === id) ||
-    [...authored, ...vendored].find((s) => s.folder === id || s.name === id || s.path === id);
+  const { items } = await listSkills();
+  const needle = String(id || "").toLowerCase();
+  const skill = items.find((s) => {
+    if (s.id === needle || s.folder === id || s.name === id || s.path === id) return true;
+    if (s.kind === kind && (s.folder === id || s.name === id)) return true;
+    return (s.copies || []).some(
+      (c) => c.folder === id || c.path === id || `${c.kind}/${c.folder}` === `${kind}/${id}`
+    );
+  });
   if (!skill) return null;
   const abs = join(REPO_ROOT, skill.path);
   const skillMdAbs = join(REPO_ROOT, skill.skillMd);
@@ -273,9 +425,9 @@ export async function skillGraph() {
 export async function searchSkills(q) {
   const query = String(q || "").trim().toLowerCase();
   if (!query) return [];
-  const { authored, vendored } = await listSkills();
+  const { items } = await listSkills();
   const hits = [];
-  for (const s of [...authored, ...vendored]) {
+  for (const s of items) {
     const abs = join(REPO_ROOT, s.skillMd);
     let text = "";
     try {

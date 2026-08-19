@@ -77,6 +77,11 @@ h3 { font-size: 1rem; margin: 0 0 0.4rem; }
 }
 .card.clickable { cursor: pointer; transition: border-color 0.15s, transform 0.15s; }
 .card.clickable:hover { border-color: var(--accent); transform: translateY(-1px); }
+.skill-card { transition: border-color 0.15s; }
+.skill-card:hover { border-color: var(--accent); }
+.skill-card-title, .skill-card-body { text-decoration: none; color: inherit; min-width: 0; }
+.skill-card-title h3 { overflow: hidden; text-overflow: ellipsis; }
+.skill-export { font-size: 0.75rem; padding: 0.2rem 0.55rem; }
 .stat-n { font-family: var(--mono); font-size: 1.6rem; font-weight: 600; color: var(--accent); }
 .stat-l { font-size: 0.78rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
 
@@ -153,6 +158,11 @@ tr.clickable:hover td { background: rgba(14, 107, 92, 0.06); }
   padding: 0.2rem 0.65rem; background: #fffdf8; cursor: pointer;
 }
 .filter-chip:has(input:checked) { border-color: var(--accent); background: rgba(14, 107, 92, 0.08); }
+.star {
+  border: 0; background: transparent; color: var(--line); cursor: pointer;
+  font-size: 1.05rem; line-height: 1; padding: 0 0.15rem 0 0;
+}
+.star.on { color: #c9a227; }
 .search { flex: 1; min-width: 180px; }
 
 .empty { padding: 2rem; text-align: center; color: var(--muted); border: 1px dashed var(--line); border-radius: var(--radius); }
