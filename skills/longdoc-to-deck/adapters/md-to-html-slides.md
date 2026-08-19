@@ -27,7 +27,7 @@ Maps brand-agnostic `longdoc-to-deck` output to the slide-plan schema in `md-to-
 | `source` / `how_to_read` / `takeaway` | same keys (required on diagnosis data slides) |
 | `material.table` | `slots.columns` / `slots.rows` / `slots.sum` |
 | `material.bullets` | `slots.bullets` or body text |
-| `units` | keep under `notes` or drop (HTML stage does not need unit ids) |
+| `units` | keep on the slide as `data-units` (space-separated); also optional under `notes` |
 
 ## Job → shell
 
@@ -48,6 +48,15 @@ From `md-to-html-slides` taxonomy:
 
 Copy those fields from each page; if missing on a required genre slide, fill from `pages/p-NNNN.md` before handing to the cheap model.
 
+## HTML attributes (required for deck-audit hop2)
+
+On every emitted `<section class="slide …">`:
+
+- `data-page-id="p-NNNN"` — same as slide-plan `id`
+- `data-units="u-0001 u-0002"` — space-separated unit ids from `deck.json` (omit when empty)
+
+These let `deck-audit` map slides deterministically instead of falling back to title/order.
+
 ## Output shape
 
 ```json
@@ -67,6 +76,7 @@ Copy those fields from each page; if missing on a required genre slide, fill fro
       "source": "…",
       "how_to_read": "…",
       "takeaway": "…",
+      "units": ["u-0182", "u-0183"],
       "slots": { "columns": [], "rows": [], "sum": [] }
     }
   ]
@@ -78,4 +88,5 @@ Copy those fields from each page; if missing on a required genre slide, fill fro
 1. Do not invent a 13th job or a 17th viz id.
 2. Do not merge or split pages here — fix upstream and re-run coverage.
 3. Overflow title suffix `续` must already be present from pagination.
-4. After emit, continue with `md-to-html-slides` cheap-model fill → `page-loop` → `page-audit`.
+4. After emit: `md-to-html-slides` fill → `page-loop` → `deck-audit` hop2 → `page-audit`.
+5. Do not drop `units` / `data-page-id` — hop2 needs them.

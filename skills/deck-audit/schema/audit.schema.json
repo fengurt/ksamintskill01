@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ksamintskill01.local/schemas/deck-audit.json",
+  "title": "deck-audit findings",
+  "type": "object",
+  "required": ["version", "hop", "counts", "findings"],
+  "properties": {
+    "version": { "type": "string" },
+    "hop": { "type": "string", "enum": ["source", "html"] },
+    "work": { "type": "string" },
+    "html": { "type": "string" },
+    "accepted_path": { "type": "string" },
+    "counts": {
+      "type": "object",
+      "properties": {
+        "pages": { "type": "integer" },
+        "slides": { "type": "integer" },
+        "mapped": { "type": "integer" },
+        "hard": { "type": "integer" },
+        "warn": { "type": "integer" },
+        "by_code": { "type": "object" }
+      }
+    },
+    "mapping": { "type": "object" },
+    "map_notes": { "type": "array" },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["code", "severity"],
+        "properties": {
+          "page": { "type": ["string", "null"] },
+          "slide": { "type": ["integer", "null"] },
+          "code": {
+            "type": "string",
+            "enum": [
+              "MISS",
+              "ALTER",
+              "INVENT",
+              "HMISS",
+              "ORDER",
+              "DENOM",
+              "PROSE",
+              "HEXTRA",
+              "UNMAPPED",
+              "AMBIGUOUS",
+              "MAP"
+            ]
+          },
+          "severity": { "type": "string", "enum": ["hard", "warn"] },
+          "anchor": { "type": "string" },
+          "kind": { "type": "string" },
+          "detail": { "type": "string" }
+        }
+      }
+    }
+  }
+}

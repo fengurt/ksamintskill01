@@ -87,8 +87,15 @@ Each `pages/p-NNNN.md` holds the human-readable material for that page (title, b
 ```bash
 python3 skills/longdoc-to-deck/scripts/estimate-fit.py --work "$WORK" --write --fail-on overfull
 python3 skills/longdoc-to-deck/scripts/check-coverage.py --stage deck --work "$WORK"
+python3 skills/deck-audit/scripts/audit-source.py --work "$WORK"
+python3 skills/deck-audit/scripts/audit-report.py --work "$WORK"
 ```
+
+Hop1 (`deck-audit`) must exit 0 before the adapter. Structural coverage alone is not fidelity.
 
 ## After this skill
 
-Map `deck.json` → slide-plan with [adapters/md-to-html-slides.md](adapters/md-to-html-slides.md), then run `md-to-html-slides` + `page-loop` + `page-audit`.
+1. Map `deck.json` → slide-plan with [adapters/md-to-html-slides.md](adapters/md-to-html-slides.md)
+2. Run `md-to-html-slides` + `page-loop`
+3. Hop2 fidelity: `python3 skills/deck-audit/scripts/audit-html.py --work "$WORK" --html "$DECK.html"` then `audit-report.py`
+4. Surface hygiene: `page-audit`
