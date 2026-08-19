@@ -1,16 +1,16 @@
 import { renderHome } from "./views/home.js";
-import { renderSkills } from "./views/skills.js";
-import { renderProjects } from "./views/projects.js";
+import { renderSkills } from "./views/skills.js?v=20260819f";
+import { renderProjects } from "./views/projects.js?v=20260819d";
 import { renderRuns } from "./views/runs.js";
 import { renderJobs } from "./views/jobs.js";
 import { renderRegistry } from "./views/registry.js";
-import { installShortcuts } from "./shortcuts.js";
+import { installShortcuts } from "./shortcuts.js?v=20260819d";
 
 const app = document.getElementById("app");
 const nav = document.getElementById("nav");
 
 function routeParts() {
-  const h = location.hash.replace(/^#\/?/, "");
+  const h = location.hash.replace(/^#\/?/, "").split("?")[0];
   return h.split("/").filter(Boolean);
 }
 

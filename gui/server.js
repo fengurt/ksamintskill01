@@ -30,7 +30,7 @@ import { listJobs, getJob, startJob, cancelJob, subscribe } from "./lib/jobs.js"
 import { healthSnapshot, symlinkIntegrity } from "./lib/health.js";
 import { baslideSummary, listThemes } from "./lib/themes.js";
 import { getPack, skillStagesFor, VIEW_STAGES, stageReady, getStageView } from "./lib/pack.js";
-import { streamPackZip, streamSlidesZip } from "./lib/archive.js";
+import { streamPackZip, streamSkillZip, streamSlidesZip } from "./lib/archive.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PUBLIC = join(__dirname, "public");
@@ -152,6 +152,14 @@ async function handleApi(req, res, method, path, u) {
   }
   if (method === "GET" && path === "/api/skills/search") {
     return send(res, 200, { hits: await searchSkills(u.searchParams.get("q") || "") });
+  }
+  {
+    const z = path.match(/^\/api\/skills\/([^/]+)\/(.+)\.zip$/);
+    if (method === "GET" && z) {
+      const detail = await getSkillDetail(decodeURIComponent(z[1]), decodeURIComponent(z[2]));
+      if (!detail) return send(res, 404, { error: "skill not found" });
+      return streamSkillZip(detail, res);
+    }
   }
   {
     const m = path.match(/^\/api\/skills\/([^/]+)\/(.+)$/);

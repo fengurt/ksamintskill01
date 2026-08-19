@@ -3,6 +3,7 @@ import { join, relative, sep } from "node:path";
 import { REPO_ROOT } from "./paths.js";
 import { pathVersion } from "./repo.js";
 import { loadSources } from "./registry.js";
+import { skillRuntimeExtras, skillZipName } from "./archive.js";
 
 const FRONTMATTER_RE = /^---\s*\n([\s\S]*?)\n---\s*\n/;
 
@@ -55,7 +56,15 @@ function walkSkillMd(root, maxDepth = 8) {
     for (const ent of entries) {
       if (ent.name === "node_modules" || ent.name === ".git" || ent.name === "__pycache__") continue;
       const p = join(dir, ent.name);
-      if (ent.isDirectory()) walk(p, depth + 1);
+      let isDir = ent.isDirectory();
+      if (ent.isSymbolicLink()) {
+        try {
+          isDir = statSync(p).isDirectory();
+        } catch {
+          continue;
+        }
+      }
+      if (isDir) walk(p, depth + 1);
       else if (ent.name === "SKILL.md") found.push(p);
     }
   }
@@ -101,6 +110,36 @@ function vendorSourceFor(skillMdPath, sources) {
   return src || { id: top };
 }
 
+/** ksamint = this repo. matt = ~/.agents (Matt Pocock). system = Cursor/CC shipped. */
+export const ORIGIN_RANK = { ksamint: 0, matt: 1, other: 2, system: 3 };
+
+const SYSTEM_SOURCES = new Set([
+  "cursor-skills-cursor",
+  "cursor-public-plugins",
+  "cc-switch-skills",
+  "anthropics-skills",
+]);
+
+export function skillOrigin(skill) {
+  if (skill.kind === "authored") return "ksamint";
+  const id = skill.sourceId || skill.source || "";
+  if (id === "agents-skills-local") return "matt";
+  if (SYSTEM_SOURCES.has(id)) return "system";
+  return "other";
+}
+
+export function skillAgent(skill) {
+  const id = skill.sourceId || "";
+  if (id === "cursor-skills-cursor" || id === "cursor-public-plugins") return "cursor";
+  if (id === "cc-switch-skills" || id === "anthropics-skills") return "cc";
+  return "";
+}
+
+function withOrigin(skill) {
+  const origin = skillOrigin(skill);
+  return { ...skill, origin, agent: skillAgent(skill) };
+}
+
 export async function listSkills({ includeVendored = true } = {}) {
   const installMap = loadInstallMap();
   const sources = loadSources();
@@ -127,6 +166,7 @@ export async function listSkills({ includeVendored = true } = {}) {
       installTargets: installMap[folder] || installMap[name] || [],
       version: ver,
     });
+    authored[authored.length - 1] = withOrigin(authored[authored.length - 1]);
   }
 
   if (includeVendored) {
@@ -160,10 +200,17 @@ export async function listSkills({ includeVendored = true } = {}) {
           synced_commit: src?.synced_commit || null,
         },
       });
+      vendored[vendored.length - 1] = withOrigin(vendored[vendored.length - 1]);
     }
   }
 
-  return { authored, vendored, totals: { authored: authored.length, vendored: vendored.length } };
+  const byOrigin = { ksamint: 0, matt: 0, system: 0, other: 0 };
+  for (const s of [...authored, ...vendored]) byOrigin[s.origin] = (byOrigin[s.origin] || 0) + 1;
+  return {
+    authored,
+    vendored,
+    totals: { authored: authored.length, vendored: vendored.length, ...byOrigin },
+  };
 }
 
 export async function getSkillDetail(kind, id) {
@@ -183,6 +230,9 @@ export async function getSkillDetail(kind, id) {
     body,
     raw: text,
     tree: fileTree(abs),
+    zip: `/api/skills/${skill.kind}/${encodeURIComponent(skill.folder)}.zip`,
+    zipName: skillZipName(skill.folder),
+    runtime: skillRuntimeExtras(skill.folder),
   };
 }
 
