@@ -12,6 +12,9 @@ assert.equal(getTemplate("baslide-slides").id, "long4hslides-slides");
 assert.equal(listTemplates().filter((item) => item.id === "long4hslides").length, 1);
 assert.equal(listTemplates().some((item) => item.id === "long4hslides-slides"), false);
 assert.equal(resolveStep("segment", { workAbs: "/tmp/run", sourceAbs: "/tmp/source.zip" }).args[1], "/tmp/run/source.md");
+const pdfStep = resolveStep("export-pdf", { workAbs: "/tmp/run" });
+assert.equal(pdfStep.args[pdfStep.args.indexOf("--schema-report") + 1], "/tmp/run/schema-report.json");
+assert.equal(pdfStep.args[pdfStep.args.indexOf("--out") + 1], "/tmp/run/slides/deck.pdf");
 await assert.rejects(
   startJob({ templateId: "long4hslides-slides", work: "test-no-approval" }),
   /approve the completed page pack/

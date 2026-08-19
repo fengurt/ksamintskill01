@@ -1,0 +1,32 @@
+{
+  "id": "tiansight",
+  "name": "侍天 - 智慧餐饮",
+  "source_url": "https://apuch.art/brand?brand=sidera",
+  "api_url": "https://apuch.art/api/brands/sidera.json",
+  "version": {
+    "hash": "97409964b2887b3882c3d0e2637e16b082de0505",
+    "date": "2026-08-16T09:01:13+08:00"
+  },
+  "logo": {
+    "url": "https://media.apuch.art/public/sidera/sidera-logo-sidera-logo-220079a53598/220079a535987196ce0567964022154788e52c0bb22ec5c2b05e99a5cfa34658/original.png",
+    "sha256": "220079a535987196ce0567964022154788e52c0bb22ec5c2b05e99a5cfa34658",
+    "mime": "image/png",
+    "width": 2000,
+    "height": 2000,
+    "clear_space": "one compass-ring radius",
+    "minimum_px": 24
+  },
+  "tokens": {
+    "primary": "#EFE6D2",
+    "surface": "#F4F0E7",
+    "paper": "#FFFDF8",
+    "ink": "#17130D",
+    "muted": "#706758",
+    "accent": "#76551F",
+    "highlight": "#D4A862",
+    "negative": "#8C3228",
+    "line": "rgba(23,19,13,.18)",
+    "font_body": "\"Noto Serif SC\",\"Source Han Serif SC\",\"Songti SC\",\"STSong\",serif",
+    "font_number": "\"IBM Plex Mono\",\"SFMono-Regular\",Menlo,monospace"
+  }
+}

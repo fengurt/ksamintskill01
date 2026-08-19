@@ -64,6 +64,7 @@ const SLIDES = {
       stages: [
         { id: "render", label: "render GF plan", steps: ["render-slides"], artifact: "slides/deck.html" },
         { id: "measure", label: "rendered layout gate", steps: ["gate-layout"], artifact: "audit-layout.json" },
+        { id: "pdf", label: "16:9 PDF export", steps: ["export-pdf"], artifact: "slides/deck.pdf" },
       ],
     },
     {
@@ -76,6 +77,7 @@ const SLIDES = {
     { id: "gate-schema", label: "schema gate", phase: 1 },
     { id: "render-slides", label: "render-deck", phase: 2 },
     { id: "gate-layout", label: "Chrome layout gate", phase: 2 },
+    { id: "export-pdf", label: "16:9 PDF export", phase: 2 },
     { id: "audit-html", label: "hop2 · pages → HTML", phase: 3, standard: "hop2" },
     { id: "audit-report-2", label: "hop2 report", phase: 3, standard: "hop2" },
   ],
@@ -178,6 +180,7 @@ export function resolveStep(stepId, ctx) {
     "gate-schema": () => ({ cmd: py, args: [join(REPO_ROOT, "skills/mdpages2htmlslides/scripts/gate_schema.py"), "--plan", join(work, "deck-plan.json"), "--out", join(work, "schema-report.json")] }),
     "render-slides": () => ({ cmd: py, args: [join(REPO_ROOT, "skills/mdpages2htmlslides/scripts/render-deck.py"), "--work", work, "--theme", ctx.theme || "TIANSIGHT", "--baslide", ctx.baslide || BASLIDE_ROOT, "-o", join(work, "slides/deck.html")] }),
     "gate-layout": () => ({ cmd: py, args: [join(REPO_ROOT, "skills/mdpages2htmlslides/scripts/gate_layout.py"), "--html", join(work, "slides/deck.html"), "--design", join(REPO_ROOT, "skills/mdpages2htmlslides/design"), "--out", join(work, "audit-layout.json")] }),
+    "export-pdf": () => ({ cmd: py, args: [join(REPO_ROOT, "skills/mdpages2htmlslides/scripts/export_pdf.py"), "--html", join(work, "slides/deck.html"), "--schema-report", join(work, "schema-report.json"), "--layout-report", join(work, "audit-layout.json"), "--out", join(work, "slides/deck.pdf"), "--report", join(work, "audit-pdf.json")] }),
     "sync-vendor": () => ({ cmd: "bash", args: [join(REPO_ROOT, "scripts/sync-vendor.sh")] }),
     "build-catalog": () => ({ cmd: py, args: [join(REPO_ROOT, "scripts/build-catalog.py")] }),
     "lint-skills": () => ({ cmd: py, args: [join(REPO_ROOT, "scripts/lint-skills.py")] }),

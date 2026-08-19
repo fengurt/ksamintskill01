@@ -29,6 +29,8 @@ Downstream: `emit-pack.py` writes the shared GF4p2slides `deck-plan.json`; HTML/
 
 ```bash
 # Local Skill Hub GUI (status, gallery, projects, jobs) — http://127.0.0.1:7979
+python3 -m venv .venv
+.venv/bin/python -m pip install -r skills/mdpages2htmlslides/requirements.txt
 bash scripts/dev-up.sh
 
 # Install symlinks into ~/.cursor/skills, ~/.claude/skills, ~/.codex/skills

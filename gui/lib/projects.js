@@ -1,7 +1,7 @@
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
-import { join } from "node:path";
-import { randomBytes } from "node:crypto";
-import { DATA_DIR, safeWorkDir, safeResolve, relToRepo } from "./paths.js";
+import { existsSync, mkdirSync, readFileSync, readdirSync, realpathSync, statSync, writeFileSync } from "node:fs";
+import { basename, dirname, join, relative } from "node:path";
+import { createHash, randomBytes } from "node:crypto";
+import { ALLOWED_DOC_ROOTS, BASLIDE_ROOT, DATA_DIR, REPO_ROOT, safeWorkDir, safeResolve, relToRepo, underRoot } from "./paths.js";
 import { normalizeStandards } from "./templates.js";
 
 const FILE = join(DATA_DIR, "projects.json");
@@ -28,11 +28,127 @@ function save(data) {
 }
 
 export function listProjects() {
-  return load().projects.sort((a, b) => (b.updated_at || 0) - (a.updated_at || 0));
+  const saved = load().projects.map(decorateReport);
+  return [...saved, ...discoverHistoryProjects(historyRoots(), saved)].sort(
+    (a, b) => (b.updated_at || 0) - (a.updated_at || 0)
+  );
 }
 
 export function getProject(id) {
-  return load().projects.find((p) => p.id === id) || null;
+  return listProjects().find((p) => p.id === id) || null;
+}
+
+function historyRoots() {
+  return [...new Set([BASLIDE_ROOT, ...ALLOWED_DOC_ROOTS].map((p) => realpathOr(p)))]
+    .filter((p) => existsSync(join(p, "decks")) || existsSync(join(p, "ref/htmls")))
+    .sort((a, b) => Number(existsSync(join(b, "export/pdf"))) - Number(existsSync(join(a, "export/pdf"))));
+}
+
+function realpathOr(path) {
+  try {
+    return realpathSync(path);
+  } catch {
+    return path;
+  }
+}
+
+function reportLocation(html) {
+  if (!html) return null;
+  let abs;
+  try {
+    abs = safeResolve(html, { mustExist: true });
+  } catch {
+    return null;
+  }
+  const root = [REPO_ROOT, ...ALLOWED_DOC_ROOTS]
+    .map(realpathOr)
+    .filter((p) => underRoot(abs, p))
+    .sort((a, b) => b.length - a.length)[0];
+  return root ? { root, path: relative(root, abs) } : null;
+}
+
+function decorateReport(project) {
+  const at = reportLocation(project.html);
+  if (!at) return project;
+  return {
+    ...project,
+    report_root: at.root,
+    report_path: at.path,
+    report_href: `/reports/${encodeURIComponent(project.id)}/${at.path.split("/").map(encodeURIComponent).join("/")}`,
+  };
+}
+
+function htmlTitle(path) {
+  const raw = readFileSync(path, "utf8").slice(0, 256 * 1024);
+  const match = raw.match(/<title[^>]*>([\s\S]*?)<\/title>/i);
+  return (match?.[1] || "")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function historyFiles(root) {
+  const out = [];
+  const decks = join(root, "decks");
+  if (existsSync(decks)) {
+    for (const ent of readdirSync(decks, { withFileTypes: true })) {
+      if (!ent.isDirectory()) continue;
+      for (const name of ["presentation.html", "deck.html", "html-v1.html"]) {
+        const path = join(decks, ent.name, name);
+        if (existsSync(path)) out.push(path);
+      }
+    }
+  }
+  const refs = join(root, "ref/htmls");
+  if (existsSync(refs)) {
+    for (const ent of readdirSync(refs, { withFileTypes: true })) {
+      if (ent.isFile() && ent.name.endsWith(".html")) out.push(join(refs, ent.name));
+    }
+  }
+  return out;
+}
+
+function matchingPdf(root, reportPath) {
+  const parts = reportPath.split("/");
+  let stem = basename(reportPath, ".html");
+  if (parts[0] === "decks" && (stem === "presentation" || stem === "deck")) stem = parts[1];
+  else if (parts[0] === "decks" && stem === "html-v1") stem = `${parts[1]}-html-v1`;
+  const pdf = join(root, "export/pdf", `${stem}.pdf`);
+  return existsSync(pdf) ? pdf : null;
+}
+
+export function discoverHistoryProjects(roots, saved = []) {
+  const seen = new Set(saved.map((p) => reportLocation(p.html)?.path).filter(Boolean));
+  const out = [];
+  for (const root of roots.map(realpathOr)) {
+    for (const html of historyFiles(root)) {
+      const reportPath = relative(root, html);
+      if (seen.has(reportPath)) continue;
+      seen.add(reportPath);
+      const stat = statSync(html);
+      const id = `hist_${createHash("sha256").update(reportPath).digest("hex").slice(0, 10)}`;
+      out.push(decorateReport({
+        id,
+        name: htmlTitle(html) || basename(dirname(html)) || basename(html, ".html"),
+        template: "baslide-history",
+        html,
+        pdf: matchingPdf(root, reportPath),
+        work: null,
+        source: null,
+        theme: null,
+        notes: "Imported from Baslide01 HTML history",
+        history: true,
+        read_only: true,
+        created_at: stat.birthtimeMs || stat.mtimeMs,
+        updated_at: stat.mtimeMs,
+      }));
+    }
+  }
+  return out;
 }
 
 export function createProject(input) {

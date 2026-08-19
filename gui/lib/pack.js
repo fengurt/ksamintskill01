@@ -93,7 +93,7 @@ export function getPack(runId) {
     emitted_at: packJson?.emitted_at || null,
     files,
     manifest: files.find((f) => f.id === "MANIFEST.md")?.present || false,
-    slides: presentAt(abs, "slides/deck.html"),
+    slides: presentAt(abs, "slides/deck.html") && presentAt(abs, "slides/deck.pdf"),
   };
 }
 
@@ -177,7 +177,7 @@ export function stageReady(abs, stageId, { pack = null, source = null } = {}) {
   if (stageId === "c-pagination") return presentAt(abs, "deck.json") && presentAt(abs, "pages");
   if (stageId === "d-emit") return pack?.ready === true;
   if (stageId === "hop1") return presentAt(abs, "audit-source.json");
-  if (stageId === "slides") return presentAt(abs, "slides/deck.html");
+  if (stageId === "slides") return presentAt(abs, "slides/deck.html") && presentAt(abs, "slides/deck.pdf");
   return !!(pack && pack.ready);
 }
 

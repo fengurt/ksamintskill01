@@ -41,6 +41,8 @@ def page_text(p: dict) -> str:
     walk(p.get("content"))
     walk(p.get("blocks"))  # legacy deck-plan
     walk(p.get("provenance"))
+    walk(p.get("claim"))
+    walk(p.get("evidence"))
     return " ".join(parts)
 
 

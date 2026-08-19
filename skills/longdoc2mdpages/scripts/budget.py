@@ -11,7 +11,7 @@ from __future__ import annotations
 import json, sys, unicodedata
 
 CANVAS_W, CANVAS_H = 2880, 1620
-MARGIN = CANVAS_W * 0.032
+MARGIN = CANVAS_W * 0.054
 BAND_H = CANVAS_H * (0.944 - 0.148)          # 1290 px of usable content height
 BAND_W = CANVAS_W - 2 * MARGIN
 
@@ -84,6 +84,8 @@ ROWS = {"full": 1, "table-full": 1, "hero-band": 2, "fig-strip": 2, "split-2": 1
 
 def predict(page: dict, layout: str, pack: str = "mid") -> float:
     """Predicted ink height in canvas px. Compare against BAND_H."""
+    if isinstance(layout, dict):
+        layout = layout.get("solved") or "full"
     w = BAND_W * REGION_W.get(layout, 1.0)
     blocks = (page.get("content") or {}).get("blocks") or page.get("blocks") or []
     hs = [block_height(b, pack, w) for b in blocks]

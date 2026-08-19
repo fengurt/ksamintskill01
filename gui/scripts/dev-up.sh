@@ -3,6 +3,9 @@
 set -euo pipefail
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 PORT="${PORT:-7979}"
+if [[ -z "${PYTHON:-}" && -x "${HERE}/../.venv/bin/python" ]]; then
+  export PYTHON="${HERE}/../.venv/bin/python"
+fi
 
 pids="$(lsof -nP -iTCP:"${PORT}" -sTCP:LISTEN -t 2>/dev/null || true)"
 for pid in ${pids}; do

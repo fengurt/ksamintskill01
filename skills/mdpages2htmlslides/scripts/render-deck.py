@@ -5,10 +5,13 @@ from __future__ import annotations
 
 import argparse
 import base64
+import hashlib
 import json
 import re
 import sys
 from pathlib import Path
+from urllib.parse import urlparse
+from urllib.request import Request, urlopen
 
 from baslide_viz import default_baslide, figure_for_page
 
@@ -50,6 +53,11 @@ def esc(text: str) -> str:
         .replace(">", "&gt;")
         .replace('"', "&quot;")
     )
+
+
+def layout_name(page: dict) -> str:
+    layout = page.get("layout")
+    return str(layout.get("solved") or "") if isinstance(layout, dict) else str(layout or "")
 
 
 def cn_chapter(n: int) -> str:
@@ -197,7 +205,7 @@ def structured_html(page: dict) -> str:
         elif kind == "table":
             cols = block.get("columns") or []
             head = "".join(f"<th>{esc(col)}</th>" for col in cols)
-            rows = "".join("<tr>" + "".join(f"<td>{esc(cell)}</td>" for cell in row) + "</tr>" for row in (block.get("rows") or []))
+            rows = "".join("<tr>" + "".join((f'<td class="num">{esc(cell)}</td>' if index and re.search(r"\d", str(cell)) else f"<td>{esc(cell)}</td>") for index, cell in enumerate(row)) + "</tr>" for row in (block.get("rows") or []))
             out.append(f'<div class="sd-block" data-block="table"><table class="sd-table"><thead><tr>{head}</tr></thead><tbody>{rows}</tbody></table></div>')
         elif kind == "kpi-card":
             out.append(f'<div class="sd-block sd-kpi" data-block="kpi-card"><span class="l">{esc(block.get("label") or "")}</span><strong class="v">{esc(block.get("value") or "")}<small>{esc(block.get("unit") or "")}</small></strong><span class="d">{esc(block.get("note") or block.get("delta") or "")}</span></div>')
@@ -229,13 +237,15 @@ def normalize_plan_page(page: dict) -> dict:
     template = page.get("template") or page.get("type") or "statement"
     template = {"quote": "statement", "playbook": "verdict", "gallery": "roster", "interactive": "chart"}.get(template, template)
     provenance = page.get("provenance") or {}
+    claim = page.get("claim") or {}
+    takeaway = page.get("takeaway") or (claim.get("render") if isinstance(claim, dict) else claim) or ""
     return {
         **page,
         "role": template,
         "fill": page.get("visualization") or page.get("fill"),
         "source": page.get("source") or provenance.get("source") or "",
         "how_to_read": provenance.get("how_to_read") or page.get("how_to_read") or "",
-        "takeaway": page.get("takeaway") or page.get("claim") or "",
+        "takeaway": takeaway,
         "_structured": True,
     }
 
@@ -288,6 +298,8 @@ def load_units(work: Path) -> dict[str, str]:
 
 
 def page_material_text(page: dict, work: Path, units: dict[str, str]) -> str:
+    if page.get("_structured"):
+        return str((page.get("content") or {}).get("audit_text") or "")
     md_path = work / "pages" / f"{page['id']}.md"
     if md_path.is_file():
         body = strip_page_chrome(md_path.read_text(encoding="utf-8"))
@@ -299,35 +311,6 @@ def page_material_text(page: dict, work: Path, units: dict[str, str]) -> str:
         if t:
             parts.append(t)
     return "\n\n".join(parts)
-
-
-def audit_copy_text(page: dict, work: Path, units: dict[str, str]) -> str:
-    """Same fields extract-anchors uses, so hop2 sees every material token."""
-    parts: list[str] = []
-    for key in ("title", "source", "how_to_read", "takeaway", "notes"):
-        val = page.get(key)
-        if isinstance(val, str) and val.strip():
-            parts.append(val)
-    material = page.get("material") or {}
-    if isinstance(material, dict):
-        for b in material.get("bullets") or []:
-            parts.append(str(b))
-        table = material.get("table") or {}
-        if isinstance(table, dict):
-            parts.extend(str(c) for c in (table.get("columns") or []))
-            for row in table.get("rows") or []:
-                if isinstance(row, list):
-                    parts.extend(str(c) for c in row)
-                else:
-                    parts.append(str(row))
-            if table.get("sum"):
-                parts.append(str(table["sum"]))
-        for n in material.get("numbers") or []:
-            parts.append(str(n))
-        if material.get("quote"):
-            parts.append(str(material["quote"]))
-    parts.append(page_material_text(page, work, units))
-    return "\n".join(p for p in parts if p)
 
 
 def fill_mustaches(html: str, values: dict[str, str]) -> str:
@@ -354,9 +337,12 @@ def set_section_attrs(section: str, page: dict, job: str, index: int, total: int
             ("data-units", units),
             ("data-page-type", role),
             ("data-job", job),
-            ("data-layout", page.get("layout") or ""),
+            ("data-layout", layout_name(page)),
             ("data-pack", page.get("pack") or "mid"),
             ("data-overflow-of", page.get("overflow_of") or ""),
+            ("data-node-role", (page.get("node") or {}).get("role") or ""),
+            ("data-intent", page.get("intent") or ""),
+            ("data-as-of", next((str((item.get("source") or {}).get("as_of") or "") for item in (page.get("evidence") or []) if isinstance(item, dict)), "")),
         ]
         if fill:
             pairs.append(("data-fill", str(fill)))
@@ -375,25 +361,53 @@ def fill_figure(section: str, page: dict, material: str, job: str, body_html: st
     try:
         fig = figure_for_page(title, material, preset_fill=page.get("fill") or page.get("recipe"))
     except Exception as exc:
+        if page.get("fill"):
+            raise ValueError(f"{page.get('id')} {page.get('fill')} renderer failed: {exc}") from exc
         print(f"render-deck: viz skip {page.get('id')}: {exc}", file=sys.stderr)
     if fig and fig.svg:
         page["fill"] = fig.fill or page.get("fill")
+        caption = fig.caption or page.get("takeaway") or title
+        fallback = fig.table_html or ""
+        svg = re.sub(
+            r'font-size="([\d.]+)"',
+            lambda match: f'font-size="{max(float(match.group(1)), 21 if job == "chart-table" else 18):g}"',
+            fig.svg,
+        )
+        figure = f'<figure class="sd-v2-figure" role="img" aria-label="{esc(caption)}">{svg}<figcaption>{esc(caption)}</figcaption><div class="sd-v2-fallback" hidden>{fallback}</div></figure>'
         if job == "chart-table":
-            section = re.sub(
-                r"\[[^\]]*SVG viewBox 0 0 1170 500[^\]]*\]",
-                lambda _: fig.svg,
-                section,
-                count=1,
-            )
-            if fig.table_html:
+            columns = (page.get("content") or {}).get("columns") or []
+            rows = (page.get("content") or {}).get("rows") or []
+            y_name = ((((page.get("evidence") or [{}])[0].get("encoding") or {}).get("mapping") or {}).get("y"))
+            picks = [0]
+            if y_name in columns and columns.index(y_name) not in picks:
+                picks.append(columns.index(y_name))
+            if len(picks) == 1 and len(columns) > 1:
+                picks.append(1)
+            preview_rows = []
+            for row in rows[:6]:
+                cells = []
+                for j, i in enumerate(picks):
+                    klass = ' class="num"' if j else ""
+                    cells.append(f'<td{klass}>{esc(row[i] if i < len(row) else "")}</td>')
+                preview_rows.append("<tr>" + "".join(cells) + "</tr>")
+            preview = '<table class="sd-table"><tr>' + "".join(f"<th>{esc(columns[i])}</th>" for i in picks) + "</tr>" + "".join(preview_rows) + "</table>"
+            if columns and rows:
                 section = re.sub(
                     r'<table class="sd-table">[\s\S]*?</table>',
-                    lambda _: fig.table_html,
+                    lambda _: preview,
                     section,
                     count=1,
                 )
+            section = re.sub(
+                r"\[[^\]]*SVG viewBox 0 0 1170 500[^\]]*\]",
+                lambda _: figure,
+                section,
+                count=1,
+            )
             return section
-        return replace_div_inner(section, "sd-content", fig.svg)
+        return replace_div_inner(section, "sd-content", figure)
+    if page.get("fill"):
+        raise ValueError(f"{page.get('id')} {page.get('fill')} produced no SVG")
     if any(ch in material for ch in "┌│└─█"):
         body_html = f'<pre class="sd-lede">{esc(material)}</pre>'
     return replace_div_inner(section, "sd-content", body_html or f"<p>{esc(title)}</p>")
@@ -406,7 +420,15 @@ def fill_section(section: str, page: dict, work: Path, units: dict[str, str], in
     path = page.get("outline_path") or []
     kicker = " · ".join([p for p in path[-2:]] or [role])
     material = viz_material(page) if page.get("_structured") else page_material_text(page, work, units)
+    if page.get("_structured") and not material:
+        material = page_material_text(page, work, units)
     body_html = structured_html(page) if page.get("_structured") else (md_to_html(material) if material else "")
+    blocks = (page.get("content") or {}).get("blocks") or []
+    prose = " ".join(str(block.get("text") or "") for block in blocks if block.get("kind") in {"lede", "claim", "quote"}).strip()
+    sentences = [part.strip() for part in re.split(r"(?<=[。！？!?])\s*", prose) if part.strip()]
+    statement_main = (sentences[0] if sentences else page.get("takeaway") or title)[:180]
+    statement_support = ("".join(sentences[1:]) or page.get("takeaway") or prose)[:260]
+    cards = [block for block in blocks if block.get("kind") == "kpi-card"][:4]
 
     values = {
         "PAGE_INDEX": str(index + 1),
@@ -422,8 +444,8 @@ def fill_section(section: str, page: dict, work: Path, units: dict[str, str], in
         "ISSUED_DATE": "",
         "STATEMENT_CHIP": kicker,
         "STATEMENT_TITLE": title,
-        "STATEMENT_MAIN": title,
-        "STATEMENT_SUPPORT": (page.get("takeaway") or "")[:240],
+        "STATEMENT_MAIN": statement_main,
+        "STATEMENT_SUPPORT": statement_support,
         "KPI_CHIP": kicker,
         "KPI_TITLE": title,
         "README_CHIP": kicker,
@@ -503,6 +525,12 @@ def fill_section(section: str, page: dict, work: Path, units: dict[str, str], in
         "ACT_9_TITLE": "",
         "ACT_9_KICKER_EN": "",
     }
+    for card_index in range(4):
+        card = cards[card_index] if card_index < len(cards) else {}
+        slot = card_index + 1
+        values[f"KPI_{slot}_LABEL"] = str(card.get("label") or "")
+        values[f"KPI_{slot}_VALUE"] = str(card.get("value") or "") + str(card.get("unit") or "")
+        values[f"KPI_{slot}_DELTA"] = str(card.get("note") or card.get("delta") or "")
 
     # Pull period/scope from first units on cover
     blob = material[:800]
@@ -514,19 +542,27 @@ def fill_section(section: str, page: dict, work: Path, units: dict[str, str], in
         values["SCOPE"] = sm.group(1).strip()[:40]
 
     section = fill_mustaches(section, values)
+    if job == "kpi":
+        section = re.sub(r'\s*<div class="sd-kpi"[^>]*>\s*<div class="l"></div>\s*<div class="v"></div>\s*<div class="d up"></div>\s*</div>', "", section)
     section = set_section_attrs(section, page, job, index, total)
     section = replace_tag_inner(section, "sd-chip", esc(kicker or role))
     section = replace_tag_inner(section, "sd-h2", esc(title or role))
     section = replace_tag_inner(section, "sd-index", f"{index + 1} / {total}")
     if role in {"cover", "chapter"}:
         section = replace_tag_inner(section, "sd-hero", esc(title))
+        if role == "chapter":
+            section = section.replace('<div style="position:absolute; bottom:4%;', '<div class="sd-footer" style="position:absolute; bottom:4%;', 1)
         # Keep anchors on cover/chapter: append a compact material block
-        if material:
+        if material and body_html:
             extra = f'<div class="sd-content" style="position:absolute;left:var(--sd-margin);right:var(--sd-margin);bottom:8%;max-height:28%;overflow:auto;font-size:var(--sd-type-small);">{body_html}</div>'
             section = section.replace("</section>", extra + "</section>")
     else:
         if job in {"chart", "chart-table"}:
             section = fill_figure(section, page, material, job, body_html, title)
+        elif page.get("_structured") and job == "statement":
+            section = replace_div_inner(section, "sd-content", structured_html(page))
+        elif page.get("_structured") and job == "kpi":
+            pass
         else:
             inner = body_html or f"<p>{esc(title)}</p>"
             replaced = replace_div_inner(section, "sd-content", inner)
@@ -535,30 +571,53 @@ def fill_section(section: str, page: dict, work: Path, units: dict[str, str], in
             else:
                 section = replaced
 
-    # Drop external logo img (path would 404 in the self-contained file)
-    section = re.sub(r"<img\b[^>]*src=\"[^\"]*logo/[^\"]*\"[^>]*>", "", section)
     section = MUSTACHE_RE.sub("", section)
-    copy = audit_copy_text(page, work, units)
-    if copy:
-        section = section.replace(
-            "</section>",
-            f'<pre hidden class="sd-audit-copy">{esc(copy)}</pre></section>',
-        )
     if page.get("_structured"):
         payload = json.dumps(page, ensure_ascii=False).replace("</", "<\\/")
         section = section.replace(
             "</section>",
             f'<script type="application/json" class="sd-data">{payload}</script></section>',
         )
+    section = re.sub(r"(-?\d+(?:\.\d+)?)px\b", lambda match: f"{float(match.group(1)) / 16:g}rem", section)
     return section
+
+
+def logo_data_uri(logo_path: Path) -> str:
+    return "data:image/png;base64," + base64.b64encode(logo_path.read_bytes()).decode("ascii")
 
 
 def inline_logo_css(css: str, logo_path: Path) -> str:
     if not logo_path.is_file():
         return css.replace('url("logo/侍天.png")', "none")
-    raw = logo_path.read_bytes()
-    b64 = base64.b64encode(raw).decode("ascii")
-    return css.replace('url("logo/侍天.png")', f'url("data:image/png;base64,{b64}")')
+    return css.replace('url("logo/侍天.png")', f'url("{logo_data_uri(logo_path)}")')
+
+
+def verified_brand_logo(work: Path, theme: str, fallback: Path) -> tuple[Path, dict]:
+    if theme != "TIANSIGHT":
+        return fallback, {}
+    config_path = Path(__file__).resolve().parent.parent / "design" / "brands" / "tiansight.json"
+    config = json.loads(config_path.read_text(encoding="utf-8"))
+    logo = config["logo"]
+    target = work / "assets" / "brand" / "tiansight-logo.png"
+    if target.is_file() and hashlib.sha256(target.read_bytes()).hexdigest() == logo["sha256"]:
+        return target, config
+    url = logo["url"]
+    if urlparse(url).scheme != "https" or urlparse(url).hostname != "media.apuch.art":
+        raise ValueError("untrusted tiansight logo URL")
+    request = Request(url, headers={"User-Agent": "mdpages2htmlslides/2"})
+    try:
+        with urlopen(request, timeout=20) as response:
+            if urlparse(response.geturl()).hostname != "media.apuch.art":
+                raise ValueError("tiansight logo redirected to an untrusted host")
+            raw = response.read(2 * 1024 * 1024 + 1)
+    except OSError as exc:
+        print(f"render-deck: official logo unavailable, using bundled fallback: {exc}", file=sys.stderr)
+        return fallback, config
+    if len(raw) > 2 * 1024 * 1024 or hashlib.sha256(raw).hexdigest() != logo["sha256"]:
+        raise ValueError("tiansight logo failed size or SHA-256 verification")
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_bytes(raw)
+    return target, config
 
 
 def render(work: Path, theme: str, baslide: Path, out: Path) -> int:
@@ -602,16 +661,40 @@ def render(work: Path, theme: str, baslide: Path, out: Path) -> int:
             raise SystemExit(f"no template for job {job}")
         sections.append(fill_section(tpl, page, work, units, i, total, deck_name))
 
-    css = inline_logo_css(css_path.read_text(encoding="utf-8"), baslide / "templates" / "TIANSIGHT" / "logo" / "侍天.png")
+    logo_path, brand = verified_brand_logo(work, theme, baslide / "templates" / "TIANSIGHT" / "logo" / "侍天.png")
+    if logo_path.is_file():
+        uri = logo_data_uri(logo_path)
+        sections = [re.sub(r'src="[^\"]*logo/[^\"]*"', f'src="{uri}"', section) for section in sections]
+    else:
+        sections = [re.sub(r"<img\b[^>]*src=\"[^\"]*logo/[^\"]*\"[^>]*>", "", section) for section in sections]
+    css = inline_logo_css(css_path.read_text(encoding="utf-8"), logo_path)
     surface, ink, accent, negative = THEME_TOKENS[theme]
+    tokens = brand.get("tokens") or {}
+    primary = tokens.get("primary") or surface
+    paper = tokens.get("paper") or surface
+    highlight = tokens.get("highlight") or accent
+    muted = tokens.get("muted") or ink
     css += f"""
-:root{{--gf-surface:{surface};--gf-ink:{ink};--gf-muted:color-mix(in srgb,{ink} 62%,transparent);--gf-grid:color-mix(in srgb,{ink} 18%,transparent);--gf-accent:{accent};--gf-positive:{accent};--gf-negative:{negative};--gf-warning:#9A671B;--gf-font-body:var(--sd-font-serif);--gf-font-number:var(--sd-font-mono);--sd-surface:var(--gf-surface);--sd-ink-100:var(--gf-ink);--sd-accent:var(--gf-accent);--sd-secondary:var(--gf-negative)}}
+:root{{--slide-aspect:16/9;--gf-surface:{surface};--gf-paper:{paper};--gf-primary:{primary};--gf-ink:{ink};--gf-muted:{muted};--gf-grid:color-mix(in srgb,{ink} 18%,transparent);--gf-accent:{accent};--gf-highlight:{highlight};--gf-positive:{accent};--gf-negative:{negative};--gf-warning:#9A671B;--gf-font-body:var(--sd-font-serif);--gf-font-number:var(--sd-font-mono);--gf-safe-x:calc(var(--sd-canvas-w)*.054);--gf-baseline:calc(var(--sd-canvas-w)*.0027778);--sd-primary:var(--gf-primary);--sd-surface:var(--gf-surface);--sd-paper:var(--gf-paper);--sd-ink-100:var(--gf-ink);--sd-ink-60:color-mix(in srgb,var(--gf-ink) 72%,var(--gf-paper));--sd-accent:var(--gf-accent);--sd-secondary:var(--gf-negative);--sd-seq-100:#B68B36;--sd-seq-200:#A67B27;--sd-margin:var(--gf-safe-x);--sd-radius-card:2px}}
+.sd-slide{{container-type:size;aspect-ratio:var(--slide-aspect)}}
+.sd-table,.sd-num,.num{{font-variant-numeric:tabular-nums}}
+.sd-list{{font-size:var(--sd-type-body);line-height:1.45}}
+.sd-v2-figure{{width:100%;height:100%;margin:0;display:grid;grid-template-rows:minmax(0,1fr) auto;gap:.4em}}
+.sd-v2-figure>svg{{min-height:0;width:100%;height:100%}}
+.sd-v2-figure svg text{{paint-order:stroke;stroke:var(--gf-paper);stroke-width:3px;stroke-linejoin:round}}
+.sd-v2-figure>figcaption{{font-size:var(--sd-type-micro);color:var(--gf-muted);line-height:1.35}}
+.sd-slide[data-job="kpi"]{{--sd-type-kpi:calc(var(--sd-canvas-h)*.098);--sd-type-h3:calc(var(--sd-canvas-h)*.034)}}
+.sd-slide[data-job="kpi"] .sd-content:has(.sd-kpi:nth-child(2):last-child){{--sd-type-kpi:calc(var(--sd-canvas-h)*.100);--sd-type-h3:calc(var(--sd-canvas-h)*.035)}}
+.sd-slide[data-job="statement"] .sd-content{{display:flex;align-items:center}}
+.sd-slide[data-job="statement"] .sd-content>.sd-block{{width:100%}}
+.sd-slide[data-job="roster"] .sd-block[data-block="table"]{{height:96%}}
+.sd-slide[data-job="roster"] .sd-table{{height:100%}}
 .sd-data{{display:none!important}}
 """
     js = js_path.read_text(encoding="utf-8")
     font = "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
     html = f"""<!DOCTYPE html>
-<html lang="zh-CN" data-font-pack="TIANSIGHT" data-skin="{esc(theme)}">
+<html lang="zh-CN" data-font-pack="TIANSIGHT" data-skin="{esc(theme)}" data-contract="{esc(deck.get('contract_version') or 'legacy')}">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">

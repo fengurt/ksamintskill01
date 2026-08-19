@@ -1,7 +1,21 @@
 {
-  "contract_version": "1.0.0",
-  "canvas": {"w": 2880, "h": 1620, "ratio": "16:9"},
-  "fill_ratio": {"min": 0.45, "max": 0.98, "target": 0.78},
+  "contract_version": "2.0.0",
+  "canvas": {
+    "aspect": "16:9",
+    "unit": "1u = 1% canvas width",
+    "safe_x_u": 5.4,
+    "safe_y_u": 3.04,
+    "grid": "12x8",
+    "baseline_px_at_2880": 8,
+    "type_scale_u": {"assert": 3.05, "sub": 1.32, "data": 1.15, "label": 0.95, "min": 0.9}
+  },
+  "fill_ratio": {"min": 0.45, "max": 1.0, "target": 0.78},
+  "page_type_fill": {
+    "statement": {"min": 0.04, "max": 1.0, "target": 0.45}
+  },
+  "argument_roles": ["frame", "situation", "complication", "question", "claim", "evidence", "back-matter"],
+  "intents": ["ranking", "magnitude", "part-to-whole", "change-over-time", "deviation", "distribution", "correlation", "flow", "geo"],
+  "evidence_kinds": ["number", "table", "chart", "diagram", "map", "image", "text", "embed"],
   "layouts": {
     "full": {"regions": 1},
     "hero-band": {"regions": 2},
@@ -39,5 +53,6 @@
   "viz_aliases": [
     "bar", "line", "area", "stacked-bar", "scatter", "donut",
     "timeline", "process", "org", "map", "gauge", "table"
-  ]
+  ],
+  "policy": "policy-v2.json"
 }

@@ -94,6 +94,7 @@ STOP_EN = {
     "cover",
     "page",
     "slide",
+    "deck",
     "table",
     "chart",
     "note",
@@ -114,8 +115,10 @@ NUMERIC_KINDS = {"number", "percent", "currency", "ratio", "date", "quantity", "
 
 def normalize_value(raw: str) -> str:
     s = raw.strip()
-    s = s.replace("，", ",").replace("％", "%").replace(" ", "")
+    s = re.sub(r"\s+", "", s.replace("，", ",").replace("％", "%"))
     s = s.replace(",", "")
+    s = re.sub(r"(?<!\d)(-?\d+)\.0(?=\D|$)", r"\1", s)
+    s = re.sub(r"(?<!\d)0+(\d+)(?=\D|$)", r"\1", s)
     return s.lower()
 
 

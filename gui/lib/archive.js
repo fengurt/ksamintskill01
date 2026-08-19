@@ -1,4 +1,4 @@
-import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
+import { copyFileSync, existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { spawn, spawnSync } from "node:child_process";
 import { tmpdir } from "node:os";
 import { basename, dirname, join } from "node:path";
@@ -32,7 +32,7 @@ export const PACK_FOLDERS = [
   {
     id: "audit",
     title: "审阅",
-    files: ["audit.md", "audit-source.json", "fit-report.json", "fidelity.json", "schema-report.json", "audit-layout.json"],
+    files: ["audit.md", "audit-source.json", "fit-report.json", "fidelity.json", "schema-report.json", "audit-layout.json", "audit-pdf.json"],
     review: true,
   },
 ];
@@ -44,6 +44,8 @@ const SLIDES_ENTRIES = [
   "slide-plan.json",
   "slides.json",
   "audit-html.json",
+  "audit-layout.json",
+  "audit-pdf.json",
   "audit.md",
 ];
 
@@ -282,6 +284,73 @@ export function streamSlidesZip(runId, res) {
     suffix: "slides-review",
     emptyError: "slides empty",
   });
+}
+
+function projectHtml(project) {
+  if (project.html) return safeResolve(project.html, { mustExist: true });
+  if (project.work) {
+    const html = join(safeWorkDir(project.work), "slides/deck.html");
+    if (existsSync(html)) return html;
+  }
+  throw new Error(`${project.name || project.id}: no HTML report`);
+}
+
+function renderProjectPdf(project, dest) {
+  if (!project.work) throw new Error(`${project.name || project.id}: verified PDF export requires a managed work directory`);
+  const work = safeWorkDir(project.work);
+  const py = process.env.PYTHON || "python3";
+  // ponytail: synchronous local export keeps the endpoint tiny; move to a job if large batch exports become common.
+  const result = spawnSync(py, [
+    join(REPO_ROOT, "skills/mdpages2htmlslides/scripts/export_pdf.py"),
+    "--html", projectHtml(project),
+    "--schema-report", join(work, "schema-report.json"),
+    "--layout-report", join(work, "audit-layout.json"),
+    "--out", dest,
+    "--report", join(work, "audit-pdf.json"),
+  ], { encoding: "utf8", timeout: 120_000 });
+  if (result.error || result.status !== 0 || !existsSync(dest)) {
+    throw new Error(`${project.name || project.id}: ${result.stderr?.trim() || "PDF export failed"}`);
+  }
+}
+
+export function assembleProjectsPdfStage(projects) {
+  if (!projects.length) throw new Error("no projects selected");
+  const stage = mkdtempSync(join(tmpdir(), "ksamint-project-pdfs-"));
+  const entries = [];
+  const used = new Set();
+  try {
+    for (const project of projects) {
+      const label = String(project.name || "").replace(/[\\/:*?"<>|\u0000-\u001f]/g, "_").trim().slice(0, 70);
+      let stem = `${safeStem(project.id)}${label ? `-${label}` : ""}`;
+      let name = `${stem}.pdf`;
+      for (let i = 2; used.has(name); i += 1) name = `${stem}-${i}.pdf`;
+      used.add(name);
+      renderProjectPdf(project, join(stage, name));
+      entries.push(name);
+    }
+    writeFileSync(join(stage, "projects.json"), JSON.stringify(projects.map(({ report_root, ...p }) => p), null, 2) + "\n");
+    entries.push("projects.json");
+    return {
+      stage,
+      entries,
+      cleanup() { rmSync(stage, { recursive: true, force: true }); },
+    };
+  } catch (e) {
+    rmSync(stage, { recursive: true, force: true });
+    throw e;
+  }
+}
+
+export function streamProjectsPdfZip(projects, res) {
+  if (!zipHasBin()) throw new Error("zip command not found");
+  const { stage, entries, cleanup } = assembleProjectsPdfStage(projects);
+  const child = streamZipFrom(stage, entries, res, "projects-pdf.zip");
+  child.on("close", cleanup);
+  child.on("error", (err) => {
+    cleanup();
+    if (!res.writableEnded) res.end(JSON.stringify({ error: err.message }));
+  });
+  return child;
 }
 
 export function skillZipName(folder) {

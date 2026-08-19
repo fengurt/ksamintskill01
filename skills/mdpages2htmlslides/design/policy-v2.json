@@ -1,0 +1,12 @@
+{
+  "version": "2.0.0",
+  "backmatter_ratio": 0.45,
+  "max_argument_depth": 3,
+  "max_layout_run": 8,
+  "as_of_window_days": 120,
+  "part_to_whole_tolerance": 0.02,
+  "max_angle_slices": 6,
+  "contrast": {"text": 4.5, "marks": 3.0},
+  "type_floor": {"body_u": 1.125, "data_u": 0.9},
+  "overrides": {"invariant": false, "defect": true, "advisory": true}
+}

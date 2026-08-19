@@ -178,16 +178,18 @@ def series_from_table(table, title: str, builder: Any) -> tuple[list[str], list[
     if not rows:
         return [], []
     lcol = builder.label_col(table)
-    labels = [builder.strip_md(r[lcol] if lcol < len(r) else r[0]) for r in rows]
     nums = builder.numeric_cols(table)
     if not nums:
-        return labels, []
+        return [], []
     vc = builder.pick_value_col(table, nums, title)
+    labels: list[str] = []
     values: list[float] = []
     for r in rows:
         cell = r[vc] if vc < len(r) else ""
         parsed = builder.parse_num(cell)
-        values.append(0.0 if parsed is None else float(parsed))
+        if parsed is not None:
+            labels.append(builder.strip_md(r[lcol] if lcol < len(r) else r[0]))
+            values.append(float(parsed))
     return labels, values
 
 
@@ -270,6 +272,29 @@ def _custom_svg(fill: str, labels: list[str], values: list[float]) -> str | None
     return f'<svg viewBox="0 0 1170 500" role="img" aria-label="{_esc(fill)} visualization" data-viz="{_esc(fill)}">{body}</svg>'
 
 
+def _raw_heatmap_svg(table, builder: Any) -> str:
+    """Heatmap raw cells so mixed units never inherit one column's suffix."""
+    rows = [row for row in table.rows if not builder.is_sum_row(row)][:8]
+    nums = builder.numeric_cols(table)[:6]
+    left, top, right, bottom = 220, 54, 24, 28
+    cell_w = (1170 - left - right) / max(1, len(nums))
+    cell_h = (500 - top - bottom) / max(1, len(rows))
+    body = ""
+    for col, index in enumerate(nums):
+        body += f'<text x="{left + (col + .5) * cell_w:.1f}" y="32" text-anchor="middle" fill="var(--gf-ink,var(--sd-ink-100))" font-size="18">{_esc(builder.strip_md(table.headers[index]))}</text>'
+    for row_index, row in enumerate(rows):
+        body += f'<text x="{left - 12}" y="{top + (row_index + .62) * cell_h:.1f}" text-anchor="end" fill="var(--gf-ink,var(--sd-ink-100))" font-size="18">{_esc(builder.strip_md(row[builder.label_col(table)]))}</text>'
+        for col, index in enumerate(nums):
+            raw = builder.strip_md(row[index] if index < len(row) else "—")
+            value = builder.parse_num(raw)
+            shade = "var(--sd-seq-100)" if value is None or abs(value) < 50 else "var(--sd-accent)" if abs(value) < 100 else "var(--sd-seq-600)"
+            ink = "var(--sd-ink-100)" if shade == "var(--sd-seq-100)" else "var(--sd-paper)"
+            x, y = left + col * cell_w, top + row_index * cell_h
+            body += f'<rect x="{x + 3:.1f}" y="{y + 3:.1f}" width="{cell_w - 6:.1f}" height="{cell_h - 6:.1f}" fill="{shade}" rx="3"/>'
+            body += f'<text x="{x + cell_w / 2:.1f}" y="{y + cell_h * .64:.1f}" text-anchor="middle" fill="{ink}" font-size="18">{_esc(raw)}</text>'
+    return f'<svg viewBox="0 0 1170 500" role="img" aria-label="heatmap visualization" data-viz="heatmap">{body}</svg>'
+
+
 def figure_for_page(
     title: str,
     material: str,
@@ -290,22 +315,40 @@ def figure_for_page(
     unit = ""
     caption = ""
     value_header = ""
+    vcols = None
     if table is not None:
         nums = builder.numeric_cols(table)
         if nums:
             vc = builder.pick_value_col(table, nums, title)
             value_header = table.headers[vc] if vc < len(table.headers) else ""
+            sample = " ".join(builder.strip_md(row[vc] if vc < len(row) else "") for row in table.rows[:8])
             unit = builder.unit_of(value_header)
+            if unit == "%" and "%" not in sample and "％" not in sample:
+                unit = ""
+            if unit == "家" and "家" not in sample and not any(word in value_header for word in ("门店", "商户")):
+                unit = ""
+            if fill == "slope" and builder.slope_col_pair(table, nums) is None:
+                groups = {}
+                for index in nums:
+                    cells = " ".join(builder.strip_md(row[index] if index < len(row) else "") for row in table.rows[:8])
+                    column_unit = "%" if "%" in cells or "％" in cells else "元" if "元" in cells else ""
+                    groups.setdefault(column_unit, []).append(index)
+                vcols = next((group[:2] for key, group in groups.items() if key and len(group) >= 2), None)
+                if vcols:
+                    unit = next(key for key, group in groups.items() if group[:2] == vcols)
         caption = builder.figure_caption(recipe or fill, value_header, len(labels), unit, title)
-    svg = _custom_svg(fill, labels, values) or builder.svg_figure(
+        caption = re.sub(r"^n=\d+ · ", "", caption)
+    svg = (_raw_heatmap_svg(table, builder) if fill == "heatmap" and table is not None else None) or _custom_svg(fill, labels, values) or builder.svg_figure(
         recipe or fill,
         labels,
         values,
         table=table,
+        vcols=vcols,
         unit=unit,
         caption=caption,
         title=title,
     )
+    svg = re.sub(r" · 标 \d+ 家，其余见清单", " · 其余见清单", svg or "")
     if not svg or "<svg" not in svg:
         return None
     return Figure(

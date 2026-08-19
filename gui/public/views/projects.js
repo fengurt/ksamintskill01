@@ -1,4 +1,4 @@
-import { api, badge, bindCopyButtons, esc, fmtTime } from "./util.js";
+import { api, badge, bindCopyButtons, copyText, esc, fmtTime } from "./util.js";
 
 let studioKeyHandler = null;
 
@@ -131,7 +131,15 @@ export async function renderProjects(root, parts) {
   root.innerHTML = `
     <div class="row"><h1 style="margin:0">Projects</h1><span class="spacer"></span>
       <a class="btn" href="#/projects/new">New project</a></div>
-    <p class="lede">文件包 zip 分三栏：original/ 原文 · pages/ 逐页 md · audit/ 审阅。点进项目看 skill / 阶段，或直接复制 ID、下载 zip。</p>
+    <p class="lede">文件包 zip 分三栏：original/ 原文 · pages/ 逐页 md · audit/ 审阅。Baslide01 历史 HTML 会作为只读项目出现。</p>
+    <div class="project-bulkbar row" aria-label="Project bulk actions">
+      <label class="row"><input type="checkbox" id="project-select-all" /> 全选</label>
+      <span id="project-selected" class="muted">0 selected</span>
+      <span class="spacer"></span>
+      <button type="button" class="btn ghost" id="copy-projects" disabled>Copy info</button>
+      <button type="button" class="btn" id="export-project-pdfs" disabled>PDF ZIP</button>
+      <span id="project-bulk-status" class="muted" aria-live="polite"></span>
+    </div>
     <div class="grid grid-3">
       ${
         projects
@@ -140,20 +148,24 @@ export async function renderProjects(root, parts) {
             const skillNames = (tpl?.skills || []).map((s) => s.label || s.id).join(" · ");
             const counts = p.pack?.counts;
             const exportId = `${p.id} template=${p.template}`;
-            return `<div class="card clickable" data-href="#/projects/${esc(p.id)}">
+            return `<div class="card project-card ${p.history ? "" : "clickable"}" ${p.history ? "" : `data-href="#/projects/${esc(p.id)}"`}>
         <div class="row" style="align-items:flex-start">
+          <input class="project-select" type="checkbox" value="${esc(p.id)}" aria-label="Select ${esc(p.name)}" />
           <h3 style="margin:0">${esc(p.name)}</h3>
           <span class="spacer"></span>
           <button type="button" class="id-copy" data-copy="${esc(exportId)}" title="复制导出 ID">${esc(p.id)}</button>
         </div>
-        <div style="margin-top:.45rem">${packBadge(p.pack)} ${badge("", p.template)}</div>
+        <div style="margin-top:.45rem">${p.history ? badge("ok", "history") : packBadge(p.pack)} ${badge("", p.template)} ${p.pdf ? badge("ok", "PDF") : ""}</div>
         <div class="muted" style="margin-top:.45rem">${esc(skillNames || p.template)}</div>
         <div class="mono muted" style="margin-top:.35rem">${
-          counts
+          p.history
+            ? `HTML report · ${fmtTime(p.updated_at)}`
+            : counts
             ? `units ${counts.units ?? "—"} · pages ${counts.pages ?? "—"} · fill ${counts.fills ?? 0}`
             : "尚未产出"
         }</div>
         <div class="row" style="margin-top:.5rem">
+          ${p.report_href ? `<a class="btn ghost" href="${esc(p.report_href)}" target="_blank" rel="noopener">Open report</a>` : ""}
           ${p.pack?.ready ? `<a class="btn ghost" href="/api/projects/${esc(p.id)}/pack.zip">文件包</a>` : ""}
           ${p.pack?.slides ? `<a class="btn ghost" href="/api/projects/${esc(p.id)}/slides.zip">幻灯片评审包</a>` : ""}
         </div>
@@ -182,9 +194,68 @@ export async function renderProjects(root, parts) {
     </div>
   `;
   bindCopyButtons(root);
+  const selected = new Set();
+  const all = [...root.querySelectorAll(".project-select")];
+  const selectAll = root.querySelector("#project-select-all");
+  const count = root.querySelector("#project-selected");
+  const copy = root.querySelector("#copy-projects");
+  const pdfs = root.querySelector("#export-project-pdfs");
+  const status = root.querySelector("#project-bulk-status");
+  const updateSelection = () => {
+    for (const box of all) box.closest(".project-card")?.classList.toggle("selected", box.checked);
+    selected.clear();
+    for (const box of all) if (box.checked) selected.add(box.value);
+    count.textContent = `${selected.size} selected`;
+    copy.disabled = pdfs.disabled = selected.size === 0;
+    selectAll.checked = all.length > 0 && selected.size === all.length;
+    selectAll.indeterminate = selected.size > 0 && selected.size < all.length;
+  };
+  for (const box of all) box.addEventListener("change", updateSelection);
+  selectAll.addEventListener("change", () => {
+    for (const box of all) box.checked = selectAll.checked;
+    updateSelection();
+  });
+  copy.addEventListener("click", async () => {
+    const picked = projects.filter((p) => selected.has(p.id));
+    const text = picked.map((p) => [
+      `Name: ${p.name}`,
+      `ID: ${p.id}`,
+      `Type: ${p.history ? "Baslide01 history" : "project"}`,
+      `Template: ${p.template}`,
+      p.source ? `Source: ${p.source}` : "",
+      p.html ? `HTML: ${p.html}` : "",
+      p.work ? `Work: ${p.work}` : "",
+      `Updated: ${fmtTime(p.updated_at)}`,
+    ].filter(Boolean).join("\n")).join("\n\n");
+    await copyText(text);
+    status.textContent = "Copied";
+  });
+  pdfs.addEventListener("click", async () => {
+    status.textContent = "Building PDFs…";
+    pdfs.disabled = true;
+    try {
+      const res = await fetch("/api/projects/export-pdfs.zip", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ ids: [...selected] }),
+      });
+      if (!res.ok) throw new Error((await res.json()).error || "export failed");
+      const href = URL.createObjectURL(await res.blob());
+      const a = document.createElement("a");
+      a.href = href;
+      a.download = "projects-pdf.zip";
+      a.click();
+      URL.revokeObjectURL(href);
+      status.textContent = "Downloaded";
+    } catch (e) {
+      status.textContent = e.message;
+    } finally {
+      pdfs.disabled = selected.size === 0;
+    }
+  });
   root.querySelectorAll("[data-href]").forEach((card) => {
     card.addEventListener("click", (e) => {
-      if (e.target.closest("a, button, [data-copy]")) return;
+      if (e.target.closest("a, button, input, label, [data-copy]")) return;
       location.hash = card.getAttribute("data-href");
     });
   });

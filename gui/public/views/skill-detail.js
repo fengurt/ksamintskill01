@@ -318,6 +318,14 @@ export async function renderRichSkillDetail(root, kind, id) {
   const s = await api("/api/skills/" + encodeURIComponent(kind) + "/" + encodeURIComponent(id));
   const extras = s.runtime || [];
   const showcase = s.showcase;
+  let apuch = { themes: [], credentialConfigured: false, syncedAt: null };
+  if (s.name === "gf4p2slides" && showcase?.theme) {
+    try {
+      apuch = await api("/api/apuch/themes");
+    } catch {
+      // The generic GF editor still works without the optional Apuch cache.
+    }
+  }
   let preset = null;
   if (showcase?.controls) {
     try {
@@ -343,9 +351,7 @@ export async function renderRichSkillDetail(root, kind, id) {
   );
 
   const tabs = [{ id: "overview", label: "Overview" }];
-  if (showcase?.demo) tabs.push({ id: "showcase", label: "Showcase" });
-  if (showcase?.samples?.length) tabs.push({ id: "samples", label: "Samples" });
-  if (showcase?.theme) tabs.push({ id: "theme", label: "Theme" });
+  if (showcase?.demo || showcase?.samples?.length || showcase?.theme) tabs.push({ id: "guideline", label: "Guideline" });
   if (showcase?.lab) tabs.push({ id: "test", label: "Test" });
   tabs.push({ id: "files", label: "Files" });
 
@@ -356,27 +362,23 @@ export async function renderRichSkillDetail(root, kind, id) {
   const theme = { ...(showcase?.theme?.tokens || {}), ...(preset?.tokens || {}) };
   const initialMarkdown = assets.defaultSample?.text || "";
   const templateOptions = (showcase?.lab?.templates || []).map((name) => '<option value="' + esc(name) + '">' + esc(name) + "</option>").join("");
-  const showcasePanel = showcase?.demo
-    ? detailPanel(
-        "showcase",
-        '<div class="skill-panel-head"><div><h2>' + esc(showcase.demo.title || "Rendered demo") + "</h2><p>Real HTML pages from the skill package, isolated from the app.</p></div></div>" +
-          (assets.demo?.error ? '<p class="inline-error">' + esc(assets.demo.error) + "</p>" : '<iframe id="showcase-frame" class="skill-showcase-frame" sandbox title="Rendered slide demo"></iframe>')
-      )
+  const apuchButtons = (apuch.themes || []).map((item) =>
+    '<button type="button" data-apuch-theme="' + esc(item.slug) + '" style="--theme-swatch:' + esc(item.tokens?.accent || "#0e6b5c") + '"><i aria-hidden="true"></i><span>' + esc(item.name) + "</span></button>"
+  ).join("");
+  const themeEditor = showcase?.theme
+    ? '<details class="guideline-theme" id="guideline-theme"><summary><span><strong>Theme and brand</strong><small>Switch a saved Apuch theme or edit the semantic tokens.</small></span><span class="guideline-theme-state">' + (apuch.syncedAt ? "Apuch connected" : "GF default") + '</span></summary><div class="guideline-theme-body">' +
+      (s.name === "gf4p2slides" ? '<div class="apuch-theme-toolbar"><div class="saved-theme-switcher" role="group" aria-label="Saved themes"><button type="button" class="on" data-apuch-theme="" style="--theme-swatch:' + esc(theme.accent) + '"><i aria-hidden="true"></i><span>GF default</span></button>' + apuchButtons + '</div><div class="row"><button type="button" class="btn ghost" id="apuch-sync">Refresh from Apuch</button><span id="apuch-status" class="muted" aria-live="polite">' + (apuch.credentialConfigured ? "Admin credential stored locally. Public brand read active." : "Public brand read active.") + "</span></div></div>" : "") +
+      '<div class="theme-workbench"><form id="theme-form">' + presetFields(showcase.controls, preset || {}) + themeFields(theme) + '<label class="theme-logo-field"><span>Preview logo</span><input id="theme-logo" type="file" accept="image/png,image/jpeg,image/webp"></label><div class="row"><button type="button" class="btn ghost" id="theme-reset">Reset to GF</button><span id="theme-status" class="muted" aria-live="polite"></span></div></form><aside class="apuch-theme-meta" id="apuch-theme-meta"><strong>GF default theme</strong><p>Local semantic-token baseline. The preview above updates as you edit.</p></aside></div>' +
+      (s.name === "gf4p2slides" ? subskillFormHtml() : "") +
+      "</div></details>"
     : "";
-  const samplesPanel = showcase?.samples?.length
+  const guidelinePanel = showcase?.demo || showcase?.samples?.length || showcase?.theme
     ? detailPanel(
-        "samples",
-        '<div class="skill-panel-head"><div><h2>Reference inputs</h2><p>Use these files to inspect the contract or seed a test.</p></div></div>' +
-          '<div class="skill-samples"><nav aria-label="Samples">' + sampleButtons + '</nav><pre id="sample-preview" class="pre light">' + esc(firstSample?.text || firstSample?.error || "") + "</pre></div>"
-      )
-    : "";
-  const themePanel = showcase?.theme
-    ? detailPanel(
-        "theme",
-        '<div class="skill-panel-head"><div><h2>' + esc(showcase.theme.title || "Theme") + "</h2><p>Edit semantic tokens and a raster logo against the real reference deck.</p></div><button type=\"button\" class=\"btn ghost\" id=\"theme-reset\">Reset</button></div>" +
-          '<div class="theme-workbench"><form id="theme-form">' + presetFields(showcase.controls, preset || {}) + themeFields(theme) + '<label class="theme-logo-field"><span>Preview logo</span><input id="theme-logo" type="file" accept="image/png,image/jpeg,image/webp"></label></form>' +
-          '<iframe id="theme-frame" class="skill-showcase-frame" sandbox title="Theme preview"></iframe></div>' +
-          (s.name === "gf4p2slides" ? subskillFormHtml() : "")
+        "guideline",
+        '<div class="skill-panel-head"><div><h2>Reference guideline</h2><p>Rendered output, source examples, and brand controls in one working view.</p></div></div>' +
+          (showcase?.demo ? (assets.demo?.error ? '<p class="inline-error">' + esc(assets.demo.error) + "</p>" : '<iframe id="showcase-frame" class="skill-showcase-frame" sandbox title="Rendered slide demo"></iframe>') : "") +
+          (showcase?.samples?.length ? '<section class="guideline-samples"><div class="skill-panel-head"><div><h3>Reference inputs</h3><p>Inspect the contract or seed a layout test.</p></div></div><div class="skill-samples"><nav aria-label="Samples">' + sampleButtons + '</nav><pre id="sample-preview" class="pre light">' + esc(firstSample?.text || firstSample?.error || "") + "</pre></div></section>" : "") +
+          themeEditor
       )
     : "";
   const testPanel = showcase?.lab
@@ -399,9 +401,7 @@ export async function renderRichSkillDetail(root, kind, id) {
     tabs.map((tab, index) => '<button type="button" role="tab" data-skill-tab="' + tab.id + '" aria-controls="skill-panel-' + tab.id + '" aria-selected="' + (index === 0) + '">' + tab.label + "</button>").join(""),
     "</div>",
     detailPanel("overview", overviewHtml(s), true),
-    showcasePanel,
-    samplesPanel,
-    themePanel,
+    guidelinePanel,
     testPanel,
     detailPanel("files", filesHtml(s, extras)),
   ].join("");
@@ -458,13 +458,46 @@ export async function renderRichSkillDetail(root, kind, id) {
   const paintTheme = () => {
     const controls = currentPreset();
     const logoMode = controls.logo || "full";
-    const frame = root.querySelector("#theme-frame");
+    const frame = root.querySelector("#showcase-frame");
     if (frame) frame.srcdoc = sandboxDocument(demoHtml, baseThemeCss + themeCss(currentTokens()), logoDataUrl, logoMode, controls);
     const labFrame = root.querySelector("#lab-frame");
     if (labFrame) {
       const parsed = parseLabMarkdown(root.querySelector("#lab-markdown")?.value || "");
       labFrame.srcdoc = labDocument(parsed, root.querySelector("#lab-template")?.value || "cover", currentTokens(), logoMode === "none" ? "" : logoDataUrl);
     }
+  };
+  const savedThemes = new Map((apuch.themes || []).map((item) => [item.slug, item]));
+  const selectSavedTheme = (slug) => {
+    const selected = savedThemes.get(slug);
+    const tokens = selected?.tokens || theme;
+    for (const input of themeInputs) if (tokens[input.dataset.themeToken]) input.value = tokens[input.dataset.themeToken];
+    logoDataUrl = selected?.logoDataUrl || "";
+    const upload = root.querySelector("#theme-logo");
+    if (upload) upload.value = "";
+    root.querySelectorAll("[data-apuch-theme]").forEach((button) => {
+      const on = button.dataset.apuchTheme === (selected?.slug || "");
+      button.classList.toggle("on", on);
+      button.setAttribute("aria-pressed", String(on));
+    });
+    const meta = root.querySelector("#apuch-theme-meta");
+    if (meta) {
+      meta.innerHTML = selected
+        ? "<strong>" + esc(selected.name) + "</strong><p>Official tokens and canonical raster logo from apuch.art.</p><a href=\"" + esc(selected.sourceUrl) + "\" target=\"_blank\" rel=\"noreferrer\">Open brand source</a>"
+        : "<strong>GF default theme</strong><p>Local semantic-token baseline. The preview above updates as you edit.</p>";
+    }
+    if (selected) {
+      const name = root.querySelector("#brand-name");
+      if (name) {
+        brandIdEdited = false;
+        name.value = selected.name;
+        name.dispatchEvent(new Event("input"));
+      }
+      const source = root.querySelector("#brand-source");
+      if (source) source.value = selected.sourceUrl;
+      const date = root.querySelector("#brand-source-date");
+      if (date) date.value = String(selected.version?.date || "").slice(0, 10);
+    }
+    paintTheme();
   };
   themeInputs.forEach((input) => input.addEventListener("input", paintTheme));
   root.querySelectorAll("[data-showcase-control]").forEach((input) => input.addEventListener("change", () => {
@@ -496,12 +529,18 @@ export async function renderRichSkillDetail(root, kind, id) {
     link.click();
     URL.revokeObjectURL(href);
   });
-  root.querySelector("#theme-reset")?.addEventListener("click", () => {
-    for (const input of themeInputs) input.value = theme[input.dataset.themeToken];
-    logoDataUrl = "";
-    const logo = root.querySelector("#theme-logo");
-    if (logo) logo.value = "";
-    paintTheme();
+  root.querySelectorAll("[data-apuch-theme]").forEach((button) => button.addEventListener("click", () => selectSavedTheme(button.dataset.apuchTheme)));
+  root.querySelector("#theme-reset")?.addEventListener("click", () => selectSavedTheme(""));
+  root.querySelector("#apuch-sync")?.addEventListener("click", async () => {
+    const status = root.querySelector("#apuch-status");
+    status.textContent = "Syncing official themes...";
+    try {
+      await api("/api/apuch/themes/sync", { method: "POST", body: { slugs: ["tiansight", "opcglobal", "iptrust"] } });
+      status.textContent = "Saved. Reloading...";
+      window.location.reload();
+    } catch (error) {
+      status.textContent = error.message;
+    }
   });
   root.querySelector("#theme-logo")?.addEventListener("change", (event) => {
     const file = event.target.files?.[0];
@@ -512,7 +551,7 @@ export async function renderRichSkillDetail(root, kind, id) {
     }
     if (!["image/png", "image/jpeg", "image/webp"].includes(file.type) || file.size > 2 * 1024 * 1024) {
       event.target.value = "";
-      root.querySelector("#brand-status")?.replaceChildren(document.createTextNode("Logo must be PNG, JPEG, or WebP under 2 MB."));
+      root.querySelector("#theme-status")?.replaceChildren(document.createTextNode("Logo must be PNG, JPEG, or WebP under 2 MB."));
       return;
     }
     const reader = new FileReader();
@@ -588,6 +627,6 @@ export async function renderRichSkillDetail(root, kind, id) {
     }
   });
 
-  paintTheme();
+  if (showcase?.theme) paintTheme();
   paintLab();
 }

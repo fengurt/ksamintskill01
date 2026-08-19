@@ -2,10 +2,10 @@
 // Binds 127.0.0.1 only. No auth. No free-form shell.
 import { createServer } from "node:http";
 import { readFile, mkdir } from "node:fs/promises";
-import { existsSync, createReadStream, statSync } from "node:fs";
-import { dirname, join, extname, basename } from "node:path";
+import { existsSync, createReadStream, readFileSync, statSync } from "node:fs";
+import { dirname, join, extname, basename, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { PORT, DATA_DIR, REPO_ROOT, GUI_ROOT, safeResolve, isDeniedPath, relToRepo, safeWorkDir } from "./lib/paths.js";
+import { PORT, DATA_DIR, REPO_ROOT, GUI_ROOT, safeResolve, isDeniedPath, relToRepo, safeWorkDir, underRoot } from "./lib/paths.js";
 import { repoStatus } from "./lib/repo.js";
 import { listSkills, getSkillDetail, getSkillShowcaseAsset, skillGraph, searchSkills, toggleStar } from "./lib/skills.js";
 import { registryStatus, checkUpstreamDrift } from "./lib/registry.js";
@@ -30,11 +30,22 @@ import { listJobs, getJob, startJob, cancelJob, subscribe } from "./lib/jobs.js"
 import { healthSnapshot, symlinkIntegrity } from "./lib/health.js";
 import { baslideSummary, listThemes } from "./lib/themes.js";
 import { getPack, skillStagesFor, VIEW_STAGES, stageReady, getStageView } from "./lib/pack.js";
-import { streamBrandSubskillZip, streamPackZip, streamSkillZip, streamSkillsBundleZip, streamSlidesZip } from "./lib/archive.js";
+import { streamBrandSubskillZip, streamPackZip, streamProjectsPdfZip, streamSkillZip, streamSkillsBundleZip, streamSlidesZip } from "./lib/archive.js";
 import { getShowcasePreset, saveShowcasePreset } from "./lib/showcase.js";
+import { loadSavedApuchThemes, syncApuchThemes } from "./lib/apuch.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PUBLIC = join(__dirname, "public");
+
+try {
+  for (const line of readFileSync(join(REPO_ROOT, ".env"), "utf8").split(/\r?\n/)) {
+    const match = line.match(/^([A-Z][A-Z0-9_]*)=(.*)$/);
+    if (!match || process.env[match[1]] != null) continue;
+    process.env[match[1]] = match[2].replace(/^(['"])(.*)\1$/, "$2");
+  }
+} catch {
+  // Local secrets are optional; public catalog reads still work.
+}
 
 const MIME = {
   ".html": "text/html; charset=utf-8",
@@ -46,6 +57,7 @@ const MIME = {
   ".png": "image/png",
   ".jpg": "image/jpeg",
   ".webp": "image/webp",
+  ".pdf": "application/pdf",
 };
 
 function send(res, code, data, type = "application/json") {
@@ -91,6 +103,19 @@ async function serveStatic(req, res, path) {
   createReadStream(abs).pipe(res);
 }
 
+function serveProjectReport(res, path) {
+  const match = path.match(/^\/reports\/([^/]+)\/(.+)$/);
+  if (!match) return send(res, 404, { error: "not found" });
+  const project = getProject(decodeURIComponent(match[1]));
+  if (!project?.report_root) return send(res, 404, { error: "report not found" });
+  const abs = resolve(project.report_root, decodeURIComponent(match[2]));
+  if (!underRoot(abs, project.report_root) || isDeniedPath(abs) || !existsSync(abs) || !statSync(abs).isFile()) {
+    return send(res, 404, { error: "report asset not found" });
+  }
+  res.writeHead(200, { "content-type": MIME[extname(abs)] || "application/octet-stream", "cache-control": "no-store" });
+  createReadStream(abs).pipe(res);
+}
+
 const server = createServer(async (req, res) => {
   const u = new URL(req.url, `http://127.0.0.1:${PORT}`);
   const path = u.pathname;
@@ -103,6 +128,10 @@ const server = createServer(async (req, res) => {
     }
     if (method === "GET" && path.startsWith("/slides/")) {
       await serveDeck(res, path);
+      return;
+    }
+    if (method === "GET" && path.startsWith("/reports/")) {
+      serveProjectReport(res, path);
       return;
     }
     await serveStatic(req, res, path);
@@ -152,6 +181,17 @@ async function handleApi(req, res, method, path, u) {
 
   if (method === "GET" && path === "/api/health") {
     return send(res, 200, await healthSnapshot());
+  }
+
+  if (method === "GET" && path === "/api/apuch/themes") {
+    return send(res, 200, loadSavedApuchThemes());
+  }
+  if (method === "POST" && path === "/api/apuch/themes/sync") {
+    try {
+      return send(res, 200, await syncApuchThemes(await readBody(req, 16 * 1024)));
+    } catch (e) {
+      return send(res, 400, { error: e.message });
+    }
   }
 
   // Skills
@@ -322,6 +362,19 @@ async function handleApi(req, res, method, path, u) {
   if (method === "POST" && path === "/api/projects") {
     const body = await readBody(req);
     return send(res, 201, createProject(body));
+  }
+  if (method === "POST" && path === "/api/projects/export-pdfs.zip") {
+    const body = await readBody(req, 16 * 1024);
+    const ids = [...new Set(Array.isArray(body.ids) ? body.ids.filter((id) => typeof id === "string") : [])];
+    if (!ids.length || ids.length > 50) return send(res, 400, { error: "select 1–50 projects" });
+    const byId = new Map(listProjects().map((project) => [project.id, project]));
+    const projects = ids.map((id) => byId.get(id));
+    if (projects.some((p) => !p)) return send(res, 404, { error: "project not found" });
+    try {
+      return streamProjectsPdfZip(projects, res);
+    } catch (e) {
+      return send(res, 400, { error: e.message });
+    }
   }
   {
     const m = path.match(/^\/api\/projects\/([^/]+)\/(pack|slides)\.zip$/);

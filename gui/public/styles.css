@@ -77,6 +77,9 @@ h3 { font-size: 1rem; margin: 0 0 0.4rem; }
 }
 .card.clickable { cursor: pointer; transition: border-color 0.15s, transform 0.15s; }
 .card.clickable:hover { border-color: var(--accent); transform: translateY(-1px); }
+.project-bulkbar { position: sticky; top: .5rem; z-index: 3; margin: 1rem 0; padding: .65rem .8rem; border: 1px solid var(--line); border-radius: 12px; background: color-mix(in srgb, var(--paper) 92%, transparent); backdrop-filter: blur(8px); }
+.project-card.selected { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+.project-select { width: 1.05rem; height: 1.05rem; margin-top: .18rem; accent-color: var(--accent); }
 .skills-hero {
   display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2rem;
   align-items: end; padding: 2.25rem 0 1.5rem; border-bottom: 1px solid var(--line);
@@ -199,6 +202,27 @@ h3 { font-size: 1rem; margin: 0 0 0.4rem; }
 .skill-samples button strong { font: 600 0.8rem var(--mono); }
 .skill-samples button span { color: var(--muted); font-size: 0.72rem; line-height: 1.4; }
 .skill-samples .pre { max-height: 620px; min-height: 360px; }
+.guideline-samples { margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--line); }
+.guideline-theme { margin-top: 1.5rem; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.guideline-theme > summary {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: 1rem 0; cursor: pointer; list-style: none;
+}
+.guideline-theme > summary::-webkit-details-marker { display: none; }
+.guideline-theme > summary > span:first-child { display: grid; gap: 0.2rem; }
+.guideline-theme > summary strong { font-size: 0.95rem; }
+.guideline-theme > summary small { color: var(--muted); font-size: 0.75rem; }
+.guideline-theme-state { flex: 0 0 auto; color: var(--accent); font: 600 0.72rem var(--mono); }
+.guideline-theme-body { padding: 0.25rem 0 1.25rem; }
+.apuch-theme-toolbar { display: grid; gap: 0.7rem; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--line); }
+.saved-theme-switcher { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+.saved-theme-switcher button {
+  display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.48rem 0.65rem;
+  border: 1px solid var(--line); border-radius: 8px; background: transparent; color: var(--ink);
+  cursor: pointer; font: 600 0.75rem var(--sans);
+}
+.saved-theme-switcher button:hover, .saved-theme-switcher button.on { border-color: var(--accent); background: rgba(14,107,92,.08); }
+.saved-theme-switcher i { width: 0.8rem; height: 0.8rem; border-radius: 50%; background: var(--theme-swatch); box-shadow: inset 0 0 0 1px rgba(23,32,29,.18); }
 .theme-workbench { display: grid; grid-template-columns: minmax(250px,.6fr) minmax(0,1.4fr); gap: 1rem; align-items: start; }
 #theme-form { display: grid; gap: 1rem; }
 .theme-color-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 0.55rem; }
@@ -208,6 +232,10 @@ h3 { font-size: 1rem; margin: 0 0 0.4rem; }
 .theme-font-grid { display: grid; gap: 0.55rem; }
 .theme-font-grid input { width: 100%; }
 .theme-logo-field { padding-top: 0.85rem; border-top: 1px solid var(--line); }
+.apuch-theme-meta { min-height: 9rem; padding: 1rem; border-left: 3px solid var(--accent); background: rgba(255,253,248,.5); }
+.apuch-theme-meta strong { font-family: var(--sans); }
+.apuch-theme-meta p { max-width: 40ch; margin: 0.45rem 0 1rem; color: var(--muted); font-size: 0.82rem; }
+.apuch-theme-meta a { color: var(--accent); font-size: 0.78rem; }
 .brand-subskill-form { margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--line); }
 .brand-subskill-form h3 { margin: 0 0 0.3rem; }
 .brand-subskill-form > p { max-width: 68ch; margin: 0 0 1rem; color: var(--muted); font-size: 0.82rem; }
@@ -714,6 +742,7 @@ tr.clickable:hover td { background: rgba(14, 107, 92, 0.06); }
   .skill-detail-hero { padding-top: 1.5rem; }
   .skill-detail-hero h1 { font-size: clamp(2.25rem, 12vw, 3.2rem); }
   .skill-highlight-list, .skill-workflow ol, .skill-samples, .brand-form-grid { grid-template-columns: 1fr; }
+  .guideline-theme > summary { align-items: flex-start; }
   .skill-samples .pre { min-height: 300px; }
   .brand-form-grid .wide { grid-column: auto; }
   .skill-showcase-frame { min-height: 360px; }

@@ -4,11 +4,13 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 import shutil
 import stat
 import zipfile
+from datetime import datetime, timezone
 from pathlib import Path, PurePosixPath
 
 ALLOWED = {".md", ".csv"}
@@ -115,9 +117,19 @@ def normalize(source: Path, work: Path) -> dict:
     manifest = {
         "version": 1,
         "source": str(source),
+        "as_of": datetime.fromtimestamp(source.stat().st_mtime, timezone.utc).date().isoformat(),
         "normalized": "source.md",
         "markdown": [p.relative_to(original).as_posix() for p in markdown],
         "tables": [p.relative_to(original).as_posix() for p in tables],
+        "files": [
+            {
+                "path": p.relative_to(original).as_posix(),
+                "kind": p.suffix.lower().lstrip("."),
+                "bytes": p.stat().st_size,
+                "sha256": hashlib.sha256(p.read_bytes()).hexdigest(),
+            }
+            for p in files
+        ],
     }
     (work / "source-manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return manifest

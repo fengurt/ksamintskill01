@@ -24,6 +24,9 @@ def main() -> None:
         out = root / "work"
         manifest = mod.normalize(bundle, out)
         assert manifest["markdown"] == ["02_first.md", "10_last.md"]
+        assert manifest["as_of"]
+        assert len(manifest["files"]) == 3
+        assert all(len(item["sha256"]) == 64 for item in manifest["files"])
         text = (out / "source.md").read_text(encoding="utf-8")
         assert text.index("# First") < text.index("# Last")
         assert (out / "assets/tables/tables/a.csv").is_file()

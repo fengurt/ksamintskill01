@@ -14,7 +14,7 @@ def _load_emit():
     assert spec and spec.loader
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
-    return mod.emit
+    return mod
 
 
 def _load_budget():
@@ -93,19 +93,31 @@ def main() -> int:
 
     with tempfile.TemporaryDirectory() as tmp:
         work = _mini_work(Path(tmp))
-        emit = _load_emit()
-        pack = emit(work, genre="diagnosis", skin="TIANSIGHT")
+        emit_mod = _load_emit()
+        pack = emit_mod.emit(work, genre="diagnosis", skin="TIANSIGHT")
         assert pack["ready"] is True
         assert (work / "deck-plan.json").is_file()
         assert (work / "MANIFEST.md").is_file()
         plan = json.loads((work / "deck-plan.json").read_text(encoding="utf-8"))
+        assert plan["contract_version"] == "2.0.0"
+        assert plan["title"] == "mini"
+        assert plan["argument"]["root"] == "p-0001"
         slide = plan["pages"][0]
         assert slide["template"] == "chart"
         assert slide["visualization"] in {None, "pareto", "diverging-bar", "treemap", "hist-cdf"}
         if slide["visualization"]:
             assert lock_fill(slide["visualization"]) == slide["visualization"]
+            assert slide["content"]["blocks"][0]["fallback"]["rows"]
+        assert slide["layout"]["grid"] == "12x8"
+        assert slide["claim"]["measure"] == "额占比"
+        assert slide["evidence"][0]["source"]["query_hash"]
         budget = _load_budget()
         assert budget.predict(slide, slide.get("layout") or "full", slide.get("pack") or "mid") > 0
+        dense = {**slide, "id": "p-dense", "template": "roster", "title": "dense", "units": ["u-1"], "content": {"columns": ["a", "b"], "rows": [[str(i), "x" * 250] for i in range(7)], "blocks": [{"kind": "table", "rows": [[str(i), "x" * 250] for i in range(7)]}]}}
+        split = emit_mod.split_dense_rosters([dense])
+        assert len(split) == 3 and split[1]["overflow_of"] == "p-dense" and split[1]["units"] == []
+        renumbered, root = emit_mod.renumber_pages(split, "p-dense")
+        assert root == "p-0001" and renumbered[1]["overflow_of"] == "p-0001"
         md = (work / "pages" / "p-0001.md").read_text(encoding="utf-8")
         fig = figure_for_page(slide["title"], md, preset_fill=slide["visualization"])
         assert fig is not None, "expected SVG figure"
