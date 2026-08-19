@@ -34,6 +34,13 @@ export function badge(status, label) {
   return `<span class="badge ${cls}">${esc(label ?? status)}</span>`;
 }
 
+export function fmtBytes(n) {
+  const v = Number(n) || 0;
+  if (v < 1024) return `${v} B`;
+  if (v < 1024 * 1024) return `${Math.round(v / 1024)} KB`;
+  return `${(v / (1024 * 1024)).toFixed(1)} MB`;
+}
+
 export function fmtTime(ts) {
   if (!ts) return "—";
   try {

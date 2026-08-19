@@ -1,0 +1,752 @@
+{
+  "version": "1.2.0",
+  "rule": "Pick a page type first (the job of the page). Then pick a skin. Apply prompts/loop/brand.md plus this type's loop before emitting HTML. Do not invent a new type unless none of these seventeen fit.",
+  "preview": "/preview/",
+  "loop": {
+    "brand": "/prompts/loop/brand.md",
+    "dir": "/prompts/loop/"
+  },
+  "skins": {
+    "TIANSIGHT": {
+      "label": "侍天报告",
+      "canvas": "2880×1620",
+      "template": "/templates/TIANSIGHT/gallery.html"
+    },
+    "magazine": {
+      "label": "电子杂志 A",
+      "canvas": "100vw×100vh",
+      "template": "/templates/magazine/template.html"
+    },
+    "swiss": {
+      "label": "瑞士 B",
+      "canvas": "100vw×100vh",
+      "template": "/templates/swiss/template-swiss.html"
+    },
+    "tableai": {
+      "label": "Table AI C",
+      "canvas": "100vw×100vh",
+      "template": "/templates/tableai/template-tableai.html"
+    },
+    "atelier": {
+      "label": "Atelier",
+      "canvas": "100vw×100vh",
+      "template": "/templates/atelier/template-atelier.html"
+    }
+  },
+  "families": [
+    {
+      "id": "open",
+      "label": "开场",
+      "job": "定身份、定章节"
+    },
+    {
+      "id": "claim",
+      "label": "主张",
+      "job": "一句话站住"
+    },
+    {
+      "id": "data",
+      "label": "数据",
+      "job": "用数做决定"
+    },
+    {
+      "id": "visual",
+      "label": "图文",
+      "job": "用图说话"
+    },
+    {
+      "id": "structure",
+      "label": "结构",
+      "job": "关系、过程、对照"
+    },
+    {
+      "id": "close",
+      "label": "收束",
+      "job": "结论、证伪、行动"
+    }
+  ],
+  "types": [
+    {
+      "id": "cover",
+      "family": "open",
+      "label": "封面",
+      "job": "这一份 deck 是谁、讲什么、给谁看",
+      "useWhen": "第一页、章扉、品牌开场",
+      "avoidWhen": "已经进入论证，还在铺身份",
+      "slots": [
+        "kicker",
+        "title",
+        "one-line decision",
+        "meta chips"
+      ],
+      "skins": {
+        "TIANSIGHT": {
+          "layout": "cover",
+          "href": "/templates/TIANSIGHT/jobs/cover.html"
+        },
+        "magazine": {
+          "layout": "L1 Hero Cover",
+          "href": "/templates/magazine/template.html?slide=1"
+        },
+        "swiss": {
+          "layout": "SWISS-COVER",
+          "href": "/templates/swiss/template-swiss.html?slide=1"
+        },
+        "tableai": {
+          "layout": "S01 Index Cover",
+          "href": "/templates/tableai/template-tableai.html?slide=2"
+        },
+        "atelier": {
+          "layout": "Hero Cover",
+          "href": "/templates/atelier/template-atelier.html"
+        }
+      },
+      "loop": {
+        "file": "/prompts/loop/cover.md",
+        "prompt": "封面只定身份。超大标题 ≤3 行，一行决策，kicker + meta chips。留白要像杂志封面，不要仪表盘。套所选皮肤令牌与类名，data-page-type=cover。",
+        "checks": [
+          "title ≤3 lines",
+          "one-line decision present",
+          "kicker + chips",
+          "no chart/KPI dump",
+          "data-page-type=cover",
+          "skin tokens only"
+        ]
+      }
+    },
+    {
+      "id": "chapter",
+      "family": "open",
+      "label": "章扉",
+      "job": "切幕：上一章结束，下一章开始",
+      "useWhen": "章节切换、Act divider",
+      "avoidWhen": "正文论证页",
+      "slots": [
+        "act number",
+        "chapter title",
+        "one-line promise"
+      ],
+      "skins": {
+        "TIANSIGHT": {
+          "layout": "divider",
+          "href": "/templates/TIANSIGHT/jobs/divider.html"
+        },
+        "magazine": {
+          "layout": "L2 Act Divider",
+          "href": "/templates/magazine/template.html?slide=2"
+        },
+        "swiss": {
+          "layout": "S03 Split Statement",
+          "href": "/templates/swiss/template-swiss.html?slide=3"
+        },
+        "tableai": {
+          "layout": "S03 Split Statement",
+          "href": "/templates/tableai/template-tableai.html?slide=4"
+        }
+      },
+      "loop": {
+        "file": "/prompts/loop/chapter.md",
+        "prompt": "章扉是切幕不是目录。巨大章号 + 章名 + 一句承诺。禁止正文段落、禁止图表。呼吸感优先。data-page-type=chapter。",
+        "checks": [
+          "act number dominant",
+          "one promise line",
+          "no body paragraphs",
+          "no charts",
+          "data-page-type=chapter",
+          "skin tokens only"
+        ]
+      }
+    },
+    {
+      "id": "statement",
+      "family": "claim",
+      "label": "主张页",
+      "job": "一个判断，占满画面",
+      "useWhen": "方法论一句、原则、why now",
+      "avoidWhen": "需要图表才能成立的结论",
+      "slots": [
+        "statement",
+        "supporting line"
+      ],
+      "skins": {
+        "TIANSIGHT": {
+          "layout": "statement",
+          "href": "/templates/TIANSIGHT/jobs/statement.html"
+        },
+        "magazine": {
+          "layout": "L8 Big Quote / L7 Question",
+          "href": "/templates/magazine/template.html?slide=8"
+        },
+        "swiss": {
+          "layout": "S12 Manifesto",
+          "href": "/templates/swiss/template-swiss.html?slide=11"
+        },
+        "tableai": {
+          "layout": "S12",
+          "href": "/templates/tableai/template-tableai.html?slide=12"
+        }
+      },
+      "loop": {
+        "file": "/prompts/loop/statement.md",
+        "prompt": "一个判断占满画面。页眉一行 logo+chip。主句在纸色井里，辅句用 lede 或依据表。禁止孤儿页、禁止图。data-page-type=statement。",
+        "checks": [
+          "one claim only",
+          "supporting lines complete",
+          "no orphan leftover page",
+          "no charts",
+          "data-page-type=statement",
+          "skin tokens only"
+        ]
+      }
+    },
+    {
+      "id": "quote",
+      "family": "claim",
+      "label": "金句",
+      "job": "别人的话或自己的一句，慢下来",
+      "useWhen": "创始人、客户、原则原文",
+      "avoidWhen": "堆三条以上引用",
+      "slots": [
+        "quote",
+        "source"
+      ],
+      "skins": {
+        "magazine": {
+          "layout": "L8 Big Quote",
+          "href": "/templates/magazine/template.html?slide=8"
+        },
+        "swiss": {
+          "layout": "S12 Manifesto",
+          "href": "/templates/swiss/template-swiss.html?slide=11"
+        },
+        "tableai": {
+          "layout": "S12",
+          "href": "/templates/tableai/template-tableai.html?slide=12"
+        }
+      },
+      "loop": {
+        "file": "/prompts/loop/quote.md",
+        "prompt": "一句引用，慢下来。引号或衬线大字，来源右下。禁止三条金句墙。data-page-type=quote。",
+        "checks": [
+          "single quote",
+          "source present",
+          "no quote wall",
+          "generous whitespace",
+          "data-page-type=quote",
+          "skin tokens only"
+        ]
+      }
+    },
+    {
+      "id": "question",
+      "family": "claim",
+      "label": "提问 / 悬念",
+      "job": "把读者停在一个问题上",
+      "useWhen": "转折、收束前、互动",
+      "avoidWhen": "问题里已经藏了答案还装不知道",
+      "slots": [
+        "question",
+        "optional stake"
+      ],
+      "skins": {
+        "magazine": {
+          "layout": "L7 Hero Question",
+          "href": "/templates/magazine/template.html?slide=7"
+        },
+        "swiss": {
+          "layout": "S10 Split Closing",
+          "href": "/templates/swiss/template-swiss.html?slide=9"
+        },
+        "tableai": {
+          "layout": "S10",
+          "href": "/templates/tableai/template-tableai.html?slide=10"
+        }
+      },
+      "loop": {
+        "file": "/prompts/loop/question.md",
+        "prompt": "只停在一个问题上。问句巨大，可选一行赌注。不要在同页给答案。data-page-type=question。",
+        "checks": [
+          "one question",
+          "no answer on page",
+          "optional stake ≤1 line",
+          "hero scale type",
+          "data-page-type=question",
+          "skin tokens only"
+        ]
+      }
+    },
+    {
+      "id": "kpi",
+      "family": "data",
+      "label": "指标卡",
+      "job": "3–6 个大数，先定基本盘",
+      "useWhen": "开场数据、经营基本盘、KPI tower",
+      "avoidWhen": "超过 8 个数还想一眼读完",
+      "slots": [
+        "value",
+        "label",
+        "delta"
+      ],
+      "skins": {
+        "TIANSIGHT": {
+          "layout": "kpi",
+          "href": "/templates/TIANSIGHT/jobs/kpi.html"
+        },
+        "magazine": {
+          "layout": "L3 Big Numbers",
+          "href": "/templates/magazine/template.html?slide=3"
+        },
+        "swiss": {
+          "layout": "S06 KPI Tower",
+          "href": "/templates/swiss/template-swiss.html?slide=6"
+        },
+        "tableai": {
+          "layout": "S06",
+          "href": "/templates/tableai/template-tableai.html?slide=7"
+        }
+      },
+      "loop": {
+        "file": "/prompts/loop/kpi.md",
+        "prompt": "3–6 张卡，一卡一指标。大数等宽字体，label 小，delta 有方向。禁止 8+ 卡、禁止仪表盘环形图。TIANSIGHT 要 SOURCE/TAKEAWAY。data-page-type=kpi。",
+        "checks": [
+          "3–6 cards",
+          "tabular numerals",
+          "delta direction",
+          "no gauges",
+          "data-page-type=kpi",
+          "skin tokens only"
+        ]
+      }
+    },
+    {
+      "id": "chart",
+      "family": "data",
+      "label": "单图全幅",
+      "job": "一张主图回答一个决策",
+      "useWhen": "帕累托、瀑布、四象限、直方图、气泡",
+      "avoidWhen": "图上看不出明天做什么",
+      "slots": [
+        "source",
+        "chart 72%",
+        "how-to-read",
+        "takeaway"
+      ],
+      "skins": {
+        "TIANSIGHT": {
+          "layout": "chart",
+          "href": "/templates/TIANSIGHT/jobs/chart.html"
+        },
+        "swiss": {
+          "layout": "S07 Horizontal Bar",
+          "href": "/templates/swiss/template-swiss.html?slide=7"
+        },
+        "tableai": {
+          "layout": "S07",
+          "href": "/templates/tableai/template-tableai.html?slide=8"
+        }
+      },
+      "loop": {
+        "file": "/prompts/loop/chart.md",
+        "prompt": "一张主图占约 72% 高度，回答一个决策。必须有 SOURCE、HOW TO READ、TAKEAWAY（可执行 + 数字）。禁止双图、禁止装饰 3D。气泡/象限：面积∝√量、中位 ≥、未标名见清单。data-page-type=chart。",
+        "checks": [
+          "one chart",
+          "source bar",
+          "how-to-read",
+          "takeaway with number",
+          "bubble/quadrant uses √ area, median ≥, selective labels",
+          "unlabeled points promised on the following 清单",
+          "data-page-type=chart",
+          "skin tokens only"
+        ]
+      }
+    },
+    {
+      "id": "chart-table",
+      "family": "data",
+      "label": "图 + 名录",
+      "job": "图给形状，表给可执行名单",
+      "useWhen": "四象限 + SKU 表、空档 + 补位清单",
+      "avoidWhen": "表不是全量、没有合计行",
+      "slots": [
+        "chart 58%",
+        "table 42%",
+        "sum-check",
+        "takeaway"
+      ],
+      "skins": {
+        "TIANSIGHT": {
+          "layout": "chart-table",
+          "href": "/templates/TIANSIGHT/jobs/chart-table.html"
+        }
+      },
+      "loop": {
+        "file": "/prompts/loop/chart-table.md",
+        "prompt": "左图 58% 给形状，右表 42% 给可执行预览。表必须有合计行。共享一条 TAKEAWAY。全量细项在后页 roster。data-page-type=chart-table。",
+        "checks": [
+          "chart+table split",
+          "sum-check row",
+          "shared takeaway",
+          "table is complete not TOP10",
+          "side table is preview; full 清单 follows",
+          "data-page-type=chart-table",
+          "skin tokens only"
+        ]
+      }
+    },
+    {
+      "id": "matrix",
+      "family": "data",
+      "label": "矩阵",
+      "job": "格子里看出结构：解锁、九宫、ABC 迁移",
+      "useWhen": "二维交叉、零值≠缺口、命中组合",
+      "avoidWhen": "行列没有判读纪律",
+      "slots": [
+        "rows",
+        "cols",
+        "cell state",
+        "footnote"
+      ],
+      "skins": {
+        "TIANSIGHT": {
+          "layout": "matrix",
+          "href": "/templates/TIANSIGHT/jobs/matrix.html"
+        },
+        "swiss": {
+          "layout": "S04 Six Cells",
+          "href": "/templates/swiss/template-swiss.html?slide=4"
+        },
+        "tableai": {
+          "layout": "S04",
+          "href": "/templates/tableai/template-tableai.html?slide=5"
+        }
+      },
+      "loop": {
+        "file": "/prompts/loop/matrix.md",
+        "prompt": "格子即结构。行列有判读纪律，零值≠缺口要脚注。TIANSIGHT 用 ready/degraded/blocked 三态，禁止彩虹热力。data-page-type=matrix。",
+        "checks": [
+          "row+col labels",
+          "cell states readable",
+          "zero≠gap footnote if needed",
+          "no rainbow heatmap",
+          "data-page-type=matrix",
+          "skin tokens only"
+        ]
+      }
+    },
+    {
+      "id": "roster",
+      "family": "data",
+      "label": "全量名录",
+      "job": "逐一列名，合计必须闭合",
+      "useWhen": "下架清单、错配名录、门店表、图后细项",
+      "avoidWhen": "只给 TOP10 却声称全量；价格带清单只重复分箱合计",
+      "slots": [
+        "sortable table",
+        "sum row",
+        "filter chips"
+      ],
+      "skins": {
+        "TIANSIGHT": {
+          "layout": "roster",
+          "href": "/templates/TIANSIGHT/jobs/roster.html"
+        },
+        "swiss": {
+          "layout": "S21 Tech Spec Sheet",
+          "href": "/templates/swiss/template-swiss.html?slide=20"
+        },
+        "tableai": {
+          "layout": "S21",
+          "href": "/templates/tableai/template-tableai.html?slide=21"
+        }
+      },
+      "loop": {
+        "file": "/prompts/loop/roster.md",
+        "prompt": "全量列名，合计行必须闭合。禁止 TOP10 冒充全量。品牌数分箱图的清单落到品牌行。门店数分箱清单带占比与累计，不只印两列。数字右齐等宽。data-page-type=roster。",
+        "checks": [
+          "sum row closes",
+          "not TOP10-as-all",
+          "figure 清单 is named grain when the chart was 品牌数 bins",
+          "store-count bin 清单 has 占比 / 累计, not just 门店数",
+          "tabular right-aligned nums",
+          "filter chips optional",
+          "data-page-type=roster",
+          "skin tokens only",
+          "no leftover 1-row orphan page",
+          "one-line header: logo + chip"
+        ]
+      }
+    },
+    {
+      "id": "compare",
+      "family": "structure",
+      "label": "对照",
+      "job": "因此：左已验证，右未复制 / 旧 vs 新",
+      "useWhen": "门店对照、方案对照、前后",
+      "avoidWhen": "两列没有共同量纲",
+      "slots": [
+        "left",
+        "therefore",
+        "right"
+      ],
+      "skins": {
+        "TIANSIGHT": {
+          "layout": "compare",
+          "href": "/templates/TIANSIGHT/jobs/compare.html"
+        },
+        "magazine": {
+          "layout": "L9 A vs B",
+          "href": "/templates/magazine/template.html?slide=9"
+        },
+        "swiss": {
+          "layout": "S08 Duo Compare",
+          "href": "/templates/swiss/template-swiss.html?slide=8"
+        },
+        "tableai": {
+          "layout": "S08",
+          "href": "/templates/tableai/template-tableai.html?slide=9"
+        }
+      },
+      "loop": {
+        "file": "/prompts/loop/compare.md",
+        "prompt": "左右同量纲，中间「因此」。禁止两列各说各话。TIANSIGHT 用 viz-duo 箭头。data-page-type=compare。",
+        "checks": [
+          "shared unit",
+          "therefore connector",
+          "two columns only",
+          "one decision",
+          "data-page-type=compare",
+          "skin tokens only"
+        ]
+      }
+    },
+    {
+      "id": "timeline",
+      "family": "structure",
+      "label": "过程 / 时间",
+      "job": "步骤或时间轴，一步不能跳",
+      "useWhen": "流水线、分期建设、动能周序",
+      "avoidWhen": "步骤其实是并列分类",
+      "slots": [
+        "steps or ticks",
+        "current state"
+      ],
+      "skins": {
+        "magazine": {
+          "layout": "L6 Pipeline",
+          "href": "/templates/magazine/template.html?slide=6"
+        },
+        "swiss": {
+          "layout": "S02 Vertical",
+          "href": "/templates/swiss/template-swiss.html?slide=2"
+        },
+        "tableai": {
+          "layout": "S02",
+          "href": "/templates/tableai/template-tableai.html?slide=3"
+        }
+      },
+      "loop": {
+        "file": "/prompts/loop/timeline.md",
+        "prompt": "步骤有先后，标出当前态。禁止把并列分类画成时间轴。4–7 步为宜。data-page-type=timeline。",
+        "checks": [
+          "ordered steps",
+          "current state marked",
+          "not a disguised taxonomy",
+          "4–7 steps",
+          "data-page-type=timeline",
+          "skin tokens only"
+        ]
+      }
+    },
+    {
+      "id": "diagram",
+      "family": "structure",
+      "label": "关系图",
+      "job": "系统、三力、分层，几何表达关系",
+      "useWhen": "架构、作用力、循环",
+      "avoidWhen": "用装饰图冒充结构",
+      "slots": [
+        "geometry",
+        "html labels",
+        "caption"
+      ],
+      "skins": {
+        "swiss": {
+          "layout": "S05 / S13 / S17",
+          "href": "/templates/swiss/template-swiss.html?slide=5"
+        },
+        "tableai": {
+          "layout": "S05 / S13 / S17",
+          "href": "/templates/tableai/template-tableai.html?slide=6"
+        }
+      },
+      "loop": {
+        "file": "/prompts/loop/diagram.md",
+        "prompt": "几何表达关系，标签用 HTML 不是贴在图里的字。禁止装饰插画冒充架构。data-page-type=diagram。",
+        "checks": [
+          "geometry is the argument",
+          "HTML labels",
+          "caption present",
+          "no stock illustration",
+          "data-page-type=diagram",
+          "skin tokens only"
+        ]
+      }
+    },
+    {
+      "id": "text-image",
+      "family": "visual",
+      "label": "左文右图",
+      "job": "叙述配一张主图，图对齐正文不齐标题",
+      "useWhen": "案例、现场、产品说明",
+      "avoidWhen": "图是无信息的装饰底图",
+      "slots": [
+        "kicker",
+        "title",
+        "body",
+        "figure"
+      ],
+      "skins": {
+        "magazine": {
+          "layout": "L4 / L10",
+          "href": "/templates/magazine/template.html?slide=4"
+        },
+        "atelier": {
+          "layout": "Editorial split",
+          "href": "/templates/atelier/template-atelier.html"
+        }
+      },
+      "loop": {
+        "file": "/prompts/loop/text-image.md",
+        "prompt": "左文右图。图对齐正文首行，不要和超大标题齐顶。标准比例 16:10 或 4:3。图必须有信息。data-page-type=text-image。",
+        "checks": [
+          "split layout",
+          "figure aligns to body",
+          "standard aspect ratio",
+          "image carries information",
+          "data-page-type=text-image",
+          "skin tokens only"
+        ]
+      }
+    },
+    {
+      "id": "image-grid",
+      "family": "visual",
+      "label": "图片网格",
+      "job": "多图同高同比例对比",
+      "useWhen": "证据墙、场景组、截图组",
+      "avoidWhen": "比例混用、高度不齐",
+      "slots": [
+        "uniform frames",
+        "captions"
+      ],
+      "skins": {
+        "magazine": {
+          "layout": "L5 Image Grid",
+          "href": "/templates/magazine/template.html?slide=5"
+        },
+        "swiss": {
+          "layout": "S16 field notes",
+          "href": "/templates/swiss/template-swiss.html?slide=15"
+        },
+        "tableai": {
+          "layout": "S16",
+          "href": "/templates/tableai/template-tableai.html?slide=16"
+        }
+      },
+      "loop": {
+        "file": "/prompts/loop/image-grid.md",
+        "prompt": "多图同高同比例，每格一句 caption。禁止混用高度类。2×2 或 3×2。data-page-type=image-grid。",
+        "checks": [
+          "uniform height",
+          "uniform ratio",
+          "captions",
+          "2×2 or 3×2",
+          "data-page-type=image-grid",
+          "skin tokens only"
+        ]
+      }
+    },
+    {
+      "id": "image-hero",
+      "family": "visual",
+      "label": "主视觉",
+      "job": "一张图定场，文字让路",
+      "useWhen": "封面辅页、现场、21:9 情景",
+      "avoidWhen": "图上叠满字",
+      "slots": [
+        "hero image",
+        "title block",
+        "optional kpi row"
+      ],
+      "skins": {
+        "swiss": {
+          "layout": "S22 Image Hero",
+          "href": "/templates/swiss/template-swiss.html?slide=21"
+        },
+        "tableai": {
+          "layout": "S22",
+          "href": "/templates/tableai/template-tableai.html?slide=22"
+        },
+        "atelier": {
+          "layout": "Hero visual",
+          "href": "/templates/atelier/template-atelier.html"
+        }
+      },
+      "loop": {
+        "file": "/prompts/loop/image-hero.md",
+        "prompt": "一张图定场，文字让路。标题块最多两行，禁止图上叠满字。data-page-type=image-hero。",
+        "checks": [
+          "one hero image",
+          "title ≤2 lines",
+          "no text wallpaper",
+          "optional kpi row only",
+          "data-page-type=image-hero",
+          "skin tokens only"
+        ]
+      }
+    },
+    {
+      "id": "verdict",
+      "family": "close",
+      "label": "结论 / 证伪",
+      "job": "争议、事实、处理、证伪；或行动收束",
+      "useWhen": "A58、closing manifesto、下一步",
+      "avoidWhen": "没有证伪条件的鸡汤结尾",
+      "slots": [
+        "dispute",
+        "fact",
+        "handling",
+        "falsify"
+      ],
+      "skins": {
+        "TIANSIGHT": {
+          "layout": "verdict",
+          "href": "/templates/TIANSIGHT/jobs/verdict.html"
+        },
+        "magazine": {
+          "layout": "L8 closing",
+          "href": "/templates/magazine/template.html?slide=11"
+        },
+        "swiss": {
+          "layout": "SWISS-CLOSING",
+          "href": "/templates/swiss/template-swiss.html?slide=22"
+        },
+        "tableai": {
+          "layout": "TABLEAI-CLOSING",
+          "href": "/templates/tableai/template-tableai.html?slide=23"
+        }
+      },
+      "loop": {
+        "file": "/prompts/loop/verdict.md",
+        "prompt": "争议 / 事实 / 处理 / 证伪 四格，或一句可执行收束。禁止鸡汤。TIANSIGHT 可盖印。data-page-type=verdict。",
+        "checks": [
+          "falsify or next action",
+          "no empty pep talk",
+          "four cells or one close line",
+          "data-page-type=verdict",
+          "skin tokens only"
+        ]
+      }
+    }
+  ]
+}

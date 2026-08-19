@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TIANSIGHT · 八种标准版式</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+SC:wght@300;400;500;600;700&family=Noto+Serif:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --surface:#F4F0E7; --paper:#FFFDF8; --ink-primary:#EFE6D2;
+  --charcoal:#17130D; --gold:#76551F; --gold-hi:#D4A862; --seal:#8C3228;
+  --ink-muted:#706758; --hair:rgba(23,19,13,.18); --cardb:rgba(118,85,31,.34);
+  --ok:#4A6B3A;
+  --W:1440px; --H:810px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;background:#1a1610;color:var(--charcoal);
+  font-family:"Noto Serif SC","Songti SC",serif;-webkit-font-smoothing:antialiased}
+.cap{font-family:"Noto Serif",serif;text-transform:uppercase;letter-spacing:.34em;font-size:10px;color:var(--gold)}
+n,.num{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums}
+#stage{position:fixed;inset:0;overflow:hidden}
+#deck{width:var(--W);height:var(--H);transform-origin:0 0;position:absolute;top:0;left:0;background:var(--surface);overflow:hidden}
+.slide{position:absolute;inset:0;padding:28px 36px 32px;display:none;flex-direction:column;background:var(--surface)}
+.slide.on{display:flex}
+.chrome{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{font-size:10.5px;letter-spacing:.06em;color:var(--charcoal);background:var(--ink-primary);
+  border:1px solid var(--cardb);border-radius:2px;padding:2px 9px;font-family:"IBM Plex Mono",monospace}
+.srcbar,.readbar,.takebar{display:flex;gap:12px;align-items:flex-start;font-size:12px;line-height:1.55}
+.srcbar{border-left:2px solid var(--gold);background:rgba(239,230,210,.5);padding:6px 12px;margin:6px 0;color:var(--ink-muted)}
+.readbar{border-left:2px solid var(--ink-muted);background:rgba(112,103,88,.07);padding:6px 12px;margin:6px 0;color:var(--ink-muted)}
+.takebar{border-top:1px solid var(--gold);border-bottom:1px solid var(--hair);padding:8px 0;margin-top:auto}
+.takebar b{color:var(--gold)}
+.foot{margin-top:8px;font-size:11px;color:var(--ink-muted);display:flex;justify-content:space-between}
+h2{font-size:22px;font-weight:600;padding-left:11px;border-left:3px solid var(--gold);margin:4px 0 10px}
+.viz{flex:1;min-height:0;background:var(--paper);border:1px solid var(--cardb);border-radius:2px;padding:16px 18px;position:relative}
+.two{display:grid;grid-template-columns:58% 42%;gap:14px;flex:1;min-height:0}
+.duo{display:grid;grid-template-columns:1fr 40px 1fr;gap:8px;flex:1;min-height:0;align-items:stretch}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;flex:1}
+.kpi{background:var(--paper);border:1px solid var(--cardb);padding:16px 18px}
+.kpi .v{font-family:"IBM Plex Mono",monospace;font-size:32px;font-weight:500}
+.kpi .l{font-size:12px;color:var(--ink-muted);margin-top:6px}
+table.tbl{width:100%;border-collapse:collapse;font-size:12.5px;background:var(--paper)}
+.tbl th{background:var(--ink-primary);text-align:left;padding:6px 8px;border-bottom:1px solid var(--hair)}
+.tbl td{padding:5px 8px;border-bottom:1px solid rgba(23,19,13,.07)}
+.tbl td.num,.tbl th.num{text-align:right;font-family:"IBM Plex Mono",monospace}
+.tbl tr.sum td{border-top:1px solid var(--gold);font-weight:600;background:rgba(239,230,210,.4)}
+.matrix{display:grid;grid-template-columns:repeat(8,1fr);gap:4px;flex:1}
+.matrix .u{aspect-ratio:1.4;display:grid;place-items:center;font-family:"IBM Plex Mono",monospace;font-size:10px;border-radius:2px}
+.u.ready{background:var(--gold);color:var(--paper)}
+.u.degraded{background:repeating-linear-gradient(45deg,var(--gold-hi),var(--gold-hi) 3px,var(--ink-primary) 3px,var(--ink-primary) 6px)}
+.u.blocked{background:var(--paper);border:1.5px solid var(--seal);color:var(--seal)}
+.verdict{display:grid;grid-template-columns:1fr 1fr;gap:12px;flex:1}
+.vcard{background:var(--paper);border:1px solid var(--cardb);padding:16px 18px}
+.vcard h3{font-size:13px;color:var(--seal);letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px;font-family:"Noto Serif",serif}
+.arrow{display:grid;place-items:center;color:var(--gold);font-size:22px}
+.bar{height:18px;background:var(--ink-primary);position:relative;margin:8px 0}
+.bar>i{display:block;height:100%;background:var(--gold)}
+.nav{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:9}
+.nav button{width:8px;height:8px;border-radius:50%;border:0;background:rgba(239,230,210,.35);cursor:pointer}
+.nav button.on{background:var(--gold-hi)}
+.hint{position:fixed;top:14px;right:18px;color:rgba(239,230,210,.55);font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.12em;display:flex;gap:14px;align-items:center;z-index:8}
+.hint a{color:var(--gold-hi);text-decoration:none}
+</style>
+</head>
+<body>
+<div id="stage"><div id="deck">
+
+<section class="slide layout-cover on" data-layout="cover" data-page-type="cover">
+  <p class="cap">TIANSIGHT · PAGE LAYOUT SPEC</p>
+  <div style="flex:1;display:flex;flex-direction:column;justify-content:center;padding-left:8px">
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:64px;color:var(--gold);letter-spacing:.08em">08</div>
+    <h1 style="font-size:48px;font-weight:600;margin:8px 0 18px;max-width:16ch">八种标准版式，一页一个决策</h1>
+    <p style="max-width:46ch;font-size:18px;line-height:1.6;color:var(--ink-muted)">从决策倒推页面。主图 + 全量名录 + 证伪条件。答不上「明天做什么」的页，删掉。</p>
+    <div class="chips" style="margin-top:28px">
+      <span class="chip">cover</span><span class="chip">viz-full</span><span class="chip">viz-table</span>
+      <span class="chip">viz-duo</span><span class="chip">matrix-full</span><span class="chip">kpi-grid</span>
+      <span class="chip">roster</span><span class="chip">verdict</span>
+    </div>
+  </div>
+  <div class="foot"><span>画布 1440×810 · Noto Serif SC / IBM Plex Mono</span><span>01 / 09</span></div>
+</section>
+
+<section class="slide layout-viz-full" data-layout="viz-full" data-page-type="chart">
+  <div class="chrome">
+    <div class="chips"><span class="chip">A10</span><span class="chip">口径 A</span><span class="chip">72 天</span></div>
+    <span class="cap">viz-full</span>
+  </div>
+  <h2>帕累托双轴：第 40 个 SKU 处累计达 80%</h2>
+  <div class="srcbar"><b>SOURCE</b><span>菜品档案 × 账单明细 · 118 SKU · 额 = 标准售价 × 72 天销量</span></div>
+  <div class="viz">
+    <p class="cap">PARETO</p>
+    <div style="margin-top:18px">
+      <div class="bar" style="width:92%"><i style="width:80%"></i></div>
+      <div style="display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink-muted)">
+        <span>SKU 1</span><span>40 / 118</span><span>118</span>
+      </div>
+      <p style="margin-top:28px;font-size:36px;font-family:'IBM Plex Mono',monospace;color:var(--gold)">80% <span style="font-size:16px;color:var(--ink-muted)">of sales from 40 SKUs</span></p>
+    </div>
+  </div>
+  <div class="readbar"><b>HOW TO READ</b><span>柱为单品额降序，折线为累计。交点必须算出来，不可目测。</span></div>
+  <div class="takebar"><b>TAKEAWAY</b><span>118 款里有 78 款只贡献 20% —— 先动长尾，不动前 40。</span></div>
+  <div class="foot"><span>分母：72 天标准价销售额</span><span>02 / 09</span></div>
+</section>
+
+<section class="slide layout-viz-table" data-layout="viz-table" data-page-type="chart-table">
+  <div class="chrome">
+    <div class="chips"><span class="chip">A17</span><span class="chip">口径 A</span></div>
+    <span class="cap">viz-table</span>
+  </div>
+  <h2>四象限：流量品 24.6% SKU 扛 59.6% 销售额</h2>
+  <div class="srcbar"><b>SOURCE</b><span>千单点击分母 = 开台数 · 72 天　毛利率 = (标准价 − 成本) / 标准价</span></div>
+  <div class="two">
+    <div class="viz">
+      <p class="cap">QUADRANT</p>
+      <p style="margin-top:40px;text-align:center;color:var(--gold);font-size:15px">高毛利</p>
+      <p style="text-align:center;margin:24px 0;font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--ink-muted)">明星　　│　　黑马<br>────────┼────────<br>流量　　│　　淘汰</p>
+      <p style="text-align:center;color:var(--seal);font-size:15px">低毛利</p>
+    </div>
+    <div class="viz" style="overflow:auto">
+      <table class="tbl">
+        <thead><tr><th>象限</th><th class="num">SKU</th><th class="num">额占比</th></tr></thead>
+        <tbody>
+          <tr><td>流量</td><td class="num">29</td><td class="num">59.6%</td></tr>
+          <tr><td>明星</td><td class="num">22</td><td class="num">24.1%</td></tr>
+          <tr><td>黑马</td><td class="num">18</td><td class="num">11.8%</td></tr>
+          <tr><td>淘汰</td><td class="num">49</td><td class="num">4.5%</td></tr>
+          <tr class="sum"><td>合计</td><td class="num">118</td><td class="num">100%</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="takebar"><b>TAKEAWAY</b><span>毛利优化的主战场是流量品，不是淘汰候选。</span></div>
+  <div class="foot"><span>中位切分归高侧 ≥</span><span>03 / 09</span></div>
+</section>
+
+<section class="slide layout-viz-duo" data-layout="viz-duo" data-page-type="compare">
+  <div class="chrome">
+    <div class="chips"><span class="chip">A31</span><span class="chip">口径 B</span></div>
+    <span class="cap">viz-duo</span>
+  </div>
+  <h2>火烧馍连带：国贸 99.7% vs 世纪金源 10.6%</h2>
+  <div class="srcbar"><b>SOURCE</b><span>堂食账单 · 共现 ≥100 · 已剔除赠品账单 141 张</span></div>
+  <div class="duo">
+    <div class="viz"><p class="cap">国贸</p><p class="num" style="font-size:64px;color:var(--gold);margin-top:24px">99.7%</p><p>带馍率 · 已跑通</p></div>
+    <div class="arrow">因此</div>
+    <div class="viz"><p class="cap">世纪金源</p><p class="num" style="font-size:64px;color:var(--seal);margin-top:24px">10.6%</p><p>复制估算月增 ¥190,000</p></div>
+  </div>
+  <div class="readbar"><b>HOW TO READ</b><span>左是已验证单店，右是未复制门店。差距本身就是行动。</span></div>
+  <div class="takebar"><b>TAKEAWAY</b><span>先把五店带馍率拉到国贸的一半，再谈新品。</span></div>
+  <div class="foot"><span>04 / 09</span></div>
+</section>
+
+<section class="slide layout-matrix-full" data-layout="matrix-full" data-page-type="matrix">
+  <div class="chrome">
+    <div class="chips"><span class="chip">S0-04</span><span class="chip">门禁</span></div>
+    <span class="cap">matrix-full</span>
+  </div>
+  <h2>分析点解锁矩阵：可出 / 降级 / 阻断</h2>
+  <div class="srcbar"><b>SOURCE</b><span>本次上传 3 表 · 字段自动绑定后跑 11 条门禁</span></div>
+  <div class="matrix" id="mx"></div>
+  <div class="readbar"><b>HOW TO READ</b><span>实心金 = 可出 · 网点 = 降级 · 空心朱红 = 阻断。零值格不是缺口。</span></div>
+  <div class="takebar"><b>TAKEAWAY</b><span>M9 复购全章阻断：识别率 3.99% &lt; 30%。先补会员识别，再出 A40。</span></div>
+  <div class="foot"><span>05 / 09</span></div>
+</section>
+
+<section class="slide layout-kpi-grid" data-layout="kpi-grid" data-page-type="kpi">
+  <div class="chrome">
+    <div class="chips"><span class="chip">A04</span><span class="chip">口径 B</span></div>
+    <span class="cap">kpi-grid</span>
+  </div>
+  <h2>经营基本盘 · 六店</h2>
+  <div class="srcbar"><b>SOURCE</b><span>账单表头 · 实收 · 72 天</span></div>
+  <div class="kpis">
+    <div class="kpi"><div class="v">¥7.84M</div><div class="l">实收合计</div></div>
+    <div class="kpi"><div class="v">24,752</div><div class="l">账单数</div></div>
+    <div class="kpi"><div class="v">¥408</div><div class="l">桌均</div></div>
+    <div class="kpi"><div class="v">2.7</div><div class="l">桌均人数</div></div>
+    <div class="kpi"><div class="v">58′</div><div class="l">用餐时长中位</div></div>
+    <div class="kpi"><div class="v">6</div><div class="l">门店</div></div>
+  </div>
+  <div class="takebar"><b>TAKEAWAY</b><span>先分清流量问题还是客单问题，再定门店策略。</span></div>
+  <div class="foot"><span>06 / 09</span></div>
+</section>
+
+<section class="slide layout-roster" data-layout="roster" data-page-type="roster">
+  <div class="chrome">
+    <div class="chips"><span class="chip">A18</span><span class="chip">口径 A</span></div>
+    <span class="cap">roster</span>
+  </div>
+  <h2>待下架命中名录（必须逐一列名）</h2>
+  <div class="srcbar"><b>SOURCE</b><span>命中 C1∩C2∩C3 · 涉及销售额 ¥350,468 / 2.3%</span></div>
+  <div class="viz" style="overflow:auto">
+    <table class="tbl">
+      <thead><tr><th>品项</th><th>角色</th><th class="num">额</th><th class="num">毛利率</th><th>命中</th></tr></thead>
+      <tbody>
+        <tr><td>香辣烤武昌鱼</td><td>主</td><td class="num">0</td><td class="num">55%</td><td>C1 C3 C4</td></tr>
+        <tr><td>荆沙甲鱼</td><td>主</td><td class="num">70,863</td><td class="num">51%</td><td>C1 C2 C3</td></tr>
+        <tr><td>蟹肉蒸茼蒿</td><td>佐</td><td class="num">21,528</td><td class="num">55%</td><td>C1 C3</td></tr>
+        <tr><td>清蒸鲜活丹江口翘嘴鲌</td><td>主</td><td class="num">92,344</td><td class="num">56%</td><td>C2 C3</td></tr>
+        <tr class="sum"><td>合计校验</td><td>4 行</td><td class="num">184,735</td><td class="num">—</td><td>= 列示全量 ✓</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="takebar"><b>TAKEAWAY</b><span>精简 14.4% SKU，只损失 2.3% 销售额。动能上升的先复议。</span></div>
+  <div class="foot"><span>合计必须闭合</span><span>07 / 09</span></div>
+</section>
+
+<section class="slide layout-verdict" data-layout="verdict" data-page-type="verdict">
+  <div class="chrome">
+    <div class="chips"><span class="chip">A58</span><span class="chip">证伪</span></div>
+    <span class="cap">verdict</span>
+  </div>
+  <h2>争议点与证伪登记</h2>
+  <div class="srcbar"><b>SOURCE</b><span>分析师判断，非数据直出 · 四段结构强制</span></div>
+  <div class="verdict">
+    <div class="vcard"><h3>争议</h3><p>主菜渗透从 48.2% 提到 70%，桌均能否到 ¥500？</p></div>
+    <div class="vcard"><h3>事实</h3><p>0 主菜桌均 ¥334.9；1 主菜 ¥612。组间人数 2.9 vs 2.6，不可直接相减。</p></div>
+    <div class="vcard"><h3>处理</h3><p>对外给区间：乐观 ¥199,400 / 保守 ¥110,000。禁止点值。</p></div>
+    <div class="vcard"><h3>证伪</h3><p>若国贸以外门店主菜渗透提升后桌均增量 &lt; ¥40，本结论作废。</p></div>
+  </div>
+  <div class="takebar"><b>TAKEAWAY</b><span>A58 八条清单未勾完，系统不允许导出 PDF。</span></div>
+  <div class="foot"><span>08 / 09 · 模板页；封面为 01</span></div>
+</section>
+
+<section class="slide layout-cover" data-layout="cover">
+  <p class="cap">HOW TO GENERATE</p>
+  <div style="flex:1;display:flex;flex-direction:column;justify-content:center">
+    <h1 style="font-size:36px;font-weight:600;max-width:18ch;margin-bottom:16px">复制本页对应的 section，换文案，不要发明类名</h1>
+    <p style="max-width:52ch;line-height:1.7;color:var(--ink-muted)">Agent 读 <code>skills/TIANSIGHT-html-slides/SKILL.md</code>。图元用 <code>demos/TIANSIGHT/src/TIANSIGHT.viz.js</code>。杂志/瑞士/Table AI 翻页 PPT 走 Guizang 模板。</p>
+  </div>
+  <div class="foot"><span>09 / 09</span></div>
+</section>
+
+</div></div>
+<div class="hint"><a href="/">首页</a><a href="/audit/">审计</a><span>← → · 1440×810</span></div>
+<nav class="nav" id="nav"></nav>
+<script>
+const slides=[...document.querySelectorAll('.slide')];
+let i=0;
+const nav=document.getElementById('nav');
+slides.forEach((_,n)=>{const b=document.createElement('button');b.onclick=()=>go(n);nav.appendChild(b);});
+function fit(){
+  const stage=document.getElementById('stage');
+  const deck=document.getElementById('deck');
+  if(!stage||!deck) return;
+  const stageW=stage.clientWidth;
+  const stageH=stage.clientHeight;
+  if(stageW<1||stageH<1) return;
+  const s=Math.min(stageW/1440, stageH/810);
+  const x=(stageW-1440*s)/2;
+  const y=(stageH-810*s)/2;
+  deck.style.transform='translate('+x+'px,'+y+'px) scale('+s+')';
+}
+function go(n){
+  i=Math.max(0,Math.min(slides.length-1,n));
+  slides.forEach((s,k)=>s.classList.toggle('on',k===i));
+  [...nav.children].forEach((b,k)=>b.classList.toggle('on',k===i));
+}
+addEventListener('resize',fit);
+if(window.ResizeObserver){
+  const stageEl=document.getElementById('stage');
+  if(stageEl) new ResizeObserver(fit).observe(stageEl);
+}
+addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown') go(i+1);
+  if(e.key==='ArrowLeft'||e.key==='PageUp') go(i-1);
+  if(e.key==='Home') go(0);
+  if(e.key==='End') go(slides.length-1);
+});
+const mx=document.getElementById('mx');
+if(mx){
+  const states=['ready','ready','ready','degraded','ready','blocked','ready','degraded'];
+  for(let n=0;n<40;n++){
+    const d=document.createElement('div');
+    d.className='u '+states[n%states.length];
+    d.textContent='A'+String(n+1).padStart(2,'0');
+    mx.appendChild(d);
+  }
+}
+fit();
+const q=new URLSearchParams(location.search).get("slide");
+go(q && Number.isFinite(Number(q)) ? Number(q)-1 : 0);
+</script>
+</body>
+</html>

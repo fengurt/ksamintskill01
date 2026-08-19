@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 500">
+  <rect width="1400" height="500" fill="#FFFFFF"/>
+  <line x1="100" y1="250" x2="1300" y2="250" stroke="#0A1626" stroke-width="3"/>
+  <g font-family="var(--sans-tab)">
+    <g transform="translate(180,250)">
+      <circle cx="0" cy="0" r="20" fill="#A88B52"/>
+      <text x="0" y="6" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">1</text>
+      <text x="0" y="-50" text-anchor="middle" font-size="14" font-weight="700" fill="#0A1626">PHASE 01</text>
+      <text x="0" y="-30" text-anchor="middle" font-size="12" fill="#44474C">可研深化 + 合规锁定</text>
+      <text x="0" y="50" text-anchor="middle" font-size="11" fill="#75777D">0 - 3 月</text>
+      <text x="0" y="65" text-anchor="middle" font-size="10" fill="#75777D">业主需求调研</text>
+      <text x="0" y="80" text-anchor="middle" font-size="10" fill="#75777D">用地合规核验</text>
+      <text x="0" y="95" text-anchor="middle" font-size="10" fill="#75777D">医疗合作预沟通</text>
+    </g>
+    <g transform="translate(490,250)">
+      <circle cx="0" cy="0" r="20" fill="#A88B52"/>
+      <text x="0" y="6" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">2</text>
+      <text x="0" y="-50" text-anchor="middle" font-size="14" font-weight="700" fill="#0A1626">PHASE 02</text>
+      <text x="0" y="-30" text-anchor="middle" font-size="12" fill="#44474C">概念规划 + 政府申报</text>
+      <text x="0" y="50" text-anchor="middle" font-size="11" fill="#75777D">3 - 6 月</text>
+      <text x="0" y="65" text-anchor="middle" font-size="10" fill="#75777D">概念规划</text>
+      <text x="0" y="80" text-anchor="middle" font-size="10" fill="#75777D">投委会模型</text>
+      <text x="0" y="95" text-anchor="middle" font-size="10" fill="#75777D">设计任务书</text>
+    </g>
+    <g transform="translate(800,250)">
+      <circle cx="0" cy="0" r="20" fill="#A88B52"/>
+      <text x="0" y="6" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">3</text>
+      <text x="0" y="-50" text-anchor="middle" font-size="14" font-weight="700" fill="#0A1626">PHASE 03</text>
+      <text x="0" y="-30" text-anchor="middle" font-size="12" fill="#44474C">方案设计 + 筹建准备</text>
+      <text x="0" y="50" text-anchor="middle" font-size="11" fill="#75777D">6 - 12 月</text>
+      <text x="0" y="65" text-anchor="middle" font-size="10" fill="#75777D">建筑方案设计</text>
+      <text x="0" y="80" text-anchor="middle" font-size="10" fill="#75777D">运营方签署</text>
+      <text x="0" y="95" text-anchor="middle" font-size="10" fill="#75777D">学院课程开发</text>
+    </g>
+    <g transform="translate(1110,250)">
+      <circle cx="0" cy="0" r="20" fill="#A88B52"/>
+      <text x="0" y="6" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">4</text>
+      <text x="0" y="-50" text-anchor="middle" font-size="14" font-weight="700" fill="#0A1626">PHASE 04</text>
+      <text x="0" y="-30" text-anchor="middle" font-size="12" fill="#44474C">建设 + 开业筹备</text>
+      <text x="0" y="50" text-anchor="middle" font-size="11" fill="#75777D">12 - 24 月</text>
+      <text x="0" y="65" text-anchor="middle" font-size="10" fill="#75777D">工程建设</text>
+      <text x="0" y="80" text-anchor="middle" font-size="10" fill="#75777D">SOP 建立</text>
+      <text x="0" y="95" text-anchor="middle" font-size="10" fill="#75777D">试运营 + 开业</text>
+    </g>
+  </g>
+  <text x="700" y="450" text-anchor="middle" font-family="var(--sans-tab)" font-size="11" font-weight="600" fill="#0A1626" letter-spacing="0.18em">24-MONTH IMPLEMENTATION ROADMAP · 0-3 / 3-6 / 6-12 / 12-24 月</text>
+</svg>

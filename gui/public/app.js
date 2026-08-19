@@ -4,6 +4,7 @@ import { renderProjects } from "./views/projects.js";
 import { renderRuns } from "./views/runs.js";
 import { renderJobs } from "./views/jobs.js";
 import { renderRegistry } from "./views/registry.js";
+import { installShortcuts } from "./shortcuts.js";
 
 const app = document.getElementById("app");
 const nav = document.getElementById("nav");
@@ -39,4 +40,5 @@ async function route() {
 }
 
 window.addEventListener("hashchange", route);
+installShortcuts();
 route();

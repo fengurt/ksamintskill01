@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>侍天 TIANSIGHT · Slide Templates Gallery (v2.0 · 2880×1620)</title>
+<style>
+  body{margin:0; background:#2b2419; font-family:"IBM Plex Mono",monospace; color:#EFE6D2; padding:40px;}
+  h1{font-family:"Noto Serif SC",serif; font-size:24px; margin:0 0 6px;}
+  p{color:#c9bfa4; font-size:13px; margin:0 0 32px;}
+  .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(420px,1fr)); gap:24px;}
+  .tile{background:#1c170f; border:1px solid #4a3f2c; border-radius:8px; overflow:hidden;}
+  .tile-label{display:flex; justify-content:space-between; padding:10px 14px; font-size:11px; letter-spacing:.06em;}
+  .tile-label .job{color:#EFE6D2; font-weight:700; text-transform:uppercase;}
+  .tile-label .shell{color:#C0862A;}
+  .frame-wrap{width:100%; aspect-ratio:2880/1620; overflow:hidden; position:relative; background:#F4F0E7;}
+  iframe{width:2880px; height:1620px; border:0; transform:scale(0.145833); transform-origin:top left;}
+</style>
+</head>
+<body>
+  <h1>侍天 TIANSIGHT · Slide Templates Gallery · v2.0</h1>
+  <p>12 个 L2 Job × 4 个 L1 Shell 的可复用模板预览（2880×1620，21:9 内容安全区 + 解释看板）— 每张卡片是一个独立 iframe，源文件在 templates/&lt;job&gt;.html，可直接复制为批量生产的起点。</p>
+  <div class="grid">
+    
+    <div class="tile">
+      <div class="tile-label"><span class="job">cover</span><span class="shell">cover</span></div>
+      <div class="frame-wrap"><iframe src="templates/cover.html" loading="lazy"></iframe></div>
+    </div>
+    <div class="tile">
+      <div class="tile-label"><span class="job">divider</span><span class="shell">divider</span></div>
+      <div class="frame-wrap"><iframe src="templates/divider.html" loading="lazy"></iframe></div>
+    </div>
+    <div class="tile">
+      <div class="tile-label"><span class="job">toc</span><span class="shell">body</span></div>
+      <div class="frame-wrap"><iframe src="templates/toc.html" loading="lazy"></iframe></div>
+    </div>
+    <div class="tile">
+      <div class="tile-label"><span class="job">readme</span><span class="shell">body · rail</span></div>
+      <div class="frame-wrap"><iframe src="templates/readme.html" loading="lazy"></iframe></div>
+    </div>
+    <div class="tile">
+      <div class="tile-label"><span class="job">statement</span><span class="shell">body · rail</span></div>
+      <div class="frame-wrap"><iframe src="templates/statement.html" loading="lazy"></iframe></div>
+    </div>
+    <div class="tile">
+      <div class="tile-label"><span class="job">kpi</span><span class="shell">body · rail</span></div>
+      <div class="frame-wrap"><iframe src="templates/kpi.html" loading="lazy"></iframe></div>
+    </div>
+    <div class="tile">
+      <div class="tile-label"><span class="job">roster</span><span class="shell">body · rail</span></div>
+      <div class="frame-wrap"><iframe src="templates/roster.html" loading="lazy"></iframe></div>
+    </div>
+    <div class="tile">
+      <div class="tile-label"><span class="job">chart</span><span class="shell">fig · rail</span></div>
+      <div class="frame-wrap"><iframe src="templates/chart.html" loading="lazy"></iframe></div>
+    </div>
+    <div class="tile">
+      <div class="tile-label"><span class="job">chart-table</span><span class="shell">fig · rail</span></div>
+      <div class="frame-wrap"><iframe src="templates/chart-table.html" loading="lazy"></iframe></div>
+    </div>
+    <div class="tile">
+      <div class="tile-label"><span class="job">matrix</span><span class="shell">body · rail</span></div>
+      <div class="frame-wrap"><iframe src="templates/matrix.html" loading="lazy"></iframe></div>
+    </div>
+    <div class="tile">
+      <div class="tile-label"><span class="job">compare</span><span class="shell">body · rail</span></div>
+      <div class="frame-wrap"><iframe src="templates/compare.html" loading="lazy"></iframe></div>
+    </div>
+    <div class="tile">
+      <div class="tile-label"><span class="job">verdict</span><span class="shell">body · rail</span></div>
+      <div class="frame-wrap"><iframe src="templates/verdict.html" loading="lazy"></iframe></div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>本稿库 · Baslide01</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+SC:wght@400;600;700&family=Noto+Serif:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --surface:#F4F0E7; --paper:#FFFDF8; --charcoal:#17130D;
+  --gold:#76551F; --gold-hi:#D4A862; --muted:#706758; --navy:#0A1626;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--surface);color:var(--charcoal);
+  font-family:"Noto Serif SC","Songti SC",serif;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px 96px}
+header.hero{padding:28px 0 32px;border-bottom:1px solid var(--gold)}
+.cap{font-family:"Noto Serif",serif;text-transform:uppercase;letter-spacing:.34em;font-size:11px;color:var(--gold)}
+h1{font-size:36px;font-weight:700;letter-spacing:.01em;line-height:.95;margin-top:8px}
+.lede{margin-top:14px;max-width:68ch;font-size:16px;line-height:1.7;color:var(--muted)}
+h2{font-size:20px;font-weight:600;padding-left:12px;border-left:3px solid var(--gold);margin:28px 0 12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.card{background:var(--paper);border:1px solid rgba(118,85,31,.34);border-radius:2px;padding:12px 14px}
+.card .k{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+.card b{display:block;font-size:22px;margin:4px 0}
+.card p,.row{font-size:13px;line-height:1.55;color:var(--muted)}
+table{width:100%;border-collapse:collapse;background:var(--paper);font-size:13px}
+th,td{border-bottom:1px solid rgba(118,85,31,.2);padding:7px 8px;text-align:left}
+th{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.08em;color:var(--gold)}
+td.num{font-family:"IBM Plex Mono",monospace;text-align:right}
+tr.on{background:rgba(212,168,98,.18)}
+code{font-family:"IBM Plex Mono",monospace;font-size:.92em;background:rgba(118,85,31,.08);padding:1px 5px;border-radius:2px}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 12px}
+.filters button{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  background:transparent;border:1px solid rgba(118,85,31,.34);color:var(--charcoal);padding:5px 10px;border-radius:2px;cursor:pointer}
+.filters button.on{background:var(--navy);color:var(--paper);border-color:var(--navy)}
+.web a{color:var(--gold);text-decoration:underline}
+</style>
+</head>
+<body class="baslide-doc">
+<div class="wrap">
+  <header class="hero">
+    <p class="cap">本稿库 · data pack</p>
+    <h1>合生汇 2026-06 库</h1>
+    <p class="lede">原始包 <code>beijing-chaoyang-heshenghui-burger-2026-06</code> 与客户 SKU 写入 <code>stone-briefing/data/pack.sqlite</code>。每条公式复算页上的数。魏斯理在北京库为 0，链到官网。D03 / D04 / D05 各有库页，共用同一 sqlite，不复制、不编号。</p>
+  </header>
+  <h2>公式</h2>
+  <div class="grid" id="formulas">载入中…</div>
+  <h2>网补</h2>
+  <div class="grid web" id="web">载入中…</div>
+  <h2>页 → 公式</h2>
+  <div class="filters" id="filters"></div>
+  <table>
+    <thead><tr><th>Deck</th><th class="num">页</th><th>页面</th><th>公式</th><th>打开</th></tr></thead>
+    <tbody id="links"></tbody>
+  </table>
+</div>
+<script>
+function esc(s) {
+  return String(s == null ? "" : s)
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
+}
+const q = new URLSearchParams(location.search);
+const here = location.pathname || "";
+const defaultDeck = here.indexOf("stone-roadmap") >= 0 ? "D04"
+  : here.indexOf("stone-dossier") >= 0 ? "D05" : "D03.1";
+const wantDeck = q.get("deck") || defaultDeck;
+const wantPage = q.get("p");
+Promise.all([
+  fetch("/decks/stone-briefing/data/formulas-index.json").then(function (r) { return r.json(); }),
+  fetch("/decks/stone-briefing/data/page-links.json").then(function (r) { return r.json(); }),
+  fetch("/decks/stone-briefing/data/import-meta.json").then(function (r) { return r.json(); })
+]).then(function (pair) {
+  const formulas = pair[0];
+  const links = pair[1];
+  const meta = pair[2];
+  const box = document.getElementById("formulas");
+  box.innerHTML = formulas.map(function (f) {
+    return "<article class='card' id='" + esc(f.id) + "'><span class='k'>" + esc(f.id) + "</span><b>" +
+      esc(f.value) + " " + esc(f.unit) + "</b><p>" + esc(f.name) + "</p><p>" + esc(f.expr) +
+      "</p><p>" + esc(f.note || "") + "</p></article>";
+  }).join("");
+  const web = document.getElementById("web");
+  const sources = meta.web_sources || [];
+  web.innerHTML = sources.length ? sources.map(function (row) {
+    return "<article class='card'><span class='k'>" + esc(row.id) + " · " + esc(row.status) +
+      "</span><b>" + esc(row.query) + "</b><p><a href='" + esc(row.url) + "'>" + esc(row.url) +
+      "</a></p><p>" + esc(row.why) + "</p><p>" + esc(row.excerpt || "") + "</p></article>";
+  }).join("") : "<p>无网补。</p>";
+  const decks = [];
+  links.forEach(function (row) {
+    if (decks.indexOf(row.deck_id) < 0) decks.push(row.deck_id);
+  });
+  const filters = document.getElementById("filters");
+  let active = decks.indexOf(wantDeck) >= 0 ? wantDeck : decks[0];
+  let onlyLinked = true;
+  function draw() {
+    [...filters.querySelectorAll("[data-deck]")].forEach(function (b) {
+      b.classList.toggle("on", b.dataset.deck === active);
+    });
+    filters.querySelector("[data-linked]").classList.toggle("on", onlyLinked);
+    const body = document.getElementById("links");
+    body.innerHTML = links.filter(function (row) {
+      if (row.deck_id !== active) return false;
+      if (onlyLinked && !row.formula_id) return false;
+      return true;
+    }).map(function (row) {
+      const on = String(row.page) === String(wantPage) ? " class='on'" : "";
+      const fid = row.formula_id || "—";
+      return "<tr" + on + "><td>" + esc(row.deck_id) + "</td><td class='num'>" + row.page +
+        "</td><td>" + esc(row.title || row.job) + "</td><td><a href='#" + esc(fid) + "'>" + esc(fid) +
+        "</a></td><td><a href='" + esc(row.href) + "'>页</a></td></tr>";
+    }).join("");
+    const marked = document.querySelector("tr.on");
+    if (marked) marked.scrollIntoView({ block: "center" });
+  }
+  decks.forEach(function (id) {
+    const b = document.createElement("button");
+    b.textContent = id;
+    b.dataset.deck = id;
+    b.onclick = function () { active = id; draw(); };
+    filters.appendChild(b);
+  });
+  const linkedBtn = document.createElement("button");
+  linkedBtn.textContent = "仅已链接";
+  linkedBtn.dataset.linked = "1";
+  linkedBtn.onclick = function () { onlyLinked = !onlyLinked; draw(); };
+  filters.appendChild(linkedBtn);
+  draw();
+}).catch(function (err) {
+  document.getElementById("formulas").textContent = "无法读取公式：" + err;
+});
+</script>
+</body>
+</html>

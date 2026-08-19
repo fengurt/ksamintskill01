@@ -1,6 +1,7 @@
 # Skill Hub GUI
 
 Local control panel for this skill monorepo. Zero npm dependencies — Node 20+ `node:http` only.
+Pack downloads also require the system `zip` command (included with macOS).
 
 ## Start
 
@@ -29,21 +30,22 @@ Frees only port 7979 when the listener is this project's `server.js`.
 
 - Binds `127.0.0.1` only — no auth, no Docker in v1
 - **No free-form shell** — every job step is named in `lib/templates.js`
-- Path args must resolve under the repo or `ALLOWED_DOC_ROOTS` (default includes `~/cpro01/0thebrain01/baslide01`)
+- Path args must resolve under the repo or `ALLOWED_DOC_ROOTS` (includes `modules/baslide01`)
 - `GET /api/file` refuses secret-like paths
 - Writes only `gui/data/` and `.work/` — skills tree is read-only from the GUI
 
 ## Templates
 
-- `alongslides` — four phases: material → hop1 → themed render → hop2. Theme from baslide01 skins (`GET /api/themes`); only **TIANSIGHT** is mechanical. Standards: `fit-overfull`, `hop1`, `hop2`. Rendered deck: `/slides/<run>/deck.html`
-- `longdoc-to-deck` — segment → coverage → **acceptance-bootstrap (mechanical draft)** → fit → hop1 audit
+- `alongslides` — long document → **developable file pack** (segment / outline / pages / `slide-plan.json`). This is the project completion. HTML is not required.
+- `baslide-slides` — optional: clone `modules/baslide01` L2 jobs, draw L3 SVG, hop2. Deck: `/slides/<run>/deck.html`
+- `longdoc-to-deck` — same pack path without the Alongslides name
 - `deck-audit-hop2` — `audit-html.py --dump-slides` → report
 - `repo-sync` — sync-vendor → catalog → lint → scan-secrets
 - `install-links` — symlink install map
 
-`BASLIDE_ROOT` (default `~/cpro01/0thebrain01/baslide01`) points at job templates + `TIANSIGHT-v2.css`.
+`BASLIDE_ROOT` defaults to `modules/baslide01`.
 
-Stages b (outline) and c (pagination) of `longdoc-to-deck` remain **agent/model stages**. The bootstrap step is labelled mechanical; copy the agent brief from the project/run view into Cursor to curate.
+Project detail shows (1) skills + stages and (2) pack outputs. Stages b (outline) and c (pagination) of `longdoc-to-deck` remain **agent/model stages**; bootstrap is a mechanical draft.
 
 ## Data
 

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700">
+  <rect width="1000" height="700" fill="#FFFFFF"/>
+  <text x="500" y="50" text-anchor="middle" font-family="var(--sans-tab)" font-size="16" font-weight="700" fill="#0A1626" letter-spacing="0.18em">3-TIER HIERARCHY · 资源/产品/体验</text>
+  <text x="500" y="72" text-anchor="middle" font-family="var(--sans-tab)" font-size="10" fill="#75777D">塔型定位: 基础层 → 中间层 → 顶层</text>
+  <!-- Top (smallest) -->
+  <polygon points="350,160 650,160 600,240 400,240" fill="#A88B52"/>
+  <text x="500" y="200" text-anchor="middle" font-family="var(--sans-tab)" font-size="14" font-weight="700" fill="#FFFFFF">顶层 · TIP</text>
+  <text x="500" y="218" text-anchor="middle" font-family="var(--sans-tab)" font-size="10" fill="#FFFFFF" opacity="0.85">高端接待 · 私董会 · 家族传承</text>
+  <!-- Middle -->
+  <polygon points="380,260 620,260 580,360 420,360" fill="#0A1626"/>
+  <text x="500" y="305" text-anchor="middle" font-family="var(--sans-tab)" font-size="14" font-weight="700" fill="#FFFFFF">中间层 · BODY</text>
+  <text x="500" y="323" text-anchor="middle" font-family="var(--sans-tab)" font-size="10" fill="#FFFFFF" opacity="0.85">企业学院 · 团建 · 培训</text>
+  <text x="500" y="340" text-anchor="middle" font-family="var(--sans-tab)" font-size="10" fill="#FFFFFF" opacity="0.7">康养 · 体检</text>
+  <!-- Bottom (largest) -->
+  <polygon points="250,380 750,380 800,540 200,540" fill="#44474C"/>
+  <text x="500" y="440" text-anchor="middle" font-family="var(--sans-tab)" font-size="14" font-weight="700" fill="#FFFFFF">基础层 · BASE</text>
+  <text x="500" y="460" text-anchor="middle" font-family="var(--sans-tab)" font-size="10" fill="#FFFFFF" opacity="0.85">沉香种植 · 一产 · 产业根</text>
+  <text x="500" y="478" text-anchor="middle" font-family="var(--sans-tab)" font-size="10" fill="#FFFFFF" opacity="0.7">森林体验 · 步道 · 公共开放</text>
+  <text x="500" y="496" text-anchor="middle" font-family="var(--sans-tab)" font-size="10" fill="#FFFFFF" opacity="0.7">公共科普 · 农文旅融合</text>
+  <text x="500" y="600" text-anchor="middle" font-family="var(--sans-tab)" font-size="10" fill="#75777D">顶层高价值, 中间层运营, 基础层公共</text>
+  <text x="500" y="618" text-anchor="middle" font-family="var(--sans-tab)" font-size="9" fill="#75777D">PYRAMID LOGIC · 资产价值与公共性平衡</text>
+</svg>

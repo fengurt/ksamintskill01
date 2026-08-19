@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-font-pack="TIANSIGHT" data-skin="TIANSIGHT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TIANSIGHT Template · chart-table</title>
+<!--
+  TEMPLATE: chart-table  ·  L1 SHELL from v2.0 spec
+  Fill slots only. Do not add CSS classes.
+  Tokens: ../TIANSIGHT-v2.css  ·  QA: keep chrome positions.
+  Right table is the on-page preview (≤6 rows). Full 清单 is the next roster.
+  Bubble/quadrant on the left follow the chart job recipe.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link id="sd-font-link" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../TIANSIGHT-v2.css">
+</head>
+<body>
+<div id="sd-stage"><div id="deck">
+<section class="slide sd-slide on shell-fig has-rail" data-job="chart-table" data-page-type="chart-table">
+
+  <div class="sd-tk"><span class="sd-chip">图 {{FIG_INDEX}} / {{FIG_TOTAL}} · {{FIG_CHIP}}</span></div>
+  <div class="sd-index">{{PAGE_INDEX}} / {{PAGE_TOTAL}}</div>
+  <div class="sd-h2">{{CHART_TABLE_TITLE}}</div>
+  <div class="sd-content" style="display:flex; gap:32px;">
+    <div style="flex:0 0 58%; background:var(--sd-paper); border:2px solid var(--sd-ink-14); border-radius:var(--sd-radius-card); display:flex; align-items:center; justify-content:center; font-family:var(--sd-font-mono); font-size:var(--sd-type-micro); color:var(--sd-ink-28); text-align:center;">
+      [ {{FILL_ID}} · SVG viewBox 0 0 1170 500 ]
+    </div>
+    <div style="flex:1; overflow:hidden;">
+      <table class="sd-table">
+        <tr><th>图上可见</th><th class="num">数值</th></tr>
+        <tr><td>{{CT_ROW_1_NAME}}</td><td class="num">{{CT_ROW_1_VALUE}}</td></tr><tr><td>{{CT_ROW_2_NAME}}</td><td class="num">{{CT_ROW_2_VALUE}}</td></tr><tr><td>{{CT_ROW_3_NAME}}</td><td class="num">{{CT_ROW_3_VALUE}}</td></tr><tr><td>{{CT_ROW_4_NAME}}</td><td class="num">{{CT_ROW_4_VALUE}}</td></tr><tr><td>{{CT_ROW_5_NAME}}</td><td class="num">{{CT_ROW_5_VALUE}}</td></tr><tr><td>{{CT_ROW_6_NAME}}</td><td class="num">{{CT_ROW_6_VALUE}}</td></tr>
+      </table>
+    </div>
+  </div>
+  <!-- SOURCE / GLOSSARY / CONCLUSION / CONFIDENCE: data for #sd-explain, not painted on the canvas. -->
+  <div class="sd-rail">
+    <div class="sd-rail-card" data-live-source="{{SOURCE_DB_ID}}" data-sync-status="{{SOURCE_SYNC_STATUS}}" data-sync-at="{{SOURCE_SYNC_AT}}">
+      <div class="head"><span>数据出处 · SOURCE</span><span class="sd-live live {{SOURCE_SYNC_STATUS}}">{{SOURCE_SYNC_LABEL}}</span></div>
+      <div class="body">{{SOURCE_DETAIL}}</div>
+      <div class="foot">更新于 {{SOURCE_SYNC_AT}}</div>
+    </div>
+    <div class="sd-rail-card" data-live-source="{{GLOSSARY_DB_ID}}" data-sync-status="{{GLOSSARY_SYNC_STATUS}}" data-sync-at="{{GLOSSARY_SYNC_AT}}">
+      <div class="head"><span>术语解释 · GLOSSARY</span><span class="sd-live live {{GLOSSARY_SYNC_STATUS}}">{{GLOSSARY_SYNC_LABEL}}</span></div>
+      <div class="body">
+      <div class="term"><b>{{TERM_1_NAME}}</b><br><span>{{TERM_1_DEF}}</span></div>
+      </div>
+      <div class="foot">HOW TO READ · {{HOW_TO_READ_NOTE}}</div>
+    </div>
+    <div class="sd-rail-card" data-live-source="{{CONCLUSION_DB_ID}}" data-sync-status="{{CONCLUSION_SYNC_STATUS}}" data-sync-at="{{CONCLUSION_SYNC_AT}}">
+      <div class="head"><span>结论解释 · CONCLUSION</span><span class="sd-live live {{CONCLUSION_SYNC_STATUS}}">{{CONCLUSION_SYNC_LABEL}}</span></div>
+      <div class="body">{{CONCLUSION_TEXT}}</div>
+      <div class="foot">{{CONCLUSION_SYNC_AT}}</div>
+    </div>
+    <div class="sd-rail-card" data-live-source="{{CONFIDENCE_DB_ID}}" data-sync-status="ready" data-sync-at="{{SOURCE_SYNC_AT}}">
+      <div class="head"><span>置信度分级 · CONFIDENCE</span><span class="sd-live live ready">实时同步 · LIVE</span></div>
+      <div class="body">
+        <div class="term"><span class="sd-status ready">A · 数据支撑</span><br><span>{{CONFIDENCE_A_NOTE}}</span></div>
+        <div class="term"><span class="sd-status degraded">B · 外部佐证</span><br><span>{{CONFIDENCE_B_NOTE}}</span></div>
+        <div class="term"><span class="sd-status blocked">C · 待验证假设</span><br><span>{{CONFIDENCE_C_NOTE}}</span></div>
+      </div>
+      <div class="foot">A 数据 · B 佐证 · C 假设</div>
+    </div>
+  </div>
+
+</section>
+</div></div>
+<script src="../TIANSIGHT-deck.js"></script>
+</body>
+</html>

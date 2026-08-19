@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>TIANSIGHT Template · statement</title>
+<!--
+  TEMPLATE: statement  ·  L1 SHELL: shell-body has-rail
+  L2 job: statement · single claim / quote / question (fills, not new jobs)
+  Fill only the {{PLACEHOLDER}} tokens. Do not add new CSS classes;
+  do not change chrome positions (.sd-tk/.sd-chip/.sd-index/.sd-h2/.sd-footer/.sd-rail).
+  Brand tokens: assets/TIANSIGHT-tokens.css (this file inlines the same values —
+  regenerate with build_templates.py after editing tokens.css, don't hand-edit here).
+  QA: run `node audit.js templates/statement.html` before shipping — see
+  skill/references/qa-checklist.md for what each check id means.
+-->
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+  *{box-sizing:border-box;} body{margin:0;}
+/* ============================================================
+   侍天 TIANSIGHT — 智慧餐饮 · Design Tokens
+   v2.0 · 2026-08-15
+   Canvas: 2880×1620 · Content safe area: 21:9 · Skin: TIANSIGHT
+   Source of truth for all HTML slide output. Do not hand-edit
+   hex values inside a slide — change them here.
+
+   CHANGELOG v1.0 → v2.0
+   - Canvas doubled 1440×810 → 2880×1620 (type scale doubled with it).
+   - Content safe area redefined to a 21:9 band (was ≈3.18:1) by
+     enlarging the top/footer bands and introducing the right-side
+     Explain Dashboard rail — the freed vertical room is spent on
+     the rail, not on a taller content block.
+   - NEW: --sd-ink-45 was being used for caption/label TEXT at only
+     2.96:1 against Paper/Surface — FAILS WCAG AA (needs 4.5:1 for
+     normal-size text). Added --sd-ink-60 (4.72:1, passes AA) as the
+     new minimum-contrast token for any token that renders as text.
+     --sd-ink-45 and below are now restricted to non-text decoration
+     (icons, gridlines, dividers) — see §QA System, check C1.
+   - NEW: Explain Dashboard rail (.sd-rail) + live-data status tokens.
+   ============================================================ */
+
+:root {
+  /* ---- Brand core (fixed — do not derive, do not repaint) ---- */
+  --sd-primary:      #EFE6D2;   /* cover / divider wash            */
+  --sd-surface:       #F4F0E7;   /* body & fig slide background     */
+  --sd-accent:        #76551F;   /* bronze — headings, rules, chips */
+  --sd-secondary:     #8C3228;   /* brick — alerts, negative, 争议  */
+  --sd-ink:           #17130D;   /* text, hairlines base            */
+  --sd-paper:         #FBF8F2;   /* card / table zebra / rail floor */
+  --sd-white:         #FFFFFF;   /* rare — never for large fields   */
+
+  /* ---- Ink opacity ramp (text hierarchy) ----
+     Contrast measured against Paper #FBF8F2 (worst case on-brand bg).
+     Rule: only -100 / -72 / -60 may render as TEXT (all clear WCAG
+     AA 4.5:1 for normal-size text). -45 and darker are for non-text
+     decoration only — see QA check C1. */
+  --sd-ink-100: #17130D;                /* 17.45:1 — headings, primary text  */
+  --sd-ink-72:  rgba(23,19,13,.72);     /*  7.20:1 — body copy                */
+  --sd-ink-60:  rgba(23,19,13,.60);     /*  4.72:1 — captions/labels/index — MINIMUM for text */
+  --sd-ink-45:  rgba(23,19,13,.45);     /*  2.96:1 — NON-TEXT ONLY (icons, gridlines) */
+  --sd-ink-28:  rgba(23,19,13,.28);     /* placeholder / disabled, non-text   */
+  --sd-ink-14:  rgba(23,19,13,.14);     /* hairline rules                     */
+  --sd-ink-07:  rgba(23,19,13,.07);     /* zebra fill, subtle wash            */
+
+  /* ---- Accent / secondary tints (chips, wells, tags) ---- */
+  --sd-accent-wash-16: rgba(118,85,31,.16);
+  --sd-accent-wash-10: rgba(118,85,31,.10);
+  --sd-accent-wash-06: rgba(118,85,31,.06);
+  --sd-secondary-wash-14: rgba(140,50,40,.14);
+  --sd-secondary-wash-08: rgba(140,50,40,.08);
+
+  /* ---- Status triad (fixed — matrix / gate / live-sync cells only) ----
+     These three are validated for the DOT (non-text, ::before) and for
+     wash/border backgrounds — NOT for text. Audit check A1 caught exactly
+     this: --sd-status-ready as a text color measures 3.87:1 vs Paper
+     (fails AA 4.5:1); --sd-status-degraded measures 2.96:1 (fails even
+     the 3:1 non-text floor). Use the *-text variants below for any label,
+     delta, or quad heading rendered as TEXT; keep the plain tokens for
+     dots/borders/washes only. */
+  --sd-status-ready:    #1B8F5A;  /* jade   — on track / 达标 / 数据实时同步   */
+  --sd-status-degraded: #C0862A;  /* amber  — watch / 待验证 / 数据缓存中      */
+  --sd-status-blocked:  #8C3228;  /* brick  — stop / 阻塞 / 数据源断开 (=secondary) */
+  --sd-status-ready-text:    #157A4B;  /* 5.06:1 vs Paper — MINIMUM for ready-toned text    */
+  --sd-status-degraded-text: #8A5F1E;  /* 5.30:1 vs Paper — MINIMUM for degraded-toned text */
+  --sd-status-blocked-text:  #8C3228;  /* 7.61:1 vs Paper — same as --sd-secondary, already text-safe */
+
+  /* ---- Categorical chart palette (validated — see references/chart-palette.md) ---- */
+  --sd-cat-1: #96591A;  /* bronze  */
+  --sd-cat-2: #0F8A76;  /* jade    */
+  --sd-cat-3: #8C3228;  /* brick   */
+  --sd-cat-4: #4F8A3E;  /* moss    */
+  --sd-cat-5: #3D5FA6;  /* indigo  */
+  --sd-cat-6: #C0862A;  /* mustard — WARN: sub-3:1, pair with direct label */
+  --sd-cat-7: #14749E;  /* slate   */
+  --sd-cat-8: #96436F;  /* plum    — WARN: floor-band vs slate, pair with direct label */
+
+  /* ---- Sequential ramp: single hue "bronze", light→dark (6 steps) ---- */
+  --sd-seq-100: #C9A24C;
+  --sd-seq-200: #AD832B;
+  --sd-seq-300: #8F6820;
+  --sd-seq-400: #76551F;  /* = --sd-accent, anchor step */
+  --sd-seq-500: #5B4319;
+  --sd-seq-600: #3E2D0F;
+
+  /* ---- Diverging pair: brick (−) ↔ jade (+), neutral midpoint ---- */
+  --sd-div-neg-2: #8C3228;
+  --sd-div-neg-1: #B4665A;
+  --sd-div-mid:   #D8D2C4;
+  --sd-div-pos-1: #5AAE96;
+  --sd-div-pos-2: #0F8A76;
+
+  /* ---- Typography (two-family system — do not add a third) ---- */
+  --sd-font-serif: "Noto Serif SC", "Songti SC", "STSong", serif;
+  --sd-font-mono:  "IBM Plex Mono", "Roboto Mono", "JetBrains Mono", monospace;
+  /* Emoji / symbol fallback — declare explicitly wherever a status
+     dot or 🔴/🟡/🟢 marker is used in source content, so a missing
+     glyph never silently falls back to tofu. See QA check C4. */
+  --sd-font-symbol: "Noto Serif SC", "Noto Sans Symbols 2", "Noto Color Emoji", sans-serif;
+
+  /* ---- Type scale (px, at 2880×1620 canvas — 2x the v1.0 scale) ---- */
+  --sd-type-hero: 128px;   /* cover H1                          */
+  --sd-type-h1:   88px;    /* divider chapter title             */
+  --sd-type-h2:   56px;    /* body / fig slide h2                */
+  --sd-type-h3:   36px;    /* card / cell heading                */
+  --sd-type-body: 30px;    /* prose, table body                   */
+  --sd-type-small:26px;    /* caption, rail card body              */
+  --sd-type-micro:22px;    /* chip, kicker, page index             */
+
+  /* ---- Canvas & grid (2880×1620, content safe area = 21:9) ---- */
+  --sd-canvas-w: 2880px;
+  --sd-canvas-h: 1620px;
+  --sd-margin: 128px;              /* outer safe margin, all sides       */
+  --sd-top-band-h: 328px;          /* kicker + chip + H2 title band      */
+  --sd-footer-h: 80px;             /* deck name + page index repeat only */
+  --sd-gutter: 48px;               /* content ↔ rail gutter              */
+  --sd-rail-w: 345px;              /* Explain Dashboard rail width       */
+  /* content: x 128–2359 (2231px) · y 456–1412 (956px) → 2231/956 = 2.333 = 21:9 */
+  --sd-radius-chip: 999px;
+  --sd-radius-card: 8px;
+  --sd-hairline: 2px solid var(--sd-ink-14);
+}
+
+/* ============================================================
+   Base reset for a 2880×1620 slide surface
+   ============================================================ */
+.sd-slide {
+  box-sizing: border-box;
+  position: relative;
+  width: var(--sd-canvas-w);
+  height: var(--sd-canvas-h);
+  overflow: hidden;
+  background: var(--sd-surface);
+  color: var(--sd-ink-100);
+  font-family: var(--sd-font-serif);
+  -webkit-font-smoothing: antialiased;
+}
+.sd-slide * { box-sizing: border-box; }
+
+/* ---- Shell variants (L1) ---- */
+.sd-slide.shell-cover,
+.sd-slide.shell-divider { background: var(--sd-primary); }
+.sd-slide.shell-body,
+.sd-slide.shell-fig      { background: var(--sd-surface); }
+/* Rail is opt-in per job: add class "has-rail" on data-bearing body/fig
+   slides (readme, statement, kpi, roster, chart, chart-table, matrix,
+   compare, verdict). cover / divider / toc never carry it. */
+
+/* ============================================================
+   Chrome — shared across body/fig shells
+   ============================================================ */
+.sd-tk {           /* top kicker, e.g. DATA MAP · CALIBRE · QUALITY */
+  position: absolute; top: 80px; left: var(--sd-margin);
+  font-family: var(--sd-font-mono); font-size: var(--sd-type-micro);
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--sd-accent);
+}
+.sd-chip {          /* 章 · 节 pill, top-left under kicker */
+  position: absolute; top: 124px; left: var(--sd-margin);
+  display: inline-flex; align-items: center; gap: 16px;
+  font-family: var(--sd-font-mono); font-size: 24px;
+  color: var(--sd-ink-72);
+  padding: 8px 24px; border: 2px solid var(--sd-accent-wash-16);
+  border-radius: var(--sd-radius-chip); background: var(--sd-accent-wash-06);
+}
+.sd-index {         /* N / total, top-right */
+  position: absolute; top: 80px; right: var(--sd-margin);
+  font-family: var(--sd-font-mono); font-size: var(--sd-type-micro);
+  color: var(--sd-ink-60); letter-spacing: .05em;
+}
+.sd-h2 {            /* body / fig title */
+  position: absolute; top: 196px; left: var(--sd-margin); right: var(--sd-margin);
+  font-family: var(--sd-font-serif); font-weight: 700;
+  font-size: var(--sd-type-h2); line-height: 1.28; color: var(--sd-ink-100);
+  max-height: 132px; overflow: hidden;   /* ≤2 lines — QA check B1 flags overflow */
+}
+.sd-footer {        /* deck name + page index repeat, bottom band */
+  position: absolute; left: var(--sd-margin); right: var(--sd-margin);
+  bottom: 44px; display: flex; justify-content: space-between;
+  font-family: var(--sd-font-mono); font-size: 20px; color: var(--sd-ink-60);
+  border-top: var(--sd-hairline); padding-top: 12px;
+}
+
+/* ---- Content safe area (21:9) ---- */
+.sd-content {
+  position: absolute; top: 456px; left: var(--sd-margin);
+  bottom: 208px; /* 1620 - 1412 */
+  right: calc(var(--sd-margin) + var(--sd-rail-w) + var(--sd-gutter));
+}
+.sd-content.no-rail { right: var(--sd-margin); }  /* toc / readme-lite pages with no rail */
+
+/* ============================================================
+   Explain Dashboard — right rail (数据出处 · 术语解释 · 结论解释)
+   All three cards are meant to be data-bound in production:
+   see SKILL.md "live data binding contract" for the
+   data-live-source / data-sync-status / data-sync-at attributes.
+   ============================================================ */
+.sd-rail {
+  position: absolute; top: 456px; right: var(--sd-margin); bottom: 208px;
+  width: var(--sd-rail-w);
+  display: flex; flex-direction: column; gap: 24px;
+}
+.sd-rail-card {
+  flex: 1; min-height: 0; display: flex; flex-direction: column;
+  background: var(--sd-paper); border: 2px solid var(--sd-ink-14);
+  border-radius: var(--sd-radius-card); padding: 20px 22px; overflow: hidden;
+}
+.sd-rail-card .head {
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; row-gap: 4px;   /* long live-status labels wrap instead of overflowing — QA check B1 */
+  font-family: var(--sd-font-mono); font-size: 20px; letter-spacing: .04em;
+  text-transform: uppercase; color: var(--sd-accent); margin-bottom: 10px;
+  flex: none;
+}
+.sd-rail-card .head .live {
+  display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;
+  font-size: 18px; color: var(--sd-ink-60); text-transform: none; letter-spacing: 0;
+}
+.sd-rail-card .body {
+  /* flex:1 + min-height:0 so .body claims whatever space .head/.foot (both
+     flex:none) don't need — previously .body used the flexbox default
+     (flex:0 1 auto), which let a long .foot note silently starve it and
+     clip content via overflow:hidden with no visual warning. QA check B1
+     is what caught this: audit.js flagged scrollHeight > clientHeight on
+     rail-card .body across most jobs before this fix. */
+  flex: 1; min-height: 0;
+  font-family: var(--sd-font-serif); font-size: var(--sd-type-small);
+  color: var(--sd-ink-72); line-height: 1.55; overflow: hidden;
+  overflow-wrap: break-word; word-break: break-word;  /* long unbroken runs (dates, IDs) wrap instead of overflowing horizontally */
+}
+.sd-rail-card .term { margin-bottom: 10px; }
+.sd-rail-card .term b { color: var(--sd-ink-100); font-weight: 700; }
+.sd-rail-card .term span { color: var(--sd-ink-72); }
+.sd-rail-card .foot {
+  flex: none; margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--sd-ink-14);
+  font-family: var(--sd-font-mono); font-size: 18px; color: var(--sd-ink-60);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;  /* footer is a tag/timestamp, never a paragraph — clamp to 1 line so it can't crowd .body */
+}
+
+/* ---- Live-sync status dot (reuses the status triad) ---- */
+.sd-live { display: inline-flex; align-items: center; gap: 8px; font-family: var(--sd-font-mono); }
+.sd-live::before {
+  content: ""; width: 12px; height: 12px; border-radius: 50%; flex: none;
+}
+.sd-live.ready::before    { background: var(--sd-status-ready); box-shadow: 0 0 0 3px rgba(27,143,90,.18); }
+.sd-live.degraded::before { background: var(--sd-status-degraded); box-shadow: 0 0 0 3px rgba(192,134,42,.18); }
+.sd-live.blocked::before  { background: var(--sd-status-blocked); box-shadow: 0 0 0 3px rgba(140,50,40,.18); }
+
+/* ---- Cover / divider large-type helpers ---- */
+.sd-eyebrow { font-family: var(--sd-font-mono); font-size: 26px; letter-spacing: .22em;
+  text-transform: uppercase; color: var(--sd-accent); }
+.sd-hero    { font-family: var(--sd-font-serif); font-weight: 700; color: var(--sd-ink-100);
+  line-height: 1.15; }
+.sd-rule    { width: 96px; height: 4px; background: var(--sd-accent); }
+
+/* ---- Generic table (used by roster / matrix / dual-calibre) ---- */
+.sd-table { width: 100%; border-collapse: collapse; font-family: var(--sd-font-mono); font-size: 26px; }
+.sd-table th { text-align: left; font-weight: 600; color: var(--sd-ink-72);
+  border-bottom: 2px solid var(--sd-ink-14); padding: 12px 20px; font-size: 20px;
+  letter-spacing: .04em; text-transform: uppercase; }
+.sd-table td { padding: 12px 20px; border-bottom: 1px solid var(--sd-ink-07); color: var(--sd-ink-100); }
+.sd-table tr:nth-child(even) td { background: var(--sd-paper); }
+.sd-table tr.sd-sum td { font-weight: 700; border-top: 2px solid var(--sd-accent); color: var(--sd-ink-100); }
+.sd-table td.num, .sd-table th.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+/* ---- KPI card ---- */
+.sd-kpi { border: 2px solid var(--sd-ink-14); background: var(--sd-paper); border-radius: var(--sd-radius-card);
+  padding: 32px 36px; }
+.sd-kpi .v { font-family: var(--sd-font-mono); font-size: 64px; font-weight: 700; color: var(--sd-ink-100); }
+.sd-kpi .l { font-family: var(--sd-font-serif); font-size: 26px; color: var(--sd-ink-72); margin-top: 8px; }
+.sd-kpi .d { font-family: var(--sd-font-mono); font-size: 24px; margin-top: 12px; }
+.sd-kpi .d.up   { color: var(--sd-status-ready-text); }   /* was --sd-status-ready: 3.87:1, AA fail — see QA check A1 */
+.sd-kpi .d.down { color: var(--sd-secondary); }
+
+/* ---- Status chip (ready / degraded / blocked) ---- */
+.sd-status { display: inline-flex; align-items: center; gap: 12px; font-family: var(--sd-font-mono);
+  font-size: 22px; letter-spacing: .04em; }
+.sd-status::before { content: ""; width: 16px; height: 16px; border-radius: 50%; }
+.sd-status.ready::before    { background: var(--sd-status-ready); }
+.sd-status.degraded::before { background: var(--sd-status-degraded); }
+.sd-status.blocked::before  { background: var(--sd-status-blocked); }
+
+/* ---- QA debug overlay (toggle for visual audits — never ship visible) ---- */
+.sd-qa-grid.on .sd-slide::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 999;
+  background:
+    linear-gradient(to right, transparent calc(var(--sd-margin) - 1px), rgba(140,50,40,.35) calc(var(--sd-margin) - 1px), rgba(140,50,40,.35) var(--sd-margin), transparent var(--sd-margin)),
+    linear-gradient(to left, transparent calc(var(--sd-margin) - 1px), rgba(140,50,40,.35) calc(var(--sd-margin) - 1px), rgba(140,50,40,.35) var(--sd-margin), transparent var(--sd-margin));
+}
+</style>
+</head>
+<body>
+<div class="sd-slide shell-body has-rail" data-job="statement">
+
+  <div class="sd-tk">TIANSIGHT · WISDOM NAVIGATOR FOR PREMIUM F&B CHAINS</div>
+  <div class="sd-chip">贰 · 主辅佐引角色分类</div>
+  <div class="sd-index">41 / 132</div>
+  <div class="sd-content" style="display:flex; flex-direction:column; justify-content:center;">
+    <div class="sd-rule" style="margin-bottom:48px;"></div>
+    <div style="font-family:var(--sd-font-serif); font-size:64px; font-weight:700; line-height:1.5; color:var(--sd-ink-100);">「主」品应是认知锚点，但九店渗透率均值仅 7.1%——认知锚点还没有真正落地。</div>
+    <div style="font-family:var(--sd-font-serif); font-size:var(--sd-type-body); color:var(--sd-ink-72); margin-top:48px; line-height:1.7;">13 个「主」品占 SKU 数 12%，均价与额量比均为全店最高，唯独渗透率与「佐」并列垫底，说明品牌叙事与实际点单行为出现结构性错位。</div>
+  </div>
+  <div class="sd-rail">
+    <div class="sd-rail-card" data-live-source="db.role_taxonomy" data-sync-status="ready" data-sync-at="2026-08-13 09:40">
+      <div class="head"><span>数据出处 · SOURCE</span><span class="sd-live live ready">实时同步 · LIVE</span></div>
+      <div class="body">主辅佐引四分类模型 · 基于 60 天销量与均价双维聚类</div>
+      <div class="foot">更新于 2026-08-13 09:40</div>
+    </div>
+    <div class="sd-rail-card" data-live-source="db.glossary.role" data-sync-status="ready" data-sync-at="2026-08-10 00:00">
+      <div class="head"><span>术语解释 · GLOSSARY</span><span class="sd-live live ready">实时同步 · LIVE</span></div>
+      <div class="body">
+      <div class="term"><b>渗透率</b><br><span>该品项出现在账单中的账单数 ÷ 总账单数</span></div>
+      </div>
+      <div class="foot">HOW TO READ · 先看主张句，再看支持数据</div>
+    </div>
+    <div class="sd-rail-card" data-live-source="db.insight.role_gap" data-sync-status="ready" data-sync-at="2026-08-13 09:40">
+      <div class="head"><span>结论解释 · CONCLUSION</span><span class="sd-live live ready">实时同步 · LIVE</span></div>
+      <div class="body">「主」品渗透率与叙事定位的错位是本章后续三页分析的起点。</div>
+      <div class="foot">2026-08-13 09:40</div>
+    </div>
+  </div>
+  <div class="sd-footer"><span>云记轻食 · 产品结构诊断</span><span>41 / 132</span></div>
+
+</div>
+</body>
+</html>

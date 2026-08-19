@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-font-pack="TIANSIGHT" data-skin="TIANSIGHT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TIANSIGHT Template · roster</title>
+<!--
+  TEMPLATE: roster  ·  L1 SHELL from v2.0 spec
+  Fill slots only. Do not add CSS classes.
+  Tokens: ../TIANSIGHT-v2.css  ·  QA: keep chrome positions.
+  After a figure: this page is the 清单. Named entities stay at row grain.
+  Band charts with 品牌数 expand to brand rows (价格带 / 品牌 / 门店 / 人均 / 评分 / 规模).
+  Store-count hists stay as bins, but the 清单 adds 占比 / 累计 and same-unit named samples.
+  Do not reprint two-column bin totals as the inventory.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link id="sd-font-link" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../TIANSIGHT-v2.css">
+</head>
+<body>
+<div id="sd-stage"><div id="deck">
+<section class="slide sd-slide on shell-body has-rail" data-job="roster" data-page-type="roster">
+
+  <div class="sd-tk"><span class="sd-chip">图 1 清单 · 壹 · 战略全局</span></div>
+  <div class="sd-index">13 / 424</div>
+  <div class="sd-h2">1.1 价格带 × 规模天花板 · 清单</div>
+  <div class="sd-content" style="overflow:hidden;">
+    <table class="sd-table">
+      <tr><th>价格带</th><th>品牌</th><th class="num">北京门店</th><th class="num">人均中位</th><th class="num">平均评分</th><th>规模</th></tr>
+      <tr><td>&lt; 25 元</td><td>华莱士</td><td class="num">210</td><td class="num">20</td><td class="num">3.72</td><td>≥20</td></tr>
+      <tr><td>&lt; 25 元</td><td>塔斯汀</td><td class="num">125</td><td class="num">21</td><td class="num">3.96</td><td>≥20</td></tr>
+      <tr><td>25–35 元</td><td>麦当劳</td><td class="num">623</td><td class="num">31</td><td class="num">4.00</td><td>≥20</td></tr>
+      <tr><td>25–35 元</td><td>肯德基</td><td class="num">610</td><td class="num">33</td><td class="num">3.75</td><td>≥20</td></tr>
+      <tr><td>25–35 元</td><td>赛百味 SUBWAY</td><td class="num">190</td><td class="num">30</td><td class="num">3.94</td><td>≥20</td></tr>
+      <tr class="sd-sum"><td>合计</td><td>—</td><td class="num">1,758</td><td class="num">—</td><td class="num">—</td><td>—</td></tr>
+    </table>
+  </div>
+  <!-- SOURCE / GLOSSARY / CONCLUSION / CONFIDENCE: data for #sd-explain, not painted on the canvas. -->
+  <div class="sd-rail">
+    <div class="sd-rail-card" data-live-source="{{SOURCE_DB_ID}}" data-sync-status="{{SOURCE_SYNC_STATUS}}" data-sync-at="{{SOURCE_SYNC_AT}}">
+      <div class="head"><span>数据出处 · SOURCE</span><span class="sd-live live {{SOURCE_SYNC_STATUS}}">{{SOURCE_SYNC_LABEL}}</span></div>
+      <div class="body">08 §2.1 + 8–14 梯队按人均中位落入价格带。中位切分归高侧 ≥。</div>
+      <div class="foot">更新于 {{SOURCE_SYNC_AT}}</div>
+    </div>
+    <div class="sd-rail-card" data-live-source="{{GLOSSARY_DB_ID}}" data-sync-status="{{GLOSSARY_SYNC_STATUS}}" data-sync-at="{{GLOSSARY_SYNC_AT}}">
+      <div class="head"><span>术语解释 · GLOSSARY</span><span class="sd-live live {{GLOSSARY_SYNC_STATUS}}">{{GLOSSARY_SYNC_LABEL}}</span></div>
+      <div class="body">
+      <div class="term"><b>{{TERM_1_NAME}}</b><br><span>{{TERM_1_DEF}}</span></div>
+      </div>
+      <div class="foot">HOW TO READ · 行是品牌细项，不是价格带合计。禁止 TOP 冒充全量。</div>
+    </div>
+    <div class="sd-rail-card" data-live-source="{{CONCLUSION_DB_ID}}" data-sync-status="{{CONCLUSION_SYNC_STATUS}}" data-sync-at="{{CONCLUSION_SYNC_AT}}">
+      <div class="head"><span>结论解释 · CONCLUSION</span><span class="sd-live live {{CONCLUSION_SYNC_STATUS}}">{{CONCLUSION_SYNC_LABEL}}</span></div>
+      <div class="body">{{CONCLUSION_TEXT}}</div>
+      <div class="foot">{{CONCLUSION_SYNC_AT}}</div>
+    </div>
+    <div class="sd-rail-card" data-live-source="{{CONFIDENCE_DB_ID}}" data-sync-status="ready" data-sync-at="{{SOURCE_SYNC_AT}}">
+      <div class="head"><span>置信度分级 · CONFIDENCE</span><span class="sd-live live ready">实时同步 · LIVE</span></div>
+      <div class="body">
+        <div class="term"><span class="sd-status ready">A · 数据支撑</span><br><span>{{CONFIDENCE_A_NOTE}}</span></div>
+        <div class="term"><span class="sd-status degraded">B · 外部佐证</span><br><span>{{CONFIDENCE_B_NOTE}}</span></div>
+        <div class="term"><span class="sd-status blocked">C · 待验证假设</span><br><span>{{CONFIDENCE_C_NOTE}}</span></div>
+      </div>
+      <div class="foot">A 数据 · B 佐证 · C 假设</div>
+    </div>
+  </div>
+
+</section>
+</div></div>
+<script src="../TIANSIGHT-deck.js"></script>
+</body>
+</html>

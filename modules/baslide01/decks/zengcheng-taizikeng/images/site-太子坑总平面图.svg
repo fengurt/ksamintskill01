@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet">
+  <rect width="1200" height="800" fill="#FFFFFF"/>
+  <!-- Forest boundary -->
+  <path d="M 100 400 Q 200 100 600 80 Q 1000 100 1100 400 Q 1100 700 600 720 Q 200 700 100 400 Z" fill="#F5F3F4" stroke="#0A1626" stroke-width="2"/>
+  <!-- Forest texture (tree dots) -->
+  <g fill="#0A1626" opacity="0.6">
+    <circle cx="200" cy="200" r="4"/><circle cx="280" cy="180" r="4"/><circle cx="350" cy="220" r="4"/>
+    <circle cx="430" cy="180" r="4"/><circle cx="500" cy="240" r="4"/><circle cx="580" cy="200" r="4"/>
+    <circle cx="650" cy="160" r="4"/><circle cx="720" cy="200" r="4"/><circle cx="800" cy="240" r="4"/>
+    <circle cx="880" cy="200" r="4"/><circle cx="950" cy="180" r="4"/><circle cx="1020" cy="240" r="4"/>
+    <circle cx="200" cy="320" r="4"/><circle cx="280" cy="350" r="4"/><circle cx="380" cy="380" r="4"/>
+    <circle cx="450" cy="320" r="4"/><circle cx="550" cy="360" r="4"/><circle cx="650" cy="380" r="4"/>
+    <circle cx="750" cy="340" r="4"/><circle cx="850" cy="380" r="4"/><circle cx="950" cy="340" r="4"/>
+    <circle cx="180" cy="480" r="4"/><circle cx="280" cy="500" r="4"/><circle cx="380" cy="520" r="4"/>
+    <circle cx="480" cy="480" r="4"/><circle cx="580" cy="520" r="4"/><circle cx="680" cy="500" r="4"/>
+    <circle cx="780" cy="480" r="4"/><circle cx="880" cy="520" r="4"/><circle cx="980" cy="500" r="4"/>
+  </g>
+  <!-- Site boundary (项目用地) -->
+  <rect x="480" y="320" width="240" height="180" fill="#A88B52" fill-opacity="0.18" stroke="#A88B52" stroke-width="2.5" stroke-dasharray="8 4"/>
+  <text x="600" y="380" text-anchor="middle" font-family="var(--sans-tab)" font-size="11" font-weight="700" fill="#0A1626" letter-spacing="0.06em">项目用地</text>
+  <text x="600" y="400" text-anchor="middle" font-family="var(--sans-tab)" font-size="10" fill="#75777D" letter-spacing="0.04em">约 30 亩</text>
+  <text x="600" y="416" text-anchor="middle" font-family="var(--sans-tab)" font-size="10" fill="#75777D" letter-spacing="0.04em">点状供地</text>
+  <!-- Roads -->
+  <line x1="50" y1="650" x2="1150" y2="650" stroke="#75777D" stroke-width="1.5" stroke-dasharray="6 6"/>
+  <text x="50" y="668" font-family="var(--sans-tab)" font-size="10" font-weight="600" fill="#44474C">现状主路 · 增城 → 太子坑</text>
+  <line x1="600" y1="60" x2="600" y2="120" stroke="#75777D" stroke-width="1" stroke-dasharray="3 3"/>
+  <text x="612" y="100" font-family="var(--sans-tab)" font-size="9" fill="#75777D">N ↑</text>
+  <!-- Legend -->
+  <g transform="translate(80,720)">
+    <rect width="160" height="60" fill="#FFFFFF" stroke="#DCD9DB"/>
+    <rect x="10" y="12" width="14" height="14" fill="#A88B52" fill-opacity="0.3" stroke="#A88B52" stroke-width="1.5" stroke-dasharray="3 2"/>
+    <text x="30" y="23" font-family="var(--sans-tab)" font-size="9" fill="#0A1626">项目用地边界</text>
+    <circle cx="17" cy="42" r="3" fill="#0A1626"/>
+    <text x="30" y="45" font-family="var(--sans-tab)" font-size="9" fill="#0A1626">现状林分</text>
+  </g>
+  <text x="600" y="780" text-anchor="middle" font-family="var(--sans-tab)" font-size="11" font-weight="600" fill="#0A1626" letter-spacing="0.18em">太子坑森林公园 · 沉香目的地 平面图 (示意)</text>
+</svg>

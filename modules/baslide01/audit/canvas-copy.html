@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Canvas copy audit · Baslide01</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--surface:#F4F0E7;--paper:#FFFDF8;--charcoal:#17130D;--gold:#76551F;--muted:#706758;--navy:#0A1626}
+html,body{margin:0;background:var(--surface);color:var(--charcoal);font-family:"Noto Serif SC",serif}
+.wrap{max-width:1100px;margin:0 auto;padding:28px}
+.hero{border-bottom:1px solid var(--gold);padding-bottom:18px}
+pre{background:var(--paper);border:1px solid rgba(118,85,31,.34);padding:14px;white-space:pre-wrap;font-family:"IBM Plex Mono",monospace;font-size:12px}
+#host{position:absolute;left:-4000px;top:0;width:2880px}
+</style>
+</head>
+<body class="baslide-doc">
+<div class="wrap">
+  <header class="hero">
+    <p>Canvas copy · 省略 / 裁切 / 二行孤儿字</p>
+    <h1>文字字段审计</h1>
+  </header>
+  <pre id="out">等待 run=1</pre>
+</div>
+<div id="host"></div>
+<script>
+const q = new URLSearchParams(location.search);
+const decks = (q.get("deck") || [
+  "/decks/stone-briefing/presentation.html",
+  "/decks/stone-roadmap/presentation.html",
+  "/decks/stone-dossier/presentation.html"
+].join(",")).split(",").map(function (s) { return s.trim(); }).filter(Boolean);
+
+function visibleText(el) {
+  return (el.innerText || el.textContent || "").replace(/\u2060/g, "").replace(/\s+/g, " ").trim();
+}
+
+function lineBoxes(el) {
+  const rects = [...el.getClientRects()];
+  const lines = [];
+  rects.forEach(function (r) {
+    if (r.width < 1 || r.height < 1) return;
+    const hit = lines.find(function (l) { return Math.abs(l.top - r.top) < 3; });
+    if (hit) {
+      hit.left = Math.min(hit.left, r.left);
+      hit.right = Math.max(hit.right, r.right);
+      hit.width = hit.right - hit.left;
+    } else {
+      lines.push({ top: r.top, left: r.left, right: r.right, width: r.width, height: r.height });
+    }
+  });
+  return lines;
+}
+
+function lastLineGlyphs(el) {
+  const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+  const nodes = [];
+  while (walker.nextNode()) nodes.push(walker.currentNode);
+  if (!nodes.length) return "";
+  const lines = lineBoxes(el);
+  if (lines.length < 2) return "";
+  const lastTop = lines[lines.length - 1].top;
+  let out = "";
+  nodes.forEach(function (node) {
+    const raw = node.nodeValue || "";
+    for (let i = 0; i < raw.length; i++) {
+      if (raw[i] === "\u2060") continue;
+      const range = document.createRange();
+      range.setStart(node, i);
+      range.setEnd(node, i + 1);
+      const box = range.getBoundingClientRect();
+      if (box.width < 0.5) continue;
+      if (Math.abs(box.top - lastTop) < 4) out += raw[i];
+    }
+  });
+  return out.replace(/\s+/g, "");
+}
+
+function clipped(el, slide) {
+  const a = slide.getBoundingClientRect();
+  const e = el.getBoundingClientRect();
+  const overflowHidden = getComputedStyle(el).overflow === "hidden" || getComputedStyle(el).overflowX === "hidden" || getComputedStyle(el).overflowY === "hidden";
+  const boxClip = overflowHidden && (el.scrollWidth > el.clientWidth + 2 || el.scrollHeight > el.clientHeight + 2);
+  const slideClip = e.right > a.right + 3 || e.bottom > a.bottom + 3;
+  return boxClip || slideClip;
+}
+
+function auditSlide(slide, deck, page) {
+  const hits = [];
+  const job = slide.getAttribute("data-job") || "";
+  slide.querySelectorAll(".sd-rail").forEach(function (n) { n.remove(); });
+  const fields = slide.querySelectorAll(".sd-h2,.sd-chip,.sd-quote,.sd-lede,.sd-hero,.sd-eyebrow,.sd-kpi .l,.sd-kpi .v,.sd-kpi .d,.sd-table th,.sd-table td,text");
+  fields.forEach(function (el) {
+    const text = visibleText(el);
+    if (!text) return;
+    const role = el.className || el.tagName;
+    if (/…|\.\.\./.test(text)) {
+      hits.push({ kind: "ellipsis", deck: deck, page: page, job: job, role: role, text: text.slice(0, 80) });
+    }
+    if (el.tagName !== "text" && clipped(el, slide) && !el.closest("svg")) {
+      hits.push({ kind: "clip", deck: deck, page: page, job: job, role: role, text: text.slice(0, 80) });
+    }
+    if (el.tagName === "text") return;
+    const lines = lineBoxes(el);
+    if (lines.length >= 2) {
+      const last = lastLineGlyphs(el);
+      const cjk = (last.match(/[\u4e00-\u9fff]/g) || []).length;
+      if (last.length > 0 && last.length <= 2 && cjk >= 1) {
+        hits.push({ kind: "orphan", deck: deck, page: page, job: job, role: role, text: text.slice(0, 80), last: last });
+      }
+    }
+  });
+  return hits;
+}
+
+async function run() {
+  const out = document.getElementById("out");
+  const host = document.getElementById("host");
+  const css = await fetch("/templates/TIANSIGHT/TIANSIGHT-v2.css").then(function (r) { return r.text(); });
+  const style = document.createElement("style");
+  style.textContent = css + "\n#host .sd-slide{display:block!important;position:relative;width:2880px;height:1620px;overflow:hidden;}";
+  document.head.appendChild(style);
+  const all = [];
+  for (const deck of decks) {
+    const res = await fetch(deck);
+    const html = await res.text();
+    const doc = new DOMParser().parseFromString(html, "text/html");
+    const slides = [...doc.querySelectorAll("section.slide")];
+    slides.forEach(function (slide, i) {
+      slide.classList.add("on");
+      slide.style.display = "block";
+      slide.style.position = "relative";
+      host.appendChild(slide);
+      all.push.apply(all, auditSlide(slide, deck, i + 1));
+      slide.remove();
+    });
+  }
+  const report = { pages: "see decks", hits: all.length, items: all };
+  out.textContent = JSON.stringify(report, null, 2);
+}
+
+if (q.get("run") === "1") {
+  document.fonts.ready.then(run).catch(function (err) {
+    document.getElementById("out").textContent = String(err);
+  });
+}
+</script>
+</body>
+</html>

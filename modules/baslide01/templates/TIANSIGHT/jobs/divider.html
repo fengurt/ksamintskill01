@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-font-pack="TIANSIGHT" data-skin="TIANSIGHT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TIANSIGHT Template · divider</title>
+<!--
+  TEMPLATE: divider  ·  L1 SHELL from v2.0 spec
+  Fill slots only. Do not add CSS classes.
+  Tokens: ../TIANSIGHT-v2.css  ·  QA: keep chrome positions.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link id="sd-font-link" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../TIANSIGHT-v2.css">
+</head>
+<body>
+<div id="sd-stage"><div id="deck">
+<section class="slide sd-slide on shell-divider" data-job="divider" data-page-type="chapter">
+
+  <div class="sd-tk"><span class="sd-chip">{{CHAPTER_NUM_CN}} · {{CHAPTER_TITLE_CN}}</span></div>
+  <div class="sd-index">{{PAGE_INDEX}} / {{PAGE_TOTAL}}</div>
+  <div style="position:absolute; top:18%; left:var(--sd-margin); font-family:var(--sd-font-serif); font-size:var(--sd-type-display); font-weight:900; color:var(--sd-accent); line-height:1;">{{CHAPTER_NUM_CN}}</div>
+  <div class="sd-eyebrow" style="position:absolute; top:38%; left:var(--sd-margin);">{{CHAPTER_KICKER_EN}}</div>
+  <div class="sd-hero" style="position:absolute; top:44%; left:var(--sd-margin); right:var(--sd-margin); font-size:var(--sd-type-h1);">{{CHAPTER_TITLE_CN}}</div>
+  <div style="position:absolute; top:58%; left:var(--sd-margin); font-family:var(--sd-font-mono); font-size:var(--sd-type-small); color:var(--sd-ink-60);">{{CHAPTER_ARABIC_LABEL}}</div>
+  <div style="position:absolute; bottom:4%; right:var(--sd-margin); font-family:var(--sd-font-mono); font-size:var(--sd-type-micro); color:var(--sd-ink-60);">{{DECK_NAME}} · {{PAGE_INDEX}} / {{PAGE_TOTAL}}</div>
+
+</section>
+</div></div>
+<script src="../TIANSIGHT-deck.js"></script>
+</body>
+</html>

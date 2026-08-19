@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800">
+  <rect width="1200" height="800" fill="#FFFFFF"/>
+  <g font-family="var(--sans-tab)" font-size="20" font-weight="700">
+    <g transform="translate(60,60)">
+      <text x="0" y="0" font-size="64" fill="#A88B52" font-weight="700">01</text>
+      <text x="0" y="36" font-size="20" fill="#0A1626">入口展示</text>
+      <text x="0" y="60" font-size="13" fill="#75777D" font-weight="400">入口门厅 · 接待大堂</text>
+      <text x="0" y="80" font-size="13" fill="#75777D" font-weight="400">沉香文化展厅 · 零售</text>
+      <text x="0" y="120" font-size="11" fill="#44474C">300-500 ㎡</text>
+    </g>
+    <g transform="translate(450,60)">
+      <text x="0" y="0" font-size="64" fill="#A88B52" font-weight="700">02</text>
+      <text x="0" y="36" font-size="20" fill="#0A1626">精品住宿</text>
+      <text x="0" y="60" font-size="13" fill="#75777D" font-weight="400">90-100 间客房</text>
+      <text x="0" y="80" font-size="13" fill="#75777D" font-weight="400">森林景观房 / 套房</text>
+      <text x="0" y="120" font-size="11" fill="#44474C">7,000-9,500 ㎡</text>
+    </g>
+    <g transform="translate(840,60)">
+      <text x="0" y="0" font-size="64" fill="#A88B52" font-weight="700">03</text>
+      <text x="0" y="36" font-size="20" fill="#0A1626">餐饮与宴会</text>
+      <text x="0" y="60" font-size="13" fill="#75777D" font-weight="400">全日餐厅 · 包房</text>
+      <text x="0" y="80" font-size="13" fill="#75777D" font-weight="400">私宴 · 茶席</text>
+      <text x="0" y="120" font-size="11" fill="#44474C">1,800-2,800 ㎡</text>
+    </g>
+    <g transform="translate(60,360)">
+      <text x="0" y="0" font-size="64" fill="#A88B52" font-weight="700">04</text>
+      <text x="0" y="36" font-size="20" fill="#0A1626">企业学院</text>
+      <text x="0" y="60" font-size="13" fill="#75777D" font-weight="400">多功能厅 · 培训室</text>
+      <text x="0" y="80" font-size="13" fill="#75777D" font-weight="400">家族传承书院</text>
+      <text x="0" y="120" font-size="11" fill="#44474C">2,000-3,500 ㎡</text>
+    </g>
+    <g transform="translate(450,360)">
+      <text x="0" y="0" font-size="64" fill="#A88B52" font-weight="700">05</text>
+      <text x="0" y="36" font-size="20" fill="#0A1626">康养体检</text>
+      <text x="0" y="60" font-size="13" fill="#75777D" font-weight="400">基础体检 · 咨询</text>
+      <text x="0" y="80" font-size="13" fill="#75777D" font-weight="400">森林康养 · 睡眠管理</text>
+      <text x="0" y="120" font-size="11" fill="#44474C">800-1,500 ㎡</text>
+    </g>
+    <g transform="translate(840,360)">
+      <text x="0" y="0" font-size="64" fill="#A88B52" font-weight="700">06</text>
+      <text x="0" y="36" font-size="20" fill="#0A1626">沉香产业</text>
+      <text x="0" y="60" font-size="13" fill="#75777D" font-weight="400">种植示范 · 科普</text>
+      <text x="0" y="80" font-size="13" fill="#75777D" font-weight="400">工坊 · 礼品 · 零售</text>
+      <text x="0" y="120" font-size="11" fill="#44474C">1,000-2,000 ㎡</text>
+    </g>
+  </g>
+  <line x1="60" y1="240" x2="1140" y2="240" stroke="#DCD9DB"/>
+  <line x1="60" y1="540" x2="1140" y2="540" stroke="#DCD9DB"/>
+  <line x1="395" y1="60" x2="395" y2="700" stroke="#DCD9DB"/>
+  <line x1="785" y1="60" x2="785" y2="700" stroke="#DCD9DB"/>
+  <text x="600" y="770" text-anchor="middle" font-family="var(--sans-tab)" font-size="11" font-weight="600" fill="#0A1626" letter-spacing="0.18em">六大功能大区 · FACILITY PROGRAM (Q01-Q06)</text>
+</svg>

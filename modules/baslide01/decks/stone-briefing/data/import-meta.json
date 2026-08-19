@@ -1,0 +1,40 @@
+{
+  "pack": "/Users/af/Public/APUCH/IPTrust/TableAI/education01/边江/石头先生/data/beijing-chaoyang-heshenghui-burger-2026-06",
+  "sku": "/Users/af/Public/APUCH/IPTrust/TableAI/education01/边江/石头先生/data/sku-catalog",
+  "db": "decks/stone-briefing/data/pack.sqlite",
+  "generated_for": [
+    "D03",
+    "D04",
+    "D05"
+  ],
+  "web_sources": [
+    {
+      "id": "wesley-burger",
+      "query": "魏斯理汉堡",
+      "url": "https://www.weijia1999.com/html/brand/266.html",
+      "status": 200,
+      "excerpt": "魏斯理汉堡®_旗下品牌_魏家餐饮 since1999 var is_mobile_cms = ''; 网站首页 关于魏家 旗下品牌 旗下品牌 公告通知 联系我们 400-016-7070 --> --> --> --> --> EN --> --> 请输入搜索信息！ --> --> --> --> --> --> 立即搜索 --> --> --> × --> --> 首页 关于魏家 旗下品牌 公告通知",
+      "why": "08 §5.1：北京库 0 家，全国直营 80+ 的第一参照"
+    },
+    {
+      "id": "wesley-burger",
+      "query": "魏斯理汉堡",
+      "url": "https://36kr.com/p/3719738894463490",
+      "status": 200,
+      "excerpt": "* { box-sizing: border-box; } html, body { height: 100%; } body { margin: 0; background: #fff; color: #0c0d0e; font-family: -apple-system, BlinkMacSystemFont, \"PingFang SC\", \"Hiragino Sans GB\", \"Microsoft YaHei\", Arial, sans-serif; } .page { min-height: 100vh; padding: min(300px, 22vh) 20px 40px; display: flex; flex-direction: column; align-items: center; } .card { width: 432px; max-width: 100%; p",
+      "why": "08 §5.1：北京库 0 家，全国直营 80+ 的第一参照"
+    },
+    {
+      "id": "wesley-burger",
+      "query": "魏斯理汉堡",
+      "url": "https://erhainews.com/n23430.html",
+      "status": 200,
+      "excerpt": "魏斯理汉堡落子华中，区域品牌全国化的底气是什么？ - 洱海新闻 tailwind.config={theme:{extend:{colors:{brand:\"#c62828\",\"brand-h\":\"#b71c1c\"}}}} {\"@context\":\"https://schema.org\",\"@type\":\"NewsArticle\",\"headline\":\"\\u9B4F\\u65AF\\u7406\\u6C49\\u5821\\u843D\\u5B50\\u534E\\u4E2D\\uFF0C\\u533A\\u57DF\\u54C1\\u724C\\u5168\\u56FD\\u5316\\u7684\\u5E95\\u6C14\\u662F\\u4EC0\\u4E48\\uFF1F\",\"description\":\"\\u9B4F\\u65AF\\u7406\\u6C49\\u5821\\u843D\\u5B50\\u534E\\u4E2D\\uFF0C",
+      "why": "08 §5.1：北京库 0 家，全国直营 80+ 的第一参照"
+    }
+  ],
+  "pack_id": "beijing-chaoyang-heshenghui-burger-2026-06",
+  "generated_at": "2026-08-12T23:16:44.060686+00:00",
+  "source_file": "北京美食.xlsx",
+  "source_sha256": "b8525cac309ae899da2d04cd12dbf9cd3a14c7e69eb8f75c03f51bfb1f40271f"
+}

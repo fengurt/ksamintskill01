@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>预览模板 · Baslide01</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+SC:wght@400;600;700&family=Noto+Serif:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/baslide-thumbs.css">
+<style>
+:root{
+  --surface:#F4F0E7; --paper:#FFFDF8; --charcoal:#17130D;
+  --gold:#76551F; --gold-hi:#D4A862; --seal:#8C3228; --muted:#706758;
+  --navy:#0A1626; --ink-primary:#EFE6D2;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--surface);color:var(--charcoal);
+  font-family:"Noto Serif SC","Songti SC",serif;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.shell{height:100%;display:grid;grid-template-rows:auto 1fr;min-height:0}
+.strip{display:flex;gap:8px;overflow-x:auto;padding:10px 16px 12px;border-bottom:1px solid var(--gold);background:var(--surface)}
+.strip a{flex:0 0 120px}
+.strip a.thumb{outline:0}
+.strip a.on{box-shadow:0 0 0 2px var(--gold)}
+.main{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(320px,0.9fr);min-height:0}
+.stage{min-height:0;background:#1a1610;display:grid;place-items:center;padding:16px;position:relative}
+.frame-wrap{width:min(100%,1100px);aspect-ratio:16/9;background:#000;border:1px solid rgba(212,168,98,.35);overflow:hidden}
+.frame-wrap iframe{width:100%;height:100%;border:0;background:#000}
+.side{min-height:0;overflow:auto;padding:18px 20px 48px;border-left:1px solid rgba(118,85,31,.34);background:var(--paper)}
+.k{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+h1{font-size:26px;font-weight:700;margin:6px 0 8px}
+.job{font-size:14px;line-height:1.65;color:var(--muted)}
+.skins{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0}
+.skins a,.skins button{
+  font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.04em;
+  border:1px solid rgba(118,85,31,.34);padding:5px 10px;border-radius:2px;background:transparent;cursor:pointer;color:var(--gold)
+}
+.skins a.on,.skins button.on{background:var(--navy);color:var(--paper);border-color:var(--navy)}
+.acts{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 16px}
+.acts a,.acts button{
+  font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  background:var(--gold);color:var(--paper);border:0;padding:8px 12px;border-radius:2px;cursor:pointer
+}
+.acts a.ghost,.acts button.ghost{background:transparent;color:var(--gold);border:1px solid rgba(118,85,31,.34)}
+.loop{background:var(--surface);border:1px solid rgba(118,85,31,.34);padding:14px 16px;border-radius:2px;margin-top:8px}
+.loop h2{font-size:13px;letter-spacing:.12em;text-transform:uppercase;font-family:"IBM Plex Mono",monospace;color:var(--gold);margin-bottom:8px}
+.loop p{font-size:13.5px;line-height:1.7}
+.loop ul{margin:10px 0 0 18px;font-size:13px;line-height:1.7;color:var(--muted)}
+.loop code{font-family:"IBM Plex Mono",monospace;font-size:.92em;background:rgba(118,85,31,.08);padding:1px 5px}
+.empty{color:rgba(239,230,210,.7);font-size:14px;text-align:center;padding:24px}
+@media(max-width:960px){
+  .main{grid-template-columns:1fr;grid-template-rows:minmax(220px,42vh) 1fr}
+  .side{border-left:0;border-top:1px solid rgba(118,85,31,.34)}
+}
+</style>
+</head>
+<body class="baslide-doc">
+<div class="shell">
+  <nav class="strip" id="strip" aria-label="页面类型"></nav>
+  <div class="main">
+    <div class="stage">
+      <div class="frame-wrap" id="frameWrap">
+        <iframe id="frame" title="模板预览" sandbox="allow-scripts allow-same-origin allow-popups"></iframe>
+      </div>
+    </div>
+    <aside class="side" id="side"></aside>
+  </div>
+</div>
+<script src="/assets/baslide-catalog.js"></script>
+<script>
+const params = new URLSearchParams(location.search);
+const C = window.BaslideCatalog;
+
+fetch("/page-types.json").then(r => r.json()).then(data => {
+  const types = data.types;
+  let typeId = params.get("type") || types[0].id;
+  let type = types.find(t => t.id === typeId) || types[0];
+  typeId = type.id;
+  let skin = params.get("skin") || C.firstSkin(type);
+  if (!type.skins[skin]) skin = C.firstSkin(type);
+  // #region agent log
+  fetch('http://127.0.0.1:7413/ingest/823441ad-59f6-4b3e-a911-72d56e2cb3ec',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'1a3c9c'},body:JSON.stringify({sessionId:'1a3c9c',runId:'pre-fix',hypothesisId:'H4',location:'preview/index.html:init',message:'preview init',data:{typeId:typeId,skin:skin,typeCount:types.length,hasLoop:!!(type.loop&&type.loop.prompt),loopFile:type.loop&&type.loop.file,skinCount:Object.keys(type.skins||{}).length,requestedType:params.get('type'),requestedSkin:params.get('skin'),catalogReady:!!C},timestamp:Date.now()})}).catch(()=>{});
+  // #endregion
+
+  const strip = document.getElementById("strip");
+  types.forEach(t => {
+    strip.insertAdjacentHTML("beforeend", C.thumbHTML(t, { href: C.previewHref(t.id), caption: true }));
+  });
+  strip.querySelectorAll(".thumb").forEach(a => {
+    if (a.getAttribute("data-thumb") === typeId) a.classList.add("on");
+  });
+
+  function spec() {
+    return type.skins[skin];
+  }
+
+  function renderSide() {
+    const s = spec();
+    const skinBtns = Object.keys(type.skins).map(k => {
+      const label = (data.skins[k] && data.skins[k].label) || k;
+      return "<a class='" + (k === skin ? "on" : "") + "' href='" + C.previewHref(type.id, k) + "'>" + label + "</a>";
+    }).join("");
+    const checks = (type.loop.checks || []).map(c => "<li>" + c + "</li>").join("");
+    document.getElementById("side").innerHTML =
+      "<p class='k'>" + type.id + " · " + type.family + "</p>" +
+      "<h1>" + type.label + "</h1>" +
+      "<p class='job'>" + type.job + "</p>" +
+      "<div class='skins'>" + skinBtns + "</div>" +
+      "<div class='acts'>" +
+        "<a href='" + (s ? s.href : "#") + "' target='_blank' rel='noopener'>打开模板</a>" +
+        "<button type='button' class='ghost' id='copyLoop'>复制 loop</button>" +
+        "<a class='ghost' href='" + type.loop.file + "' target='_blank' rel='noopener'>loop 文件</a>" +
+        "<a class='ghost' href='/prompts/loop/brand.md' target='_blank' rel='noopener'>品牌 loop</a>" +
+      "</div>" +
+      "<p class='k'>Layout · " + (s ? s.layout : "—") + "</p>" +
+      "<div class='loop' id='loopBox'>" +
+        "<h2>Loop 约束</h2>" +
+        "<p>" + type.loop.prompt + "</p>" +
+        "<ul>" + checks + "</ul>" +
+        "<p style='margin-top:10px;font-size:12px;color:var(--muted)'>生成时先读 <code>prompts/loop/brand.md</code>，再读本页。检查失败就改，最多三轮。</p>" +
+      "</div>";
+    document.getElementById("copyLoop").onclick = function () {
+      const text = [
+        "Read prompts/loop/brand.md then " + type.loop.file,
+        type.loop.prompt,
+        "Checks:",
+        ...(type.loop.checks || []).map(c => "- " + c)
+      ].join("\n");
+      navigator.clipboard.writeText(text).then(function () {
+        document.getElementById("copyLoop").textContent = "已复制";
+      });
+    };
+  }
+
+  function loadFrame() {
+    const s = spec();
+    const frame = document.getElementById("frame");
+    if (!s) {
+      // #region agent log
+      fetch('http://127.0.0.1:7413/ingest/823441ad-59f6-4b3e-a911-72d56e2cb3ec',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'1a3c9c'},body:JSON.stringify({sessionId:'1a3c9c',runId:'pre-fix',hypothesisId:'H4',location:'preview/index.html:loadFrame',message:'no skin spec',data:{typeId:typeId,skin:skin},timestamp:Date.now()})}).catch(()=>{});
+      // #endregion
+      frame.removeAttribute("src");
+      return;
+    }
+    const src = C.templateHref(s.href);
+    const t0 = performance.now();
+    frame.onload = function () {
+      let slideCount = null, activeOn = null, hasChrome = null, exportClass = null, err = null;
+      try {
+        const doc = frame.contentDocument;
+        slideCount = doc.querySelectorAll("section.slide, .slide").length;
+        activeOn = doc.querySelectorAll("section.slide.on, .slide.on").length;
+        hasChrome = !!doc.getElementById("baslide-chrome") && !doc.getElementById("baslide-chrome").hidden;
+        exportClass = doc.documentElement.className;
+      } catch (e) {
+        err = String(e);
+      }
+      // #region agent log
+      fetch('http://127.0.0.1:7413/ingest/823441ad-59f6-4b3e-a911-72d56e2cb3ec',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'1a3c9c'},body:JSON.stringify({sessionId:'1a3c9c',runId:'pre-fix',hypothesisId:'H1',location:'preview/index.html:iframe.onload',message:'iframe loaded',data:{typeId:typeId,skin:skin,src:src,layout:s.layout,slide:new URL(s.href,location.origin).searchParams.get('slide'),slideCount:slideCount,activeOn:activeOn,hasChromeVisible:hasChrome,exportClass:exportClass,ms:Math.round(performance.now()-t0),err:err},timestamp:Date.now()})}).catch(()=>{});
+      // #endregion
+    };
+    frame.src = src;
+  }
+
+  renderSide();
+  loadFrame();
+}).catch(err => {
+  // #region agent log
+  fetch('http://127.0.0.1:7413/ingest/823441ad-59f6-4b3e-a911-72d56e2cb3ec',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'1a3c9c'},body:JSON.stringify({sessionId:'1a3c9c',runId:'pre-fix',hypothesisId:'H5',location:'preview/index.html:catch',message:'preview fetch failed',data:{error:String(err)},timestamp:Date.now()})}).catch(()=>{});
+  // #endregion
+  document.getElementById("side").textContent = "无法读取 page-types.json：" + err;
+});
+</script>
+</body>
+</html>

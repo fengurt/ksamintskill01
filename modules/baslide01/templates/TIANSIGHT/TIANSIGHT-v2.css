@@ -1,0 +1,705 @@
+/* 侍天 TIANSIGHT v2.0 — shared tokens + chrome.
+   Source: ref/TIANSIGHTtemplatespreview (1)/templates/*.html
+   Edit THIS file; job templates link it. Do not hand-edit hex in slides.
+*/
+/* ============================================================
+   侍天 TIANSIGHT — 智慧餐饮 · Design Tokens
+   v2.0 · 2026-08-15
+   Canvas: 2880×1620 · Content safe area: 21:9 · Skin: TIANSIGHT
+   Source of truth for all HTML slide output. Do not hand-edit
+   hex values inside a slide — change them here.
+
+   CHANGELOG v1.0 → v2.0
+   - Canvas doubled 1440×810 → 2880×1620 (type scale doubled with it).
+   - v2.0 spent vertical room on a right-side explain rail (21:9 content).
+   - v2.1: SOURCE / GLOSSARY / CONCLUSION / CONFIDENCE leave the canvas (bottom
+     drawer, hidden by default). Content band is taller; type and table retuned.
+   - v2.2: Type is a ratio of canvas height, not a desktop px habit.
+   - v2.3: The field is a poster, not a document. 1em = 3.2% of 1620 so body
+     occupies the content well. Title band tightened; KPI value fills the card.
+   - NEW: --sd-ink-45 was being used for caption/label TEXT at only
+     2.96:1 against Paper/Surface — FAILS WCAG AA (needs 4.5:1 for
+     normal-size text). Added --sd-ink-60 (4.72:1, passes AA) as the
+     new minimum-contrast token for any token that renders as text.
+     --sd-ink-45 and below are now restricted to non-text decoration
+     (icons, gridlines, dividers) — see §QA System, check C1.
+   - NEW: Explain Dashboard rail (.sd-rail) + live-data status tokens.
+   - v2.4: Figure recipe locked on `.sd-content svg`. Bubble/quadrant:
+     area ∝ √size, large-first, dashed median ≥, paper-stroke labels,
+     unlabeled points belong on the following roster 清单. Band charts
+     with 品牌数 expand that 清单 to named brands, not bin totals.
+   - v2.5: Type stair down so in-bar values stay inside the mark.
+     Header is one row: logo + chip (`图 18 · 叁 · 本报告核心`) + index.
+     Tables tighter. Statement sits in a paper well, not a lone quote.
+   - v2.6: Default type is mid (not the v2.5 floor). Each slide sets
+     data-pack=air|mid|tight from how much copy it carries, so a short
+     claim fills the well and a 10-row roster stays readable.
+   - v2.7: Statement is a poster, not a quote glued to a 序 table.
+     The claim well and 2–4 依据 cards share the content band. Air
+     statement quote is 4.8% of canvas height.
+   ============================================================ */
+
+:root {
+  /* ---- Brand core (fixed — do not derive, do not repaint) ---- */
+  --sd-primary:      #EFE6D2;   /* cover / divider wash            */
+  --sd-surface:       #F4F0E7;   /* body & fig slide background     */
+  --sd-accent:        #76551F;   /* bronze — headings, rules, chips */
+  --sd-secondary:     #8C3228;   /* brick — alerts, negative, 争议  */
+  --sd-ink:           #17130D;   /* text, hairlines base            */
+  --sd-paper:         #FBF8F2;   /* card / table zebra / rail floor */
+  --sd-white:         #FFFFFF;   /* rare — never for large fields   */
+
+  /* ---- Ink opacity ramp (text hierarchy) ----
+     Contrast measured against Paper #FBF8F2 (worst case on-brand bg).
+     Rule: only -100 / -72 / -60 may render as TEXT (all clear WCAG
+     AA 4.5:1 for normal-size text). -45 and darker are for non-text
+     decoration only — see QA check C1. */
+  --sd-ink-100: #17130D;                /* 17.45:1 — headings, primary text  */
+  --sd-ink-72:  rgba(23,19,13,.72);     /*  7.20:1 — body copy                */
+  --sd-ink-60:  rgba(23,19,13,.60);     /*  4.72:1 — captions/labels/index — MINIMUM for text */
+  --sd-ink-45:  rgba(23,19,13,.45);     /*  2.96:1 — NON-TEXT ONLY (icons, gridlines) */
+  --sd-ink-28:  rgba(23,19,13,.28);     /* placeholder / disabled, non-text   */
+  --sd-ink-14:  rgba(23,19,13,.14);     /* hairline rules                     */
+  --sd-ink-07:  rgba(23,19,13,.07);     /* zebra fill, subtle wash            */
+
+  /* ---- Accent / secondary tints (chips, wells, tags) ---- */
+  --sd-accent-wash-16: rgba(118,85,31,.16);
+  --sd-accent-wash-10: rgba(118,85,31,.10);
+  --sd-accent-wash-06: rgba(118,85,31,.06);
+  --sd-secondary-wash-14: rgba(140,50,40,.14);
+  --sd-secondary-wash-08: rgba(140,50,40,.08);
+
+  /* ---- Status triad (fixed — matrix / gate / live-sync cells only) ----
+     These three are validated for the DOT (non-text, ::before) and for
+     wash/border backgrounds — NOT for text. Audit check A1 caught exactly
+     this: --sd-status-ready as a text color measures 3.87:1 vs Paper
+     (fails AA 4.5:1); --sd-status-degraded measures 2.96:1 (fails even
+     the 3:1 non-text floor). Use the *-text variants below for any label,
+     delta, or quad heading rendered as TEXT; keep the plain tokens for
+     dots/borders/washes only. */
+  --sd-status-ready:    #1B8F5A;  /* jade   — on track / 达标 / 数据实时同步   */
+  --sd-status-degraded: #C0862A;  /* amber  — watch / 待验证 / 数据缓存中      */
+  --sd-status-blocked:  #8C3228;  /* brick  — stop / 阻塞 / 数据源断开 (=secondary) */
+  --sd-status-ready-text:    #157A4B;  /* 5.06:1 vs Paper — MINIMUM for ready-toned text    */
+  --sd-status-degraded-text: #8A5F1E;  /* 5.30:1 vs Paper — MINIMUM for degraded-toned text */
+  --sd-status-blocked-text:  #8C3228;  /* 7.61:1 vs Paper — same as --sd-secondary, already text-safe */
+
+  /* ---- Categorical chart palette (validated — see references/chart-palette.md) ---- */
+  --sd-cat-1: #96591A;  /* bronze  */
+  --sd-cat-2: #0F8A76;  /* jade    */
+  --sd-cat-3: #8C3228;  /* brick   */
+  --sd-cat-4: #4F8A3E;  /* moss    */
+  --sd-cat-5: #3D5FA6;  /* indigo  */
+  --sd-cat-6: #C0862A;  /* mustard — WARN: sub-3:1, pair with direct label */
+  --sd-cat-7: #14749E;  /* slate   */
+  --sd-cat-8: #96436F;  /* plum    — WARN: floor-band vs slate, pair with direct label */
+
+  /* ---- Sequential ramp: single hue "bronze", light→dark (6 steps) ---- */
+  --sd-seq-100: #C9A24C;
+  --sd-seq-200: #AD832B;
+  --sd-seq-300: #8F6820;
+  --sd-seq-400: #76551F;  /* = --sd-accent, anchor step */
+  --sd-seq-500: #5B4319;
+  --sd-seq-600: #3E2D0F;
+
+  /* ---- Diverging pair: brick (−) ↔ jade (+), neutral midpoint ---- */
+  --sd-div-neg-2: #8C3228;
+  --sd-div-neg-1: #B4665A;
+  --sd-div-mid:   #D8D2C4;
+  --sd-div-pos-1: #5AAE96;
+  --sd-div-pos-2: #0F8A76;
+
+  /* ---- Typography (two-family system — do not add a third) ---- */
+  --sd-font-serif: "Noto Serif SC", "Songti SC", "STSong", serif;
+  --sd-font-mono:  "IBM Plex Mono", "Roboto Mono", "JetBrains Mono", monospace;
+  /* Emoji / symbol fallback — declare explicitly wherever a status
+     dot or 🔴/🟡/🟢 marker is used in source content, so a missing
+     glyph never silently falls back to tofu. See QA check C4. */
+  --sd-font-symbol: "Noto Serif SC", "Noto Sans Symbols 2", "Noto Color Emoji", sans-serif;
+
+  /* ---- Type scale = share of canvas height (poster, not desktop px) ----
+     Default = mid. data-pack=air raises the stair; data-pack=tight lowers it.
+     1em = 2.45% of 1620 ≈ 40px. Complete text first; type is secondary. */
+  --sd-em:           calc(var(--sd-canvas-h) * 0.0245);
+  --sd-type-hero:    calc(var(--sd-canvas-h) * 0.090);
+  --sd-type-display: calc(var(--sd-canvas-h) * 0.118);
+  --sd-type-h1:      calc(var(--sd-canvas-h) * 0.052);
+  --sd-type-quote:   calc(var(--sd-canvas-h) * 0.036);
+  --sd-type-kpi:     calc(var(--sd-canvas-h) * 0.066);
+  --sd-type-h2:      calc(var(--sd-canvas-h) * 0.034);
+  --sd-type-h3:      calc(var(--sd-canvas-h) * 0.024);
+  --sd-type-body:    var(--sd-em);
+  --sd-type-small:   calc(var(--sd-canvas-h) * 0.0175);
+  --sd-type-micro:   calc(var(--sd-canvas-h) * 0.013);
+  --sd-cell-pad-y:   0.32em;
+  --sd-cell-pad-x:   0.5em;
+
+  /* ---- Canvas & grid (2880×1620) · bands are % of the same canvas ---- */
+  --sd-canvas-w: 2880px;
+  --sd-canvas-h: 1620px;
+  --sd-margin: calc(var(--sd-canvas-w) * 0.032);      /* 3.2% w */
+  --sd-top-band-h: calc(var(--sd-canvas-h) * 0.148);  /* 14.8% h · one-line header + title */
+  --sd-footer-h: calc(var(--sd-canvas-h) * 0.056);    /* 5.6% h */
+  --sd-gutter: calc(var(--sd-canvas-w) * 0.014);
+  --sd-rail-w: auto;
+  --sd-explain-h: 236px;           /* bottom drawer when open            */
+  --sd-explain-tab-h: 32px;        /* collapsed bar                      */
+  /* content: x 3.2%–96.8% · y 14.8%–94.4% */
+  --sd-radius-chip: 999px;
+  --sd-radius-card: 8px;
+  --sd-hairline: 2px solid var(--sd-ink-14);
+}
+
+/* ============================================================
+   Base reset for a 2880×1620 slide surface
+   ============================================================ */
+.sd-slide {
+  box-sizing: border-box;
+  position: relative;
+  width: var(--sd-canvas-w);
+  height: var(--sd-canvas-h);
+  overflow: hidden;
+  background: var(--sd-surface);
+  color: var(--sd-ink-100);
+  font-family: var(--sd-font-serif);
+  -webkit-font-smoothing: antialiased;
+  text-wrap: pretty;
+  line-break: strict;
+  orphans: 2;
+  widows: 2;
+}
+.sd-slide * { box-sizing: border-box; }
+.sd-slide[data-pack="air"] {
+  --sd-em:         calc(var(--sd-canvas-h) * 0.028);
+  --sd-type-quote: calc(var(--sd-canvas-h) * 0.044);
+  --sd-type-h2:    calc(var(--sd-canvas-h) * 0.036);
+  --sd-type-h3:    calc(var(--sd-canvas-h) * 0.026);
+  --sd-type-body:  calc(var(--sd-canvas-h) * 0.026);
+  --sd-type-small: calc(var(--sd-canvas-h) * 0.020);
+  --sd-type-kpi:   calc(var(--sd-canvas-h) * 0.072);
+  --sd-cell-pad-y: 0.42em;
+  --sd-cell-pad-x: 0.62em;
+}
+.sd-slide[data-pack="air"] .sd-table {
+  font-size: var(--sd-type-h3);
+}
+.sd-slide[data-pack="air"][data-job="roster"] .sd-table {
+  height: 100%;
+}
+.sd-slide[data-pack="air"][data-job="roster"] .sd-table td {
+  vertical-align: middle;
+}
+.sd-slide[data-pack="air"][data-job="statement"] {
+  --sd-type-quote: calc(var(--sd-canvas-h) * 0.048);
+  --sd-type-body:  calc(var(--sd-canvas-h) * 0.028);
+}
+.sd-slide[data-job="statement"][data-fill="poster"] {
+  --sd-type-quote: calc(var(--sd-canvas-h) * 0.052);
+}
+.sd-slide[data-job="statement"][data-fill="poster"] .sd-quote {
+  flex: 1;
+}
+.sd-slide[data-pack="air"][data-job="kpi"] .sd-kpi {
+  justify-content: space-between;
+  padding: 1.35em 1.1em;
+}
+.sd-slide[data-pack="air"][data-job="kpi"] .sd-kpi .v {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+.sd-slide[data-pack="tight"] {
+  --sd-em:         calc(var(--sd-canvas-h) * 0.021);
+  --sd-type-quote: calc(var(--sd-canvas-h) * 0.030);
+  --sd-type-h2:    calc(var(--sd-canvas-h) * 0.028);
+  --sd-type-h3:    calc(var(--sd-canvas-h) * 0.020);
+  --sd-type-body:  calc(var(--sd-canvas-h) * 0.020);
+  --sd-type-small: calc(var(--sd-canvas-h) * 0.015);
+  --sd-cell-pad-y: 0.20em;
+}
+
+/* ---- Shell variants (L1) ---- */
+.sd-slide.shell-cover,
+.sd-slide.shell-divider { background: var(--sd-primary); }
+.sd-slide.shell-body,
+.sd-slide.shell-fig      { background: var(--sd-surface); }
+/* Rail markup stays on data jobs as source for #sd-explain (never painted
+   on the canvas). cover / divider / toc never carry .sd-rail. */
+
+/* ============================================================
+   Chrome — shared across body/fig shells
+   ============================================================ */
+.sd-tk {           /* one header row: logo + chip (图 18 · 叁 · 本报告核心) */
+  position: absolute; top: calc(var(--sd-canvas-h) * 0.018); left: var(--sd-margin);
+  right: calc(var(--sd-margin) + 7em);
+  display: flex; align-items: center; gap: 16px;
+  height: calc(var(--sd-canvas-h) * 0.044);
+  font-family: var(--sd-font-mono); font-size: var(--sd-type-micro);
+  letter-spacing: .04em; text-transform: none;
+  color: var(--sd-accent);
+}
+.sd-tk::before {
+  content: "";
+  height: calc(var(--sd-canvas-h) * 0.040);
+  width: calc(var(--sd-canvas-h) * 0.040);
+  flex: none;
+  background: url("logo/侍天.png") center / contain no-repeat;
+}
+.sd-tk img {
+  height: calc(var(--sd-canvas-h) * 0.040);
+  width: auto; flex: none; display: block;
+}
+.sd-chip {          /* lives inside .sd-tk — one line with the logo */
+  position: static; top: auto; left: auto;
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: var(--sd-font-mono); font-size: var(--sd-type-micro);
+  color: var(--sd-ink-72);
+  padding: 6px 16px; border: 2px solid var(--sd-accent-wash-16);
+  border-radius: var(--sd-radius-chip); background: var(--sd-accent-wash-06);
+  max-width: none;
+  white-space: nowrap; overflow: visible; line-height: 1.2;
+}
+.sd-index {         /* N / total, same row as header */
+  position: absolute; top: calc(var(--sd-canvas-h) * 0.026); right: var(--sd-margin);
+  font-family: var(--sd-font-mono); font-size: var(--sd-type-micro);
+  color: var(--sd-ink-60); letter-spacing: .05em;
+}
+.sd-h2 {            /* body / fig title · wrap, never clip */
+  position: absolute; top: calc(var(--sd-canvas-h) * 0.070); left: var(--sd-margin); right: var(--sd-margin);
+  font-family: var(--sd-font-serif); font-weight: 700;
+  font-size: var(--sd-type-h2); line-height: 1.22; color: var(--sd-ink-100);
+  letter-spacing: .01em;
+  overflow: visible;
+  text-wrap: pretty;
+  line-break: strict;
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+.sd-footer {        /* deck name + page index repeat, bottom band */
+  position: absolute; left: var(--sd-margin); right: var(--sd-margin);
+  bottom: calc(var(--sd-canvas-h) * 0.018); display: flex; justify-content: space-between;
+  font-family: var(--sd-font-mono); font-size: var(--sd-type-micro); color: var(--sd-ink-60);
+  border-top: var(--sd-hairline); padding-top: 0.4em;
+}
+
+/* ---- Content safe area (taller now that explain is off-canvas) ---- */
+.sd-content {
+  position: absolute; top: var(--sd-top-band-h); left: var(--sd-margin);
+  bottom: var(--sd-footer-h);
+  right: var(--sd-margin);
+}
+.sd-content.no-rail { right: var(--sd-margin); }
+.sd-content svg { width: 100%; height: 100%; display: block; }
+/* Figure text: same contrast floor as canvas type. Halo is paper stroke. */
+.sd-content svg text {
+  font-variant-numeric: tabular-nums;
+  paint-order: stroke;
+  stroke-linejoin: round;
+}
+.sd-slide > .sd-rail { display: none !important; } /* data only; cloned into #sd-explain */
+
+/* ============================================================
+   Explain data cards — painted only inside #sd-explain (bottom drawer)
+   ============================================================ */
+.sd-rail {
+  display: flex; flex-direction: row; gap: 12px;
+}
+.sd-rail-card {
+  flex: 1; min-width: 0; min-height: 0; display: flex; flex-direction: column;
+  background: var(--sd-paper); border: 2px solid var(--sd-ink-14);
+  border-radius: var(--sd-radius-card); padding: 16px 18px; overflow: visible;
+}
+.sd-rail-card .head {
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; row-gap: 4px;   /* long live-status labels wrap instead of overflowing — QA check B1 */
+  font-family: var(--sd-font-mono); font-size: 20px; letter-spacing: .04em;
+  text-transform: uppercase; color: var(--sd-accent); margin-bottom: 10px;
+  flex: none;
+}
+.sd-rail-card .head .live {
+  display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;
+  font-size: 18px; color: var(--sd-ink-60); text-transform: none; letter-spacing: 0;
+}
+.sd-rail-card .body {
+  /* flex:1 + min-height:0 so .body claims whatever space .head/.foot (both
+     flex:none) don't need — previously .body used the flexbox default
+     (flex:0 1 auto), which let a long .foot note silently starve it and
+     clip content via overflow:hidden with no visual warning. QA check B1
+     is what caught this: audit.js flagged scrollHeight > clientHeight on
+     rail-card .body across most jobs before this fix. */
+  flex: 1; min-height: 0;
+  font-family: var(--sd-font-serif); font-size: var(--sd-type-small);
+  color: var(--sd-ink-72); line-height: 1.55; overflow: visible;
+  overflow-wrap: break-word; word-break: break-word;
+}
+.sd-rail-card .term { margin-bottom: 10px; }
+.sd-rail-card .term b { color: var(--sd-ink-100); font-weight: 700; }
+.sd-rail-card .term span { color: var(--sd-ink-72); }
+.sd-rail-card .foot {
+  flex: none; margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--sd-ink-14);
+  font-family: var(--sd-font-mono); font-size: 18px; color: var(--sd-ink-60);
+  white-space: normal; overflow: visible; line-height: 1.4;
+}
+
+/* ---- Live-sync status dot (reuses the status triad) ---- */
+.sd-live { display: inline-flex; align-items: center; gap: 8px; font-family: var(--sd-font-mono); }
+.sd-live::before {
+  content: ""; width: 12px; height: 12px; border-radius: 50%; flex: none;
+}
+.sd-live.ready::before    { background: var(--sd-status-ready); box-shadow: 0 0 0 3px rgba(27,143,90,.18); }
+.sd-live.degraded::before { background: var(--sd-status-degraded); box-shadow: 0 0 0 3px rgba(192,134,42,.18); }
+.sd-live.blocked::before  { background: var(--sd-status-blocked); box-shadow: 0 0 0 3px rgba(140,50,40,.18); }
+
+/* ---- Cover / divider large-type helpers ---- */
+.sd-eyebrow { font-family: var(--sd-font-mono); font-size: var(--sd-type-small); letter-spacing: .22em;
+  text-transform: uppercase; color: var(--sd-accent);
+  display: flex; align-items: center; gap: 16px; }
+.sd-eyebrow img { height: calc(var(--sd-canvas-h) * 0.040); width: auto; flex: none; display: block; }
+.sd-hero    { font-family: var(--sd-font-serif); font-weight: 700; color: var(--sd-ink-100);
+  line-height: 1.15; }
+.sd-rule    { width: 96px; height: 4px; background: var(--sd-accent); }
+.sd-quote {
+  font-family: var(--sd-font-serif);
+  font-size: var(--sd-type-quote);
+  font-weight: 700;
+  line-height: 1.32;
+  color: var(--sd-ink-100);
+  max-width: none;
+  text-wrap: pretty;
+  line-break: strict;
+  overflow-wrap: break-word;
+  word-break: normal;
+  hanging-punctuation: first last;
+  orphans: 2;
+  widows: 2;
+}
+.sd-lede {
+  font-family: var(--sd-font-serif);
+  font-size: var(--sd-type-body);
+  color: var(--sd-ink-72);
+  margin-top: 0;
+  line-height: 1.5;
+  max-width: none;
+  text-wrap: pretty;
+  line-break: strict;
+  overflow-wrap: break-word;
+  word-break: normal;
+  hanging-punctuation: first last;
+  orphans: 2;
+  widows: 2;
+}
+
+/* ---- Generic table (used by roster / matrix / dual-calibre) ---- */
+.sd-table { width: 100%; height: auto; border-collapse: collapse; font-family: var(--sd-font-mono); font-size: var(--sd-type-small); }
+.sd-table th { text-align: left; font-weight: 600; color: var(--sd-ink-72);
+  border-bottom: 2px solid var(--sd-ink-14); padding: var(--sd-cell-pad-y) var(--sd-cell-pad-x); font-size: var(--sd-type-micro);
+  letter-spacing: .06em; text-transform: uppercase; }
+.sd-table td { padding: var(--sd-cell-pad-y) var(--sd-cell-pad-x); border-bottom: 1px solid var(--sd-ink-07); color: var(--sd-ink-100);
+  overflow-wrap: break-word; word-break: normal; line-break: strict; white-space: normal; }
+.sd-table tr:nth-child(even) td { background: var(--sd-paper); }
+.sd-table tr.sd-sum td { font-weight: 700; border-top: 2px solid var(--sd-accent); color: var(--sd-ink-100); }
+.sd-table td.num, .sd-table th.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+/* ---- KPI card ---- */
+.sd-kpi { border: 2px solid var(--sd-ink-14); background: var(--sd-paper); border-radius: var(--sd-radius-card);
+  padding: 1.15em 1.2em; flex: 1; min-width: 0; min-height: 0;
+  display: flex; flex-direction: column; justify-content: flex-start; gap: 0.35em; }
+.sd-kpi .v { font-family: var(--sd-font-mono); font-size: var(--sd-type-kpi); font-weight: 700; color: var(--sd-ink-100); font-variant-numeric: tabular-nums; letter-spacing: -.02em;
+  line-height: 1.05; margin-top: 0.15em; }
+.sd-kpi .l { font-family: var(--sd-font-serif); font-size: var(--sd-type-h3); color: var(--sd-ink-72); margin-top: 0;
+  text-wrap: pretty; line-break: strict; overflow: visible; }
+.sd-kpi .d { font-family: var(--sd-font-mono); font-size: var(--sd-type-small); margin-top: auto; }
+.sd-kpi .d.up   { color: var(--sd-status-ready-text); }   /* was --sd-status-ready: 3.87:1, AA fail — see QA check A1 */
+.sd-kpi .d.down { color: var(--sd-secondary); }
+
+/* ---- Status chip (ready / degraded / blocked) ---- */
+.sd-status { display: inline-flex; align-items: center; gap: 12px; font-family: var(--sd-font-mono);
+  font-size: var(--sd-type-micro); letter-spacing: .04em; }
+.sd-status::before { content: ""; width: 16px; height: 16px; border-radius: 50%; }
+.sd-status.ready::before    { background: var(--sd-status-ready); }
+.sd-status.degraded::before { background: var(--sd-status-degraded); }
+.sd-status.blocked::before  { background: var(--sd-status-blocked); }
+
+/* ---- QA debug overlay (toggle for visual audits — never ship visible) ---- */
+.sd-qa-grid.on .sd-slide::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 999;
+  background:
+    linear-gradient(to right, transparent calc(var(--sd-margin) - 1px), rgba(140,50,40,.35) calc(var(--sd-margin) - 1px), rgba(140,50,40,.35) var(--sd-margin), transparent var(--sd-margin)),
+    linear-gradient(to left, transparent calc(var(--sd-margin) - 1px), rgba(140,50,40,.35) calc(var(--sd-margin) - 1px), rgba(140,50,40,.35) var(--sd-margin), transparent var(--sd-margin));
+}
+
+/* ============================================================
+   Font packs — swap via html[data-font-pack] or ?font=
+   Two-family system only (serif body + mono numbers). Do not add a third.
+   ============================================================ */
+html[data-font-pack="TIANSIGHT"],
+html:not([data-font-pack]) {
+  --sd-font-serif: "Noto Serif SC", "Songti SC", "STSong", serif;
+  --sd-font-mono:  "IBM Plex Mono", "Roboto Mono", "JetBrains Mono", monospace;
+}
+html[data-font-pack="songti"] {
+  --sd-font-serif: "Songti SC", "STSong", "Noto Serif SC", serif;
+  --sd-font-mono:  "IBM Plex Mono", "Menlo", monospace;
+}
+html[data-font-pack="kaiti"] {
+  --sd-font-serif: "Kaiti SC", "STKaiti", "KaiTi", "Noto Serif SC", serif;
+  --sd-font-mono:  "IBM Plex Mono", "Menlo", monospace;
+}
+html[data-font-pack="fangsong"] {
+  --sd-font-serif: "STFangsong", "FangSong", "Noto Serif SC", serif;
+  --sd-font-mono:  "IBM Plex Mono", "Menlo", monospace;
+}
+html[data-font-pack="lxgw"] {
+  --sd-font-serif: "LXGW WenKai", "Kaiti SC", "Noto Serif SC", serif;
+  --sd-font-mono:  "IBM Plex Mono", "Roboto Mono", monospace;
+}
+html[data-font-pack="xiaowei"] {
+  --sd-font-serif: "ZCOOL XiaoWei", "Noto Serif SC", serif;
+  --sd-font-mono:  "IBM Plex Mono", "Roboto Mono", monospace;
+}
+html[data-font-pack="roboto-mono"] {
+  --sd-font-serif: "Noto Serif SC", "Songti SC", serif;
+  --sd-font-mono:  "Roboto Mono", "IBM Plex Mono", monospace;
+}
+
+/* ============================================================
+   Present / PDF — deck chrome lives OUTSIDE .sd-slide
+   ============================================================ */
+html.sd-present, html.sd-present body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #1c170f;
+}
+#sd-stage {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+}
+#deck {
+  width: var(--sd-canvas-w);
+  height: var(--sd-canvas-h);
+  transform-origin: 0 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+html.sd-present .sd-slide { display: none; }
+html.sd-present .sd-slide.on { display: block; }
+
+.sd-font-ui {
+  position: fixed;
+  top: 14px;
+  left: 18px;
+  z-index: 20;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  font-family: var(--sd-font-mono);
+  font-size: 11px;
+  letter-spacing: .06em;
+  color: #c9bfa4;
+}
+.sd-font-ui button {
+  font-family: inherit;
+  font-size: 11px;
+  letter-spacing: .04em;
+  color: #EFE6D2;
+  background: transparent;
+  border: 1px solid rgba(192,134,42,.45);
+  border-radius: 2px;
+  padding: 4px 8px;
+  cursor: pointer;
+}
+.sd-font-ui button.on {
+  background: #76551F;
+  color: #FFFDF8;
+  border-color: #76551F;
+}
+.sd-nav-hint {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  font-family: var(--sd-font-mono);
+  font-size: 11px;
+  letter-spacing: .12em;
+  color: rgba(239,230,210,.55);
+  display: flex;
+  gap: 16px;
+}
+html.sd-explain-has:not(.sd-explain-on):not(.sd-export) .sd-nav-hint {
+  bottom: calc(var(--sd-explain-tab-h) + 10px);
+}
+html.sd-explain-on .sd-nav-hint {
+  bottom: calc(var(--sd-explain-h) + 8px);
+}
+html.sd-explain-on #sd-stage {
+  bottom: var(--sd-explain-h);
+}
+html.sd-explain-has:not(.sd-explain-on):not(.sd-export) #sd-stage {
+  bottom: 0;
+}
+#sd-explain {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: auto;
+  width: auto;
+  height: var(--sd-explain-h);
+  z-index: 25;
+  display: flex;
+  flex-direction: column;
+  background: var(--sd-surface);
+  border-top: 1px solid rgba(212,168,98,.35);
+  color: var(--sd-ink-100);
+  box-sizing: border-box;
+}
+#sd-explain[hidden] { display: none !important; }
+#sd-explain-bar {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  height: 32px;
+  padding: 0 16px;
+  background: rgba(23,19,13,.92);
+  color: #EFE6D2;
+  font-family: var(--sd-font-mono);
+  font-size: 11px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+#sd-explain-bar button {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  color: #EFE6D2;
+  height: 24px;
+  padding: 0 10px;
+  border-radius: 2px;
+  cursor: pointer;
+  font: inherit;
+}
+#sd-explain-bar button:hover { background: #76551F; color: #FFFDF8; }
+#sd-explain-body.sd-rail {
+  position: static;
+  inset: auto;
+  width: auto;
+  flex: 1;
+  min-height: 0;
+  padding: 10px 16px 12px;
+  gap: 12px;
+  flex-direction: row;
+}
+#sd-explain .sd-rail-card {
+  padding: 12px 16px;
+}
+#sd-explain .sd-rail-card .head { font-size: 12px; margin-bottom: 6px; }
+#sd-explain .sd-rail-card .head .live { font-size: 11px; }
+#sd-explain .sd-rail-card .body {
+  font-size: 13px;
+  overflow: auto;
+}
+#sd-explain .sd-rail-card .foot { font-size: 11px; }
+#sd-explain .sd-rail-card .term { margin-bottom: 6px; }
+#sd-explain .sd-status { font-size: 12px; gap: 6px; }
+#sd-explain .sd-status::before { width: 8px; height: 8px; }
+#sd-explain .sd-live::before { width: 8px; height: 8px; }
+#sd-explain-restore {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: auto;
+  z-index: 25;
+  height: var(--sd-explain-tab-h);
+  padding: 0;
+  background: rgba(23,19,13,.88);
+  color: #D4A862;
+  border: 0;
+  border-top: 1px solid rgba(212,168,98,.35);
+  border-radius: 0;
+  cursor: pointer;
+  font-family: var(--sd-font-mono);
+  font-size: 11px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+#sd-explain-restore:hover { background: #76551F; color: #FFFDF8; }
+#sd-explain-restore[hidden] { display: none !important; }
+html.sd-export .sd-font-ui,
+html.sd-export .sd-nav-hint,
+html.sd-export #sd-explain,
+html.sd-export #sd-explain-restore { display: none !important; }
+
+html.sd-printing,
+html.sd-printing body {
+  background: #fff !important;
+  overflow: visible !important;
+  height: auto !important;
+  width: auto !important;
+}
+html.sd-printing #sd-stage,
+html.sd-printing #deck {
+  position: static !important;
+  inset: auto !important;
+  transform: none !important;
+  width: auto !important;
+  height: auto !important;
+  overflow: visible !important;
+}
+html.sd-printing .sd-slide,
+html.sd-present.sd-printing .sd-slide {
+  display: block !important;
+}
+html.sd-printing .sd-font-ui,
+html.sd-printing .sd-nav-hint,
+html.sd-printing #sd-explain,
+html.sd-printing #sd-explain-restore { display: none !important; }
+
+@media print {
+  html, body {
+    background: #fff !important;
+    overflow: visible !important;
+    height: auto !important;
+    width: auto !important;
+  }
+  #sd-stage {
+    position: static !important;
+    inset: auto !important;
+    display: block;
+    overflow: visible !important;
+    width: auto !important;
+    height: auto !important;
+  }
+  #deck {
+    transform: none !important;
+    width: auto !important;
+    height: auto !important;
+    position: static !important;
+  }
+  html.sd-present .sd-slide,
+  .sd-slide {
+    display: block !important;
+    width: 2880px !important;
+    height: 1620px !important;
+    zoom: 0.53333;
+    page-break-after: always;
+    break-after: page;
+    page-break-inside: avoid;
+    overflow: hidden !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .sd-slide:last-child {
+    page-break-after: auto;
+    break-after: auto;
+  }
+  .sd-font-ui, .sd-nav-hint, #sd-explain, #sd-explain-restore { display: none !important; }
+  @page { size: 16in 9in; margin: 0; }
+}

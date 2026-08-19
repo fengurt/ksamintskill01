@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>页面审计 Agent · Baslide01</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+SC:wght@400;600;700&family=Noto+Serif:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/baslide-chrome.css">
+<style>
+:root{
+  --surface:#F4F0E7; --paper:#FFFDF8; --charcoal:#17130D;
+  --gold:#76551F; --gold-hi:#D4A862; --seal:#8C3228; --muted:#706758;
+  --ok:#4A6B3A; --navy:#0A1626;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--surface);color:var(--charcoal);
+  font-family:"Noto Serif SC","Songti SC",serif;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding:28px 28px 96px}
+.cap{font-family:"Noto Serif",serif;text-transform:uppercase;letter-spacing:.34em;font-size:11px;color:var(--gold)}
+h1{font-size:36px;font-weight:700;margin:10px 0 12px;letter-spacing:.01em}
+h1 em{font-style:italic;font-weight:400;color:var(--gold)}
+.lede{max-width:62ch;font-size:15.5px;line-height:1.7;color:var(--muted)}
+.rule{height:0;border-top:1px solid var(--gold);width:170px;margin:22px 0;position:relative}
+.rule::after{content:"";position:absolute;left:0;top:3px;width:64px;border-top:1px solid var(--gold);opacity:.5}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:8px 0 28px}
+button.act{background:var(--gold);color:var(--paper);border:0;border-radius:2px;padding:9px 16px;
+  font-family:inherit;font-size:14px;cursor:pointer}
+button.act.ghost{background:transparent;color:var(--gold);border:1px solid rgba(118,85,31,.34)}
+button.act:hover{background:var(--charcoal);color:var(--paper)}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:28px}
+.kpi{background:var(--paper);border:1px solid rgba(118,85,31,.34);padding:14px 16px}
+.kpi .v{font-family:"IBM Plex Mono",monospace;font-size:28px;font-weight:500}
+.kpi .l{font-size:11px;color:var(--muted);margin-top:4px;letter-spacing:.08em;text-transform:uppercase;font-family:"IBM Plex Mono",monospace}
+.kpi.bad .v{color:var(--seal)} .kpi.ok .v{color:var(--ok)}
+.card{background:var(--paper);border:1px solid rgba(118,85,31,.34);border-radius:2px;padding:18px 20px;margin-bottom:14px}
+.card h2{font-size:16px;font-weight:600;margin-bottom:8px}
+.meta{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--muted);margin-bottom:10px}
+.find{font-size:13.5px;line-height:1.65;padding:4px 0 4px 12px;border-left:2px solid var(--hair, rgba(23,19,13,.18))}
+.find.fail{border-color:var(--seal)} .find.warn{border-color:var(--gold-hi)} .find.pass{border-color:var(--ok)}
+.find b{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.08em;margin-right:8px}
+.status{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.1em;
+  padding:2px 8px;border:1px solid currentColor;margin-left:8px}
+.log{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--muted);white-space:pre-wrap;margin-top:8px}
+</style>
+</head>
+<body class="baslide-doc">
+<div class="wrap">
+  <p class="cap">Baslide01 · Page Audit Agent</p>
+  <h1>页面审计 <em>Agent</em></h1>
+  <p class="lede">专门检查每一份 HTML 页：能否打开、脚本与图片是否断链、是否有返回首页、幻灯片根节点是否存在。对照 <code>catalog.json</code> 逐面跑，不靠目测。</p>
+  <div class="rule"></div>
+  <div class="toolbar">
+    <button class="act" id="btnRun" type="button">开始审计</button>
+    <button class="act ghost" id="btnHome" type="button">返回首页</button>
+    <span class="meta" id="runMeta">待命</span>
+  </div>
+  <div class="kpis">
+    <div class="kpi" id="kPages"><div class="v">—</div><div class="l">pages</div></div>
+    <div class="kpi ok" id="kPass"><div class="v">—</div><div class="l">pass</div></div>
+    <div class="kpi" id="kWarn"><div class="v">—</div><div class="l">warn</div></div>
+    <div class="kpi bad" id="kFail"><div class="v">—</div><div class="l">fail</div></div>
+  </div>
+  <div id="out"></div>
+</div>
+<script src="/assets/baslide-chrome.js" defer></script>
+<script src="/audit/agent.js"></script>
+</body>
+</html>

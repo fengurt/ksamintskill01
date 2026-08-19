@@ -14,6 +14,9 @@ const ARTIFACTS = [
   "audit.md",
   "slides.json",
   "fit-report.json",
+  "slide-plan.json",
+  "pack.json",
+  "MANIFEST.md",
   "slides/deck.html",
 ];
 

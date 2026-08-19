@@ -1,0 +1,7 @@
+Canonical pack database is owned by stone-briefing:
+
+  ../../stone-briefing/data/pack.sqlite
+
+本稿库页：data.html（不编号）。Do not copy the sqlite. Recompute with:
+
+  python3 scripts/import-stone-pack.py

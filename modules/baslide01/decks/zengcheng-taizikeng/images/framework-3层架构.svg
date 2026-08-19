@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800">
+  <rect width="1200" height="800" fill="#FFFFFF"/>
+  <!-- Layer 1 (Top: industry / 一产) -->
+  <rect x="200" y="80" width="800" height="120" fill="#0A1626"/>
+  <text x="600" y="125" text-anchor="middle" font-family="var(--sans-tab)" font-size="18" font-weight="700" fill="#FFFFFF" letter-spacing="0.16em">LAYER 01 · 产业根</text>
+  <text x="600" y="155" text-anchor="middle" font-family="var(--sans-tab)" font-size="13" fill="#FFFFFF" opacity="0.7">沉香种植 · 树木认养 · 林下生态</text>
+  <text x="600" y="178" text-anchor="middle" font-family="var(--sans-tab)" font-size="10" fill="#C9A86B" letter-spacing="0.18em">AGARWOOD FORESTRY · 700+ 亩</text>
+  <!-- Arrow -->
+  <path d="M 600 200 L 600 240 M 595 235 L 600 245 L 605 235" stroke="#A88B52" stroke-width="2" fill="none"/>
+  <!-- Layer 2 (Mid: ops / 二产) -->
+  <rect x="200" y="250" width="800" height="160" fill="#A88B52"/>
+  <text x="600" y="295" text-anchor="middle" font-family="var(--sans-tab)" font-size="18" font-weight="700" fill="#FFFFFF" letter-spacing="0.16em">LAYER 02 · 产品与运营</text>
+  <text x="600" y="325" text-anchor="middle" font-family="var(--sans-tab)" font-size="13" fill="#FFFFFF" opacity="0.85">香品 · 精油 · 线香 · 茶席 · 文创 · 大健康衍生</text>
+  <text x="600" y="350" text-anchor="middle" font-family="var(--sans-tab)" font-size="10" fill="#FFFFFF" letter-spacing="0.12em">企业学院 · 团建 · 培训 · 体检 · 康养</text>
+  <text x="600" y="378" text-anchor="middle" font-family="var(--sans-tab)" font-size="10" fill="#FFFFFF" opacity="0.6" letter-spacing="0.18em">SMART OPERATIONS · ACADEMY</text>
+  <!-- Arrow -->
+  <path d="M 600 410 L 600 450 M 595 445 L 600 455 L 605 445" stroke="#A88B52" stroke-width="2" fill="none"/>
+  <!-- Layer 3 (Bottom: experience / 三产) -->
+  <rect x="200" y="460" width="800" height="160" fill="#44474C"/>
+  <text x="600" y="505" text-anchor="middle" font-family="var(--sans-tab)" font-size="18" font-weight="700" fill="#FFFFFF" letter-spacing="0.16em">LAYER 03 · 体验层</text>
+  <text x="600" y="535" text-anchor="middle" font-family="var(--sans-tab)" font-size="13" fill="#FFFFFF" opacity="0.85">高端接待 · 私宴 · 私董会 · 家族活动</text>
+  <text x="600" y="560" text-anchor="middle" font-family="var(--sans-tab)" font-size="10" fill="#FFFFFF" opacity="0.6" letter-spacing="0.18em">PRIVATE EVENTS · LEGACY HOSPITALITY</text>
+  <!-- Arrows from outside (input) -->
+  <g stroke="#C9A86B" stroke-width="2" fill="none">
+    <path d="M 120 140 Q 180 140 195 140"/>
+    <path d="M 120 330 Q 180 330 195 330"/>
+    <path d="M 120 540 Q 180 540 195 540"/>
+  </g>
+  <g fill="#C9A86B">
+    <polygon points="195,140 188,135 188,145"/>
+    <polygon points="195,330 188,325 188,335"/>
+    <polygon points="195,540 188,535 188,545"/>
+  </g>
+  <!-- Input labels (left) -->
+  <text x="40" y="135" font-family="var(--sans-tab)" font-size="11" font-weight="600" fill="#0A1626">业主自有需求</text>
+  <text x="40" y="148" font-family="var(--sans-tab)" font-size="9" fill="#75777D">Captive demand</text>
+  <text x="40" y="325" font-family="var(--sans-tab)" font-size="11" font-weight="600" fill="#0A1626">外部企业客户</text>
+  <text x="40" y="338" font-family="var(--sans-tab)" font-size="9" fill="#75777D">External B2B</text>
+  <text x="40" y="535" font-family="var(--sans-tab)" font-size="11" font-weight="600" fill="#0A1626">高端散客 / 会员</text>
+  <text x="40" y="548" font-family="var(--sans-tab)" font-size="9" fill="#75777D">Premium / Member</text>
+  <!-- Output (right) -->
+  <g stroke="#C9A86B" stroke-width="2" fill="none">
+    <path d="M 1000 140 Q 1060 140 1080 140"/>
+    <path d="M 1000 330 Q 1060 330 1080 330"/>
+    <path d="M 1000 540 Q 1060 540 1080 540"/>
+  </g>
+  <g fill="#C9A86B">
+    <polygon points="1080,140 1073,135 1073,145"/>
+    <polygon points="1080,330 1073,325 1073,335"/>
+    <polygon points="1080,540 1073,535 1073,545"/>
+  </g>
+  <text x="1100" y="135" font-family="var(--sans-tab)" font-size="11" font-weight="600" fill="#0A1626">复合现金流</text>
+  <text x="1100" y="148" font-family="var(--sans-tab)" font-size="9" fill="#75777D">Mixed cashflow</text>
+  <text x="1100" y="325" font-family="var(--sans-tab)" font-size="11" font-weight="600" fill="#0A1626">资产增值</text>
+  <text x="1100" y="338" font-family="var(--sans-tab)" font-size="9" fill="#75777D">Asset appreciation</text>
+  <text x="1100" y="535" font-family="var(--sans-tab)" font-size="11" font-weight="600" fill="#0A1626">品牌与关系</text>
+  <text x="1100" y="548" font-family="var(--sans-tab)" font-size="9" fill="#75777D">Brand &amp; relations</text>
+  <!-- Caption -->
+  <text x="600" y="730" text-anchor="middle" font-family="var(--sans-tab)" font-size="11" font-weight="600" fill="#0A1626" letter-spacing="0.18em">三产融合架构 · 业主自有需求 + 外部市场 + 长期持有</text>
+  <text x="600" y="755" text-anchor="middle" font-family="var(--sans-tab)" font-size="10" fill="#75777D">AGARWOOD DESTINATION · CONCEPT FRAMEWORK</text>
+</svg>

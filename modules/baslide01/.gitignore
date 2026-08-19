@@ -1,0 +1,12 @@
+.DS_Store
+__pycache__/
+*.pyc
+*.backup
+.venv/
+node_modules/
+.tmp/
+output/
+*.log
+.idea/
+.vscode/
+.dev-url

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Deck 编号 · Baslide01</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+SC:wght@400;600;700&family=Noto+Serif:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --surface:#F4F0E7; --paper:#FFFDF8; --charcoal:#17130D;
+  --gold:#76551F; --gold-hi:#D4A862; --muted:#706758; --navy:#0A1626;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--surface);color:var(--charcoal);
+  font-family:"Noto Serif SC","Songti SC",serif;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px 96px}
+header.hero{padding:28px 0 32px;border-bottom:1px solid var(--gold)}
+.cap{font-family:"Noto Serif",serif;text-transform:uppercase;letter-spacing:.34em;font-size:11px;color:var(--gold)}
+h1{font-size:40px;font-weight:700;letter-spacing:.01em;line-height:.95;margin-top:8px}
+h1 em{font-style:italic;font-weight:400;color:var(--gold)}
+.lede{margin-top:14px;max-width:64ch;font-size:16px;line-height:1.7;color:var(--muted)}
+.rule{height:0;border-top:1px solid var(--gold);width:170px;margin:20px 0 0;position:relative}
+.rule::after{content:"";position:absolute;left:0;top:3px;width:64px;border-top:1px solid var(--gold);opacity:.5}
+.grid{display:grid;gap:14px;margin-top:28px}
+.card{background:var(--paper);border:1px solid rgba(118,85,31,.34);border-radius:2px;padding:18px 20px}
+.card .k{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.card h2{font-size:22px;font-weight:600;margin:6px 0 8px}
+.card p{font-size:13.5px;line-height:1.6;color:var(--muted)}
+.vars{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;margin-top:12px}
+.vars a,.open{display:block;background:var(--navy);color:var(--paper);padding:12px 14px;border-radius:2px}
+.vars a span,.open span{display:block;font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-hi);margin-bottom:4px}
+.vars a b,.open b{font-size:15px;font-weight:600}
+code{font-family:"IBM Plex Mono",monospace;font-size:.92em;background:rgba(118,85,31,.08);padding:1px 5px;border-radius:2px}
+</style>
+</head>
+<body class="baslide-doc">
+<div class="wrap">
+  <header class="hero">
+    <p class="cap">Baslide01 · Deck index</p>
+    <h1>Deck 编号。<br><em>定位更新用 D01–D06。</em></h1>
+    <p class="lede">每个成品 deck 有稳定编号。首版汇报拆成 D03.1（MD→侍天）与 D03.2（HTML 导入）。真源：<code>decks.json</code>。不要改 <code>ref/</code>。</p>
+    <div class="rule"></div>
+  </header>
+  <div class="grid" id="out">载入中…</div>
+</div>
+<script>
+function esc(s) {
+  return String(s == null ? "" : s)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/"/g, "&quot;");
+}
+fetch("/decks.json").then(function (r) { return r.json(); }).then(function (data) {
+  const out = document.getElementById("out");
+  out.innerHTML = "";
+  (data.decks || []).forEach(function (deck) {
+    const card = document.createElement("article");
+    card.className = "card";
+    card.id = deck.id;
+    const meta = [deck.canvas, deck.slides ? deck.slides + " 页" : "", deck.sourceMd ? "源 MD " + deck.sourceMd : "", deck.source || ""]
+      .filter(Boolean).join(" · ");
+    let body = "<span class='k'>" + esc(deck.id) + " · " + esc(deck.slug) + "</span>" +
+      "<h2>" + esc(deck.title) + "</h2>" +
+      (meta ? "<p>" + esc(meta) + "</p>" : "");
+    let links = "";
+    if (deck.variants && deck.variants.length) {
+      links = deck.variants.map(function (v) {
+        const line = [v.canvas, v.slides ? v.slides + " 页" : ""].filter(Boolean).join(" · ");
+        return "<a href='" + esc(v.href) + "'><span>" + esc(v.id) + "</span><b>" + esc(v.title) + "</b>" +
+          (line ? "<span>" + esc(line) + "</span>" : "") + "</a>";
+      }).join("");
+    } else {
+      links = "<a class='open' href='" + esc(deck.href) + "'><span>打开</span><b>" + esc(deck.title) + "</b></a>";
+    }
+    if (deck.data) {
+      links += "<a href='" + esc(deck.data) + "'><span>库</span><b>本稿数据包</b></a>";
+    }
+    body += "<div class='vars'>" + links + "</div>";
+    card.innerHTML = body;
+    out.appendChild(card);
+  });
+}).catch(function (err) {
+  document.getElementById("out").textContent = "无法读取 decks.json：" + err;
+});
+</script>
+</body>
+</html>

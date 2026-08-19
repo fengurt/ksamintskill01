@@ -1,0 +1,31 @@
+---
+description: Baslide01 is an HTML slide generation workshop. Keep demos, skills, and templates in their documented folders.
+alwaysApply: true
+---
+
+# Baslide01
+
+Static HTML slide workshop. No build step. Serve the repo root and open `/`.
+
+## Surfaces
+
+- `demos/TIANSIGHT/` — 侍天 TIANSIGHT report prototype (D3, 58 analysis points, 8 page layouts, 1440×810 tokens)
+- `skills/guizang-ppt/` — Guizang HTML PPT skill (Style A magazine / B Swiss / C Table AI)
+- `skills/TIANSIGHT-html-slides/` — TIANSIGHT-token HTML slide skill
+- `skills/md-to-html-slides/` — MD→HTML two-model pipeline (4 shells × 12 jobs × 16 viz); original cuts in `skills/md-to-html-slides/samples/`; complete report `ref/REPORT-md-to-html-slide-types.md`
+- `skills/page-audit/` — 页面审计 Agent（checklist + `/audit/` 控制台）
+- `audit/` — live audit console
+- `templates/` — blank generators: magazine, swiss, tableai, atelier, TIANSIGHT (v2 jobs + gallery; v1 layouts.html)
+- `decks/` — finished decks numbered in `decks.json` (D01 `zengcheng-taizikeng`, D02 `premium-ppt`, D03 `stone-briefing` with D03.1 generate + D03.2 HTML import, D04 `stone-roadmap`, D05 `stone-dossier`, D06 `qingshuiting`). Index: `/decks/`. Stone pack DB is an unnumbered 库 page inside each stone deck.
+
+## Rules
+
+- Generate slides as single-file HTML (or HTML + `images/` + local `motion.min.js`).
+- Do not invent CSS class names that are not in the chosen template.
+- TIANSIGHT v2 canvas is 2880×1620. SOURCE / GLOSSARY / CONCLUSION / CONFIDENCE live in `#sd-explain`, a bottom drawer hidden by default (E). Tokens: `--sd-surface:#F4F0E7` `--sd-paper:#FBF8F2` `--sd-ink:#17130D` `--sd-accent:#76551F` `--sd-secondary:#8C3228`. Fonts: `--sd-font-serif` / `--sd-font-mono` only; swap with `html[data-font-pack]` or `?font=`. v1 `templates/TIANSIGHT/layouts.html` remains 1440×810.
+- Table AI Style C tokens: `--ink:#0A1626` `--accent:#A88B52` `--paper:#FFFFFF`.
+- Local run: `bash scripts/dev-up.sh`. Documented ports: 8765, then 8080, then 5173.
+- Every HTML response served by `scripts/serve.py` gets a hideable 首页 / 编号 / 类型 / 审计 top bar (`assets/baslide-chrome.js`). Stone decks also show 库 → that deck’s `data.html`. `H` hides it. `?export=1` and print omit it.
+- Generate from `page-types.json` (type first, then skin). Gallery: `/` · catalog: `/types/` · preview: `/preview/?type=<id>&skin=<skin>`.
+- Generation loops: `prompts/loop/brand.md` + `prompts/loop/<type>.md`. Skill: `skills/page-loop`.
+- Original drop in `files (10)/` is provenance; the working copy is `demos/TIANSIGHT/`.

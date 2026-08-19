@@ -1,0 +1,60 @@
+/* Workshop top bar. Never part of the slide. Hidden on export / print. */
+:root{
+  --baslide-chrome-h: 36px;
+}
+#baslide-chrome[hidden],
+#baslide-chrome-restore[hidden]{
+  display:none !important;
+}
+html.baslide-chrome-off #baslide-chrome{
+  display:none !important;
+}
+#baslide-chrome{
+  position:fixed;top:0;left:0;right:0;z-index:2147483000;
+  height:var(--baslide-chrome-h);
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:0 12px;
+  background:rgba(23,19,13,.92);
+  color:#EFE6D2;
+  border-bottom:1px solid rgba(212,168,98,.4);
+  font-family:"IBM Plex Mono","Noto Serif SC",ui-monospace,monospace;
+  backdrop-filter:blur(10px);
+}
+#baslide-chrome .links{display:flex;align-items:center;gap:4px}
+#baslide-chrome a, #baslide-chrome button{
+  appearance:none;background:transparent;border:0;color:#EFE6D2;
+  height:24px;padding:0 10px;border-radius:2px;cursor:pointer;
+  font:inherit;font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  text-decoration:none;display:inline-flex;align-items:center;
+}
+#baslide-chrome a:hover, #baslide-chrome button:hover{background:#76551F;color:#FFFDF8}
+#baslide-chrome a[aria-current="page"]{background:#76551F;color:#FFFDF8}
+#baslide-chrome-formula{color:#D4A862}
+#sd-explain .sd-rail-card[data-formula-card] a{color:#76551F;text-decoration:underline}
+#baslide-chrome .hint{
+  font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(239,230,210,.45);
+  white-space:nowrap;
+}
+#baslide-chrome-restore{
+  position:fixed;top:0;left:12px;z-index:2147483000;
+  height:18px;padding:0 8px;
+  background:rgba(23,19,13,.72);color:#D4A862;
+  border:0;border-radius:0 0 2px 2px;cursor:pointer;
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+}
+html.baslide-export #baslide-chrome,
+html.baslide-export #baslide-chrome-restore{
+  display:none !important;
+}
+html.baslide-chrome-on:not(.baslide-export) body.baslide-doc{padding-top:var(--baslide-chrome-h)}
+html.baslide-chrome-on:not(.baslide-export) #sd-stage,
+html.baslide-chrome-on:not(.baslide-export) #stage{
+  top:var(--baslide-chrome-h);
+}
+html.baslide-chrome-on:not(.baslide-export) .sd-font-ui{
+  top:calc(var(--baslide-chrome-h) + 14px);
+}
+@media print{
+  #baslide-chrome, #baslide-chrome-restore{display:none !important}
+}

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-font-pack="TIANSIGHT" data-skin="TIANSIGHT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TIANSIGHT Template · matrix</title>
+<!--
+  TEMPLATE: matrix  ·  L1 SHELL from v2.0 spec
+  Fill slots only. Do not add CSS classes.
+  Tokens: ../TIANSIGHT-v2.css  ·  QA: keep chrome positions.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link id="sd-font-link" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../TIANSIGHT-v2.css">
+</head>
+<body>
+<div id="sd-stage"><div id="deck">
+<section class="slide sd-slide on shell-body has-rail" data-job="matrix" data-page-type="matrix">
+
+  <div class="sd-tk"><span class="sd-chip">{{MATRIX_CHIP}}</span></div>
+  <div class="sd-index">{{PAGE_INDEX}} / {{PAGE_TOTAL}}</div>
+  <div class="sd-h2">{{MATRIX_TITLE}}</div>
+  <div class="sd-content" style="display:grid; grid-template-columns:repeat(3,1fr); grid-template-rows:repeat(3,1fr); gap:20px;">
+    <div style="border:2px solid var(--sd-ink-14); border-radius:var(--sd-radius-card); padding:20px; background:var(--sd-paper); display:flex; flex-direction:column; gap:12px;">
+        <span class="sd-status {{CELL_1_1_STATE}}">{{CELL_1_1_LABEL}}</span>
+        <span style="font-family:var(--sd-font-mono); font-size:var(--sd-type-h3); font-weight:700;">{{CELL_1_1_VALUE}}</span>
+      </div><div style="border:2px solid var(--sd-ink-14); border-radius:var(--sd-radius-card); padding:20px; background:var(--sd-paper); display:flex; flex-direction:column; gap:12px;">
+        <span class="sd-status {{CELL_1_2_STATE}}">{{CELL_1_2_LABEL}}</span>
+        <span style="font-family:var(--sd-font-mono); font-size:var(--sd-type-h3); font-weight:700;">{{CELL_1_2_VALUE}}</span>
+      </div><div style="border:2px solid var(--sd-ink-14); border-radius:var(--sd-radius-card); padding:20px; background:var(--sd-paper); display:flex; flex-direction:column; gap:12px;">
+        <span class="sd-status {{CELL_1_3_STATE}}">{{CELL_1_3_LABEL}}</span>
+        <span style="font-family:var(--sd-font-mono); font-size:var(--sd-type-h3); font-weight:700;">{{CELL_1_3_VALUE}}</span>
+      </div><div style="border:2px solid var(--sd-ink-14); border-radius:var(--sd-radius-card); padding:20px; background:var(--sd-paper); display:flex; flex-direction:column; gap:12px;">
+        <span class="sd-status {{CELL_2_1_STATE}}">{{CELL_2_1_LABEL}}</span>
+        <span style="font-family:var(--sd-font-mono); font-size:var(--sd-type-h3); font-weight:700;">{{CELL_2_1_VALUE}}</span>
+      </div><div style="border:2px solid var(--sd-ink-14); border-radius:var(--sd-radius-card); padding:20px; background:var(--sd-paper); display:flex; flex-direction:column; gap:12px;">
+        <span class="sd-status {{CELL_2_2_STATE}}">{{CELL_2_2_LABEL}}</span>
+        <span style="font-family:var(--sd-font-mono); font-size:var(--sd-type-h3); font-weight:700;">{{CELL_2_2_VALUE}}</span>
+      </div><div style="border:2px solid var(--sd-ink-14); border-radius:var(--sd-radius-card); padding:20px; background:var(--sd-paper); display:flex; flex-direction:column; gap:12px;">
+        <span class="sd-status {{CELL_2_3_STATE}}">{{CELL_2_3_LABEL}}</span>
+        <span style="font-family:var(--sd-font-mono); font-size:var(--sd-type-h3); font-weight:700;">{{CELL_2_3_VALUE}}</span>
+      </div><div style="border:2px solid var(--sd-ink-14); border-radius:var(--sd-radius-card); padding:20px; background:var(--sd-paper); display:flex; flex-direction:column; gap:12px;">
+        <span class="sd-status {{CELL_3_1_STATE}}">{{CELL_3_1_LABEL}}</span>
+        <span style="font-family:var(--sd-font-mono); font-size:var(--sd-type-h3); font-weight:700;">{{CELL_3_1_VALUE}}</span>
+      </div><div style="border:2px solid var(--sd-ink-14); border-radius:var(--sd-radius-card); padding:20px; background:var(--sd-paper); display:flex; flex-direction:column; gap:12px;">
+        <span class="sd-status {{CELL_3_2_STATE}}">{{CELL_3_2_LABEL}}</span>
+        <span style="font-family:var(--sd-font-mono); font-size:var(--sd-type-h3); font-weight:700;">{{CELL_3_2_VALUE}}</span>
+      </div><div style="border:2px solid var(--sd-ink-14); border-radius:var(--sd-radius-card); padding:20px; background:var(--sd-paper); display:flex; flex-direction:column; gap:12px;">
+        <span class="sd-status {{CELL_3_3_STATE}}">{{CELL_3_3_LABEL}}</span>
+        <span style="font-family:var(--sd-font-mono); font-size:var(--sd-type-h3); font-weight:700;">{{CELL_3_3_VALUE}}</span>
+      </div>
+  </div>
+  <!-- SOURCE / GLOSSARY / CONCLUSION / CONFIDENCE: data for #sd-explain, not painted on the canvas. -->
+  <div class="sd-rail">
+    <div class="sd-rail-card" data-live-source="{{SOURCE_DB_ID}}" data-sync-status="{{SOURCE_SYNC_STATUS}}" data-sync-at="{{SOURCE_SYNC_AT}}">
+      <div class="head"><span>数据出处 · SOURCE</span><span class="sd-live live {{SOURCE_SYNC_STATUS}}">{{SOURCE_SYNC_LABEL}}</span></div>
+      <div class="body">{{SOURCE_DETAIL}}</div>
+      <div class="foot">更新于 {{SOURCE_SYNC_AT}}</div>
+    </div>
+    <div class="sd-rail-card" data-live-source="{{GLOSSARY_DB_ID}}" data-sync-status="{{GLOSSARY_SYNC_STATUS}}" data-sync-at="{{GLOSSARY_SYNC_AT}}">
+      <div class="head"><span>术语解释 · GLOSSARY</span><span class="sd-live live {{GLOSSARY_SYNC_STATUS}}">{{GLOSSARY_SYNC_LABEL}}</span></div>
+      <div class="body">
+      <div class="term"><b>{{TERM_1_NAME}}</b><br><span>{{TERM_1_DEF}}</span></div>
+      </div>
+      <div class="foot">HOW TO READ · {{HOW_TO_READ_NOTE}}</div>
+    </div>
+    <div class="sd-rail-card" data-live-source="{{CONCLUSION_DB_ID}}" data-sync-status="{{CONCLUSION_SYNC_STATUS}}" data-sync-at="{{CONCLUSION_SYNC_AT}}">
+      <div class="head"><span>结论解释 · CONCLUSION</span><span class="sd-live live {{CONCLUSION_SYNC_STATUS}}">{{CONCLUSION_SYNC_LABEL}}</span></div>
+      <div class="body">{{CONCLUSION_TEXT}}</div>
+      <div class="foot">{{CONCLUSION_SYNC_AT}}</div>
+    </div>
+    <div class="sd-rail-card" data-live-source="{{CONFIDENCE_DB_ID}}" data-sync-status="ready" data-sync-at="{{SOURCE_SYNC_AT}}">
+      <div class="head"><span>置信度分级 · CONFIDENCE</span><span class="sd-live live ready">实时同步 · LIVE</span></div>
+      <div class="body">
+        <div class="term"><span class="sd-status ready">A · 数据支撑</span><br><span>{{CONFIDENCE_A_NOTE}}</span></div>
+        <div class="term"><span class="sd-status degraded">B · 外部佐证</span><br><span>{{CONFIDENCE_B_NOTE}}</span></div>
+        <div class="term"><span class="sd-status blocked">C · 待验证假设</span><br><span>{{CONFIDENCE_C_NOTE}}</span></div>
+      </div>
+      <div class="foot">A 数据 · B 佐证 · C 假设</div>
+    </div>
+  </div>
+
+</section>
+</div></div>
+<script src="../TIANSIGHT-deck.js"></script>
+</body>
+</html>
