@@ -21,11 +21,17 @@ venv/
 .env
 .env.*
 !.env.example
+!.env*.example
 *.pem
 *.key
-secrets/
+**/secrets/**
+!**/secrets/.gitkeep
+!**/secrets/README.md
 **/credentials.json
 **/op-session*
+**/deploy.env
+**/apihub-login.txt
+**/keys.enc
 
 # Acceptance fixtures (link from baslide01; do not commit large copies)
 fixtures/local/

@@ -1,0 +1,4 @@
+interface:
+  display_name: "ksamint macOS Signed Release"
+  short_description: "Build, notarize, verify, and safely install ksamint"
+  default_prompt: "Use $ksamint-macos-sign-release to build, notarize, verify, and safely install the current ksamint MarkEdit macOS commit."

@@ -1,0 +1,57 @@
+# Upstream skill library sources. Populated into gitignored vendor/ by sync-vendor.sh.
+# pin: commit SHA or branch/tag for git sources; "local" for filesystem mirrors.
+
+sources:
+  - id: anthropics-skills
+    kind: git
+    url: https://github.com/anthropics/skills.git
+    pin: main
+    depth: 1
+    synced_commit: 0a64e398ec6bb34a494f0c347e8ccae53a862f8e
+    notes: "Apache-2.0 mostly; exclude docx/pdf/pptx/xlsx from any republish (source-available)"
+    exclude_paths:
+      - skills/docx
+      - skills/pdf
+      - skills/pptx
+      - skills/xlsx
+
+  - id: obra-superpowers
+    kind: git
+    url: https://github.com/obra/superpowers.git
+    pin: main
+    depth: 1
+    synced_commit: b36e0829c6d0140e93cfef2ca599b1b07d4a7797
+
+  - id: awesome-claude-skills
+    kind: git
+    url: https://github.com/travisvn/awesome-claude-skills.git
+    pin: main
+    depth: 1
+    synced_commit: 1da55aa810f206d3fe2005e7e3989b15a275d942
+
+  - id: composio-awesome-claude-skills
+    kind: git
+    url: https://github.com/ComposioHQ/awesome-claude-skills.git
+    pin: master
+    depth: 1
+    synced_commit: be2a406907dbc61b73e6827ded415c96139d13a2
+
+  - id: agents-skills-local
+    kind: local
+    path: ~/.agents/skills
+    notes: "Matt Pocock / community set (often symlinked)"
+
+  - id: cc-switch-skills
+    kind: local
+    path: ~/.cc-switch/skills
+    notes: "Anthropic + baoyu via cc-switch"
+
+  - id: cursor-skills-cursor
+    kind: local
+    path: ~/.cursor/skills-cursor
+    notes: "Cursor built-in skills"
+
+  - id: cursor-public-plugins
+    kind: local
+    path: ~/.cursor/plugins/cache/cursor-public
+    notes: "Plugin skill caches (cloudflare, stripe, deploy-on-aws)"

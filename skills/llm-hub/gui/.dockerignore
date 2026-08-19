@@ -1,0 +1,6 @@
+gui/data
+gui/secrets
+gui/deploy.env
+gui/node_modules
+gui/data_server.log
+**/.DS_Store

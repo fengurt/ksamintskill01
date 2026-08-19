@@ -1,0 +1,4 @@
+interface:
+  display_name: "Ksamint MCP Skill Publisher"
+  short_description: "Stage, validate, and publish skills safely."
+  default_prompt: "Use $ksamint-mcp-skill-publisher to stage and publish a validated skill through Ksamint MCP."

@@ -1,0 +1,6 @@
+data/
+secrets/
+deploy.env
+node_modules/
+data_server.log
+.DS_Store

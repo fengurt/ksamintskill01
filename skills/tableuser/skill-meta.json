@@ -1,0 +1,12 @@
+{
+  "slug": "tableuser",
+  "version": "1.0.0",
+  "syncedAt": "2026-08-03T13:43:44Z",
+  "contentHash": "64304736a42a5be4",
+  "channels": {
+    "skillsSh": "npx skills add fengurt/tableuser01 --skill tableuser -g -y",
+    "claude": "/plugin marketplace add fengurt/tableuser01",
+    "cursorTeam": "https://github.com/fengurt/tableuser01",
+    "ksamint": "https://github.com/fengurt/cfker01/tree/main/skills/tableuser"
+  }
+}

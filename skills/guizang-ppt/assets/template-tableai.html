@@ -1,0 +1,2090 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[必填] 替换为 PPT 标题 · Deck Title</title>
+<!--
+  Style C · Table AI Design System
+  ─────────────────────────────────
+  Forked from Style B (Swiss International).
+  22 layouts (S01-S22) 与动效系统完整继承。
+  本 fork 仅替换：① 颜色 token ② 字体 (Manrope) ③ 微圆角 2-4px
+  调色参考: references/themes-tableai.md
+  版式参考: references/layouts-tableai.md
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* ============ 主题色(默认: 寰宇深蓝 + 日晷暗金) ============
+       切换主题: 颜色已锁死,本 fork 仅支持 Table AI 默认一套
+       整体替换标有"主题色"注释的所有变量,其他散落的 var() 引用无需逐处改 */
+    --paper:#FFFFFF;          /* 主底色: 斯堪的纳维亚纯白 */
+    --paper-rgb:255,255,255;
+    --ink:#0A1626;            /* 文字主色: 寰宇深蓝 */
+    --ink-rgb:10,22,38;
+    --grey-1:#F5F3F4;         /* 浅灰底 (Table AI surface-container-low) */
+    --grey-2:#DCD9DB;         /* 中灰 (分割线) (surface-container-high) */
+    --grey-3:#75777D;         /* 暗灰 (辅助文字) */
+    --accent:#A88B52;         /* 高亮色: 日晷暗金 (Sundial Dark Gold) */
+    --accent-rgb:168,139,82;
+    --accent-on:#FFFFFF;      /* accent 上的反色文字 */
+    --accent-bright:#C9A86B;  /* 金色提亮版 (暗底高亮用) */
+    --gold-mist:rgba(168,139,82,0.08); /* 极细金色微光 (hover/active 装饰) */
+
+    /* ============ Carbon 文本角色 token (role-based) ============
+       Style C 在 Style B 基础上加暗金辅助文字色 */
+    --text-primary:#0A1626;        /* = ink */
+    --text-secondary:#44474C;      /* Table AI on-surface-variant */
+    --text-helper:#75777D;         /* Table AI outline */
+    --text-placeholder:#C5C6CD;    /* Table AI outline-variant */
+    --text-on-color:#FFFFFF;       /* accent/dark 反色 */
+    --text-accent:#A88B52;         /* 暗金辅助文字 (NEW) */
+    --border-subtle:#E4E2E3;       /* 比 Style B 的 #e0e0e0 更偏暖 */
+    --border-strong:#C5C6CD;
+
+    /* ============ 字体 (Style C: Manrope 主 + Noto Sans SC 中文 + JetBrains Mono 元数据) ============ */
+    /* 重要: var(--sans) 仍然是 Inter,保持与 Style B 类名兼容;
+       新增 var(--sans-tab) 是 Manrope,用于产品级 / Table AI 风格化场景 */
+    --sans:"Inter","Helvetica Neue","Helvetica","Arial","Segoe UI Variable","Segoe UI",system-ui,-apple-system,sans-serif;
+    --sans-zh:"Noto Sans SC","PingFang SC","Hiragino Sans GB","Source Han Sans SC","Microsoft YaHei UI","Microsoft YaHei","微软雅黑",sans-serif;
+    --sans-tab:"Manrope","Inter","Helvetica Neue","Helvetica","Arial",system-ui,-apple-system,sans-serif;
+    --mono:"JetBrains Mono","IBM Plex Mono","SF Mono","Cascadia Code","Consolas","Courier New",ui-monospace,monospace;
+
+    /* ============ Carbon 2x Grid 间距模数 (基础 8px,继承 Style B) ============ */
+    --sp-3:8px;
+    --sp-4:12px;
+    --sp-5:16px;
+    --sp-6:24px;
+    --sp-7:32px;
+    --sp-8:40px;
+    --sp-9:48px;
+    --sp-10:64px;
+    --sp-11:80px;
+    --sp-12:96px;
+    --sp-13:160px;
+
+    /* ============ Carbon Motion tokens (继承 Style B) ============ */
+    --ease-prod:cubic-bezier(.2,0,.38,.9);
+    --ease-exp:cubic-bezier(.4,.14,.3,1);
+    --ease-entry-prod:cubic-bezier(0,0,.38,.9);
+    --ease-entry-exp:cubic-bezier(0,0,.3,1);
+    --dur-fast-1:.07s;
+    --dur-fast-2:.11s;
+    --dur-mod-1:.15s;
+    --dur-mod-2:.24s;
+    --dur-slow-1:.4s;
+    --dur-slow-2:.7s;
+
+    /* 底部分页组件安全区 */
+    --nav-safe-bottom:8vh;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{
+    width:100%;height:100%;overflow:hidden;
+    background:var(--paper);color:var(--ink);
+    font-family:var(--sans),var(--sans-zh);
+    font-feature-settings:"ss01","cv11";
+    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility
+  }
+
+  /* ============================================================
+     ↓↓↓ STYLE C DEVIATIONS FROM STYLE B ↓↓↓
+     下面只声明与 Style B 不同的样式。
+     90%+ 的 CSS / JS / HTML 结构 与 Style B 完全一致(继承自 template-swiss.html).
+     ============================================================ */
+
+  /* WebGL 网格背景 (继承 Style B,只调整背景透明度配合纯白底) */
+  canvas.bg{position:fixed;inset:0;width:100vw;height:100vh;z-index:0;display:block;opacity:.35;mix-blend-mode:multiply;pointer-events:none}
+  body.dark-bg canvas.bg{mix-blend-mode:screen;opacity:.42}
+  body.low-power canvas.bg,
+  body.low-power canvas.ascii-bg{display:none!important}
+
+  /* 22 layouts 继承 — 但卡片微圆角 2-4px (设计哲学变化) */
+  .canvas-card{border-radius:0;}              /* 主画布仍直角 - 与图同语言 */
+  .card-fill,.card-ink,.card-accent{border-radius:4px;} /* 卡片轻微圆角 */
+
+  /* stat-card / ledger-row 微圆角 */
+  .stat-card{border-radius:3px;}
+  .ledger-row:last-child{border-bottom-left-radius:4px;border-bottom-right-radius:4px;}
+
+  /* 标签 / 按钮 - pill 风格 */
+  .tag,.kicker-no-line{border-radius:2px;}
+  .tag.solid,.tag.accent{border-radius:2px;}
+
+  /* Style C 标题特征: Manrope 字重比 Style B 重一档
+     Style B default: h-xl font-weight:200
+     Style C default: h-xl font-weight:600 (headline-lg) */
+  .h-hero{
+    font-family:var(--sans-tab),var(--sans-zh);
+    font-weight:700;
+    font-size:11vw;
+    line-height:.92;
+    letter-spacing:-.025em;
+  }
+  .h-hero-zh{
+    font-family:var(--sans-tab),var(--sans-zh);
+    font-weight:700;
+    font-size:8.4vw;
+    line-height:.96;
+    letter-spacing:-.02em;
+  }
+  .h-xl{
+    font-family:var(--sans-tab),var(--sans-zh);
+    font-weight:700;
+    font-size:6vw;
+    line-height:1;
+    letter-spacing:-.025em;
+  }
+  .h-xl-zh{
+    font-family:var(--sans-tab),var(--sans-zh);
+    font-weight:600;
+    font-size:5vw;
+    line-height:1.05;
+    letter-spacing:-.02em;
+  }
+  .h-md{
+    font-family:var(--sans-tab),var(--sans-zh);
+    font-weight:600;
+    font-size:2.6vw;
+    line-height:1.18;
+    letter-spacing:-.015em;
+  }
+  .h-sub{
+    font-family:var(--sans-tab),var(--sans-zh);
+    font-weight:500;
+    font-size:2.2vw;
+    line-height:1.3;
+    letter-spacing:-.005em;
+    opacity:.7;
+  }
+
+  /* 产品级正文 - Manrope 字重 400,Style C 上调 1 档 */
+  .lead{
+    font-family:var(--sans-tab),var(--sans-zh);
+    font-weight:400;
+    font-size:max(18px,1.6vw);
+    line-height:1.5;
+    letter-spacing:-.005em;
+    opacity:.86;
+  }
+  .body{
+    font-family:var(--sans-tab),var(--sans-zh);
+    font-weight:400;
+    font-size:max(15px,1.25vw);
+    line-height:1.6;
+    opacity:.78;
+  }
+  .body-sm{
+    font-family:var(--sans-tab),var(--sans-zh);
+    font-weight:400;
+    font-size:max(13px,1vw);
+    line-height:1.55;
+    opacity:.7;
+  }
+
+  /* .kicker 升级为 Manrope label-sm (12px -> 14px 600 caps) */
+  .kicker,.t-meta,.t-cat{
+    font-family:var(--sans-tab),var(--mono);
+    font-weight:600;
+    font-size:14px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+  }
+
+  /* 产品级表格元素 - 与 design.md typography 一致 */
+  .t-helper{font-family:var(--sans-tab),var(--sans-zh);font-size:12px;font-weight:400;color:var(--text-helper);line-height:1.5}
+  .t-body-sm{font-family:var(--sans-tab),var(--sans-zh);font-size:14px;font-weight:400;color:var(--text-secondary)}
+  .t-body{font-family:var(--sans-tab),var(--sans-zh);font-size:16px;font-weight:400;color:var(--text-primary)}
+  .t-body-emp{font-family:var(--sans-tab),var(--sans-zh);font-size:16px;font-weight:600;color:var(--text-primary)}
+  .t-h-prod{font-family:var(--sans-tab),var(--sans-zh);font-size:20px;font-weight:600;color:var(--text-primary);letter-spacing:-.01em}
+
+  /* KPI Hero / Num Mega - Manrope 半粗 weight 600 */
+  .kpi-hero{
+    font-family:var(--sans-tab);
+    font-weight:700;
+    font-size:22vw;
+    line-height:.85;
+    letter-spacing:-.04em;
+    font-feature-settings:"tnum";
+  }
+  .kpi-big{
+    font-family:var(--sans-tab);
+    font-weight:700;
+    font-size:11vw;
+    line-height:.9;
+    letter-spacing:-.035em;
+    font-feature-settings:"tnum";
+  }
+  .kpi-mid{
+    font-family:var(--sans-tab);
+    font-weight:700;
+    font-size:6vw;
+    line-height:.92;
+    letter-spacing:-.03em;
+    font-feature-settings:"tnum";
+  }
+  .num-mega,.name-mega,.kpi-thin,.kpi-thin-sm{
+    font-family:var(--sans-tab);font-weight:700;
+  }
+
+  /* data-animate 入场后,具体 -- 微圆角适配 */
+  .accent-block,.ink-block,.grey-block{border-radius:4px;}
+  .sub-card{border-radius:4px;}
+  .stack-block{border-radius:4px;}
+  .bar-tower .body-block{border-radius:4px;}
+  .bar-tower .cap{border-radius:3px 3px 0 0;}
+
+  /* Hover 微光 (Table AI design.md state.active) */
+  .card-fill:hover{border:1px solid var(--accent);}
+  .callout:hover{border-left-color:var(--accent);}
+
+  /* ============================================================
+     ↑↑↑ STYLE C DEVIATIONS END ↑↑↑
+     ============================================================ */
+
+  /* ============ Deck 容器 + 翻页 (继承 Style B 90%+) ============ */
+  #deck{position:fixed;inset:0;width:10000vw;height:100vh;display:flex;flex-wrap:nowrap;transition:transform .9s cubic-bezier(.77,0,.175,1);z-index:10;will-change:transform}
+  .slide{
+    width:100vw;height:100vh;flex:0 0 100vw;
+    position:relative;
+    padding:5.5vh 5vw 7vh 5vw;
+    display:flex;flex-direction:column;
+    overflow:hidden;
+    background:var(--paper);color:var(--ink);
+  }
+  .slide.grey{background:var(--grey-1)}
+  .slide.dark{background:var(--ink);color:var(--paper)}
+  .slide.dark .grey-only{display:none}
+  .slide.accent{background:var(--accent);color:var(--accent-on)}
+  .slide.accent .accent-block{background:var(--accent-on);color:var(--accent)}
+
+  .slide.hero{background:transparent}
+  .slide.hero.grey{background:rgba(var(--paper-rgb),.92);backdrop-filter:blur(1px)}
+  .slide.hero.dark{background:rgba(var(--ink-rgb),.94);color:var(--paper)}
+
+  /* ============ 极简装饰: 直角 + 发丝线 ============ */
+  .rule{width:100%;height:1px;background:currentColor;opacity:.18;margin:0}
+  .rule.thick{height:2px;opacity:.85}
+  .rule.accent{background:var(--accent);opacity:1;height:2px}
+  .rule.v{width:1px;height:100%;margin:0}
+
+  .dots{
+    background-image:radial-gradient(currentColor 1px, transparent 1px);
+    background-size:12px 12px;background-position:0 0;opacity:.18;
+  }
+  .dots-fine{
+    background-image:radial-gradient(currentColor 0.8px, transparent 0.8px);
+    background-size:8px 8px;opacity:.14;
+  }
+  .dots-bold{
+    background-image:radial-gradient(currentColor 1.4px, transparent 1.4px);
+    background-size:18px 18px;opacity:.22;
+  }
+
+  /* ============ Chrome / Foot (继承) ============ */
+  .chrome{
+    display:flex;justify-content:space-between;align-items:flex-start;
+    font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+    opacity:.7;margin-bottom:auto
+  }
+  .chrome .l,.chrome .r{display:flex;gap:1.6em;align-items:center}
+  .chrome .sep{width:24px;height:1px;background:currentColor;opacity:.5}
+
+  .foot{
+    margin-top:auto;
+    display:flex;justify-content:space-between;align-items:flex-end;
+    font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+    opacity:.55;
+    padding-top:2vh;
+    border-top:1px solid currentColor;
+    border-color:rgba(127,127,127,.25)
+  }
+  .foot .nb{font-family:var(--sans-tab);font-weight:600;letter-spacing:.04em}
+
+  /* ============ Kicker / Tag ============ */
+  .kicker{opacity:.65;margin-bottom:2.4vh;display:inline-flex;align-items:center;gap:.8em}
+  .kicker::before{content:"";width:24px;height:1px;background:currentColor;opacity:.6}
+  .kicker.no-line::before{display:none}
+  .kicker.accent{color:var(--accent);opacity:1}
+  .tag{display:inline-block;padding:5px 10px;border:1px solid currentColor;opacity:.85}
+  .tag.solid{background:currentColor;color:var(--paper);border-color:transparent}
+  .tag.accent{background:var(--accent);color:var(--accent-on);border-color:transparent;opacity:1}
+
+  /* ============ Stat Card (继承布局,圆角已上提) ============ */
+  .stat-card{
+    display:flex;flex-direction:column;gap:.6vh;align-items:flex-start;
+    padding-top:1.6vh;
+    border-top:2px solid currentColor;
+  }
+  .stat-card.thin{border-top-width:1px;border-color:rgba(127,127,127,.4)}
+  .stat-card.accent-top{border-top-color:var(--accent);border-top-width:3px}
+  .stat-card .stat-label{
+    font-family:var(--mono);font-size:max(10px,.78vw);
+    letter-spacing:.24em;text-transform:uppercase;opacity:.6;
+  }
+  .stat-card .stat-nb{
+    font-family:var(--sans-tab);font-weight:700;
+    font-size:5.6vw;line-height:.88;letter-spacing:-.035em;
+    font-feature-settings:"tnum";margin-top:.4vh;
+  }
+  .stat-card .stat-nb .stat-unit{
+    font-family:var(--sans-tab),var(--sans-zh);font-weight:500;
+    font-size:.32em;letter-spacing:0;opacity:.6;
+    margin-left:.14em;vertical-align:.4em;
+  }
+  .stat-card .stat-note{
+    font-family:var(--sans-tab),var(--sans-zh);font-weight:400;
+    font-size:max(12px,.95vw);line-height:1.5;opacity:.7;margin-top:.6vh;
+  }
+  .grid-4 .stat-card .stat-nb{font-size:4.6vw}
+  .grid-3 .stat-card .stat-nb{font-size:6.4vw}
+  .grid-6 .stat-card .stat-nb{font-size:4vw}
+
+  /* ============ Accent / Ink / Grey Block ============ */
+  .accent-block{background:var(--accent);color:var(--accent-on);padding:2.4vh 2vw}
+  .accent-block.tight{padding:1.4vh 1.4vw}
+  .accent-block .h-md,.accent-block .h-xl,.accent-block .kpi-mid{color:var(--accent-on)}
+  .ink-block{background:var(--ink);color:var(--paper);padding:2.4vh 2vw}
+  .grey-block{background:var(--grey-1);padding:2.4vh 2vw}
+
+  .mark{background:var(--accent);color:var(--accent-on);padding:0 .2em;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+  .mark.ink{background:var(--ink);color:var(--paper)}
+  .underline-accent{background-image:linear-gradient(to bottom, transparent 70%, var(--accent) 70%, var(--accent) 96%, transparent 96%);padding:0 .05em}
+
+  /* ============ Pipeline / Step ============ */
+  .pipeline-section{margin-top:3.2vh;padding-top:2.2vh;border-top:1px solid rgba(127,127,127,.3)}
+  .pipeline-section:first-of-type{border-top:0;padding-top:0;margin-top:2.4vh}
+  .pipeline-label{
+    font-family:var(--mono);font-size:max(10px,.82vw);
+    letter-spacing:.24em;text-transform:uppercase;opacity:.6;margin-bottom:1.8vh;
+  }
+  .pipeline{display:grid;grid-template-columns:repeat(5,1fr);gap:1vw}
+  .pipeline[data-cols="3"]{grid-template-columns:repeat(3,1fr)}
+  .pipeline[data-cols="4"]{grid-template-columns:repeat(4,1fr)}
+  .pipeline[data-cols="6"]{grid-template-columns:repeat(6,1fr)}
+  .step{
+    display:flex;flex-direction:column;gap:.6vh;
+    padding-top:1.2vh;
+    border-top:2px solid currentColor;
+  }
+  .step.accent-top{border-top-color:var(--accent);border-top-width:3px}
+  .step-nb{font-family:var(--mono);font-weight:500;font-size:1vw;opacity:.5;letter-spacing:.04em}
+  .step-title{
+    font-family:var(--sans-tab),var(--sans-zh);font-weight:600;
+    font-size:1.4vw;letter-spacing:-.01em;line-height:1.2;
+  }
+  .step-desc{
+    font-family:var(--sans-tab),var(--sans-zh);font-weight:400;
+    font-size:max(11px,.88vw);line-height:1.45;opacity:.7;
+  }
+
+  /* ============ 网格系统 (继承) ============ */
+  .frame{flex:1;display:flex;flex-direction:column;min-height:0;overflow:hidden}
+  .frame.grid-2-7-5,.frame.grid-2-6-6,.frame.grid-2-8-4,.frame.grid-2-4-8,
+  .frame.grid-3-3,.frame.grid-12,.frame.grid-6,.frame.grid-4,.frame.grid-3{display:grid}
+  .grid-12{display:grid;grid-template-columns:repeat(12,1fr);gap:2vh 1.2vw;align-items:start}
+  .span-2{grid-column:span 2}.span-3{grid-column:span 3}.span-4{grid-column:span 4}
+  .span-5{grid-column:span 5}.span-6{grid-column:span 6}.span-7{grid-column:span 7}
+  .span-8{grid-column:span 8}.span-9{grid-column:span 9}.span-12{grid-column:span 12}
+  .grid-2-7-5{display:grid;grid-template-columns:7fr 5fr;gap:3vw 4vh;align-items:start}
+  .grid-2-6-6{display:grid;grid-template-columns:1fr 1fr;gap:3vw 4vh;align-items:start}
+  .grid-2-8-4{display:grid;grid-template-columns:8fr 4fr;gap:3vw 4vh;align-items:start}
+  .grid-2-4-8{display:grid;grid-template-columns:4fr 8fr;gap:3vw 4vh;align-items:start}
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:3vw 4vh;align-items:start}
+  .grid-3-3{display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:minmax(0,1fr);gap:2.4vh 2vw}
+  .grid-4{display:grid;grid-template-columns:repeat(2,1fr);grid-template-rows:repeat(2,1fr);gap:3vh 3vw;flex:1;align-content:center}
+  .grid-6{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:3vh 2.4vw;flex:1;align-content:center}
+
+  .col{display:flex;flex-direction:column;gap:2vh}
+  .row{display:flex;align-items:center;gap:2vw}
+  .fill{flex:1}
+  .center{align-items:center;justify-content:center;text-align:center}
+  .right{text-align:right;justify-self:end}
+  .top{align-self:start}
+  .bottom{align-self:end}
+  .va-center{align-self:center}
+  .nowrap{white-space:nowrap}
+  .pos-absolute{position:absolute}
+  .bottom-left{position:absolute;left:5vw;bottom:8vh;max-width:50vw}
+  .bottom-right{position:absolute;right:5vw;bottom:8vh;max-width:50vw;text-align:right}
+  .top-right{position:absolute;right:5vw;top:5.5vh;text-align:right}
+  .top-left{position:absolute;left:5vw;top:5.5vh}
+
+  /* ============ Callout ============ */
+  .callout{
+    padding:2vh 2vw;border-left:3px solid var(--accent);
+    font-family:var(--sans-tab),var(--sans-zh);font-size:max(13px,1vw);
+    line-height:1.55;opacity:.9;
+  }
+  .callout.ink{border-left-color:currentColor}
+  .callout .cite,.callout .callout-src{
+    display:block;margin-top:1.2vh;
+    font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;opacity:.6;
+  }
+
+  /* ============ Icons (Lucide via CDN) ============ */
+  .ico{width:1em;height:1em;display:inline-block;vertical-align:-.12em;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+  .ico-lg,.ico-md,.ico-sm{fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round}
+  .ico-lg{width:2.4vw;height:2.4vw;stroke-width:1.4;display:inline-block}
+  .ico-md{width:1.6vw;height:1.6vw;stroke-width:1.6;display:inline-block;vertical-align:-.4em}
+  .ico-sm{width:1vw;height:1vw;stroke-width:1.8;display:inline-block;vertical-align:-.15em;opacity:.7}
+
+  .geo-dot{width:.7vw;height:.7vw;border-radius:50%;background:var(--accent);display:inline-block;vertical-align:middle}
+  .geo-square{width:.7vw;height:.7vw;background:var(--accent);display:inline-block;vertical-align:middle}
+  .geo-line{width:2vw;height:2px;background:var(--accent);display:inline-block;vertical-align:middle}
+  .geo-circle-o{width:.9vw;height:.9vw;border:2px solid currentColor;border-radius:50%;display:inline-block;vertical-align:middle}
+
+  /* ============ 图片 frame-img (继承) ============ */
+  .frame-img{overflow:hidden;position:relative;background:var(--paper);box-sizing:border-box;width:100%}
+  .slide.dark .frame-img{background:rgba(255,255,255,.06)}
+  .frame-img > img{width:100%;height:100%;object-fit:cover;object-position:center center;display:block}
+  .frame-img.fit-contain > img{object-fit:contain;object-position:center center}
+  .frame-img.pos-top > img{object-position:top center}
+  .frame-img.pos-face > img{object-position:center 35%}
+  .frame-img.r-16x9{aspect-ratio:16/9;max-height:64vh}
+  .frame-img.r-21x9{aspect-ratio:21/9;max-height:54vh}
+  .frame-img.r-16x10{aspect-ratio:16/10;max-height:56vh}
+  .frame-img.r-4x3{aspect-ratio:4/3;max-height:56vh}
+  .frame-img.r-3x2{aspect-ratio:3/2;max-height:46vh}
+  .frame-img.r-3x4{aspect-ratio:3/4;max-height:60vh}
+  .frame-img.r-1x1{aspect-ratio:1/1;max-height:50vh}
+  .frame-img.h-16{height:16vh}.frame-img.h-18{height:18vh}.frame-img.h-22{height:22vh}
+  .frame-img.h-26{height:26vh}.frame-img.h-28{height:28vh}.frame-img.h-32{height:32vh}
+  .frame-img.swiss-lined{border-top:2px solid var(--accent)}
+  .frame-img.swiss-keyline{border:0}
+  .image-hero-body{display:grid;grid-template-columns:6fr 6fr;gap:3vw;padding:6.6vh 5vw 4.4vh;flex:1;align-content:start}
+  .image-hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:2vw;align-items:start}
+  .img-cap{
+    display:block;margin-top:.8vh;
+    font-family:var(--mono);font-size:max(10px,.78vw);
+    letter-spacing:.2em;text-transform:uppercase;opacity:.6;
+  }
+  figure.frame-img,figure.tile{margin:0;display:flex;flex-direction:column;min-width:0}
+  figure.tile > .frame-img{flex:0 0 auto}
+
+  /* 瑞士风图文混排 (继承) */
+  .swiss-img-split{display:grid;grid-template-columns:5fr 7fr;gap:3vw;align-items:start;flex:1;min-height:0}
+  .swiss-img-split.reverse{grid-template-columns:7fr 5fr}
+  .swiss-img-split.align-bottom{align-items:end}
+  .swiss-img-split.align-bottom .swiss-img-copy{align-self:end}
+  .swiss-img-split.align-image-bottom{align-items:end;padding-bottom:var(--nav-safe-bottom)}
+  .swiss-img-split.align-image-bottom .swiss-img-copy{align-self:end}
+  .swiss-img-split.align-image-bottom figure.tile{align-self:end;position:relative}
+  .swiss-img-split.align-image-bottom figure.tile > .swiss-img-caption{
+    position:absolute;left:0;right:0;top:calc(100% + var(--sp-4));margin-top:0
+  }
+  .nav-safe-bottom{padding-bottom:var(--nav-safe-bottom)}
+  .nav-safe-bottom-tight{padding-bottom:calc(var(--nav-safe-bottom) * .65)}
+  .swiss-img-copy{display:flex;flex-direction:column;gap:var(--sp-6);min-width:0}
+  .swiss-img-copy .rule{margin:0}
+  .swiss-img-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--sp-5);align-items:start;margin-top:var(--sp-7)}
+  .swiss-img-grid.two{grid-template-columns:repeat(2,1fr)}
+  .swiss-img-grid.tight{margin-top:0}
+  .swiss-img-caption{
+    display:flex;justify-content:space-between;gap:var(--sp-5);margin-top:var(--sp-4);
+    font-family:var(--mono);font-size:max(9px,.68vw);
+    letter-spacing:.16em;text-transform:uppercase;color:var(--text-helper);
+    border-top:1px solid var(--border-subtle);padding-top:var(--sp-4);
+  }
+  .swiss-img-caption strong{
+    font-family:var(--sans-tab),var(--sans-zh);font-size:max(12px,.88vw);
+    font-weight:600;letter-spacing:0;text-transform:none;color:var(--text-primary);
+  }
+
+  /* ============ Bar Chart ============ */
+  .bar-chart{display:flex;flex-direction:column;gap:1.4vh}
+  .bar-row{display:grid;grid-template-columns:8em 1fr 4em;gap:1.4vw;align-items:center}
+  .bar-row .bar-label{font-family:var(--mono);font-size:max(10px,.82vw);letter-spacing:.16em;text-transform:uppercase;opacity:.7}
+  .bar-row .bar-track{height:14px;background:rgba(127,127,127,.18);position:relative}
+  .bar-row .bar-fill{height:100%;background:var(--accent);position:absolute;left:0;top:0}
+  .bar-row .bar-fill.ink{background:currentColor}
+  .bar-row .bar-value{font-family:var(--sans-tab);font-weight:700;font-size:max(13px,1.05vw);text-align:right;font-feature-settings:"tnum"}
+
+  /* ============ 导航 (继承) ============ */
+  #nav{position:fixed;left:50%;bottom:2vh;transform:translateX(-50%);z-index:30;display:flex;gap:10px;padding:0;background:transparent;border:0}
+  #nav .dot{width:6px;height:6px;background:rgba(10,22,38,.28);cursor:pointer;transition:all .25s ease;border:0;padding:0;border-radius:0}
+  #nav .dot:hover{background:rgba(10,22,38,.55)}
+  #nav .dot.active{background:var(--accent);width:18px}
+  body.dark-bg #nav .dot{background:rgba(255,255,255,.32)}
+  body.dark-bg #nav .dot.active{background:var(--accent)}
+
+  #hint{position:fixed;bottom:2.4vh;right:2.5vw;z-index:30;font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;opacity:.4;color:var(--ink-tint, currentColor)}
+  body.dark-bg #hint{color:var(--paper);opacity:.4}
+  body.low-power #hint{color:var(--accent);opacity:.72}
+  body.dark-bg.low-power #hint{color:var(--paper);opacity:.72}
+
+  /* ESC 索引页 */
+  #overview [data-anim]{opacity:1!important;transform:none!important}
+  #overview .slide *{animation:none!important;transition:none!important}
+
+  /* 卡片 token */
+  .card-fill{background:#F5F3F4;border:0;color:var(--text-primary);border-radius:4px}
+  .card-ink{background:var(--ink);border:0;color:var(--paper);border-radius:4px}
+  .card-ink .t-meta,.card-ink .t-cat{color:rgba(255,255,255,.6)}
+  .card-accent{background:var(--accent);border:0;color:var(--accent-on);border-radius:4px}
+  .card-accent .t-meta,.card-accent .t-cat{color:var(--accent-on)}
+
+  /* ============ 动效 (继承) ============ */
+  [data-anim]{opacity:1}
+  body.motion-ready [data-anim]{opacity:0}
+  body.motion-ready [data-anim="left"]{transform:translateX(-24px)}
+  body.motion-ready [data-anim="right"]{transform:translateX(24px)}
+  body.motion-ready [data-anim="line"]{opacity:0;transform:translateY(10px)}
+  body.motion-ready [data-animate="pipeline"] [data-anim]{opacity:.15}
+  body.low-power #deck{transition:none!important}
+  body.low-power *,body.low-power *::before,body.low-power *::after{animation:none!important;transition:none!important}
+  body.low-power.motion-ready [data-anim],body.low-power [data-anim]{opacity:1!important;transform:none!important}
+
+  /* ============================================================
+     V2 EXTENSIONS · Canvas Mode
+     ============================================================ */
+  body.is-win .name-mega,body.is-win .num-mega,body.is-win .kpi-thin,body.is-win .tl-node .multi{font-weight:600;letter-spacing:-.01em}
+  body.is-win [style*="font-weight:200"]{font-weight:600 !important}
+
+  body.canvas-mode{background:var(--paper)}
+  body.canvas-mode canvas.bg{display:none !important}
+  body.canvas-mode .slide{background:var(--paper);padding:0;align-items:stretch;justify-content:stretch}
+  body.canvas-mode .slide.hero{background:var(--paper)}
+
+  .canvas-card{
+    width:100vw;height:100vh;
+    background:var(--paper);color:var(--ink);
+    padding:5.6vh 5vw 4.4vh;
+    display:flex;flex-direction:column;
+    position:relative;overflow:hidden;
+    box-shadow:none;
+  }
+  .slide.dark .canvas-card{background:var(--ink);color:var(--paper)}
+  .slide.accent .canvas-card{background:var(--accent);color:var(--accent-on)}
+  .slide.grey .canvas-card{background:var(--grey-1);color:var(--ink)}
+  .slide.split .canvas-card{padding:0;flex-direction:row}
+
+  /* ============ ASCII 点阵呼吸场 — 金色版 (Style C default) ============
+     Style B 默认是 IKB blue 上的白字 ASCII;Style C 改为深蓝底 + 金色 ASCII */
+  canvas.ascii-bg{
+    position:absolute;inset:0;width:100%;height:100%;
+    pointer-events:none;z-index:0;
+    mix-blend-mode:screen;opacity:.94;
+  }
+  .canvas-card > *:not(.ascii-bg){position:relative;z-index:1}
+  .slide.accent .canvas-card .chrome-min{color:rgba(255,255,255,.62)}
+  .slide.accent .canvas-card .t-meta{color:rgba(255,255,255,.7)}
+  .split-half > .half.b-accent .chrome-min{color:rgba(255,255,255,.62)}
+
+  .num-mega{font-family:var(--sans-tab);font-weight:700;font-size:9vw;line-height:1;letter-spacing:-.04em;font-feature-settings:"tnum"}
+  .name-mega{font-family:var(--sans-tab);font-weight:700;font-size:9vw;line-height:1;letter-spacing:-.035em}
+  .name-mega.muted{color:var(--grey-3)}
+
+  .kpi-thin{
+    font-family:var(--sans-tab);font-weight:600;
+    font-size:14vw;line-height:.92;letter-spacing:-.045em;
+    font-feature-settings:"tnum";
+  }
+  .kpi-thin .unit{font-size:.3em;font-weight:500;opacity:.55;margin-left:.15em;vertical-align:.6em}
+  .kpi-thin.accent{color:var(--accent)}
+  .kpi-thin-sm{
+    font-family:var(--sans-tab);font-weight:600;
+    font-size:5.6vw;line-height:1.04;letter-spacing:-.03em;
+    font-feature-settings:"tnum";
+  }
+  .kpi-thin-sm .unit{font-size:.3em;font-weight:500;opacity:.55;margin-left:.12em;vertical-align:.45em}
+
+  .kpi-row-4{
+    display:grid;grid-template-columns:repeat(4,1fr);
+    gap:0;padding-top:2.4vh;
+    border-top:1px solid var(--grey-2)
+  }
+  .kpi-row-4 > .kpi-cell{padding:1.6vh 1.6vw 0;border-left:1px solid var(--grey-2)}
+  .kpi-row-4 > .kpi-cell:first-child{padding-left:0;border-left:none}
+  .kpi-cell .lbl{font-family:var(--mono);font-size:max(10px,.74vw);letter-spacing:.22em;text-transform:uppercase;opacity:.55;margin-bottom:1.2vh}
+  .kpi-cell .nb{font-family:var(--sans-tab);font-weight:600;font-size:3.2vw;line-height:1;letter-spacing:-.025em;font-feature-settings:"tnum"}
+  .kpi-cell .nb .unit{font-size:.32em;font-weight:500;opacity:.6;margin-left:.1em;vertical-align:.4em}
+  .kpi-cell .note{font-family:var(--sans-tab),var(--sans-zh);font-size:max(11px,.82vw);line-height:1.5;opacity:.7;margin-top:1.2vh}
+
+  /* 时间线 (继承) */
+  .timeline-v{--tl-axis-w:24px;--tl-dot:8px;position:relative;margin-top:var(--sp-7)}
+  .timeline-v::before{
+    content:"";position:absolute;left:calc(var(--tl-axis-w) / 2);transform:translateX(-50%);
+    top:var(--sp-5);bottom:var(--sp-5);width:1px;
+    background:repeating-linear-gradient(to bottom,currentColor 0 4px,transparent 4px 8px);
+    opacity:.35;pointer-events:none;z-index:0
+  }
+  .tl-node{
+    position:relative;display:grid;
+    grid-template-columns:var(--tl-axis-w) minmax(0,7em) minmax(0,7.6em) 1fr;
+    gap:0 var(--sp-5);align-items:center;padding:var(--sp-7) 0
+  }
+  .tl-node .dot{
+    width:var(--tl-dot);height:var(--tl-dot);border-radius:50%;
+    background:currentColor;justify-self:center;z-index:1
+  }
+  .tl-node.accent .dot{background:var(--accent)}
+  .tl-node .yr{font-family:var(--mono);font-weight:500;font-size:max(13px,1vw);letter-spacing:.04em}
+  .tl-node .multi{
+    font-family:var(--sans-tab);font-weight:700;
+    font-size:clamp(28px,2.8vw,56px);line-height:.95;letter-spacing:-.025em;
+    white-space:nowrap;overflow:hidden;min-width:0;
+  }
+  .tl-node .multi .unit{font-size:.36em;font-weight:500;opacity:.6;margin-left:.2em;vertical-align:.42em;letter-spacing:0}
+  .tl-node.accent .multi{color:var(--accent)}
+  .tl-node .desc{font-family:var(--sans-tab),var(--sans-zh);font-size:max(12px,.9vw);line-height:1.55;opacity:.78;min-width:0}
+
+  .timeline-h{--tl-axis-w:8px;--tl-dot:8px;position:relative;flex:1;display:flex;align-items:center}
+  .timeline-h::before{
+    content:"";position:absolute;top:50%;left:5%;right:5%;height:1px;
+    transform:translateY(-50%);
+    background:repeating-linear-gradient(to right,currentColor 0 4px,transparent 4px 8px);
+    opacity:.35;pointer-events:none;z-index:0
+  }
+  .timeline-h .tl-row{position:relative;width:100%;display:grid;grid-template-columns:repeat(5,1fr);align-items:center}
+  .timeline-h .th-node{position:relative;display:flex;justify-content:center}
+  .timeline-h .th-node .dot{width:var(--tl-dot);height:var(--tl-dot);border-radius:50%;background:var(--ink);z-index:1;position:relative}
+  .timeline-h .th-node.accent .dot{background:var(--accent)}
+  .timeline-h .th-node .label{
+    position:absolute;left:50%;transform:translateX(-50%);
+    width:13vw;text-align:center;display:flex;flex-direction:column;gap:.4vh
+  }
+  .timeline-h .th-node.up .label{bottom:calc(50% + 22px)}
+  .timeline-h .th-node.down .label{top:calc(50% + 22px)}
+  .timeline-h .th-node .yr{font-family:var(--mono);font-size:max(10px,.74vw);letter-spacing:.06em;color:var(--text-helper);font-weight:500}
+  .timeline-h .th-node.accent .yr{color:var(--accent)}
+  .timeline-h .th-node .name{font-family:var(--sans-tab);font-size:max(13px,1.05vw);font-weight:600;color:var(--text-primary);line-height:1.2;letter-spacing:-.005em}
+  .timeline-h .th-node.accent .name{color:var(--accent)}
+  .timeline-h .th-node .desc{font-family:var(--sans-tab),var(--sans-zh);font-size:max(10px,.78vw);color:var(--text-secondary);font-weight:400;line-height:1.4}
+
+  /* 几何图示 */
+  .geo-icon{width:5vw;height:5vw;display:block;margin-bottom:2.2vh;color:var(--ink);flex-shrink:0}
+  .slide.dark .geo-icon{color:var(--paper)}
+  .geo-icon svg{width:100%;height:100%;overflow:visible}
+  .geo-icon .stroke{fill:none;stroke:currentColor;stroke-width:1.4}
+  .geo-icon .stroke-accent{fill:none;stroke:var(--accent);stroke-width:1.4}
+  .geo-icon .fill-accent{fill:var(--accent)}
+
+  /* 卡片网格 */
+  .sub-grid-3-2{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:1.4vh 1.4vw;flex:1;align-content:stretch;margin-top:3vh}
+  .sub-card{
+    background:var(--grey-1);padding:2.4vh 1.6vw 2vh;
+    display:flex;flex-direction:column;position:relative;border-radius:4px;min-height:0
+  }
+  .slide.dark .sub-card{background:rgba(255,255,255,.06)}
+  .sub-card.accent{background:var(--accent);color:var(--accent-on)}
+  .sub-card.ink{background:var(--ink);color:var(--paper)}
+  .sub-card .nb-corner{
+    position:absolute;top:1.6vh;right:1.4vw;
+    font-family:var(--mono);font-size:max(10px,.78vw);
+    letter-spacing:.18em;opacity:.55
+  }
+  .sub-card .ttl{font-family:var(--sans-tab),var(--sans-zh);font-weight:600;font-size:max(15px,1.5vw);line-height:1.2;letter-spacing:-.015em;margin-bottom:1vh}
+  .sub-card .desc{font-family:var(--sans-tab),var(--sans-zh);font-size:max(11px,.86vw);line-height:1.55;opacity:.78;margin-top:auto}
+  .sub-card .lucide{width:2.4vw;height:2.4vw;stroke-width:1.4;color:currentColor;margin-bottom:1.6vh;flex-shrink:0}
+  .sub-card.accent .lucide{color:var(--accent-on)}
+
+  /* 三层架构 */
+  .stack-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1.6vw;flex:1;margin-top:6vh;align-items:stretch}
+  .stack-block{
+    display:flex;flex-direction:column;
+    padding:3.2vh 1.8vw 2.4vh;
+    position:relative;min-height:0;border-radius:4px
+  }
+  .stack-block.b-accent{background:var(--accent);color:var(--accent-on)}
+  .stack-block.b-grey{background:var(--grey-1);color:var(--ink)}
+  .stack-block.b-ink{background:var(--ink);color:var(--paper)}
+  .stack-block .layer-nb{font-family:var(--mono);font-size:max(11px,.82vw);letter-spacing:.22em;opacity:.65;margin-bottom:auto}
+  .stack-block .layer-icon{margin-bottom:1.6vh}
+  .stack-block .layer-icon svg{width:3vw;height:3vw}
+  .stack-block .layer-icon .stroke{fill:none;stroke:currentColor;stroke-width:1.6}
+  .stack-block .layer-ttl{font-family:var(--sans-tab),var(--sans-zh);font-weight:600;font-size:max(17px,2vw);line-height:1.1;margin-top:1vh;letter-spacing:-.02em}
+  .stack-block .layer-desc{font-family:var(--sans-tab),var(--sans-zh);font-weight:400;font-size:max(11px,.88vw);line-height:1.55;opacity:.88;margin-top:1.4vh}
+  .stack-block .lucide{width:2.6vw;height:2.6vw;stroke-width:1.4;margin-bottom:1.6vh;flex-shrink:0}
+  .stack-block .layer-tag{font-family:var(--mono);font-size:max(9px,.7vw);letter-spacing:.2em;text-transform:uppercase;opacity:.7;margin-top:1.6vh;border-top:1px solid currentColor;padding-top:1vh}
+
+  /* KPI Tower */
+  .bar-towers{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2vw;flex:1;align-items:end;margin-top:auto}
+  .bar-tower{display:flex;flex-direction:column;justify-content:flex-end;min-height:0;height:100%}
+  .bar-tower .cap{
+    background:var(--grey-1);height:5.6vh;
+    display:flex;align-items:center;justify-content:center;
+    margin-bottom:.4vh;border-radius:3px 3px 0 0;
+  }
+  .bar-tower .cap svg{width:1.6vw;height:1.6vw;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+  .bar-tower .body-block{
+    flex:0 1 auto;padding:2vh 1.2vw 2vh;
+    display:flex;flex-direction:column;justify-content:flex-end;
+    min-height:18vh;border-radius:4px;
+  }
+  .bar-tower .body-block.h-1{min-height:22vh}
+  .bar-tower .body-block.h-2{min-height:30vh}
+  .bar-tower .body-block.h-3{min-height:38vh}
+  .bar-tower .body-block.h-4{min-height:46vh}
+  .bar-tower .body-block{background:var(--paper);color:var(--ink);border:1px solid var(--grey-2)}
+  .bar-tower .body-block.b-accent{background:var(--accent);color:var(--accent-on);border-color:var(--accent)}
+  .bar-tower .lbl{font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.2em;text-transform:uppercase;opacity:.65;margin-bottom:1vh}
+  .bar-tower .nb{font-family:var(--sans-tab);font-weight:700;font-size:max(20px,2.8vw);line-height:1;letter-spacing:-.03em;font-feature-settings:"tnum"}
+  .bar-tower .body-block.b-accent .nb{font-weight:700}
+  .bar-tower .nb .unit{font-size:.36em;font-weight:500;opacity:.7;margin-left:.08em;vertical-align:.4em}
+  .bar-tower .sub{font-family:var(--sans-tab),var(--sans-zh);font-size:max(11px,.84vw);opacity:.75;margin-top:1.2vh;line-height:1.5}
+  .bar-tower .cap{background:var(--grey-1);color:var(--ink)}
+  .bar-tower .lucide{width:1.6vw;height:1.6vw;stroke-width:1.4}
+
+  /* V3 矩阵 */
+  .hatch{background-image:repeating-linear-gradient(135deg,currentColor 0 1px,transparent 1px 8px);opacity:.55}
+  .dot-mat{--d:14px;background-image:radial-gradient(currentColor 1.4px,transparent 1.6px);background-size:var(--d) var(--d);background-position:0 0;opacity:.5}
+  .dot-mat.lg{--d:22px}.dot-mat.xl{--d:34px}.dot-mat.dense{--d:9px;opacity:.62}
+  .ring-mat{
+    --d:18px;background-image:radial-gradient(circle at 50% 50%,transparent 2px,currentColor 2px,currentColor 2.6px,transparent 2.7px);
+    background-size:var(--d) var(--d);opacity:.55
+  }
+  .ring-mat.lg{--d:28px}
+  .cross-mat{
+    --d:22px;background-color:currentColor;
+    -webkit-mask-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22'><g stroke='black' stroke-width='1.4' stroke-linecap='round' fill='none'><line x1='8' y1='8' x2='14' y2='14'/><line x1='14' y1='8' x2='8' y2='14'/></g></svg>");
+            mask-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22'><g stroke='black' stroke-width='1.4' stroke-linecap='round' fill='none'><line x1='8' y1='8' x2='14' y2='14'/><line x1='14' y1='8' x2='8' y2='14'/></g></svg>");
+    -webkit-mask-size:var(--d) var(--d);mask-size:var(--d) var(--d);
+    -webkit-mask-repeat:repeat;mask-repeat:repeat;opacity:.42
+  }
+  .cross-mat.lg{--d:32px}
+
+  /* H-Bar Chart */
+  .h-bar-chart{
+    display:grid;grid-template-columns:11em minmax(0,1fr) 8em;
+    gap:1.6vh 1.6vw;align-items:center;margin-top:2.4vh;
+    font-feature-settings:"tnum";
+  }
+  .h-bar-chart .row-lbl{
+    font-family:var(--sans-tab),var(--sans-zh);font-weight:500;
+    font-size:max(13px,1vw);letter-spacing:-.005em;text-align:left;
+  }
+  .h-bar-chart .row-track{height:3.2vh;background:var(--grey-1);position:relative;overflow:hidden;border-radius:2px}
+  .h-bar-chart .row-fill{height:100%;background:var(--ink);transition:width 1s cubic-bezier(.5,0,.2,1);border-radius:2px}
+  .h-bar-chart .row-fill.accent{background:var(--accent)}
+  .h-bar-chart .row-fill.grey{background:var(--grey-3)}
+  .h-bar-chart .row-val{
+    font-family:var(--sans-tab);font-weight:700;font-size:max(16px,1.5vw);
+    letter-spacing:-.02em;line-height:1;
+  }
+  .h-bar-chart .row-val .unit{font-size:.5em;opacity:.55;font-weight:500;margin-left:.15em;letter-spacing:.04em}
+
+  /* V-Bar Chart */
+  .v-bar-chart{
+    display:grid;grid-template-columns:repeat(var(--cols,4),1fr);
+    align-items:end;gap:1.4vw;height:50vh;margin-top:3vh;
+  }
+  .v-bar-chart .col{display:flex;flex-direction:column;gap:1.4vh;align-items:stretch;height:100%}
+  .v-bar-chart .col-bar{
+    flex:1 1 auto;background:var(--grey-1);
+    border-top:2px solid var(--ink);
+    position:relative;display:flex;align-items:flex-start;justify-content:center;padding-top:1vh;
+    border-radius:2px 2px 0 0;
+  }
+  .v-bar-chart .col-bar.accent{background:var(--accent);border-top-color:var(--accent);color:var(--accent-on)}
+  .v-bar-chart .col-bar.ink{background:var(--ink);color:var(--paper);border-top-color:var(--ink)}
+  .v-bar-chart .col-bar .v{font-family:var(--sans-tab);font-weight:700;font-size:max(18px,1.6vw);letter-spacing:-.02em}
+  .v-bar-chart .col-lbl{
+    font-family:var(--mono);font-size:max(10px,.74vw);
+    letter-spacing:.18em;text-transform:uppercase;opacity:.6;
+    text-align:center;flex:0 0 auto;
+  }
+
+  /* Duo Compare */
+  .duo-compare{
+    display:grid;grid-template-columns:1fr 1px 1fr;
+    gap:0 3.4vw;flex:1;align-items:stretch;margin-top:8vh;
+  }
+  .duo-compare .vrule{background:var(--grey-2);width:1px;align-self:stretch}
+  .duo-compare .col{display:flex;flex-direction:column;gap:1.6vh;padding:0 .4vw}
+  .duo-compare .col-tag{
+    font-family:var(--mono);font-size:max(10px,.74vw);
+    letter-spacing:.22em;text-transform:uppercase;color:var(--grey-3);
+    display:flex;align-items:center;gap:.6vw;
+  }
+  .duo-compare .col-tag .num{font-weight:600;color:var(--ink);border:1px solid var(--ink);padding:.2em .6em;font-size:.92em}
+  .duo-compare .col.accent .col-tag .num{color:var(--accent);border-color:var(--accent)}
+  .duo-compare .col-ttl{
+    font-family:var(--sans-tab),var(--sans-zh);font-weight:700;
+    font-size:3.6vw;line-height:1;letter-spacing:-.03em;
+  }
+  .duo-compare .col.accent .col-ttl{color:var(--accent)}
+  .duo-compare .col-desc{
+    font-family:var(--sans-tab),var(--sans-zh);font-size:max(13px,1.04vw);
+    line-height:1.55;opacity:.78;max-width:30vw;
+  }
+  .duo-compare .col-list{
+    list-style:none;display:flex;flex-direction:column;gap:1vh;
+    margin-top:auto;padding-top:2vh;border-top:1px solid var(--grey-2);
+  }
+  .duo-compare .col-list li{
+    font-family:var(--sans-tab),var(--sans-zh);font-size:max(11px,.88vw);line-height:1.5;
+    padding-left:1.4em;position:relative;
+  }
+  .duo-compare .col-list li::before{
+    content:"";position:absolute;left:0;top:.6em;
+    width:.5em;height:1px;background:currentColor;opacity:.55;
+  }
+  .duo-compare .col.accent .col-list li::before{background:var(--accent);opacity:1}
+
+  .split-half{display:grid;grid-template-columns:1fr 1fr;gap:0;flex:1;align-items:stretch}
+  .split-half > .half{padding:5vh 3.4vw;display:flex;flex-direction:column;min-width:0}
+  .split-half > .half.r-border{border-left:1px solid rgba(127,127,127,.22)}
+  .split-half > .half.b-grey{background:var(--grey-1)}
+  .split-half > .half.b-accent{background:var(--accent);color:var(--accent-on);border-radius:4px}
+  .split-half > .half.b-ink{background:var(--ink);color:var(--paper)}
+
+  /* chrome-min (继承,只调整 margin-bottom 与字体;Style C 上调 1 档:11px -> 14px) */
+  .canvas-card .chrome-min{
+    display:flex;justify-content:space-between;align-items:flex-start;
+    font-family:var(--sans-tab),var(--mono);font-size:14px;font-weight:600;
+    letter-spacing:.14em;text-transform:uppercase;
+    color:var(--text-helper);flex:0 0 auto;margin-bottom:var(--sp-9);
+  }
+  .canvas-card .chrome-min.tight{margin-bottom:var(--sp-7)}
+  .canvas-card .chrome-min .l,.canvas-card .chrome-min .r{max-width:48vw;line-height:1.5}
+  .slide.dark .canvas-card .chrome-min,.split-half .half.b-ink .canvas-card .chrome-min{color:rgba(255,255,255,.62)}
+
+  @media (max-width:900px){
+    .h-hero{font-size:16vw}.h-hero-zh{font-size:13vw}
+    .h-xl{font-size:9vw}.h-xl-zh{font-size:8vw}
+    .kpi-hero{font-size:32vw}.kpi-big{font-size:16vw}
+    .pipeline{grid-template-columns:repeat(2,1fr)}
+    .grid-2-7-5,.grid-2-6-6,.grid-2-8-4,.grid-2-4-8{grid-template-columns:1fr}
+    .grid-12{grid-template-columns:repeat(6,1fr)}
+  }
+</style>
+</head>
+<body class="canvas-mode">
+<script>
+  if(/Win/i.test(navigator.platform || navigator.userAgentData?.platform || '')){
+    document.body.classList.add('is-win');
+  }
+  (function(){
+    const KEY = 'guizang-ppt-low-power';
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const stored = localStorage.getItem(KEY);
+    window.__lowPowerMode = stored === '1' || (stored === null && reduced);
+    function updateHint(){
+      const hint = document.getElementById('hint');
+      if(hint) hint.textContent = `← → 翻页 · B ${window.__lowPowerMode ? '动态' : '静态'} · ESC 索引`;
+    }
+    window.__setLowPowerMode = function(on, opts={}){
+      window.__lowPowerMode = !!on;
+      document.body.classList.toggle('low-power', window.__lowPowerMode);
+      if(opts.persist !== false) localStorage.setItem(KEY, window.__lowPowerMode ? '1' : '0');
+      if(window.__lowPowerMode && document.getAnimations){
+        document.getAnimations().forEach(a=>a.cancel());
+      }
+      updateHint();
+      dispatchEvent(new CustomEvent('swiss-low-power-change', {detail:{on:window.__lowPowerMode}}));
+      if(window.__playSlide) window.__playSlide(window.__currentSlideIndex || 0);
+    };
+    document.body.classList.toggle('low-power', window.__lowPowerMode);
+    addEventListener('DOMContentLoaded', updateHint, {once:true});
+  })();
+</script>
+
+<canvas id="bg-grid" class="bg"></canvas>
+<div id="hint">← → 翻页 · B 静态 · ESC 索引</div>
+
+<div id="deck">
+
+<!-- ============================================================
+     SLIDES 插入区 · 在此处填充所有 <section class="slide ..."> 页面
+     页面骨架参考 references/layouts-tableai.md
+     主题色配置参考 references/themes-tableai.md (默认 寰宇深蓝 + 日晷暗金)
+     ============================================================ -->
+
+<!-- ============================================================
+     SLIDES_HERE · Style C 演示 deck · NorthStar Analytics · Q3 Field Note
+     24 页覆盖 references/layouts-tableai.md 全部 22 个版式 (S01-S22) + Cover + Closing.
+     主题色: 寰宇深蓝 + 日晷暗金 (themes-tableai.md)
+     内容从 Style B 的同一份 deck 转写而来,只换色/字体/圆角.
+     ============================================================ -->
+<!-- ============================================================
+     SLIDES_HERE · Style B 演示 deck · NorthStar Analytics · Q3 Field Note
+     24 页覆盖 references/layouts-swiss.md 全部 22 个版式 (S01-S22) + Cover + Closing.
+     主题色: 默认 IKB 克莱因蓝 (themes-swiss.md)
+     真实使用时,直接替换文案和数字即可.
+     ============================================================ -->
+
+<!-- ============ Cover · IKB 满屏 + ASCII 呼吸场(等同 P1 风格版,作为 deck 起手) ============ -->
+<section class="slide dark" data-animate="hero" data-layout="TABLEAI-COVER-ASCII">
+  <div class="canvas-card">
+    <canvas class="ascii-bg" aria-hidden="true"></canvas>
+    <div class="chrome-min">
+      <div class="l">NorthStar · Q3 Field Note 03</div>
+      <div class="r">SS · 26.10.07 · 01 / NN</div>
+    </div>
+    <div style="flex:1;padding:0;display:grid;grid-template-rows:auto 1fr auto;gap:2.6vh">
+      <div data-anim="kicker" class="t-meta" style="color:rgba(255,255,255,.78);letter-spacing:.22em">Q3 · How we grew 41%</div>
+      <h1 data-anim="title" style="align-self:center;font-family:var(--sans-tab),var(--sans-zh);font-weight:700;font-size:min(11.6vw,19vh);line-height:.94;letter-spacing:-.025em;color:#fff">如何在一个<br/>被宣判死亡的市场<br/><span style="font-style:italic;font-weight:600">长出 41%</span>。</h1>
+      <div data-anim="bottom" style="display:grid;grid-template-rows:auto auto;gap:1.6vh;border-top:1px solid rgba(255,255,255,.22);padding-top:2vh">
+        <div data-anim="lead" class="lead" style="max-width:52ch;color:rgba(255,255,255,.86);font-weight:600">一份给同行看的 Q3 内部复盘 ── 不是 PR 稿,不是公关文章,是一家 B2B SaaS 用 90 天把 ARR 从 $29.1M 做到 $41.2M 的真实路径。</div>
+        <div style="display:flex;justify-content:space-between;align-items:end">
+          <div class="t-meta" style="color:rgba(255,255,255,.6)">歸藏 · NorthStar 团队</div>
+          <div class="t-meta" style="color:rgba(255,255,255,.6)">→ swipe / arrow keys</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ S02 · Vertical Timeline · Q3 三个关键里程碑 ============ -->
+<!-- ============ S01 · Index Cover · 三行 cover-row,左大编号右大标题 ============ -->
+<section class="slide light" data-layout="S01" data-animate="hero">
+  <div class="canvas-card" style="padding:8vh 6vw 4.4vh">
+    <div class="chrome-min tight" style="margin-bottom:var(--sp-7)">
+      <div class="l">NorthStar · Q3 Index</div>
+      <div class="r">SS · 26.10.07 · INDEX</div>
+    </div>
+    <div style="flex:1;padding:0;display:grid;grid-template-rows:1fr auto;gap:4vh">
+      <div style="display:grid;grid-template-columns:auto 1fr;gap:3vw;align-items:center">
+        <span class="cover-row" style="font-family:var(--sans-tab);font-weight:700;font-size:min(11vw,17vh);line-height:.85;letter-spacing:-.05em;color:var(--ink)">Q3.</span>
+        <div style="display:flex;flex-direction:column;gap:1.4vh">
+          <span class="cover-row" style="font-family:var(--sans),var(--sans-zh);font-weight:300;font-size:min(5vw,9.2vh);line-height:1;letter-spacing:-.03em">22 layouts.</span>
+          <span class="cover-row" style="font-family:var(--sans),var(--sans-zh);font-weight:300;font-size:min(5vw,9.2vh);line-height:1;letter-spacing:-.03em">1 quarter.</span>
+          <span class="cover-row" style="font-family:var(--sans),var(--sans-zh);font-weight:300;font-size:min(5vw,9.2vh);line-height:1;letter-spacing:-.03em;color:var(--accent)">$41.2M ARR.</span>
+        </div>
+      </div>
+      <div data-anim="line" style="display:flex;justify-content:space-between;align-items:end;border-top:1px solid var(--border-subtle);padding-top:2vh">
+        <div class="t-meta" style="color:var(--text-helper)">↑ ↓ INDEX · ESC</div>
+        <div class="t-meta" style="color:var(--text-helper)">— 2026 —</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-animate="progression" data-layout="S02">
+  <div class="canvas-card">
+    <header class="chrome-min">
+      <div class="l">Methodology · 03 checkpoints</div>
+      <div class="r">S02 · 02 / NN</div>
+    </header>
+    <div style="flex:1;padding:0;display:grid;grid-template-rows:auto 1fr auto;gap:2vh">
+      <div data-anim="line" style="display:flex;flex-direction:column;gap:1.4vh">
+        <div class="t-meta">METHODOLOGY · 03</div>
+        <h2 class="h-xl-zh" style="font-family:var(--sans-tab),var(--sans-zh);font-weight:700;font-size:min(5.8vw,10.2vh);line-height:1.05">Q3 三个数字</h2>
+        <p style="font-family:var(--sans-tab),var(--sans-zh);font-weight:600;font-size:max(13px,1vw);line-height:1.6;opacity:.78;max-width:48ch;margin-top:1vh">从 1× 到 1.6×,9 月的 NRR 跳到了 138%。三组倍数的故事。</p>
+      </div>
+      <div class="timeline-v" data-anim="up">
+        <div class="tl-node">
+          <div class="tl-axis"><span class="dot"></span></div>
+          <div class="tl-body">
+            <span class="yr">2026.07</span>
+            <span class="multi">1<small>×</small></span>
+            <p class="desc">PLG 模式的极限</p>
+          </div>
+        </div>
+        <div class="tl-node accent">
+          <div class="tl-axis"><span class="dot"></span></div>
+          <div class="tl-body">
+            <span class="yr">2026.08</span>
+            <span class="multi">1.2<small>×</small></span>
+            <p class="desc">团队重组 · Hybrid GTM</p>
+          </div>
+        </div>
+        <div class="tl-node">
+          <div class="tl-axis"><span class="dot"></span></div>
+          <div class="tl-body">
+            <span class="yr">2026.09</span>
+            <span class="multi">1.6<small>×</small></span>
+            <p class="desc">复盘当天 NRR 138%</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ S03 · Split Statement · 关于"不是 PLG" ============ -->
+<section class="slide split" data-layout="S03" data-animate="statement">
+  <div class="canvas-card">
+    <div class="split-half">
+      <div class="half b-ink" style="padding:5.6vh 3.6vw 4.4vh;justify-content:space-between;position:relative;overflow:hidden">
+        <canvas class="ascii-bg" aria-hidden="true"></canvas>
+        <div class="chrome-min" style="margin-bottom:0;position:relative;z-index:1">
+          <div class="l">TWIST</div>
+          <div class="r">S03</div>
+        </div>
+        <div data-anim="manifesto" style="display:flex;flex-direction:column;gap:2vh;position:relative;z-index:1;align-self:center">
+          <div class="t-meta" style="color:rgba(255,255,255,.78);letter-spacing:.22em;margin-bottom:1.6vh">THE TWIST</div>
+          <h2 style="font-family:var(--sans-tab),var(--sans-zh);font-size:min(8vw,14vh);line-height:.94;letter-spacing:-.025em;font-weight:700;color:#fff">我们<br/>不是 <span style="font-style:italic;font-weight:600">PLG</span>。</h2>
+        </div>
+        <div data-anim="signature" style="display:flex;justify-content:space-between;align-items:end;border-top:1px solid rgba(255,255,255,.22);padding-top:2vh;position:relative;z-index:1">
+          <div class="t-meta" style="color:rgba(255,255,255,.62)">Act I · 转折</div>
+          <div class="t-meta" style="color:rgba(255,255,255,.62)">26.08.04</div>
+        </div>
+      </div>
+      <div class="half" style="padding:5.6vh 3.6vw 4.4vh;justify-content:space-between">
+        <div style="display:flex;flex-direction:column;gap:3vh">
+          <div class="t-meta">CONTEXT</div>
+          <p style="font-family:var(--sans-tab),var(--sans-zh);font-size:max(18px,1.5vw);line-height:1.55;font-weight:600">整个 Q2 我们都被劝去做 product-led growth。Q3 我们回到 enterprise sales ── 三个月招了 12 个 SDR,ARR 直接起飞。</p>
+          <div class="callout">
+            你不需要 PLG 还是 SLG 的辩论,你需要 fit-product-customer 的勇气。
+            <div class="callout-src">— 内部 Slack #exec-room · 26.08</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ S04 · Six Cells · 六个增长杠杆 ============ -->
+<section class="slide" data-layout="S04" data-animate="grid-reveal">
+  <div class="canvas-card">
+    <header class="chrome-min">
+      <div class="l">Six Levers · 增长的六根杠杆</div>
+      <div class="r">S04 · 04 / NN</div>
+    </header>
+    <div style="flex:1;padding:0;display:grid;grid-template-rows:auto 1fr;gap:5vh">
+      <div data-anim="line" style="display:flex;flex-direction:column;gap:1.4vh">
+        <div class="t-meta">GROWTH · 6 LEVERS</div>
+        <h2 style="font-family:var(--sans-tab),var(--sans-zh);font-weight:700;font-size:min(5.6vw,10.2vh);line-height:1.04;letter-spacing:-.035em">Q3 的六个杠杆</h2>
+        <p style="font-family:var(--sans-tab),var(--sans-zh);font-weight:600;font-size:max(13px,.95vw);line-height:1.55;opacity:.72;max-width:48ch">没有任何一根单独够用,但只要缺一根,其他都失效。</p>
+      </div>
+      <div class="sub-grid-3-2" data-anim="up">
+        <div class="sub-card">
+          <i data-lucide="search"></i>
+          <span class="nb-corner">01 / SDR</span>
+          <h4>Outbound</h4>
+          <p>冷邮件 + 冷电话双通道</p>
+        </div>
+        <div class="sub-card">
+          <i data-lucide="message-square"></i>
+          <span class="nb-corner">02 / DEMO</span>
+          <h4>Vertical Demo</h4>
+          <p>30 分钟按行业定制</p>
+        </div>
+        <div class="sub-card">
+          <i data-lucide="play-circle"></i>
+          <span class="nb-corner">03 / PILOT</span>
+          <h4>2-week Pilot</h4>
+          <p>集成试运行承诺</p>
+        </div>
+        <div class="sub-card">
+          <i data-lucide="file-signature"></i>
+          <span class="nb-corner">04 / CLOSE</span>
+          <h4>Legal Stack</h4>
+          <p>MSA + DPA + SLA 三件套</p>
+        </div>
+        <div class="sub-card">
+          <i data-lucide="rocket"></i>
+          <span class="nb-corner">05 / ONBOARD</span>
+          <h4>90-day Plan</h4>
+          <p>每个新客户都有 90 天启动计划</p>
+        </div>
+        <div class="sub-card">
+          <i data-lucide="refresh-ccw"></i>
+          <span class="nb-corner">06 / EXPAND</span>
+          <h4>Cross-BU</h4>
+          <p>横向推广到其他 BU</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ S05 · Three Layers · 三层架构 (核心流程) ============ -->
+<section class="slide" data-layout="S05" data-animate="stack-build">
+  <div class="canvas-card">
+    <header class="chrome-min">
+      <div class="l">Three Layers · 三层架构</div>
+      <div class="r">S05 · 05 / NN</div>
+    </header>
+    <div style="flex:1;padding:0;display:grid;grid-template-rows:auto 1fr;gap:5vh">
+      <div data-anim="line" style="display:flex;flex-direction:column;gap:1.4vh">
+        <div class="t-meta">ARCHITECTURE · 03 LAYERS</div>
+        <h2 style="font-family:var(--sans-tab),var(--sans-zh);font-weight:700;font-size:min(5.6vw,10.2vh);line-height:1.04;letter-spacing:-.035em">三件事,三个团队</h2>
+      </div>
+      <div class="stack-row" data-anim="up">
+        <div class="stack-block b-accent">
+          <span class="layer-nb">LAYER 01 · THIN</span>
+          <div class="layer-icon"><svg viewBox="0 0 32 32"><circle class="stroke" cx="16" cy="16" r="13"/><circle class="stroke" cx="16" cy="16" r="6"/></svg></div>
+          <h4 class="layer-ttl">PLG<br/>自助漏斗</h4>
+          <p class="layer-desc">SMB 自助,免费 tier 持续扩张。每月 800 个新增自注册,转付费率 4.2%。</p>
+          <span class="layer-tag">CHANNEL · SMB</span>
+        </div>
+        <div class="stack-block b-grey">
+          <span class="layer-nb">LAYER 02 · MIDDLE</span>
+          <div class="layer-icon"><svg viewBox="0 0 32 32"><rect class="stroke" x="6" y="6" width="20" height="20"/></svg></div>
+          <h4 class="layer-ttl">Inside<br/>Sales</h4>
+          <p class="layer-desc">Mid-market 由 SDR + AE 闭环。每个 ARR $50K–$500K 的客户有专门的 SC 跟单。转化率 18%。</p>
+          <span class="layer-tag">CHANNEL · MID</span>
+        </div>
+        <div class="stack-block b-ink">
+          <span class="layer-nb">LAYER 03 · FAT</span>
+          <div class="layer-icon"><svg viewBox="0 0 32 32"><path class="stroke" d="M6 16 L26 16 M16 6 L16 26"/></svg></div>
+          <h4 class="layer-ttl">Enterprise<br/>Field Sales</h4>
+          <p class="layer-desc">企业级由 7 个 AE + 3 个 SE 跑。每个 ARR $500K+ 都有专属解决方案架构师跟单。Demo-to-close 11 周。</p>
+          <span class="layer-tag">CHANNEL · ENT</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ S06 · KPI Tower · 4 项 KPI 不等高柱状图 ============ -->
+<section class="slide" data-layout="S06" data-animate="measure-up">
+  <div class="canvas-card">
+    <header class="chrome-min">
+      <div class="l">Q3 KPI Tower · 关键数据可视化</div>
+      <div class="r">S06 · 06 / NN</div>
+    </header>
+    <div style="flex:1;padding:0;display:grid;grid-template-columns:6fr 10fr;gap:3vw">
+      <div data-anim="line" style="display:flex;flex-direction:column;gap:1.4vh;align-self:end;padding-bottom:1vh">
+        <div class="t-meta">Q3 · BREAKTHROUGH</div>
+        <h2 style="font-family:var(--sans-tab),var(--sans-zh);font-weight:700;font-size:min(5.4vw,9.6vh);line-height:1;letter-spacing:-.035em">四个关键数</h2>
+        <p style="font-family:var(--sans-tab),var(--sans-zh);font-weight:600;font-size:max(13px,.95vw);line-height:1.55;opacity:.72;max-width:36ch;margin-top:1vh">半年内只有这四个数被 CEO 天天看。其他都是被这四个数驱动的二次指标。</p>
+      </div>
+      <div class="bar-towers" data-anim="up">
+        <div class="bar-tower">
+          <div class="cap"><svg viewBox="0 0 24 24"><path d="M3 17 L9 11 L15 13 L21 7" /></svg></div>
+          <div class="body-block h-4 b-accent">
+            <span class="lbl">Q3 ARR</span>
+            <span class="nb">$41.2<small class="unit">M</small></span>
+            <p class="sub">环比 +41%,历史最高</p>
+          </div>
+        </div>
+        <div class="bar-tower">
+          <div class="cap"><svg viewBox="0 0 24 24"><path d="M12 2 L15 9 L22 9 L17 14 L19 21 L12 17 L5 21 L7 14 L2 9 L9 9 Z" /></svg></div>
+          <div class="body-block h-3">
+            <span class="lbl">Enterprise NRR</span>
+            <span class="nb">138<small class="unit">%</small></span>
+            <p class="sub">高于警戒线 120%</p>
+          </div>
+        </div>
+        <div class="bar-tower">
+          <div class="cap"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3 L12 12 L19 12" /></svg></div>
+          <div class="body-block h-2">
+            <span class="lbl">CAC Payback</span>
+            <span class="nb">11.4<small class="unit">mo</small></span>
+            <p class="sub">比 Q1 缩短 4 个月</p>
+          </div>
+        </div>
+        <div class="bar-tower">
+          <div class="cap"><svg viewBox="0 0 24 24"><path d="M3 12 L21 12" /><path d="M12 3 L12 21" /></svg></div>
+          <div class="body-block h-1">
+            <span class="lbl">Logo Churn</span>
+            <span class="nb">0.8<small class="unit">%</small></span>
+            <p class="sub">11 个月最低</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ S07 · H-Bar Chart · NRR 按客户细分 ============ -->
+<section class="slide" data-layout="S07" data-animate="bar-grow">
+  <div class="canvas-card">
+    <header class="chrome-min">
+      <div class="l">NRR by Segment · 客户细分净留存</div>
+      <div class="r">S07 · 07 / NN</div>
+    </header>
+    <div style="flex:1;padding:0;display:grid;grid-template-rows:auto 1fr;gap:5vh">
+      <div data-anim="line" style="display:flex;flex-direction:column;gap:1.4vh">
+        <div class="t-meta">NRR · BY SEGMENT</div>
+        <h2 style="font-family:var(--sans-tab),var(--sans-zh);font-weight:700;font-size:min(5.6vw,10.2vh);line-height:1.04;letter-spacing:-.035em">谁是最忠诚的</h2>
+        <p style="font-family:var(--sans-tab),var(--sans-zh);font-weight:600;font-size:max(13px,.95vw);line-height:1.55;opacity:.72;max-width:48ch">Enterprise 段的 NRR 比 SMB 高 42 个点 ── 这就是我们重投 enterprise sales 的数据依据。</p>
+      </div>
+      <div class="h-bar-chart" data-anim="up">
+        <div class="row-lbl">Enterprise</div>
+        <div class="row-track"><div class="row-fill accent" style="--w:92%"></div></div>
+        <div class="row-val">138<small class="unit">%</small></div>
+        <div class="row-lbl">Mid-market</div>
+        <div class="row-track"><div class="row-fill accent" style="--w:82%"></div></div>
+        <div class="row-val">124<small class="unit">%</small></div>
+        <div class="row-lbl">SMB</div>
+        <div class="row-track"><div class="row-fill" style="--w:64%"></div></div>
+        <div class="row-val">96<small class="unit">%</small></div>
+        <div class="row-lbl">Self-serve</div>
+        <div class="row-track"><div class="row-fill grey" style="--w:55%"></div></div>
+        <div class="row-val">82<small class="unit">%</small></div>
+        <div class="row-lbl">Trial</div>
+        <div class="row-track"><div class="row-fill grey" style="--w:35%"></div></div>
+        <div class="row-val">52<small class="unit">%</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ S08 · Duo Compare · 旧 GTM vs 新 Hybrid GTM ============ -->
+<section class="slide" data-layout="S08" data-animate="duo-mirror">
+  <div class="canvas-card">
+    <header class="chrome-min">
+      <div class="l">Duo Compare · Q2 vs Q3 GTM</div>
+      <div class="r">S08 · 08 / NN</div>
+    </header>
+    <div style="flex:1;padding:0;display:grid;grid-template-rows:auto 1fr;gap:5vh">
+      <div data-anim="line" style="display:flex;flex-direction:column;gap:1.4vh">
+        <div class="t-meta">BEFORE / AFTER · GTM SHIFT</div>
+        <h2 style="font-family:var(--sans-tab),var(--sans-zh);font-weight:700;font-size:min(5.6vw,10.2vh);line-height:1.04;letter-spacing:-.035em">范式转变</h2>
+      </div>
+      <div class="duo-compare" data-anim="up">
+        <div class="col">
+          <div class="col-tag"><span class="num">Q2</span>PURE PLG</div>
+          <h3 class="col-ttl">所有流量<br/>从产品自注册</h3>
+          <p class="col-desc">Sales 只接 inbound SQL,中层 Mid-market 无人跟,Enterprise 被推荐"自助"。</p>
+          <ul class="col-list">
+            <li>只有 PLG 通道</li>
+            <li>Sales 接 inbound</li>
+            <li>Mid-market 真空</li>
+            <li>Enterprise 长周期无人跟</li>
+          </ul>
+        </div>
+        <span class="vrule"></span>
+        <div class="col accent">
+          <div class="col-tag"><span class="num">Q3</span>HYBRID GTM</div>
+          <h3 class="col-ttl">PLG · SDR · Field<br/>三轨并行</h3>
+          <p class="col-desc">PLG 继续服务 SMB,SDR 团队打 Enterprise,SC 团队服务 Mid-market,月度合并复盘。</p>
+          <ul class="col-list">
+            <li>三轨并行</li>
+            <li>每段各配专属团队</li>
+            <li>月度合并复盘</li>
+            <li>客户旅程整体优化</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ S10 · Dot Matrix Statement · 章节切换 ============ -->
+<section class="slide" data-animate="matrix-statement" data-layout="S10">
+  <div class="canvas-card">
+    <header class="chrome-min">
+      <div class="l">Act Divider · 转向数字</div>
+      <div class="r">S10 · 09 / NN</div>
+    </header>
+    <span class="ring-mat" style="left:5vw;bottom:5vh;width:18vw;height:18vw;position:absolute"></span>
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:center;position:relative;z-index:1">
+      <h1 class="h-statement" style="font-family:var(--sans-tab),var(--sans-zh);font-weight:700;font-size:min(7vw,12vh);line-height:.94;letter-spacing:-.04em;max-width:80vw">
+        Build a thin harness.<br>Write fat skills.<br>Codify everything.
+      </h1>
+    </div>
+    <span class="dot-mat lg" style="right:0;top:0;width:36vw;height:36vw;position:absolute;color:currentColor;opacity:.5"></span>
+    <div class="t-meta" style="color:var(--text-helper);margin-top:auto;text-align:right">— Statement 09 / 26</div>
+  </div>
+</section>
+
+<!-- ============ S11 · Horizontal Timeline · 8 周时间轴 ============ -->
+<section class="slide" data-layout="S11" data-animate="timeline-walk">
+  <div class="canvas-card">
+    <header class="chrome-min">
+      <div class="l">8-week Cadence · Q3 8 周节奏</div>
+      <div class="r">S11 · 10 / NN</div>
+    </header>
+    <div style="flex:1;padding:0;display:grid;grid-template-rows:auto 1fr auto;gap:5vh">
+      <div data-anim="line" style="display:flex;flex-direction:column;gap:1.4vh">
+        <div class="t-meta">CADENCE · 8 WEEKS</div>
+        <h2 style="font-family:var(--sans-tab),var(--sans-zh);font-weight:700;font-size:min(5.6vw,10.2vh);line-height:1.04;letter-spacing:-.035em">一个季度的节奏</h2>
+      </div>
+      <div class="timeline-h" data-anim="up">
+        <div class="tl-row">
+          <div class="th-node accent up">
+            <span class="dot"></span>
+            <span class="label">
+              <span class="yr">WEEK 01</span>
+              <span class="name">Audit</span>
+              <span class="desc">复盘 Q2 流程</span>
+            </span>
+          </div>
+          <div class="th-node up">
+            <span class="dot"></span>
+            <span class="label">
+              <span class="yr">WEEK 02</span>
+              <span class="name">Hire</span>
+              <span class="desc">12 个 SDR</span>
+            </span>
+          </div>
+          <div class="th-node down">
+            <span class="dot"></span>
+            <span class="label">
+              <span class="yr">WEEK 03-04</span>
+              <span class="name">Train</span>
+              <span class="desc">行业垂直 demo</span>
+            </span>
+          </div>
+          <div class="th-node up">
+            <span class="dot"></span>
+            <span class="label">
+              <span class="yr">WEEK 05-06</span>
+              <span class="name">Pilot</span>
+              <span class="desc">5 家 enterprise</span>
+            </span>
+          </div>
+          <div class="th-node accent down">
+            <span class="dot"></span>
+            <span class="label">
+              <span class="yr">WEEK 07-08</span>
+              <span class="name">Scale</span>
+              <span class="desc">复制流程</span>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="t-meta" style="color:var(--text-helper)">8-week sprint · 2026.07.07 — 2026.09.05</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ S12 · Manifesto + Ink Banner ============ -->
+<section class="slide" data-layout="S12" data-animate="manifesto">
+  <div class="canvas-card">
+    <header class="chrome-min">
+      <div class="l">Manifesto · 中段收束</div>
+      <div class="r">S12 · 11 / NN</div>
+    </header>
+    <div style="flex:1;padding:0;display:grid;grid-template-rows:auto 1fr auto;gap:0">
+      <div data-anim="line" class="manifesto-top" style="display:grid;grid-template-columns:auto 1fr;gap:5vw;align-items:flex-start;flex:1">
+        <div class="t-meta" style="color:var(--accent)">PHASE 02 · 方法论</div>
+        <div>
+          <h2 style="font-family:var(--sans-tab),var(--sans-zh);font-weight:700;font-size:min(7vw,12vh);line-height:.94;letter-spacing:-.04em;margin-bottom:2vh">Fits beat funnels.<br/>Curiosity beats leads.<br/>Trust beats velocity.</h2>
+          <p style="font-family:var(--sans-tab),var(--sans-zh);font-weight:600;font-size:max(15px,1.2vw);line-height:1.55;opacity:.78;max-width:46ch">过去十年 SaaS 信奉的 PLG 是漏斗思维。客户不是在漏斗里滑落,客户是在地图上行走 ── 你需要 fit,而非 funnel。</p>
+        </div>
+      </div>
+      <div class="ink-banner-full" data-anim="up" style="margin:0 -5vw -4.4vh;background:var(--ink);color:var(--paper);padding:5vh 5vw;display:grid;grid-template-columns:1fr auto;gap:3vw;align-items:center">
+        <div>
+          <div class="t-meta" style="color:rgba(255,255,255,.78);margin-bottom:1.4vh;letter-spacing:.22em">FORM & FOUND · 26.Q3</div>
+          <h3 style="font-family:var(--sans-tab),var(--sans-zh);font-weight:600;font-size:min(3.6vw,6.4vh);line-height:1.1;letter-spacing:-.02em;color:var(--paper)">把每一个 metric,<br>配上一个团队。</h3>
+        </div>
+        <div style="display:flex;gap:2vw;align-items:center;color:rgba(255,255,255,.78)">
+          <i data-lucide="layers" style="width:2.4vw;height:2.4vw"></i>
+          <i data-lucide="users" style="width:2.4vw;height:2.4vw"></i>
+          <i data-lucide="trending-up" style="width:2.4vw;height:2.4vw"></i>
+          <i data-lucide="anchor" style="width:2.4vw;height:2.4vw"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ S13 · Three Forces Cards · 三个深化的对等概念 ============ -->
+<section class="slide" data-layout="S13" data-animate="three-forces">
+  <div class="canvas-card">
+    <header class="chrome-min">
+      <div class="l">Three Forces · Q3 三个核心洞察</div>
+      <div class="r">S13 · 12 / NN</div>
+    </header>
+    <div style="flex:1;padding:0;display:grid;grid-template-columns:5fr 11fr;gap:3vw">
+      <div class="hero-ink-col" style="background:var(--ink);color:var(--paper);padding:3.6vh 2.4vw;display:flex;flex-direction:column;gap:2vh;position:relative">
+        <div class="t-meta" style="color:rgba(255,255,255,.78);letter-spacing:.22em">THREE FORCES</div>
+        <h3 style="font-family:var(--sans-tab),var(--sans-zh);font-weight:700;font-size:min(3.6vw,6.4vh);line-height:1.1;letter-spacing:-.02em">三个数,三次认知</h3>
+        <span class="dot-mat dense" style="position:absolute;bottom:3vh;right:1.6vw;width:8vw;height:8vw"></span>
+      </div>
+      <div class="three-forces" data-anim="up" style="display:flex;flex-direction:column;gap:1.4vh">
+        <article class="card-fill force-card">
+          <span class="force-num" style="color:var(--accent)">01</span>
+          <h4>Hybrid ≠ Contradiction</h4>
+          <p>PLG + Sales 看似对立,实则服务不同客户形状。混搭不是妥协,是适配。</p>
+        </article>
+        <article class="card-fill force-card">
+          <span class="force-num" style="color:var(--accent)">02</span>
+          <h4>Trust > Velocity</h4>
+          <p>客户不需要你跑得快,他们需要你跑得稳。Trust 让 velocity 自然发生。</p>
+        </article>
+        <article class="card-fill force-card">
+          <span class="force-num" style="color:var(--accent)">03</span>
+          <h4>Codify > Imitate</h4>
+          <p>把每一次胜利写下来,把每一次失败记成 SOP。复利来自体系,不是灵感。</p>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ S14 · Loop Diagram · 自学闭环 ============ -->
+<section class="slide" data-layout="S14" data-animate="loop-form">
+  <div class="canvas-card">
+    <header class="chrome-min">
+      <div class="l">Loop · Q3 增长闭环</div>
+      <div class="r">S14 · 13 / NN</div>
+    </header>
+    <div style="flex:1;padding:0;display:grid;grid-template-columns:5fr 11fr;gap:3vw">
+      <div style="display:flex;flex-direction:column;gap:2.4vh;padding-top:1vh">
+        <div class="t-meta">LOOP · STAGES</div>
+        <ol style="list-style:none;display:flex;flex-direction:column;gap:2.4vh;padding:0;font-family:var(--sans),var(--sans-zh)">
+          <li style="display:grid;grid-template-columns:3em 1fr;gap:1.6vw;align-items:start">
+            <span style="font-family:var(--sans-tab);font-weight:700;font-size:3.4vw;line-height:.9;color:var(--accent)">01</span>
+            <div>
+              <h4 style="font-weight:400;font-size:max(15px,1.3vw);margin-bottom:.6vh">Listen</h4>
+              <p style="font-weight:600;font-size:max(11px,.85vw);line-height:1.5;opacity:.7">客户通话录音全数转写</p>
+            </div>
+          </li>
+          <li style="display:grid;grid-template-columns:3em 1fr;gap:1.6vw;align-items:start">
+            <span style="font-family:var(--sans-tab);font-weight:700;font-size:3.4vw;line-height:.9;color:var(--accent)">02</span>
+            <div>
+              <h4 style="font-weight:400;font-size:max(15px,1.3vw);margin-bottom:.6vh">Cluster</h4>
+              <p style="font-weight:600;font-size:max(11px,.85vw);line-height:1.5;opacity:.7">聚类出 7 个高频需求 shape</p>
+            </div>
+          </li>
+          <li style="display:grid;grid-template-columns:3em 1fr;gap:1.6vw;align-items:start">
+            <span style="font-family:var(--sans-tab);font-weight:700;font-size:3.4vw;line-height:.9;color:var(--accent)">03</span>
+            <div>
+              <h4 style="font-weight:400;font-size:max(15px,1.3vw);margin-bottom:.6vh">Ship</h4>
+              <p style="font-weight:600;font-size:max(11px,.85vw);line-height:1.5;opacity:.7">每两周一次发布</p>
+            </div>
+          </li>
+          <li style="display:grid;grid-template-columns:3em 1fr;gap:1.6vw;align-items:start">
+            <span style="font-family:var(--sans-tab);font-weight:700;font-size:3.4vw;line-height:.9;color:var(--accent)">04</span>
+            <div>
+              <h4 style="font-weight:400;font-size:max(15px,1.3vw);margin-bottom:.6vh">Measure</h4>
+              <p style="font-weight:600;font-size:max(11px,.85vw);line-height:1.5;opacity:.7">月度合并复盘</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:center;position:relative">
+        <svg viewBox="0 0 400 400" width="100%" style="max-width:36vw;position:relative">
+          <circle cx="200" cy="200" r="160" fill="none" stroke="var(--grey-2)" stroke-width="1" stroke-dasharray="4 4" opacity=".4"/>
+          <circle cx="200" cy="200" r="120" fill="none" stroke="var(--grey-2)" stroke-width="1" stroke-dasharray="4 4" opacity=".3"/>
+          <circle cx="200" cy="200" r="80" fill="none" stroke="var(--accent)" stroke-width="2"/>
+          <circle cx="360" cy="200" r="22" fill="var(--paper)" stroke="var(--ink)" stroke-width="2"/>
+          <circle cx="284" cy="360" r="22" fill="var(--paper)" stroke="var(--accent)" stroke-width="2"/>
+          <circle cx="116" cy="360" r="22" fill="var(--paper)" stroke="var(--ink)" stroke-width="2"/>
+          <circle cx="40" cy="200" r="22" fill="var(--paper)" stroke="var(--ink)" stroke-width="2"/>
+          <path d="M338 200 L306 360" fill="none" stroke="var(--grey-3)" stroke-width="1" marker-end="url(#arr)"/>
+          <path d="M262 360 L138 360" fill="none" stroke="var(--grey-3)" stroke-width="1" marker-end="url(#arr)"/>
+          <path d="M94 360 L62 200" fill="none" stroke="var(--grey-3)" stroke-width="1" marker-end="url(#arr)"/>
+          <path d="M62 200 L338 200" fill="none" stroke="var(--grey-3)" stroke-width="1" marker-end="url(#arr)"/>
+          <defs><marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="var(--grey-3)"/></marker></defs>
+        </svg>
+        <div style="position:absolute;inset:0;max-width:36vw;margin:auto;pointer-events:none">
+          <span style="position:absolute;left:90%;top:50%;transform:translate(-50%,-50%);font-family:var(--mono);font-size:13px;color:var(--ink)">01</span>
+          <span style="position:absolute;left:71%;top:90%;transform:translate(-50%,-50%);font-family:var(--mono);font-size:13px;color:var(--accent)">02</span>
+          <span style="position:absolute;left:29%;top:90%;transform:translate(-50%,-50%);font-family:var(--mono);font-size:13px;color:var(--ink)">03</span>
+          <span style="position:absolute;left:10%;top:50%;transform:translate(-50%,-50%);font-family:var(--mono);font-size:13px;color:var(--ink)">04</span>
+          <span style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-family:var(--sans-tab);font-weight:700;font-size:44px;line-height:1;letter-spacing:-.04em;color:var(--ink)">LOOP</span>
+          <span style="position:absolute;left:50%;top:60%;transform:translate(-50%,-50%);font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--text-helper)">IMPROVE</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ S15 · Image Matrix + Hero Stat · 8 个客户 + 顶部 1 数字 ============ -->
+<section class="slide" data-layout="S15" data-animate="matrix-fill">
+  <div class="canvas-card">
+    <header class="chrome-min">
+      <div class="l">Customer Matrix · 8 客户 × 1 巨数</div>
+      <div class="r">S15 · 14 / NN</div>
+    </header>
+    <div style="flex:1;padding:0;display:grid;grid-template-rows:auto 1fr auto;gap:3vh">
+      <div data-anim="line" style="display:flex;flex-direction:column;gap:1.4vh">
+        <div class="t-meta">CUSTOMERS · Q3 · 8 LOGOS</div>
+        <h2 style="font-family:var(--sans-tab),var(--sans-zh);font-weight:700;font-size:min(5.6vw,10.2vh);line-height:1.04;letter-spacing:-.035em">8 个客户</h2>
+        <p style="font-family:var(--sans-tab),var(--sans-zh);font-weight:600;font-size:max(13px,.95vw);line-height:1.55;opacity:.72;max-width:48ch">每个客户都有专属的解决方案架构师跟单,这是 Q3 NRR 138% 的根本原因。</p>
+      </div>
+      <div class="matrix-fill" data-anim="up" style="display:grid;grid-template-columns:repeat(4,1fr);gap:1.6vh;margin-top:auto">
+        <div class="matrix-cell card-fill" style="padding:2.6vh 1.6vw;display:flex;flex-direction:column;justify-content:space-between;min-height:14vh">
+          <span class="t-meta" style="color:var(--accent)">01</span>
+          <h4 style="font-weight:600;font-size:max(14px,1vw);margin-top:auto">Helio Energy</h4>
+        </div>
+        <div class="matrix-cell card-fill" style="padding:2.6vh 1.6vw;display:flex;flex-direction:column;justify-content:space-between;min-height:14vh">
+          <span class="t-meta" style="color:var(--accent)">02</span>
+          <h4 style="font-weight:600;font-size:max(14px,1vw);margin-top:auto">Marin Robotics</h4>
+        </div>
+        <div class="matrix-cell card-fill" style="padding:2.6vh 1.6vw;display:flex;flex-direction:column;justify-content:space-between;min-height:14vh">
+          <span class="t-meta" style="color:var(--accent)">03</span>
+          <h4 style="font-weight:600;font-size:max(14px,1vw);margin-top:auto">Forge Logistics</h4>
+        </div>
+        <div class="matrix-cell card-fill" style="padding:2.6vh 1.6vw;display:flex;flex-direction:column;justify-content:space-between;min-height:14vh">
+          <span class="t-meta" style="color:var(--accent)">04</span>
+          <h4 style="font-weight:600;font-size:max(14px,1vw);margin-top:auto">Astra Bio</h4>
+        </div>
+        <div class="matrix-cell card-fill" style="padding:2.6vh 1.6vw;display:flex;flex-direction:column;justify-content:space-between;min-height:14vh">
+          <span class="t-meta" style="color:var(--accent)">05</span>
+          <h4 style="font-weight:600;font-size:max(14px,1vw);margin-top:auto">Kestrel Capital</h4>
+        </div>
+        <div class="matrix-cell card-fill" style="padding:2.6vh 1.6vw;display:flex;flex-direction:column;justify-content:space-between;min-height:14vh">
+          <span class="t-meta" style="color:var(--accent)">06</span>
+          <h4 style="font-weight:600;font-size:max(14px,1vw);margin-top:auto">Vela Aerospace</h4>
+        </div>
+        <div class="matrix-cell card-fill" style="padding:2.6vh 1.6vw;display:flex;flex-direction:column;justify-content:space-between;min-height:14vh">
+          <span class="t-meta" style="color:var(--accent)">07</span>
+          <h4 style="font-weight:600;font-size:max(14px,1vw);margin-top:auto">Lumen Retail</h4>
+        </div>
+        <div class="matrix-cell card-fill" style="padding:2.6vh 1.6vw;display:flex;flex-direction:column;justify-content:space-between;min-height:14vh">
+          <span class="t-meta" style="color:var(--accent)">08</span>
+          <h4 style="font-weight:600;font-size:max(14px,1vw);margin-top:auto">Atlas Media</h4>
+        </div>
+      </div>
+      <div data-anim="hero" class="hero-stat-bottom" style="display:grid;grid-template-columns:auto 1fr;gap:3vw;align-items:end;border-top:1px solid var(--border-subtle);padding-top:2.4vh;margin-top:1vh">
+        <span class="num-mega" style="font-family:var(--sans-tab);font-weight:700;font-size:min(12vw,18vh);line-height:.9;letter-spacing:-.04em">$41.2<small style="font-size:.32em;font-weight:400;opacity:.6;margin-left:.1em">M</small></span>
+        <div style="display:flex;flex-direction:column;gap:1vh;padding-bottom:1vh">
+          <div class="t-meta">Q3 ARR · UNOFFICIAL · YET</div>
+          <p style="font-weight:600;font-size:max(13px,1vw);line-height:1.55;opacity:.78;max-width:38ch">8 个 enterprise 客户,平均 ARR $4.6M,占 Q3 新增 ARR 的 72%。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ S16 · Multi-card Brief · 6 个 tip 集合 ============ -->
+<section class="slide" data-layout="S16" data-animate="field-notes">
+  <div class="canvas-card">
+    <header class="chrome-min">
+      <div class="l">Field Notes · Q3 6 个 tip</div>
+      <div class="r">S16 · 15 / NN</div>
+    </header>
+    <div style="flex:1;padding:0;display:grid;grid-template-rows:auto 1fr;gap:5vh">
+      <div data-anim="line" style="display:flex;flex-direction:column;gap:1.4vh">
+        <div class="t-meta">TIPS · 06 FIELD NOTES</div>
+        <h2 style="font-family:var(--sans-tab),var(--sans-zh);font-weight:700;font-size:min(5.6vw,10.2vh);line-height:1.04;letter-spacing:-.035em">六条散记</h2>
+      </div>
+      <div class="brief-grid" data-anim="up" style="display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:1.6vw">
+        <div class="brief-card card-fill" style="padding:2.6vh 1.8vw;display:flex;flex-direction:column;gap:1vh;min-height:14vh">
+          <span class="t-meta" style="color:var(--accent)">TIP 01</span>
+          <p style="font-weight:600;font-size:max(14px,1vw);line-height:1.45">不要在你的第一个 enterprise 上省钱。</p>
+          <span class="body-sm" style="margin-top:auto">SC + SE 是投资,不是成本。</span>
+        </div>
+        <div class="brief-card card-fill" style="padding:2.6vh 1.8vw;display:flex;flex-direction:column;gap:1vh;min-height:14vh">
+          <span class="t-meta" style="color:var(--accent)">TIP 02</span>
+          <p style="font-weight:600;font-size:max(14px,1vw);line-height:1.45">每周听 5 通客户电话,不允许跳过。</p>
+          <span class="body-sm" style="margin-top:auto">PM 与 Sales 高管也包括。</span>
+        </div>
+        <div class="brief-card card-accent is-accent" style="padding:2.6vh 1.8vw;display:flex;flex-direction:column;gap:1vh;min-height:14vh">
+          <span class="t-meta">TIP 03 · 唯一强调</span>
+          <p style="font-weight:600;font-size:max(14px,1vw);line-height:1.45;color:var(--accent-on)">把每一次胜利写成 SOP,失败记成 retro。</p>
+          <span class="body-sm" style="margin-top:auto;color:var(--accent-on)">复利来自体系,不是灵感。</span>
+        </div>
+        <div class="brief-card card-fill" style="padding:2.6vh 1.8vw;display:flex;flex-direction:column;gap:1vh;min-height:14vh">
+          <span class="t-meta" style="color:var(--accent)">TIP 04</span>
+          <p style="font-weight:600;font-size:max(14px,1vw);line-height:1.45">PLG 继续投资,不要因为 SDR 团队成功就停。</p>
+          <span class="body-sm" style="margin-top:auto">三轨并行,缺一不可。</span>
+        </div>
+        <div class="brief-card card-fill" style="padding:2.6vh 1.8vw;display:flex;flex-direction:column;gap:1vh;min-height:14vh">
+          <span class="t-meta" style="color:var(--accent)">TIP 05</span>
+          <p style="font-weight:600;font-size:max(14px,1vw);line-height:1.45">CAC Payback 跑得越短越好,慢于 18 个月要追责。</p>
+          <span class="body-sm" style="margin-top:auto">效率的指标要硬。</span>
+        </div>
+        <div class="brief-card card-fill" style="padding:2.6vh 1.8vw;display:flex;flex-direction:column;gap:1vh;min-height:14vh">
+          <span class="t-meta" style="color:var(--accent)">TIP 06</span>
+          <p style="font-weight:600;font-size:max(14px,1vw);line-height:1.45">Logo Churn 是体力活 ── 让 CSM 时刻在场。</p>
+          <span class="body-sm" style="margin-top:auto">Q3 流失降到 0.8%。</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ S17 · System Diagram · 三层同心圆系统图 ============ -->
+<section class="slide" data-layout="S17" data-animate="system-diagram">
+  <div class="canvas-card">
+    <header class="chrome-min">
+      <div class="l">System · 三层生态</div>
+      <div class="r">S17 · 16 / NN</div>
+    </header>
+    <div style="flex:1;padding:0;display:grid;grid-template-rows:auto 1fr;gap:5vh">
+      <div data-anim="line" style="display:flex;flex-direction:column;gap:1.4vh">
+        <div class="t-meta">ECOSYSTEM · 03 LAYERS</div>
+        <h2 style="font-family:var(--sans-tab),var(--sans-zh);font-weight:700;font-size:min(5.6vw,10.2vh);line-height:1.04;letter-spacing:-.035em">三层生态</h2>
+      </div>
+      <div class="system-diagram" data-anim="up" style="display:grid;grid-template-columns:1fr 1fr;gap:3vw;align-items:center">
+        <div style="position:relative;max-width:32vw">
+          <svg viewBox="0 0 400 400" width="100%">
+            <circle cx="200" cy="200" r="180" fill="var(--grey-1)"/>
+            <circle cx="200" cy="200" r="120" fill="var(--paper)" stroke="var(--grey-2)" stroke-width="1"/>
+            <circle cx="200" cy="200" r="60" fill="var(--ink)"/>
+          </svg>
+          <span style="position:absolute;left:50%;top:48%;transform:translate(-50%,-50%);font-family:var(--sans-tab);font-weight:700;font-size:22px;line-height:1;letter-spacing:.04em;color:var(--paper)">CORE</span>
+          <span style="position:absolute;left:50%;top:55%;transform:translate(-50%,-50%);font-family:var(--mono);font-size:9px;letter-spacing:.18em;color:rgba(255,255,255,.78)">PLG</span>
+          <span style="position:absolute;left:15%;top:30%;transform:translate(-50%,-50%);font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--text-helper)">SMB</span>
+          <span style="position:absolute;left:85%;top:30%;transform:translate(-50%,-50%);font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--text-helper)">MID</span>
+          <span style="position:absolute;left:15%;top:73%;transform:translate(-50%,-50%);font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--text-helper)">ENT</span>
+          <span style="position:absolute;left:85%;top:73%;transform:translate(-50%,-50%);font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--text-helper)">EXPAND</span>
+          <span style="position:absolute;left:40%;top:9%;transform:translate(-50%,-50%);font-family:var(--mono);font-size:10px;letter-spacing:.22em;color:var(--accent)">OUTER · CHANNELS</span>
+          <span style="position:absolute;left:33%;top:45%;transform:translate(-50%,-50%);font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--text-secondary)">MIDDLE · OPS</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:2.4vh">
+          <div>
+            <span class="t-meta" style="color:var(--accent)">CORE · INTERNAL</span>
+            <p style="font-family:var(--sans-tab),var(--sans-zh);font-weight:600;font-size:max(15px,1.3vw);line-height:1.55;max-width:36ch;margin-top:.8vh">产品、工程、CS、Data ── 每件事只有一个真相来源。</p>
+          </div>
+          <div>
+            <span class="t-meta" style="color:var(--accent)">MIDDLE · OPERATIONS</span>
+            <p style="font-family:var(--sans-tab),var(--sans-zh);font-weight:600;font-size:max(15px,1.3vw);line-height:1.55;max-width:36ch;margin-top:.8vh">SDR、AE、SC、SE ── 把客户从外圈接到内核。</p>
+          </div>
+          <div>
+            <span class="t-meta" style="color:var(--accent)">OUTER · CHANNELS</span>
+            <p style="font-family:var(--sans-tab),var(--sans-zh);font-weight:600;font-size:max(15px,1.3vw);line-height:1.55;max-width:36ch;margin-top:.8vh">SMB 自助、Mid SC 跟单、Ent Field、Expand ── 四种接触面。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ S18 · Why Now · 三论点 + 数据支撑 ============ -->
+<section class="slide" data-layout="S18" data-animate="why-now">
+  <div class="canvas-card">
+    <header class="chrome-min">
+      <div class="l">Why Now · 为什么是 Q3</div>
+      <div class="r">S18 · 17 / NN</div>
+    </header>
+    <div style="flex:1;padding:0;display:grid;grid-template-rows:auto 1fr;gap:5vh">
+      <div data-anim="line" style="display:flex;flex-direction:column;gap:1.4vh">
+        <div class="t-meta">WHY NOW · 3 ARGUMENTS</div>
+        <h2 style="font-family:var(--sans-tab),var(--sans-zh);font-weight:700;font-size:min(5.6vw,10.2vh);line-height:1.04;letter-spacing:-.035em">为什么是现在</h2>
+      </div>
+      <div class="why-now-grid" data-anim="up" style="display:grid;grid-template-columns:repeat(3,1fr);gap:2vw;align-items:end">
+        <div class="why-col" style="display:flex;flex-direction:column;gap:2vh;padding-bottom:2vh">
+          <div>
+            <span class="t-meta">ARGUMENT 01 · MARKET</span>
+            <h3 style="font-family:var(--sans-tab),var(--sans-zh);font-weight:700;font-size:min(2.4vw,4.4vh);line-height:1.1;letter-spacing:-.025em;margin-top:.6vh">市场慢,<br/>才显出资本效率</h3>
+            <p style="font-family:var(--sans-tab),var(--sans-zh);font-weight:600;font-size:max(13px,1vw);line-height:1.55;opacity:.78;margin-top:1.6vh;max-width:28ch">当所有人都在烧钱抢客户的时候,你能低 CAC 留住客户,就是护城河。</p>
+          </div>
+          <span class="why-num-bottom" style="font-family:var(--sans-tab);font-weight:700;font-size:min(7vw,12vh);line-height:.85;letter-spacing:-.05em;color:var(--ink);margin-top:auto">62%</span>
+        </div>
+        <div class="why-col" style="display:flex;flex-direction:column;gap:2vh;padding-bottom:2vh">
+          <div>
+            <span class="t-meta">ARGUMENT 02 · PRODUCT</span>
+            <h3 style="font-family:var(--sans-tab),var(--sans-zh);font-weight:700;font-size:min(2.4vw,4.4vh);line-height:1.1;letter-spacing:-.025em;margin-top:.6vh">产品 PMF,<br/>早该开始了</h3>
+            <p style="font-family:var(--sans-tab),var(--sans-zh);font-weight:600;font-size:max(13px,1vw);line-height:1.55;opacity:.78;margin-top:1.6vh;max-width:28ch">企业级 SaaS 的 PMF 信号是 NRR,而我们做到了 138%,远超行业基准。</p>
+          </div>
+          <span class="why-num-bottom" style="font-family:var(--sans-tab);font-weight:700;font-size:min(7vw,12vh);line-height:.85;letter-spacing:-.05em;color:var(--ink);margin-top:auto">138%</span>
+        </div>
+        <div class="why-col" style="display:flex;flex-direction:column;gap:2vh;padding-bottom:2vh">
+          <div>
+            <span class="t-meta">ARGUMENT 03 · TEAM · 强调</span>
+            <h3 style="font-family:var(--sans-tab),var(--sans-zh);font-weight:700;font-size:min(2.4vw,4.4vh);line-height:1.1;letter-spacing:-.025em;margin-top:.6vh;color:var(--accent)">团队成型,<br/>可以复制</h3>
+            <p style="font-family:var(--sans-tab),var(--sans-zh);font-weight:600;font-size:max(13px,1vw);line-height:1.55;opacity:.78;margin-top:1.6vh;max-width:28ch">SDR / AE / SC / SE 都已经过了第一个完整 90 天,流程可复盘可复用。</p>
+          </div>
+          <span class="why-num-bottom" style="font-family:var(--sans-tab);font-weight:700;font-size:min(7vw,12vh);line-height:.85;letter-spacing:-.05em;color:var(--accent);margin-top:auto">11<small style="font-size:.4em;opacity:.6;margin-left:.05em">wk</small></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ S19 · Four Cards · 四列均分卡 ============ -->
+<section class="slide" data-layout="S19" data-animate="four-cards">
+  <div class="canvas-card">
+    <header class="chrome-min">
+      <div class="l">Four Skills · Q3 团队四能力</div>
+      <div class="r">S19 · 18 / NN</div>
+    </header>
+    <div style="flex:1;padding:0;display:grid;grid-template-rows:auto 1fr;gap:5vh">
+      <div data-anim="line" style="display:flex;flex-direction:column;gap:1.4vh">
+        <div style="height:1px;background:var(--accent);width:6vw;transform-origin:left"></div>
+        <div class="t-meta">FOUR SKILLS · 04 ABILITIES</div>
+        <h2 style="font-family:var(--sans-tab),var(--sans-zh);font-weight:700;font-size:min(5.6vw,10.2vh);line-height:1.04;letter-spacing:-.035em">Q3 的四种能力</h2>
+      </div>
+      <div class="four-cards" data-anim="up" style="display:grid;grid-template-columns:repeat(4,1fr);gap:0;align-items:start">
+        <div class="fc-col" style="padding:3vh 1.8vw 0 0;border-top:2px solid currentColor">
+          <div class="t-meta" style="color:var(--text-helper)">— 01 / OUTREACH</div>
+          <h3 style="font-family:var(--sans-tab),var(--sans-zh);font-weight:600;font-size:max(15px,1.4vw);line-height:1.15;letter-spacing:-.01em;margin:1.6vh 0 1.4vh">冷开场</h3>
+          <p style="font-family:var(--sans-tab),var(--sans-zh);font-weight:600;font-size:max(11px,.85vw);line-height:1.5;opacity:.78">用客户原话写开场白,reply rate 从 4% 跳到 11%。</p>
+        </div>
+        <div class="fc-col" style="padding:3vh 1.8vw 0;border-top:2px solid currentColor;border-left:1px solid var(--border-subtle)">
+          <div class="t-meta" style="color:var(--text-helper)">— 02 / QUALIFY</div>
+          <h3 style="font-family:var(--sans-tab),var(--sans-zh);font-weight:600;font-size:max(15px,1.4vw);line-height:1.15;letter-spacing:-.01em;margin:1.6vh 0 1.4vh">资格判断</h3>
+          <p style="font-family:var(--sans-tab),var(--sans-zh);font-weight:600;font-size:max(11px,.85vw);line-height:1.5;opacity:.78">BANT + MEDDIC 双轨,缩短判断周期到 2 周。</p>
+        </div>
+        <div class="fc-col" style="padding:3vh 1.8vw 0;border-top:2px solid currentColor;border-left:1px solid var(--border-subtle)">
+          <div class="t-meta" style="color:var(--text-helper)">— 03 / CLOSE</div>
+          <h3 style="font-family:var(--sans-tab),var(--sans-zh);font-weight:600;font-size:max(15px,1.4vw);line-height:1.15;letter-spacing:-.01em;margin:1.6vh 0 1.4vh">签订</h3>
+          <p style="font-family:var(--sans-tab),var(--sans-zh);font-weight:600;font-size:max(11px,.85vw);line-height:1.5;opacity:.78">法律栈 24 小时出标准合同,把 cycle time 从 8 周压到 3 周。</p>
+        </div>
+        <div class="fc-col" style="padding:3vh 0 0 1.8vw;border-top:2px solid currentColor;border-left:1px solid var(--border-subtle)">
+          <div class="t-meta" style="color:var(--text-helper)">— 04 / EXPAND</div>
+          <h3 style="font-family:var(--sans-tab),var(--sans-zh);font-weight:600;font-size:max(15px,1.4vw);line-height:1.15;letter-spacing:-.01em;margin:1.6vh 0 1.4vh">横向扩张</h3>
+          <p style="font-family:var(--sans-tab),var(--sans-zh);font-weight:600;font-size:max(11px,.85vw);line-height:1.5;opacity:.78">从 BU1 推到 BU2,BU3 ── NRR 自然超过 130%。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ S20 · Stacked KPI Ledger · 4-6 行账单式 KPI ============ -->
+<section class="slide" data-layout="S20" data-animate="stacked-ledger">
+  <div class="canvas-card">
+    <header class="chrome-min">
+      <div class="l">Ledger · Q3 6 行核心 KPI</div>
+      <div class="r">S20 · 19 / NN</div>
+    </header>
+    <div style="flex:1;padding:0;display:grid;grid-template-rows:auto 1fr;gap:4vh">
+      <div data-anim="line" style="display:flex;flex-direction:column;gap:1.4vh">
+        <div class="t-meta">LEDGER · 6 CORE NUMBERS</div>
+        <h2 style="font-family:var(--sans-tab),var(--sans-zh);font-weight:700;font-size:min(5.6vw,10.2vh);line-height:1.04;letter-spacing:-.035em">Q3 核心账单</h2>
+      </div>
+      <div class="stacked-ledger" data-anim="ledger" style="display:flex;flex-direction:column">
+        <div class="ledger-row" style="display:grid;grid-template-columns:1fr auto 2fr auto;gap:3vw;align-items:baseline;padding:2.4vh 0;border-top:1px solid var(--border-subtle)">
+          <span class="ledger-num" style="font-family:var(--sans-tab);font-weight:700;font-size:min(8vw,12vh);line-height:.85;letter-spacing:-.05em">$41.2M</span>
+          <span class="ledger-label t-meta">Q3 ARR</span>
+          <span class="body-sm" style="opacity:.7">环比 +41%,破历史记录</span>
+          <i data-lucide="trending-up" style="width:1.6vw;height:1.6vw;stroke:var(--accent)"></i>
+        </div>
+        <div class="ledger-row" style="display:grid;grid-template-columns:1fr auto 2fr auto;gap:3vw;align-items:baseline;padding:2.4vh 0;border-top:1px solid var(--border-subtle)">
+          <span class="ledger-num" style="font-family:var(--sans-tab);font-weight:700;font-size:min(8vw,12vh);line-height:.85;letter-spacing:-.05em">138%</span>
+          <span class="ledger-label t-meta">Enterprise NRR</span>
+          <span class="body-sm" style="opacity:.7">高于 120% 警戒线</span>
+          <i data-lucide="anchor" style="width:1.6vw;height:1.6vw;stroke:var(--accent)"></i>
+        </div>
+        <div class="ledger-row" style="display:grid;grid-template-columns:1fr auto 2fr auto;gap:3vw;align-items:baseline;padding:2.4vh 0;border-top:1px solid var(--border-subtle)">
+          <span class="ledger-num" style="font-family:var(--sans-tab);font-weight:700;font-size:min(8vw,12vh);line-height:.85;letter-spacing:-.05em">11.4<small style="font-size:.32em;opacity:.6;margin-left:.1em">mo</small></span>
+          <span class="ledger-label t-meta">CAC Payback</span>
+          <span class="body-sm" style="opacity:.7">比 Q1 缩短 4 个月</span>
+          <i data-lucide="clock" style="width:1.6vw;height:1.6vw;stroke:var(--accent)"></i>
+        </div>
+        <div class="ledger-row" style="display:grid;grid-template-columns:1fr auto 2fr auto;gap:3vw;align-items:baseline;padding:2.4vh 0;border-top:1px solid var(--border-subtle)">
+          <span class="ledger-num" style="font-family:var(--sans-tab);font-weight:700;font-size:min(8vw,12vh);line-height:.85;letter-spacing:-.05em">0.8%</span>
+          <span class="ledger-label t-meta">Logo Churn</span>
+          <span class="body-sm" style="opacity:.7">11 个月最低</span>
+          <i data-lucide="shield" style="width:1.6vw;height:1.6vw;stroke:var(--accent)"></i>
+        </div>
+        <div class="ledger-row" style="display:grid;grid-template-columns:1fr auto 2fr auto;gap:3vw;align-items:baseline;padding:2.4vh 0;border-top:1px solid var(--border-subtle)">
+          <span class="ledger-num" style="font-family:var(--sans-tab);font-weight:700;font-size:min(8vw,12vh);line-height:.85;letter-spacing:-.05em">42</span>
+          <span class="ledger-label t-meta">New Logos</span>
+          <span class="body-sm" style="opacity:.7">17 个 enterprise,25 个 mid-market</span>
+          <i data-lucide="user-plus" style="width:1.6vw;height:1.6vw;stroke:var(--accent)"></i>
+        </div>
+        <div class="ledger-row" style="display:grid;grid-template-columns:1fr auto 2fr auto;gap:3vw;align-items:baseline;padding:2.4vh 0;border-top:1px solid var(--border-subtle);border-bottom:1px solid var(--border-subtle)">
+          <span class="ledger-num" style="font-family:var(--sans-tab);font-weight:700;font-size:min(8vw,12vh);line-height:.85;letter-spacing:-.05em">$28M</span>
+          <span class="ledger-label t-meta">Q4 Pipeline</span>
+          <span class="body-sm" style="opacity:.7">3 个 ARR $1M+ 在签</span>
+          <i data-lucide="package" style="width:1.6vw;height:1.6vw;stroke:var(--accent)"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ S21 · Tech Spec Sheet · 规格说明书 ============ -->
+<section class="slide" data-layout="S21" data-animate="tech-spec">
+  <div class="canvas-card">
+    <header class="chrome-min">
+      <div class="l">Tech Spec · Q3 产品规约</div>
+      <div class="r">S21 · 20 / NN</div>
+    </header>
+    <div style="flex:1;padding:0;display:grid;grid-template-columns:8fr 8fr;gap:3vw">
+      <div data-anim="up" style="display:flex;flex-direction:column;gap:2vh;align-self:start">
+        <div class="t-meta">SPEC · Q3 SHIPMENT</div>
+        <h2 style="font-family:var(--sans-tab),var(--sans-zh);font-weight:700;font-size:min(5.6vw,10.2vh);line-height:1;letter-spacing:-.045em">v4.2<br/>v4.3<br/>v4.4<br/>v5.0</h2>
+        <p style="font-family:var(--sans-tab),var(--sans-zh);font-weight:600;font-size:max(13px,1vw);line-height:1.55;opacity:.78;max-width:36ch">每周一次发布,Q3 共发布了 12 个版本。最重要的两个: v4.3 加了 audit log,v5.0 重写了计费模型。</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:2vh;padding-top:1vh">
+        <div data-anim="up" style="display:flex;flex-direction:column;gap:1vh">
+          <span class="t-meta">— METRIC 01</span>
+          <div style="height:1px;background:var(--ink);width:100%"></div>
+          <span style="font-family:var(--sans-tab);font-weight:700;font-size:min(3.2vw,6vh);line-height:1;letter-spacing:-.04em">99.97%</span>
+          <p class="body-sm">月可用率,从 99.6% 跳到 99.97%</p>
+        </div>
+        <div data-anim="up" style="display:flex;flex-direction:column;gap:1vh">
+          <span class="t-meta">— METRIC 02</span>
+          <div style="height:1px;background:var(--ink);width:100%"></div>
+          <span style="font-family:var(--sans-tab);font-weight:700;font-size:min(3.2vw,6vh);line-height:1;letter-spacing:-.04em">114<small style="font-size:.32em;opacity:.6;margin-left:.1em">ms</small></span>
+          <p class="body-sm">P95 延迟从 320ms 降到 114ms</p>
+        </div>
+        <div data-anim="up" style="display:flex;flex-direction:column;gap:1vh">
+          <span class="t-meta">— METRIC 03</span>
+          <div style="height:1px;background:var(--ink);width:100%"></div>
+          <span style="font-family:var(--sans-tab);font-weight:700;font-size:min(3.2vw,6vh);line-height:1;letter-spacing:-.04em">12<small style="font-size:.32em;opacity:.6;margin-left:.1em">×</small></span>
+          <p class="body-sm">QPS 处理能力提升 12 倍</p>
+        </div>
+        <div data-anim="hero" style="margin-top:auto;display:grid;grid-template-columns:1fr auto;gap:2vw;align-items:end;border-top:1px solid var(--border-subtle);padding-top:2vh">
+          <span style="font-family:var(--sans-tab);font-weight:700;font-size:min(8vw,12vh);line-height:.85;letter-spacing:-.045em">3.4<small style="font-size:.32em;opacity:.6;margin-left:.1em">hours</small></span>
+          <div style="display:flex;flex-direction:column;gap:.5vh;text-align:right">
+            <span class="t-meta">Q3 DEPLOY MTBF</span>
+            <span class="t-meta">Goal · &lt; 4h</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div data-anim="bars" style="position:absolute;right:5vw;bottom:5vh;display:flex;gap:.4vw;align-items:end;height:14vh">
+      <span class="vbar" style="display:block;width:.4vw;background:var(--grey-2);height:30%"></span>
+      <span class="vbar" style="display:block;width:.4vw;background:var(--grey-2);height:50%"></span>
+      <span class="vbar" style="display:block;width:.4vw;background:var(--grey-2);height:75%"></span>
+      <span class="vbar" style="display:block;width:.4vw;background:var(--accent);height:100%"></span>
+      <span class="vbar" style="display:block;width:.4vw;background:var(--grey-2);height:85%"></span>
+      <span class="vbar" style="display:block;width:.4vw;background:var(--grey-2);height:40%"></span>
+      <span class="vbar" style="display:block;width:.4vw;background:var(--grey-2);height:60%"></span>
+      <span class="vbar" style="display:block;width:.4vw;background:var(--accent);height:90%"></span>
+      <span class="vbar" style="display:block;width:.4vw;background:var(--grey-2);height:55%"></span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ S22 · Image Hero · 顶部全宽图 + 左上白块标题 + 三 KPI ============ -->
+<section class="slide light" data-layout="S22" data-animate="image-hero">
+  <div class="canvas-card" style="padding:0;display:flex;flex-direction:column;overflow:hidden">
+    <div data-anim="img" style="position:relative;flex:0 0 60%;overflow:hidden;background:var(--grey-1)">
+      <img src="images/q3-product-hero.png" data-image-slot="s22-hero-21x9" alt="NorthStar Dashboard · Q3" loading="eager"
+           style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%">
+      <div class="chrome-min" style="position:absolute;top:0;left:0;right:0;color:rgba(255,255,255,.9);padding:5.6vh 5vw 0">
+        <div class="l">Section · Q3 Product Hero</div>
+        <div class="r">S22 · 21 / NN</div>
+      </div>
+      <div data-anim="title-block" style="position:absolute;left:5vw;top:11vh;background:var(--paper);padding:3.2vh 3.2vw;max-width:40vw">
+        <div style="font-family:var(--sans-tab),var(--sans-zh);font-weight:700;font-size:min(5.2vw,9vh);line-height:1;letter-spacing:-.035em;color:var(--text-primary)">
+          Q3<br>Dashboard
+        </div>
+      </div>
+    </div>
+    <div data-anim="kpi" class="image-hero-body">
+      <div style="max-width:48ch;font-family:var(--sans-tab),var(--sans-zh);font-size:max(15px,1.3vw);line-height:1.55;font-weight:600;color:var(--text-primary);letter-spacing:-.005em">
+        Q3 的产品视图:每个客户都看得到自己的 NRR, retention rate, expand potential。SDR 与 AE 在同一个界面工作。
+      </div>
+      <div class="image-hero-stats" style="gap:4vw">
+        <div style="display:flex;flex-direction:column;gap:.6vh">
+          <div style="height:1px;background:var(--ink)"></div>
+          <div class="t-meta">Q3 ARR</div>
+          <div style="font-family:var(--sans-tab);font-weight:700;font-size:min(4.6vw,7.6vh);line-height:.95;letter-spacing:-.04em">$41.2<small style="font-size:.4em;opacity:.6;margin-left:.1em">M</small></div>
+          <div style="height:1px;background:var(--border-subtle);margin-top:auto"></div>
+          <p class="body-sm">Q3 总 ARR</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:.6vh">
+          <div style="height:1px;background:var(--ink)"></div>
+          <div class="t-meta">Q3 GROWTH</div>
+          <div style="font-family:var(--sans-tab);font-weight:700;font-size:min(4.6vw,7.6vh);line-height:.95;letter-spacing:-.04em">+41<small style="font-size:.4em;opacity:.6;margin-left:.1em">%</small></div>
+          <div style="height:1px;background:var(--border-subtle);margin-top:auto"></div>
+          <p class="body-sm">环比增长</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:.6vh">
+          <div style="height:1px;background:var(--ink)"></div>
+          <div class="t-meta">Q3 NRR</div>
+          <div style="font-family:var(--sans-tab);font-weight:700;font-size:min(4.6vw,7.6vh);line-height:.95;letter-spacing:-.04em;color:var(--accent)">138<small style="font-size:.4em;opacity:.6;margin-left:.1em">%</small></div>
+          <div style="height:1px;background:var(--border-subtle);margin-top:auto"></div>
+          <p class="body-sm">Enterprise 段 NRR</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Closing · Manifesto + Takeaways · IKB 闭环 ============ -->
+<section class="slide split" data-layout="TABLEAI-CLOSING-ASCII" data-animate="split-statement">
+  <div class="canvas-card">
+    <div class="split-half">
+      <div class="half b-accent" style="padding:5.6vh 3.6vw 4.4vh;justify-content:space-between;position:relative;overflow:hidden">
+        <canvas class="ascii-bg" aria-hidden="true"></canvas>
+        <div class="chrome-min" style="margin-bottom:0;position:relative;z-index:1">
+          <div class="l">22 / 22</div>
+          <div class="r">CLOSING</div>
+        </div>
+        <div data-anim="manifesto" style="display:flex;flex-direction:column;gap:2vh;position:relative;z-index:1">
+          <div class="t-meta" style="color:rgba(255,255,255,.78);letter-spacing:.22em;margin-bottom:1.6vh">MANIFESTO · Q3</div>
+          <h2 style="font-family:var(--sans-tab),var(--sans-zh);font-size:min(8vw,14vh);line-height:.94;letter-spacing:-.025em;font-weight:700;color:#fff">Build a <span style="font-style:italic;font-weight:600">thin</span> harness.<br/>Write <span style="font-style:italic;font-weight:600">fat</span> skills.</h2>
+          <div style="font-family:var(--sans-tab),var(--sans-zh);font-size:max(13px,1vw);line-height:1.6;color:rgba(255,255,255,.82);font-weight:600;max-width:36ch;margin-top:1.4vh">把每一次胜利写下来,把每一次失败记成 SOP。</div>
+        </div>
+        <div data-anim="signature" style="display:flex;justify-content:space-between;align-items:end;border-top:1px solid rgba(255,255,255,.22);padding-top:2vh;position:relative;z-index:1">
+          <div class="t-meta" style="color:rgba(255,255,255,.62)">歸藏 · NorthStar · Q3 复盘</div>
+          <div class="t-meta" style="color:rgba(255,255,255,.62)">2026.10.07</div>
+        </div>
+      </div>
+      <div class="half" style="padding:5.6vh 3.6vw 4.4vh;justify-content:space-between">
+        <div class="chrome-min">
+          <div class="l">TAKEAWAYS</div>
+          <div class="r">03 RULES</div>
+        </div>
+        <div data-anim="rules" style="display:flex;flex-direction:column;gap:0">
+          <div style="display:grid;grid-template-columns:auto 1fr;gap:2vw;align-items:start;padding:2.6vh 0;border-top:1px solid var(--border-subtle)">
+            <div style="font-family:var(--sans-tab);font-weight:700;font-size:min(4.4vw,7.8vh);line-height:.9;color:var(--text-primary)">01</div>
+            <div>
+              <h3 style="font-family:var(--sans-tab),var(--sans-zh);font-weight:600;font-size:max(18px,1.8vw);line-height:1.2;letter-spacing:-.015em;color:var(--text-primary);margin-bottom:1vh">Hybrid > Single-channel</h3>
+              <p style="font-family:var(--sans-tab),var(--sans-zh);font-size:max(12px,.92vw);line-height:1.6;color:var(--text-secondary);font-weight:600">PLG 与 Sales 不矛盾。每段客户形状配一支团队 ── SMB 给自助,Mid 给 SC,Ent 给 Field。</p>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:auto 1fr;gap:2vw;align-items:start;padding:2.6vh 0;border-top:1px solid var(--border-subtle)">
+            <div style="font-family:var(--sans-tab);font-weight:700;font-size:min(4.4vw,7.8vh);line-height:.9;color:var(--text-primary)">02</div>
+            <div>
+              <h3 style="font-family:var(--sans-tab),var(--sans-zh);font-weight:600;font-size:max(18px,1.8vw);line-height:1.2;letter-spacing:-.015em;color:var(--text-primary);margin-bottom:1vh">Fits > Funnels</h3>
+              <p style="font-family:var(--sans-tab),var(--sans-zh);font-size:max(12px,.92vw);line-height:1.6;color:var(--text-secondary);font-weight:600">客户不是在漏斗里滑落 ── 客户是在地图上行走。你的工作是 fit,而非 funnel。</p>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:auto 1fr;gap:2vw;align-items:start;padding:2.6vh 0;border-top:1px solid var(--border-subtle);border-bottom:2px solid var(--accent)">
+            <div style="font-family:var(--sans-tab);font-weight:700;font-size:min(4.4vw,7.8vh);line-height:.9;color:var(--accent)">03</div>
+            <div>
+              <h3 style="font-family:var(--sans-tab),var(--sans-zh);font-weight:600;font-size:max(18px,1.8vw);line-height:1.2;letter-spacing:-.015em;color:var(--accent);margin-bottom:1vh">Codify > Imitate</h3>
+              <p style="font-family:var(--sans-tab),var(--sans-zh);font-size:max(12px,.92vw);line-height:1.6;color:var(--text-secondary);font-weight:600">别再去模仿别人做对的事。把每一个 metric 配上一个团队,把每一个胜利写下来。</p>
+            </div>
+          </div>
+        </div>
+        <div data-anim="foot" class="t-meta" style="color:var(--text-helper);text-align:right">→ 完 · END OF Q3 FIELD NOTE</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<div id="nav"></div>
+
+<!--
+  翻页 / 动效 / ASCII 呼吸场 — 完整继承自 Style B.
+  以下 4 个 <script> 块与 template-swiss.html 的最后 4 个 script 完全一致 (motion-ready / playSlide / RECIPES / ASCII IIFE).
+  唯一差异: ASCII IIFE 的字符调色板从蓝色 base 改成了深蓝 + 金色调色板.
+-->
+<script>
+const VS = `attribute vec2 position;void main(){gl_Position=vec4(position,0.0,1.0);}`;
+const FS = `precision highp float;
+uniform vec2 u_resolution;uniform float u_time;uniform vec2 u_mouse;
+uniform float u_dark;uniform vec3 u_accent;
+float gridLine(vec2 uv,float spacing,float thickness){vec2 g=abs(fract(uv/spacing)-.5);float d=min(g.x,g.y);return 1.-smoothstep(thickness-.005,thickness+.005,d);}
+void main(){
+  vec2 uv=gl_FragCoord.xy/u_resolution.xy;
+  float aspect=u_resolution.x/u_resolution.y;vec2 p=uv;p.x*=aspect;
+  vec2 drift=vec2(u_time*.008,u_time*.005);vec2 gp=p+drift;
+  float mainGrid=gridLine(gp,.12,.012);
+  float subGrid=gridLine(gp,.024,.04)*.4;
+  vec2 m=u_mouse;m.x*=aspect;
+  float md=length(p-m);float mInfluence=exp(-md*4.)*.5;
+  float gridStrength=(mainGrid+subGrid*.5)*(.45+mInfluence);
+  vec2 dotGrid=fract(gp*50.)-.5;
+  float dotMask=1.-smoothstep(.05,.14,length(dotGrid));
+  float wave=sin(gp.x*1.4+u_time*.15)*cos(gp.y*1.6-u_time*.12);
+  dotMask*=smoothstep(-.3,.6,wave)*.6;
+  vec3 lineColor=mix(vec3(.04),vec3(.92),u_dark);
+  vec3 bgColor=mix(vec3(1.,1.,1.),vec3(.04,.06,.09),u_dark);
+  vec3 col=bgColor;
+  col=mix(col,lineColor,gridStrength*.55);
+  col=mix(col,lineColor,dotMask*.35);
+  col=mix(col,u_accent,mInfluence*.18);
+  gl_FragColor=vec4(col,1.);
+}`;
+
+const mouse={x:.5,y:.5};
+addEventListener('mousemove',e=>{mouse.x=e.clientX/innerWidth;mouse.y=1-e.clientY/innerHeight});
+
+function bootGL(canvasId,fsSrc){
+  const canvas=document.getElementById(canvasId);
+  const gl=canvas.getContext('webgl',{alpha:true,antialias:true,premultipliedAlpha:false});
+  if(!gl)return ()=>false;
+  const mk=(t,s)=>{const sh=gl.createShader(t);gl.shaderSource(sh,s);gl.compileShader(sh);return sh};
+  const prog=gl.createProgram();
+  gl.attachShader(prog,mk(gl.VERTEX_SHADER,VS));
+  gl.attachShader(prog,mk(gl.FRAGMENT_SHADER,fsSrc));
+  gl.linkProgram(prog);gl.useProgram(prog);
+  const buf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buf);
+  gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]),gl.STATIC_DRAW);
+  const pos=gl.getAttribLocation(prog,'position');
+  gl.enableVertexAttribArray(pos);gl.vertexAttribPointer(pos,2,gl.FLOAT,false,0,0);
+  const lRes=gl.getUniformLocation(prog,'u_resolution');
+  const lT=gl.getUniformLocation(prog,'u_time');
+  const lM=gl.getUniformLocation(prog,'u_mouse');
+  const lD=gl.getUniformLocation(prog,'u_dark');
+  const lA=gl.getUniformLocation(prog,'u_accent');
+  const resize=()=>{const d=Math.min(window.devicePixelRatio||1,2);canvas.width=innerWidth*d;canvas.height=innerHeight*d;gl.viewport(0,0,canvas.width,canvas.height);};
+  addEventListener('resize',resize);resize();
+  function readAccent(){
+    const cs=getComputedStyle(document.documentElement);
+    const hex=cs.getPropertyValue('--accent').trim()||'#A88B52';
+    const m=hex.match(/^#([0-9a-f]{6})$/i);
+    if(!m)return [.66,.55,.32];
+    const n=parseInt(m[1],16);
+    return [((n>>16)&255)/255,((n>>8)&255)/255,(n&255)/255];
+  }
+  let accent=readAccent(),dark=0;
+  return (tSec,isDark)=>{
+    if(isDark!==undefined)dark=isDark?1:0;
+    accent=readAccent();
+    gl.uniform2f(lRes,canvas.width,canvas.height);
+    gl.uniform1f(lT,tSec);
+    gl.uniform2f(lM,mouse.x,mouse.y);
+    gl.uniform1f(lD,dark);
+    gl.uniform3f(lA,accent[0],accent[1],accent[2]);
+    gl.drawArrays(gl.TRIANGLES,0,6);
+    return true;
+  };
+}
+let darkMode=false,gridCtrl=null,gridRAF=0,gridT0=Date.now();
+function startGrid(){
+  if(document.body.classList.contains('canvas-mode')||window.__lowPowerMode||gridRAF)return;
+  if(!gridCtrl)gridCtrl=bootGL('bg-grid',FS);
+  if(!gridCtrl)return;
+  gridT0=Date.now();
+  function loop(){if(window.__lowPowerMode){gridRAF=0;return;}const t=(Date.now()-gridT0)/1000;gridCtrl(t,darkMode);gridRAF=requestAnimationFrame(loop);}
+  gridRAF=requestAnimationFrame(loop);
+}
+function stopGrid(){if(gridRAF)cancelAnimationFrame(gridRAF);gridRAF=0;}
+if(document.body.classList.contains('canvas-mode')){const c=document.getElementById('bg-grid');if(c)c.remove();}else{startGrid();}
+addEventListener('swiss-low-power-change',e=>{e.detail.on?stopGrid():startGrid();});
+
+const deck=document.getElementById('deck');
+const slides=deck.querySelectorAll('.slide');
+const nav=document.getElementById('nav');
+let idx=0,total=slides.length,lock=false;
+deck.style.width=(total*100)+'vw';
+slides.forEach((s,i)=>{const b=document.createElement('button');b.className='dot';b.dataset.i=i;b.setAttribute('aria-label','Page '+(i+1));b.onclick=()=>go(i);nav.appendChild(b);});
+
+function go(n){if(lock)return;idx=Math.max(0,Math.min(total-1,n));window.__currentSlideIndex=idx;deck.style.transform=`translateX(${-idx*100}vw)`;nav.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===idx));const el=slides[idx];const isDark=el.classList.contains('dark')||el.classList.contains('accent');document.body.classList.toggle('dark-bg',isDark);darkMode=isDark;if(window.__playSlide)setTimeout(()=>window.__playSlide(idx),450);lock=true;setTimeout(()=>lock=false,700);}
+
+let overviewOn=false;
+const ov=document.createElement('div');ov.id='overview';ov.style.cssText='position:fixed;inset:0;z-index:100;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);display:none;overflow-y:auto;padding:4vh 4vw';document.body.appendChild(ov);
+function buildOverview(){ov.innerHTML='';const grid=document.createElement('div');grid.style.cssText='display:grid;grid-template-columns:repeat(4,1fr);gap:2vh 1.6vw;max-width:90vw;margin:0 auto';slides.forEach((s,i)=>{const card=document.createElement('div');card.style.cssText='cursor:pointer;overflow:hidden;border:2px solid '+(i===idx?'var(--accent)':'rgba(10,22,38,.12)')+';transition:border-color .2s;border-radius:4px';card.onmouseenter=()=>card.style.borderColor='rgba(10,22,38,.4)';card.onmouseleave=()=>card.style.borderColor=i===idx?'var(--accent)':'rgba(10,22,38,.12)';const wrap=document.createElement('div');const isDark=s.classList.contains('dark')||s.classList.contains('accent');wrap.style.cssText='width:100%;aspect-ratio:16/9;overflow:hidden;position:relative;pointer-events:none;background:'+(isDark?'var(--ink)':'var(--paper)');const clone=s.cloneNode(true);clone.style.cssText='width:100vw;height:100vh;transform:scale('+(1/4.5)+');transform-origin:top left;position:absolute;top:0;left:0;pointer-events:none';wrap.appendChild(clone);const label=document.createElement('div');label.style.cssText='padding:6px 10px;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink);opacity:.7';label.textContent=(i+1)+' / '+total;card.appendChild(wrap);card.appendChild(label);card.onclick=()=>{toggleOverview();go(i);};grid.appendChild(card);});ov.appendChild(grid);}
+function toggleOverview(){overviewOn=!overviewOn;if(overviewOn){buildOverview();ov.style.display='block';}else{ov.style.display='none';}}
+addEventListener('keydown',e=>{if(e.key==='Escape'){e.preventDefault();toggleOverview();return;}if(e.key&&e.key.toLowerCase()==='b'&&!e.metaKey&&!e.ctrlKey&&!e.altKey){e.preventDefault();window.__setLowPowerMode(!window.__lowPowerMode);return;}if(overviewOn)return;if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '||e.key==='ArrowDown'){if(window.__pipeAdvance&&window.__pipeAdvance())return;go(idx+1);return;}if(e.key==='ArrowLeft'||e.key==='PageUp'||e.key==='ArrowUp')go(idx-1);if(e.key==='Home')go(0);if(e.key==='End')go(total-1);});
+let wheelTO=null,wheelAcc=0;
+addEventListener('wheel',e=>{wheelAcc+=e.deltaY+e.deltaX;if(Math.abs(wheelAcc)>50){if(wheelAcc>0&&window.__pipeAdvance&&window.__pipeAdvance()){wheelAcc=0;}else{go(idx+(wheelAcc>0?1:-1));wheelAcc=0;}}clearTimeout(wheelTO);wheelTO=setTimeout(()=>wheelAcc=0,150);},{passive:true});
+let tx=0,ty=0;
+addEventListener('touchstart',e=>{tx=e.touches[0].clientX;ty=e.touches[0].clientY},{passive:true});
+addEventListener('touchend',e=>{const dx=(e.changedTouches[0].clientX-tx);const dy=(e.changedTouches[0].clientY-ty);if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)){if(dx<0&&window.__pipeAdvance&&window.__pipeAdvance())return;go(idx+(dx<0?1:-1));}},{passive:true});
+const initialSlideParam=new URLSearchParams(location.search).get('slide');
+const initialSlide=initialSlideParam?Number(initialSlideParam)-1:0;
+go(Number.isFinite(initialSlide)?initialSlide:0);
+</script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script>lucide.createIcons();</script>
+
+<!-- Motion One + RECIPES (与 Style B 完全一致,继承) -->
+<script type="module">
+let motion;
+try{motion=await import('./assets/motion.min.js');}catch(e1){try{motion=await import('https://cdn.jsdelivr.net/npm/motion@11.11.17/+esm');}catch(e2){console.warn('[motion] local + CDN both failed',e1,e2);document.querySelectorAll('[data-anim]').forEach(el=>{el.style.opacity='1';el.style.transform='none';});document.querySelectorAll('[data-animate="pipeline"] [data-anim]').forEach(el=>el.style.opacity='1');}}
+if(motion){
+  const{animate}=motion;
+  document.body.classList.add('motion-ready');
+  const EASE_PROD=[.2,0,.38,.9];
+  const EASE_ENTRY_EXP=[0,0,.3,1];
+  const slides=[...document.querySelectorAll('.slide')];
+  let lastIdx=-1;
+  function resetAnims(slide){slide.querySelectorAll('[data-anim]').forEach(el=>{el.style.opacity='';el.style.transform='';});slide.querySelectorAll('.row-fill,.tl-node,.stack-block,.bar-tower,.sub-card,.col,.vrule,.kpi-cell').forEach(el=>{el.style.cssText=el.dataset._origCss||el.style.cssText;});}
+  const fade=(el,opts={})=>animate(el,{opacity:[0,1],y:[opts.y??12,0]},{duration:opts.duration??.6,delay:opts.delay??0,easing:opts.easing??EASE_ENTRY_EXP});
+
+  // RECIPES (Style C 与 Style B 共用同一组 recipe,因为 recipe 只动 transform / opacity,不读类名 / 颜色)
+  function rHero(slide,all){const numRows=[...slide.querySelectorAll('.cover-row')];const rest=all.filter(el=>!numRows.length||el!==numRows[0]);const chrome=slide.querySelector('.chrome-min');if(chrome)animate(chrome,{opacity:[0,1]},{duration:.24,easing:EASE_PROD});numRows.forEach((row,i)=>{animate(row,{opacity:[0,1],x:[-12,0]},{duration:.5,delay:.15+i*.18,easing:EASE_ENTRY_EXP});});const idx=slide.querySelector('[data-anim="line"]');if(idx)fade(idx,{delay:.15+numRows.length*.18+.1,duration:.5,y:6});}
+  function rStatement(slide,all){const halves=[...slide.querySelectorAll('.half')];if(halves.length===2){animate(halves[0],{opacity:[0,1],y:[18,0]},{duration:.7,delay:0,easing:EASE_ENTRY_EXP});animate(halves[1],{opacity:[0,1],y:[18,0]},{duration:.7,delay:.6,easing:EASE_ENTRY_EXP});}else{const head=slide.querySelector('[data-anim="line"]');if(head)fade(head,{duration:.5,y:6});const blocks=all.filter(el=>el!==head);blocks.forEach((el,i)=>{animate(el,{opacity:[0,1],y:[20,0]},{duration:.55,delay:.25+i*.18,easing:EASE_ENTRY_EXP});});}}
+  function rGridReveal(slide,all){const head=slide.querySelector('[data-anim="line"]');if(head)fade(head,{duration:.6,y:10});const cards=[...slide.querySelectorAll('.sub-card')];cards.forEach((card,i)=>{animate(card,{opacity:[0,1],y:[20,0],scale:[.96,1]},{duration:.5,delay:.3+i*.09,easing:EASE_ENTRY_EXP});});}
+  function rStackBuild(slide,all){const head=slide.querySelector('[data-anim="line"]');if(head)fade(head,{duration:.6,y:10});const blocks=[...slide.querySelectorAll('.stack-block')];if(blocks[1])animate(blocks[1],{opacity:[0,1],scaleY:[.85,1]},{duration:.55,delay:.3,easing:EASE_ENTRY_EXP});if(blocks[0])animate(blocks[0],{opacity:[0,1],y:[-22,0]},{duration:.6,delay:.6,easing:EASE_ENTRY_EXP});if(blocks[2])animate(blocks[2],{opacity:[0,1],y:[22,0]},{duration:.6,delay:.6,easing:EASE_ENTRY_EXP});const foot=slide.querySelector('.t-meta');if(foot)animate(foot,{opacity:[0,1]},{duration:.3,delay:1.3,easing:EASE_PROD});}
+  function rMeasureUp(slide,all){const head=slide.querySelector('[data-anim="line"]');if(head)fade(head,{duration:.6,y:10});const towers=[...slide.querySelectorAll('.bar-tower')];towers.forEach((tower,i)=>{const block=tower.querySelector('.body-block');if(block){block.style.transformOrigin='bottom center';animate(block,{opacity:[0,1],scaleY:[.05,1]},{duration:.7,delay:.35+i*.12,easing:EASE_ENTRY_EXP});}const cap=tower.querySelector('.cap');if(cap)animate(cap,{opacity:[0,1],y:[-8,0]},{duration:.4,delay:.85+i*.12,easing:EASE_PROD});});}
+  function rBarGrow(slide,all){const head=slide.querySelector('[data-anim="line"]');if(head)fade(head,{duration:.6,y:10});const fills=[...slide.querySelectorAll('.row-fill')];const labels=[...slide.querySelectorAll('.row-lbl')];const values=[...slide.querySelectorAll('.row-val')];fills.forEach((fill,i)=>{const target=fill.style.width;fill.style.width='0%';if(labels[i])animate(labels[i],{opacity:[0,1],x:[-12,0]},{duration:.4,delay:.85+i*.14,easing:EASE_PROD});animate(fill,{width:['0%',target]},{duration:.65,delay:.95+i*.14,easing:EASE_ENTRY_EXP});if(values[i])animate(values[i],{opacity:[0,1]},{duration:.3,delay:1.5+i*.14,easing:EASE_PROD});});}
+  function rDuoMirror(slide,all){const head=slide.querySelector('[data-anim="line"]');if(head)fade(head,{duration:.6,y:10});const cols=[...slide.querySelectorAll('.duo-compare .col')];const vrule=slide.querySelector('.duo-compare .vrule');if(cols[0])animate(cols[0],{opacity:[0,1],x:[-24,0]},{duration:.65,delay:.4,easing:EASE_ENTRY_EXP});if(vrule){vrule.style.transformOrigin='center';animate(vrule,{opacity:[0,1],scaleY:[0,1]},{duration:.55,delay:.55,easing:EASE_ENTRY_EXP});}if(cols[1])animate(cols[1],{opacity:[0,1],x:[24,0]},{duration:.65,delay:.7,easing:EASE_ENTRY_EXP});}
+  function rSplitStatement(slide,all){const halves=[...slide.querySelectorAll('.half')];if(halves[0]){animate(halves[0],{opacity:[0,1]},{duration:.4,easing:EASE_PROD});const kpis=halves[0].querySelectorAll('.kpi-thin');kpis.forEach((k,i)=>{animate(k,{opacity:[0,1],y:[24,0]},{duration:.7,delay:.25+i*.55,easing:EASE_ENTRY_EXP});});}if(halves[1]){animate(halves[1],{opacity:[0,1]},{duration:.4,delay:.3,easing:EASE_PROD});const items=halves[1].querySelectorAll('.takeaway-list li');items.forEach((li,i)=>{animate(li,{opacity:[0,1],x:[20,0]},{duration:.45,delay:1.0+i*.12,easing:EASE_ENTRY_EXP});});}}
+  function rProgression(slide,all){const head=slide.querySelector('[data-anim="line"]');if(head)fade(head,{duration:.6,y:10});const nodes=[...slide.querySelectorAll('.tl-node')];nodes.forEach((node,i)=>{const base=.35+i*.32;animate(node,{opacity:[0,1],y:[14,0]},{duration:.55,delay:base,easing:EASE_ENTRY_EXP});const multi=node.querySelector('.multi');if(multi)animate(multi,{scale:[.92,1],opacity:[0,1]},{duration:.5,delay:base+.12,easing:EASE_ENTRY_EXP});});const kpis=[...slide.querySelectorAll('.kpi-cell')];kpis.forEach((cell,i)=>{animate(cell,{opacity:[0,1],y:[8,0]},{duration:.4,delay:1.4+i*.07,easing:EASE_PROD});});}
+  const RECIPES={'hero':rHero,'progression':rProgression,'statement':rStatement,'grid-reveal':rGridReveal,'stack-build':rStackBuild,'measure-up':rMeasureUp,'bar-grow':rBarGrow,'duo-mirror':rDuoMirror,'split-statement':rSplitStatement,'timeline-walk':()=>{},'manifesto':()=>{},'three-forces':()=>{},'loop-form':()=>{},'matrix-fill':()=>{},'field-notes':()=>{},'system-diagram':()=>{},'why-now':()=>{},'four-cards':()=>{},'stacked-ledger':()=>{},'tech-spec':()=>{},'image-hero':()=>{}};
+
+  function revealStatic(slide){resetAnims(slide);document.getAnimations?.().forEach(a=>a.cancel());slide.querySelectorAll('[data-anim],.row-fill,.tl-node,.stack-block,.bar-tower,.sub-card,.col,.vrule,.kpi-cell,.card-fill,.card-accent,.card-ink').forEach(el=>{el.style.opacity='1';el.style.transform='none';});}
+  function playSlide(i){const slide=slides[i];if(!slide)return;lastIdx=i;if(window.__lowPowerMode){revealStatic(slide);return;}resetAnims(slide);slide.querySelectorAll('[data-anim]').forEach(el=>{el.style.opacity='1';el.style.transform='none';});const all=[...slide.querySelectorAll('[data-anim]')];const recipe=slide.dataset.animate;const fn=RECIPES[recipe];if(fn){fn(slide,all);return;}if(all.length)animate(all,{opacity:[0,1],y:[12,0]},{duration:.6,delay:i=>i*.08,easing:EASE_ENTRY_EXP});}
+  window.__playSlide=playSlide;window.__pipeAdvance=()=>false;
+  playSlide(window.__currentSlideIndex||0);
+}
+</script>
+
+<!--
+  ASCII 点阵呼吸场 IIFE — Style C 版本
+  继承自 Style B, 唯一差异:
+  1. 字符调色板从 base 颜色 (白) 改成 金色 (gold-rgb)
+  2. mix-blend-mode:screen 保留,在深蓝底上自然发亮
+-->
+<script>
+(function(){
+  const canvases=[...document.querySelectorAll('canvas.ascii-bg')];
+  if(!canvases.length)return;
+  // Style C 调色板 — 金色 ascii 字符 (在深蓝底屏幕上自然发亮)
+  const PALETTE='   ...:::---+++***◦◦••▢▣';
+  const CELL=16;
+  const FONT_SIZE=13;
+  function setup(c){const dpr=Math.min(window.devicePixelRatio||1,2);const rect=c.getBoundingClientRect();if(rect.width<4||rect.height<4)return false;c.width=Math.round(rect.width*dpr);c.height=Math.round(rect.height*dpr);c.__dpr=dpr;c.__w=rect.width;c.__h=rect.height;const ctx=c.getContext('2d');ctx.setTransform(dpr,0,0,dpr,0,0);const mono=(getComputedStyle(document.documentElement).getPropertyValue('--mono')||'JetBrains Mono, monospace').trim();ctx.font=`500 ${FONT_SIZE}px ${mono}`;ctx.textBaseline='top';c.__ctx=ctx;return true;}
+  function draw(c,t){if(!c.__ctx)return;const ctx=c.__ctx,w=c.__w,h=c.__h;ctx.clearRect(0,0,w,h);const cols=Math.ceil(w/CELL);const rows=Math.ceil(h/CELL);for(let r=0;r<rows;r++){for(let cc=0;cc<cols;cc++){const n=(Math.sin(cc*.18+t)+Math.sin(r*.24-t*.7)+Math.sin((cc+r)*.12+t*.45)+Math.sin(Math.hypot(cc-cols*.5,r-rows*.5)*.16-t*.55))/4;const v=(n+1)/2;if(v<.22)continue;const idx=Math.min(PALETTE.length-1,Math.floor(v*PALETTE.length));const ch=PALETTE[idx];if(ch===' ')continue;const alpha=.08+(v-.22)*.55;ctx.fillStyle=`rgba(201,168,107,${alpha.toFixed(3)})`;ctx.fillText(ch,cc*CELL,r*CELL);}}}
+  function resizeAll(){canvases.forEach(setup);}
+  let pending=null;window.addEventListener('resize',()=>{if(window.__lowPowerMode)return;if(pending)cancelAnimationFrame(pending);pending=requestAnimationFrame(resizeAll);},{passive:true});
+  let t0=performance.now(),frame=0,asciiRAF=0,running=false;
+  function tick(now){if(!running||window.__lowPowerMode){running=false;asciiRAF=0;return;}const t=(now-t0)/1000*.55;frame++;canvases.forEach(c=>{const slide=c.closest('.slide');const rect=slide?slide.getBoundingClientRect():null;const onscreen=rect&&rect.right>0&&rect.left<window.innerWidth;if(!onscreen&&(frame&3)!==0)return;draw(c,t);});asciiRAF=requestAnimationFrame(tick);}
+  function start(){if(running||window.__lowPowerMode)return;resizeAll();t0=performance.now();frame=0;running=true;asciiRAF=requestAnimationFrame(tick);}
+  function stop(){running=false;if(asciiRAF)cancelAnimationFrame(asciiRAF);if(pending)cancelAnimationFrame(pending);asciiRAF=0;pending=null;canvases.forEach(c=>{if(c.__ctx)c.__ctx.clearRect(0,0,c.__w||0,c.__h||0);});}
+  addEventListener('swiss-low-power-change',e=>{e.detail.on?stop():start();});
+  start();
+})();
+</script>
+</body>
+</html>

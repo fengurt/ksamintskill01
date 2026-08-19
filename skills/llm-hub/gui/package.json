@@ -1,0 +1,12 @@
+{
+  "name": "llm-hub-gui",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Control panel for the llm-hub registry: browse providers/hubs and test connectivity. Keys resolved from 1Password at runtime.",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "engines": { "node": ">=20" }
+}

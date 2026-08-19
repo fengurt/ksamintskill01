@@ -1,0 +1,28 @@
+# LLM Hub registry. Tab-separated. Edit to add providers or fill keys.
+# op_ref = 1Password secret reference (op://<vault>/<item>/<field-id>) — NOT a secret.
+# Set op_ref to EMPTY when no API key is stored in 1Password yet.
+# All items live in vault id fyg24alzrp23y727yk5n6jt4cu (Personal).
+# columns: provider	group	base_url	protocol	op_ref	default_model
+# protocol: openai | anthropic | liblib (signed image-gen, AK+SK pair via op_ref="<ak-ref>|<sk-ref>")
+ali-tongyi	official	https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1	openai	op://fyg24alzrp23y727yk5n6jt4cu/jrxndmsama43aak6dnas3zfmcm/x7ow5p57rtzlhei73w4b7lzzwu	qwen3.7-max
+openai	official	https://api.openai.com/v1	openai	op://fyg24alzrp23y727yk5n6jt4cu/72hqkevc2pcojyejsi7flklftq/7vcdtgu575ey36r3oqnrhisenm	gpt-4o-mini
+anthropic	official	https://api.anthropic.com	anthropic	op://fyg24alzrp23y727yk5n6jt4cu/p6enetifcz6p5q2ilg4c6eucv4/oimqkjzqgmqmtcvegbdtm2pgd4	claude-3-5-sonnet-latest
+deepseek	official	https://api.deepseek.com	openai	op://fyg24alzrp23y727yk5n6jt4cu/ke5q5ogtyst3f2ihpgsruqzpw4/wxbpl7g375waoqcne7cbiiko4e	deepseek-chat
+ark	official	https://ark.cn-beijing.volces.com/api/v3	openai	op://fyg24alzrp23y727yk5n6jt4cu/vj4j37fbdzjf4ms4wgnqxm55uy/45b236xbwdef2dog6jzvcqscmu	doubao-seed-1-6-250615
+moonshot	official	https://api.moonshot.cn/v1	openai	op://fyg24alzrp23y727yk5n6jt4cu/udxh64pltupmqce23t7cebghpy/yye2gemgu5kjstksfrfd6cbe6u	moonshot-v1-8k
+minimax	official	https://api.minimaxi.com/v1	openai	op://fyg24alzrp23y727yk5n6jt4cu/foppb72cgbfiy2uv6lbva3y7ea/bp73nkg6nvmsmvqag5yuvmtzpm	MiniMax-Text-01
+together	official	https://api.together.xyz/v1	openai	op://fyg24alzrp23y727yk5n6jt4cu/im733he7svghqbk5367hwsdyza/uu62vto5fw3adcv3w2ofriva3y	-
+gemini	official	https://generativelanguage.googleapis.com/v1beta/openai	openai	EMPTY	gemini-2.0-flash
+xai-grok	official	https://api.x.ai/v1	openai	EMPTY	grok-2-latest
+nvidia	official	https://integrate.api.nvidia.com/v1	openai	EMPTY	-
+fireworks	official	https://api.fireworks.ai/inference/v1	openai	EMPTY	-
+zhipu-glm	official	https://open.bigmodel.cn/api/paas/v4	openai	EMPTY	glm-4
+nofinity	hub	https://api.nofinity.tech/v1	openai	EMPTY	-
+n1n	hub	https://api.n1n.ai/v1	openai	op://fyg24alzrp23y727yk5n6jt4cu/tb2u5civ3fmr5dn4ei6hn6kjf4/j3maj7wdoarjz46ju4qz6pcpbq	gpt-4o-mini
+openrouter	hub	https://openrouter.ai/api/v1	openai	op://fyg24alzrp23y727yk5n6jt4cu/jzuxgbjeelgw2igacajljyuuf4/password	openai/gpt-4o-mini
+newapi-apuch	hub	https://new01.apuch.cn/v1	openai	op://fyg24alzrp23y727yk5n6jt4cu/l3qqg2vrtny5qy7nnqyrnf6b5q/lloay462cvwqjlh24txmtgxioi	gpt-4o-mini
+ocoolai	hub	https://one.ocoolai.com/v1	openai	op://fyg24alzrp23y727yk5n6jt4cu/5kkpiy6bzumptzzwfschtx57oa/obncsvj7osipz2unusivv5ly3a	gpt-4o-mini
+oneapi-sealos	hub	https://socmmdpx.cloud.sealos.io/v1	openai	EMPTY	-
+poloai	hub	https://poloai.top/v1	openai	EMPTY	-
+dmxapi	hub	https://www.dmxapi.cn/v1	openai	EMPTY	-
+liblib	image	https://openapi.liblibai.cloud	liblib	op://fyg24alzrp23y727yk5n6jt4cu/w6bf2ofwtbsavfzqpay3yeepou/yjbrdqmtpsgbbbzay6iqjdsdiy|op://fyg24alzrp23y727yk5n6jt4cu/w6bf2ofwtbsavfzqpay3yeepou/o5t4w3gxmne7avvoeqz6zmlp5i	-

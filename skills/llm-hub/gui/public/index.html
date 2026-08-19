@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>LLM Hub · Control Panel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+<div class="glow" aria-hidden="true"></div>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="logo" aria-hidden="true">
+      <svg viewBox="0 0 48 48" width="44" height="44" fill="none">
+        <rect x="1.5" y="1.5" width="45" height="45" rx="12" stroke="currentColor" stroke-width="2" opacity=".5"/>
+        <g stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+          <line x1="24" y1="24" x2="24" y2="9"/><line x1="24" y1="24" x2="37" y2="16.5"/>
+          <line x1="24" y1="24" x2="37" y2="31.5"/><line x1="24" y1="24" x2="24" y2="39"/>
+          <line x1="24" y1="24" x2="11" y2="31.5"/><line x1="24" y1="24" x2="11" y2="16.5"/>
+        </g>
+        <g fill="currentColor">
+          <circle cx="24" cy="9" r="3"/><circle cx="37" cy="16.5" r="3"/><circle cx="37" cy="31.5" r="3"/>
+          <circle cx="24" cy="39" r="3"/><circle cx="11" cy="31.5" r="3"/><circle cx="11" cy="16.5" r="3"/>
+        </g>
+        <circle cx="24" cy="24" r="5.5" fill="#0a0c05" stroke="currentColor" stroke-width="2.6"/>
+      </svg>
+    </span>
+    <div class="brand-text">
+      <div class="mark">LLM&nbsp;HUB</div>
+      <div class="tag">connectivity <em>control&nbsp;panel</em></div>
+    </div>
+  </div>
+  <div class="readouts" id="readouts">
+    <div class="ro"><span class="ro-n" id="stat-online">—</span><span class="ro-l">online</span></div>
+    <div class="ro"><span class="ro-n" id="stat-config">—</span><span class="ro-l">configured</span></div>
+    <div class="ro"><span class="ro-n dim" id="stat-empty">—</span><span class="ro-l">empty</span></div>
+    <div class="ro"><span class="ro-n" id="stat-latency">—</span><span class="ro-l">avg&nbsp;ms</span></div>
+  </div>
+  <div class="actions">
+    <button class="btn" id="btn-refresh" title="Reload state">↻ Refresh</button>
+    <button class="btn" id="btn-keys" title="Proxy keys & gateway">⚿ API Keys</button>
+    <button class="btn primary" id="btn-testall">✓ Check all keys</button>
+    <button class="btn ghost small" id="btn-logout" title="Sign out" hidden>⏻</button>
+  </div>
+</header>
+
+<main id="board">
+  <section class="group" data-group="official">
+    <div class="group-head"><h2>Official <em>· direct</em></h2><span class="count" id="count-official">0</span></div>
+    <div class="grid" id="grid-official"></div>
+  </section>
+  <section class="group" data-group="hub">
+    <div class="group-head"><h2>Gateways <em>· hubs</em></h2><span class="count" id="count-hub">0</span></div>
+    <div class="grid" id="grid-hub"></div>
+  </section>
+  <section class="group" data-group="image">
+    <div class="group-head"><h2>Image <em>· signed</em></h2><span class="count" id="count-image">0</span></div>
+    <div class="grid" id="grid-image"></div>
+  </section>
+</main>
+
+<aside class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer-inner">
+    <button class="drawer-close" id="drawer-close">✕</button>
+    <div class="dled" id="d-led"></div>
+    <h3 id="d-name">—</h3>
+    <div class="d-chips" id="d-chips"></div>
+    <label class="d-field"><span>base url</span><code id="d-base">—</code></label>
+    <label class="d-field"><span>model <em>(for chat test)</em></span><input id="d-model" spellcheck="false" placeholder="model id" /></label>
+    <div class="d-run">
+      <button class="btn primary" id="d-check" title="Fast: validate the key via /models">✓ Check key</button>
+      <button class="btn" id="d-chat" title="Full: send a chat completion">▷ Chat test</button>
+      <span id="d-spin" class="spin" hidden></span>
+      <b id="d-elapsed" class="d-elapsed" hidden>0.0s</b>
+    </div>
+    <div class="d-result" id="d-result"></div>
+    <label class="d-field"><span>curl</span><textarea id="d-curl" readonly rows="6"></textarea></label>
+    <button class="btn ghost small" id="d-copy">Copy curl</button>
+  </div>
+</aside>
+<div class="scrim" id="scrim" hidden></div>
+
+<footer class="foot"><span id="foot-msg">one proxy key · all providers · keys encrypted, resolved server-side</span></footer>
+
+<!-- login gate -->
+<div class="login" id="login" hidden>
+  <div class="login-card">
+    <span class="logo lg" aria-hidden="true">
+      <svg viewBox="0 0 48 48" width="56" height="56" fill="none">
+        <rect x="1.5" y="1.5" width="45" height="45" rx="12" stroke="currentColor" stroke-width="2" opacity=".5"/>
+        <g stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="24" y1="24" x2="24" y2="9"/><line x1="24" y1="24" x2="37" y2="16.5"/><line x1="24" y1="24" x2="37" y2="31.5"/><line x1="24" y1="24" x2="24" y2="39"/><line x1="24" y1="24" x2="11" y2="31.5"/><line x1="24" y1="24" x2="11" y2="16.5"/></g>
+        <g fill="currentColor"><circle cx="24" cy="9" r="3"/><circle cx="37" cy="16.5" r="3"/><circle cx="37" cy="31.5" r="3"/><circle cx="24" cy="39" r="3"/><circle cx="11" cy="31.5" r="3"/><circle cx="11" cy="16.5" r="3"/></g>
+        <circle cx="24" cy="24" r="5.5" fill="#0a0c05" stroke="currentColor" stroke-width="2.6"/>
+      </svg>
+    </span>
+    <h2>LLM Hub</h2>
+    <p>Enter an <b>admin key</b> to manage the gateway.</p>
+    <input id="login-key" type="password" placeholder="sk-hub-admin-…" spellcheck="false" autocomplete="off" />
+    <button class="btn primary" id="login-go">Sign in</button>
+    <div class="login-err" id="login-err"></div>
+    <small>First run? The admin key is printed in the server logs.</small>
+  </div>
+</div>
+
+<!-- keys / gateway modal -->
+<div class="scrim" id="keys-scrim" hidden></div>
+<div class="modal" id="keys-modal" hidden>
+  <div class="modal-inner">
+    <button class="drawer-close" id="keys-close">✕</button>
+    <h3>Gateway <em>· one key, all providers</em></h3>
+    <div class="gw-usage">
+      <label class="d-field"><span>base url</span><code id="gw-base">—</code></label>
+      <pre id="gw-snippet" class="snippet"></pre>
+      <button class="btn ghost small" id="gw-copy">Copy example</button>
+      <p class="hint">Route by model: <code>provider:model</code> — e.g. <code>deepseek:deepseek-chat</code>, <code>ali-tongyi:qwen3.7-max</code>.</p>
+    </div>
+    <div class="keys-head"><h4>Proxy keys</h4></div>
+    <div class="keys-new">
+      <input id="key-name" placeholder="name (e.g. cli, app-prod)" spellcheck="false" />
+      <select id="key-role"><option value="user">user</option><option value="admin">admin</option></select>
+      <button class="btn primary small" id="key-create">+ Create</button>
+    </div>
+    <div id="key-reveal" class="key-reveal" hidden></div>
+    <div id="keys-list" class="keys-list"></div>
+  </div>
+</div>
+
+<script src="/app.js"></script>
+</body>
+</html>

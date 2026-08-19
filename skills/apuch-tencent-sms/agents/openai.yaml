@@ -1,0 +1,4 @@
+interface:
+  display_name: "APUCH Tencent SMS"
+  short_description: "Safely operate APUCH Tencent SMS via 1Password"
+  default_prompt: "Use $apuch-tencent-sms to verify or operate the APUCH Tencent SMS production configuration safely."

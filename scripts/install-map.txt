@@ -1,0 +1,24 @@
+# name<TAB>comma-separated targets: cursor,claude,codex
+# Authored skills migrated into skills/
+longdoc-to-deck	cursor,claude,codex
+TIANSIGHT-html-slides	cursor
+ali-tongyi	cursor
+context7-mcp	cursor
+guizang-ppt	cursor,claude
+llm-hub	cursor
+mac-clean	cursor
+md-to-html-slides	cursor
+page-audit	cursor
+page-loop	cursor
+paper-fetch	cursor
+tableuser	cursor
+three-layer-data-pack	cursor
+ark-api	claude
+deepseek-api	claude
+design-prompts	claude
+n1n-ai-gateway	claude
+stitch-export-reuse	claude
+apuch-tencent-sms	codex
+iptrust-taste-skill	codex
+ksamint-macos-sign-release	codex
+ksamint-mcp-skill-publisher	codex

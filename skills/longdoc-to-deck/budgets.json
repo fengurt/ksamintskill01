@@ -1,0 +1,19 @@
+{
+  "version": "1.0.0",
+  "canvas_note": "Brand-agnostic fit budgets aligned with md-to-html-slides L2 jobs",
+  "roles": {
+    "cover": { "chars_max": 400, "chars_min": 40, "rows_max": 0, "bullets_max": 4 },
+    "toc": { "chars_max": 900, "chars_min": 80, "rows_max": 0, "bullets_max": 16 },
+    "chapter": { "chars_max": 300, "chars_min": 20, "rows_max": 0, "bullets_max": 2 },
+    "readme": { "chars_max": 1100, "chars_min": 40, "rows_max": 8, "bullets_max": 10 },
+    "statement": { "chars_max": 900, "chars_min": 20, "rows_max": 0, "bullets_max": 8 },
+    "kpi": { "chars_max": 600, "chars_min": 20, "rows_max": 0, "bullets_max": 6, "cards_min": 3, "cards_max": 6 },
+    "roster": { "chars_max": 1600, "chars_min": 40, "rows_max": 12, "rows_min": 1, "bullets_max": 2 },
+    "chart": { "chars_max": 500, "chars_min": 20, "rows_max": 0, "bullets_max": 4 },
+    "chart-table": { "chars_max": 400, "chars_min": 20, "rows_max": 8, "bullets_max": 3 },
+    "matrix": { "chars_max": 500, "chars_min": 20, "rows_max": 9, "bullets_max": 2 },
+    "compare": { "chars_max": 900, "chars_min": 40, "rows_max": 8, "bullets_max": 8 },
+    "verdict": { "chars_max": 700, "chars_min": 20, "rows_max": 4, "bullets_max": 6 }
+  },
+  "overflow_title_suffix": "续"
+}

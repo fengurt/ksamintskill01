@@ -1,0 +1,18 @@
+# Run from the gui/ directory:  docker compose up -d --build
+services:
+  llm-hub:
+    build:
+      context: ..            # llm-hub/ (so registry.tsv is in context)
+      dockerfile: gui/Dockerfile
+    image: llm-hub:latest
+    container_name: llm-hub
+    platform: linux/amd64    # Tencent AMD server
+    ports:
+      - "7878:7878"
+    env_file:
+      - ./deploy.env         # LLMHUB_ADMIN_KEY, LLMHUB_DEFAULT_PROVIDER, optional LLMHUB_PEM_PASSPHRASE
+    volumes:
+      - ./data:/app/data                                         # proxy keys + connectivity state
+      - ./secrets/keys.enc:/app/secrets/keys.enc:ro              # ENCRYPTED provider keys (safe at rest)
+      - ./secrets/llmhub_private.pem:/app/secrets/llmhub_private.pem:ro  # the local PEM — decrypts keys.enc
+    restart: unless-stopped
