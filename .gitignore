@@ -35,3 +35,8 @@ venv/
 
 # Acceptance fixtures (link from baslide01; do not commit large copies)
 fixtures/local/
+
+# Skill Hub GUI runtime state
+gui/data/
+!gui/data/.gitkeep
+gui/node_modules/

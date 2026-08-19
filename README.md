@@ -6,9 +6,10 @@ Private skill monorepo: single source of truth for authored Agent Skills, plus a
 
 ```
 skills/                 # Authored skills (source of truth)
+gui/                    # Skill Hub local control panel (port 7979)
 registry/sources.yaml   # Upstream libs, pinned commits
 vendor/                 # gitignored; populated by sync-vendor.sh
-scripts/                # segment, coverage, catalog, install-links
+scripts/                # segment, coverage, catalog, install-links, dev-up
 docs/ATTRIBUTION.md     # Licenses and source-available notes
 ```
 
@@ -26,6 +27,9 @@ Downstream: `adapters/md-to-html-slides.md` maps `deck.json` → the `md-to-html
 ## Quick start
 
 ```bash
+# Local Skill Hub GUI (status, gallery, projects, jobs) — http://127.0.0.1:7979
+bash scripts/dev-up.sh
+
 # Install symlinks into ~/.cursor/skills, ~/.claude/skills, ~/.codex/skills
 bash scripts/install-links.sh
 
@@ -37,6 +41,10 @@ python3 scripts/build-catalog.py
 python3 skills/longdoc-to-deck/scripts/segment.py path/to/doc.md -o .work/run1
 python3 skills/longdoc-to-deck/scripts/check-coverage.py --stage index --work .work/run1
 ```
+
+## Skill Hub GUI
+
+See [gui/README.md](gui/README.md). Observability + allowlisted job launcher; coverage and fidelity **gates remain the Python scripts**.
 
 ## Catalog
 

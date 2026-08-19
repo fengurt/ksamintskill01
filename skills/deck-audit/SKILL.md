@@ -59,6 +59,8 @@ Hard fails block the adapter. Warns (`ORDER` `DENOM` `PROSE`) go to stage 4.
 
 ```bash
 python3 skills/deck-audit/scripts/audit-html.py --work "$WORK" --html "$DECK.html"
+# always writes work/slides.json (index, title, text, mapped_page, map_reason) for the Skill Hub inspector;
+# override path with --dump-slides PATH
 ```
 
 Slide→page map: `data-page-id` → element `id` → title match → document order. Ambiguities are reported, never guessed silently.

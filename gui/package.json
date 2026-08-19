@@ -1,0 +1,14 @@
+{
+  "name": "ksamint-skill-hub",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Local control panel for the ksamintskill01 skill monorepo: status, gallery, projects, pipeline jobs.",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

@@ -34,3 +34,7 @@ After adding or renaming a skill:
 ```bash
 python3 scripts/build-catalog.py
 ```
+
+## Skill Hub GUI
+
+Local panel at `gui/` (`bash scripts/dev-up.sh` → http://127.0.0.1:7979). It observes repo/sync status, skills, `.work` runs, and can launch **allowlisted** templates. Coverage and fidelity gates remain authoritative in the Python scripts — do not treat the GUI as a substitute for `check-coverage.py` / `deck-audit`. Stages b–c of `longdoc-to-deck` are still agent-written; bootstrap output is a mechanical draft.

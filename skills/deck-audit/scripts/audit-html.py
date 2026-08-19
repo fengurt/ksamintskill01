@@ -142,8 +142,8 @@ def load_accepted(path: Path | None) -> set[tuple[str, str, str]]:
 
 def map_slides_to_pages(
     slides: list[dict], pages: list[dict]
-) -> tuple[dict[int, str], list[dict]]:
-    """Return slide_index → page_id and ambiguity/unmapped notes."""
+) -> tuple[dict[int, str], list[dict], dict[int, str]]:
+    """Return slide_index → page_id, notes, and slide_index → map method."""
     by_id = {p["id"]: p for p in pages}
     title_index: dict[str, list[str]] = {}
     for p in pages:
@@ -152,6 +152,7 @@ def map_slides_to_pages(
             title_index.setdefault(t, []).append(p["id"])
 
     mapping: dict[int, str] = {}
+    methods: dict[int, str] = {}
     notes: list[dict] = []
     used_pages: set[str] = set()
     order_cursor = 0
@@ -209,6 +210,7 @@ def map_slides_to_pages(
             )
             continue
         mapping[idx] = pid
+        methods[idx] = method
         used_pages.add(pid)
         if method in {"order", "ambiguous"}:
             notes.append(
@@ -218,7 +220,7 @@ def map_slides_to_pages(
                     "detail": f"mapped to {pid} via {method}",
                 }
             )
-    return mapping, notes
+    return mapping, notes, methods
 
 
 def main() -> int:
@@ -230,6 +232,12 @@ def main() -> int:
         "--source",
         default=None,
         help="Degraded mode: source.md (unused for anchors; mapping by title/order only)",
+    )
+    parser.add_argument(
+        "--dump-slides",
+        default=None,
+        metavar="PATH",
+        help="Write slides.json (index, id, title, text, mapped page, map reason) for GUI",
     )
     args = parser.parse_args()
     work = Path(args.work)
@@ -258,7 +266,35 @@ def main() -> int:
     parser_html = SlideParser()
     parser_html.feed(raw)
     slides = parser_html.slides
-    mapping, map_notes = map_slides_to_pages(slides, pages)
+    mapping, map_notes, methods = map_slides_to_pages(slides, pages)
+
+    # Always write slides.json under work for the GUI inspector; --dump-slides can override path.
+    dump_target = Path(args.dump_slides) if args.dump_slides else (work / "slides.json")
+    dump_rows = []
+    for slide in slides:
+        idx = slide["index"]
+        attrs = slide.get("attrs") or {}
+        dump_rows.append(
+            {
+                "slide": idx,
+                "id": attrs.get("id") or attrs.get("data-page-id") or "",
+                "title": slide.get("title") or "",
+                "text": slide.get("text") or "",
+                "mapped_page": mapping.get(idx),
+                "map_reason": methods.get(idx) or "unmapped",
+                "data_units": attrs.get("data-units") or "",
+            }
+        )
+    dump_target.write_text(
+        json.dumps(
+            {"version": "1.0.0", "html": str(html_path), "slides": dump_rows},
+            ensure_ascii=False,
+            indent=2,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    print(f"slides dump → {dump_target}", file=sys.stderr)
 
     findings: list[dict] = []
     for note in map_notes:
