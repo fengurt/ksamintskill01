@@ -16,7 +16,7 @@ NUMBER_RE = re.compile(
     r")(?![\w.])"
 )
 DATE_RE = re.compile(r"\b\d{4}[-/.年]\d{1,2}([-/.月]\d{1,2})?日?\b")
-CJK_NOUN_RE = re.compile(r"[\u4e00-\u9fff]{2,}(?:\s*[A-Za-z0-9一二三四五六七八九十]+)?")
+CJK_NOUN_RE = re.compile(r"[\u4e00-\u9fff]{2,}(?:[ \t]*[A-Za-z0-9一二三四五六七八九十]+)?")
 TITLE_CASE_RE = re.compile(r"\b[A-Z][a-z]+(?:\s+[A-Z][a-z]+){0,3}\b")
 TABLE_CELL_RE = re.compile(r"^\s*\|(.+)\|\s*$", re.M)
 

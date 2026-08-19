@@ -2,6 +2,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { randomBytes } from "node:crypto";
 import { DATA_DIR, safeWorkDir, safeResolve, relToRepo } from "./paths.js";
+import { normalizeStandards } from "./templates.js";
 
 const FILE = join(DATA_DIR, "projects.json");
 
@@ -60,8 +61,10 @@ export function createProject(input) {
     source,
     html,
     work,
-    skin: input.skin || null,
-    genre: input.genre || null,
+    skin: input.skin || input.theme || null,
+    theme: input.theme || input.skin || "TIANSIGHT",
+    standards: normalizeStandards(input.standards),
+    genre: input.genre || "diagnosis",
     notes: input.notes || "",
     gate_history: [],
     created_at: now,
@@ -81,6 +84,8 @@ export function updateProject(id, patch) {
   if (patch.source) next.source = relToRepo(safeResolve(patch.source));
   if (patch.html) next.html = relToRepo(safeResolve(patch.html));
   if (patch.work) next.work = relToRepo(safeWorkDir(patch.work));
+  if (patch.theme) next.theme = patch.theme;
+  if (patch.standards) next.standards = normalizeStandards(patch.standards);
   data.projects[i] = next;
   save(data);
   return next;

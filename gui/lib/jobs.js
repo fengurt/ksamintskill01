@@ -3,8 +3,8 @@ import { existsSync, mkdirSync, writeFileSync, appendFileSync, readFileSync, rea
 import { join } from "node:path";
 import { randomBytes } from "node:crypto";
 import { EventEmitter } from "node:events";
-import { DATA_DIR, REPO_ROOT, safeWorkDir, safeResolve, expandHome } from "./paths.js";
-import { getTemplate, resolveStep } from "./templates.js";
+import { DATA_DIR, REPO_ROOT, BASLIDE_ROOT, safeWorkDir, safeResolve, expandHome } from "./paths.js";
+import { getTemplate, resolveStep, stepsFor, normalizeStandards } from "./templates.js";
 import { appendGate } from "./projects.js";
 
 const JOBS_DIR = join(DATA_DIR, "jobs");
@@ -33,6 +33,7 @@ function persist(job) {
       work: job.ctx.work,
       source: job.ctx.source,
       html: job.ctx.html,
+      theme: job.ctx.theme,
     },
   };
   writeFileSync(join(JOBS_DIR, `${job.id}.json`), JSON.stringify(slim, null, 2) + "\n");
@@ -93,7 +94,7 @@ function publicJob(job) {
     finished_at: job.finished_at,
     error: job.error,
     mechanicalDraft: job.mechanicalDraft,
-    ctx: { work: job.ctx.work, source: job.ctx.source, html: job.ctx.html },
+    ctx: { work: job.ctx.work, source: job.ctx.source, html: job.ctx.html, theme: job.ctx.theme },
     logTail: job.log.slice(-80),
   };
 }
@@ -103,11 +104,31 @@ export function subscribe(jobId, fn) {
   return () => bus.off(jobId, fn);
 }
 
-export async function startJob({ templateId, projectId = null, work, source, html }) {
+export async function startJob({
+  templateId,
+  projectId = null,
+  work,
+  source,
+  html,
+  theme,
+  standards,
+}) {
   const tpl = getTemplate(templateId);
   if (!tpl) throw new Error(`unknown template: ${templateId}`);
+  const std = normalizeStandards(standards);
 
-  const ctx = { work: null, source: null, html: null, workAbs: null, sourceAbs: null, htmlAbs: null };
+  const ctx = {
+    work: null,
+    source: null,
+    html: null,
+    workAbs: null,
+    sourceAbs: null,
+    htmlAbs: null,
+    theme: theme || "TIANSIGHT",
+    baslide: BASLIDE_ROOT,
+    failOnOverfull: std["fit-overfull"],
+    standards: std,
+  };
   if (tpl.needs.includes("work") || work) {
     ctx.workAbs = safeWorkDir(work);
     ctx.work = ctx.workAbs.replace(REPO_ROOT + "/", "");
@@ -124,16 +145,18 @@ export async function startJob({ templateId, projectId = null, work, source, htm
     ctx.html = ctx.htmlAbs;
   }
 
+  const planned = stepsFor(templateId, std);
   const id = `job_${randomBytes(4).toString("hex")}`;
   const job = {
     id,
     template: templateId,
     projectId,
     status: "running",
-    steps: tpl.steps.map((s) => ({
+    steps: planned.map((s) => ({
       id: s.id,
       label: s.label,
       mechanical: !!s.mechanical,
+      phase: s.phase || null,
       status: "pending",
       exitCode: null,
       started_at: null,
@@ -201,6 +224,12 @@ async function runPipeline(job) {
     step.exitCode = code;
     step.finished_at = Date.now();
     step.status = code === 0 ? "ok" : "fail";
+    if (step.id === "render-slides" && code === 0 && job.ctx.workAbs) {
+      const deckHtml = join(job.ctx.workAbs, "slides/deck.html");
+      job.ctx.htmlAbs = deckHtml;
+      job.ctx.html = deckHtml;
+      emit(job, "note", { text: `Rendered deck → ${deckHtml}` });
+    }
     emit(job, "step_end", { step: step.id, exitCode: code, status: step.status });
     persist(job);
     if (job.projectId) {

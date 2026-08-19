@@ -64,6 +64,7 @@ async function renderRunDetail(root, runId) {
       <a class="btn ghost" href="#/runs">← runs</a>
       <span class="spacer"></span>
       <a class="btn" href="#/runs/${esc(runId)}/audit">Audit inspector</a>
+      ${run.deckHref ? `<a class="btn" href="${esc(run.deckHref)}" target="_blank">Open deck</a>` : ""}
       <button class="btn ghost" id="copy-brief">Copy agent brief</button>
     </div>
     <h1>${esc(runId)}</h1>

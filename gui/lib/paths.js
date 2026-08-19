@@ -34,6 +34,10 @@ export function expandHome(p) {
   return p;
 }
 
+export const BASLIDE_ROOT = resolve(
+  expandHome(process.env.BASLIDE_ROOT || join(homedir(), "cpro01/0thebrain01/baslide01"))
+);
+
 export function underRoot(abs, root) {
   const a = normalize(abs) + sep;
   const r = normalize(root) + sep;

@@ -14,6 +14,7 @@ const ARTIFACTS = [
   "audit.md",
   "slides.json",
   "fit-report.json",
+  "slides/deck.html",
 ];
 
 function mtime(p) {
@@ -144,6 +145,8 @@ export function getRun(runId) {
         }
       : null,
     slides: slides?.slides || null,
+    deckHtml: existsSync(join(abs, "slides/deck.html")),
+    deckHref: existsSync(join(abs, "slides/deck.html")) ? `/slides/${basename(abs)}/deck.html` : null,
     auditMd,
   };
 }

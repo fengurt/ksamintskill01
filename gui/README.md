@@ -35,10 +35,13 @@ Frees only port 7979 when the listener is this project's `server.js`.
 
 ## Templates
 
+- `alongslides` — four phases: material → hop1 → themed render → hop2. Theme from baslide01 skins (`GET /api/themes`); only **TIANSIGHT** is mechanical. Standards: `fit-overfull`, `hop1`, `hop2`. Rendered deck: `/slides/<run>/deck.html`
 - `longdoc-to-deck` — segment → coverage → **acceptance-bootstrap (mechanical draft)** → fit → hop1 audit
 - `deck-audit-hop2` — `audit-html.py --dump-slides` → report
 - `repo-sync` — sync-vendor → catalog → lint → scan-secrets
 - `install-links` — symlink install map
+
+`BASLIDE_ROOT` (default `~/cpro01/0thebrain01/baslide01`) points at job templates + `TIANSIGHT-v2.css`.
 
 Stages b (outline) and c (pagination) of `longdoc-to-deck` remain **agent/model stages**. The bootstrap step is labelled mechanical; copy the agent brief from the project/run view into Cursor to curate.
 

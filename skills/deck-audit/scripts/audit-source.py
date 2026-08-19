@@ -112,12 +112,19 @@ def main() -> int:
                     continue
             if norm in mat_norms:
                 continue
-            # ALTER: near-miss against material
+            # Proper nouns: if the phrase is still on the page, extractor chunking is not a drop
+            if a["kind"] == "proper-noun":
+                mat_text_path = work / "pages" / f"{pid}.md"
+                mat_blob = mat_text_path.read_text(encoding="utf-8") if mat_text_path.is_file() else ""
+                if a["raw"] and a["raw"] in mat_blob:
+                    continue
+            # ALTER: near-miss against material (numeric kinds only)
             altered = None
-            for mn, ma in mat_by_norm.items():
-                if ma["kind"] in NUMERIC_KINDS and near_miss(norm, mn):
-                    altered = ma
-                    break
+            if a["kind"] in NUMERIC_KINDS:
+                for mn, ma in mat_by_norm.items():
+                    if ma["kind"] in NUMERIC_KINDS and near_miss(norm, mn):
+                        altered = ma
+                        break
             if altered:
                 code = "ALTER"
                 detail = f"source {a['raw']} ≈ page {altered['raw']}"

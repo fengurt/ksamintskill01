@@ -1,5 +1,5 @@
 import { join } from "node:path";
-import { REPO_ROOT } from "./paths.js";
+import { REPO_ROOT, BASLIDE_ROOT } from "./paths.js";
 
 /**
  * Allowlisted pipeline templates. Each step is a named recipe resolved by jobs.js.
@@ -56,6 +56,28 @@ export const TEMPLATES = {
     mechanicalDraft: false,
     steps: [{ id: "install-links", label: "install-links.sh" }],
   },
+  alongslides: {
+    id: "alongslides",
+    title: "Alongslides · longdoc → themed slides",
+    description:
+      "Four phases: material (segment/bootstrap/fit) → hop1 audit → TIANSIGHT render → hop2 audit. Theme + standards selected at project create.",
+    needs: ["source", "work"],
+    mechanicalDraft: true,
+    phases: 4,
+    steps: [
+      { id: "segment", label: "segment.py", phase: 1 },
+      { id: "coverage-index", label: "coverage · index", phase: 1 },
+      { id: "bootstrap", label: "acceptance-bootstrap (mechanical)", mechanical: true, phase: 1 },
+      { id: "estimate-fit", label: "estimate-fit", phase: 1, standard: "fit-overfull" },
+      { id: "coverage-deck", label: "coverage · deck", phase: 1 },
+      { id: "extract-anchors", label: "extract-anchors", phase: 2, standard: "hop1" },
+      { id: "audit-source", label: "audit-source (hop1)", phase: 2, standard: "hop1" },
+      { id: "audit-report", label: "audit-report", phase: 2, standard: "hop1" },
+      { id: "render-slides", label: "render-deck (theme)", phase: 3 },
+      { id: "audit-html", label: "audit-html hop2", phase: 4, standard: "hop2" },
+      { id: "audit-report-2", label: "audit-report (hop2)", phase: 4, standard: "hop2" },
+    ],
+  },
 };
 
 export function listTemplates() {
@@ -64,6 +86,28 @@ export function listTemplates() {
 
 export function getTemplate(id) {
   return TEMPLATES[id] || null;
+}
+
+const DEFAULT_STANDARDS = { "fit-overfull": true, hop1: true, hop2: true };
+
+export function normalizeStandards(raw) {
+  const src = raw && typeof raw === "object" ? raw : {};
+  return {
+    "fit-overfull": src["fit-overfull"] !== false,
+    hop1: src.hop1 !== false,
+    hop2: src.hop2 !== false,
+  };
+}
+
+/** Filter template steps by project standards (gates). Render always stays. */
+export function stepsFor(templateId, standards) {
+  const tpl = getTemplate(templateId);
+  if (!tpl) return [];
+  const std = { ...DEFAULT_STANDARDS, ...normalizeStandards(standards) };
+  return tpl.steps.filter((s) => {
+    if (!s.standard) return true;
+    return !!std[s.standard];
+  });
 }
 
 /** Resolve a step id + project context into {cmd, args, cwd, label}. */
@@ -86,6 +130,8 @@ export function resolveStep(stepId, ctx) {
       "audit-source",
       "audit-html",
       "audit-report",
+      "audit-report-2",
+      "render-slides",
     ].includes(stepId) &&
     !work
   ) {
@@ -112,17 +158,16 @@ export function resolveStep(stepId, ctx) {
       cmd: py,
       args: [join(REPO_ROOT, "skills/longdoc-to-deck/scripts/acceptance-bootstrap.py"), "--work", work],
     }),
-    "estimate-fit": () => ({
-      cmd: py,
-      args: [
+    "estimate-fit": () => {
+      const args = [
         join(REPO_ROOT, "skills/longdoc-to-deck/scripts/estimate-fit.py"),
         "--work",
         work,
         "--write",
-        "--fail-on",
-        "overfull",
-      ],
-    }),
+      ];
+      if (ctx.failOnOverfull !== false) args.push("--fail-on", "overfull");
+      return { cmd: py, args };
+    },
     "coverage-deck": () => ({
       cmd: py,
       args: [
@@ -156,6 +201,24 @@ export function resolveStep(stepId, ctx) {
     "audit-report": () => ({
       cmd: py,
       args: [join(REPO_ROOT, "skills/deck-audit/scripts/audit-report.py"), "--work", work],
+    }),
+    "audit-report-2": () => ({
+      cmd: py,
+      args: [join(REPO_ROOT, "skills/deck-audit/scripts/audit-report.py"), "--work", work],
+    }),
+    "render-slides": () => ({
+      cmd: py,
+      args: [
+        join(REPO_ROOT, "skills/md-to-html-slides/scripts/render-deck.py"),
+        "--work",
+        work,
+        "--theme",
+        ctx.theme || "TIANSIGHT",
+        "--baslide",
+        ctx.baslide || BASLIDE_ROOT,
+        "-o",
+        join(work, "slides/deck.html"),
+      ],
     }),
     "sync-vendor": () => ({
       cmd: "bash",

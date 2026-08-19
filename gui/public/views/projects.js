@@ -19,7 +19,7 @@ export async function renderProjects(root, parts) {
           .map(
             (p) => `<a class="card clickable" href="#/projects/${esc(p.id)}" style="text-decoration:none;color:inherit">
         <h3>${esc(p.name)}</h3>
-        <div>${badge("", p.template)}</div>
+        <div>${badge("", p.template)} ${p.theme ? badge("", p.theme) : ""}</div>
         <div class="mono muted" style="margin-top:.4rem">${esc(p.work || "")}</div>
         <div class="muted" style="margin-top:.35rem">${fmtTime(p.updated_at)}</div>
       </a>`
@@ -43,7 +43,7 @@ export async function renderProjects(root, parts) {
 }
 
 async function renderNewProject(root) {
-  const { templates } = await api("/api/templates");
+  const [{ templates }, { themes }] = await Promise.all([api("/api/templates"), api("/api/themes")]);
   root.innerHTML = `
     <a class="btn ghost" href="#/projects">← projects</a>
     <h1>New project</h1>
@@ -51,12 +51,28 @@ async function renderNewProject(root) {
       <div class="field"><label>Name</label><input id="name" style="width:100%" /></div>
       <div class="field"><label>Template</label>
         <select id="template" style="width:100%">
-          ${templates.map((t) => `<option value="${esc(t.id)}">${esc(t.title)}</option>`).join("")}
+          ${templates.map((t) => `<option value="${esc(t.id)}" ${t.id === "alongslides" ? "selected" : ""}>${esc(t.title)}</option>`).join("")}
         </select>
       </div>
-      <div class="field"><label>Source markdown (absolute or repo-relative)</label><input id="source" style="width:100%" placeholder="/path/to/doc.md" /></div>
+      <div class="field"><label>Theme / skin</label>
+        <select id="theme" style="width:100%">
+          ${(themes || [])
+            .map(
+              (t) =>
+                `<option value="${esc(t.id)}">${esc(t.label)} · ${esc(t.canvas)}${t.mechanical ? "" : " · agent path"}</option>`
+            )
+            .join("")}
+        </select>
+      </div>
+      <div class="field"><label>Standards (gates)</label>
+        <label class="row"><input type="checkbox" id="std-fit" checked /> fit-overfull</label>
+        <label class="row"><input type="checkbox" id="std-hop1" checked /> hop1 source fidelity</label>
+        <label class="row"><input type="checkbox" id="std-hop2" checked /> hop2 HTML fidelity</label>
+        <p class="muted" style="margin:.35rem 0 0">page-loop / page-audit stay a manual checklist in the agent brief.</p>
+      </div>
+      <div class="field"><label>Source markdown (absolute or repo-relative)</label><input id="source" style="width:100%" placeholder="fixtures/local/doc.md" /></div>
       <div class="field"><label>Work id under .work/ (optional)</label><input id="work" style="width:100%" placeholder="my-run" /></div>
-      <div class="field"><label>Target HTML for hop2 (optional)</label><input id="html" style="width:100%" placeholder="/path/to/deck.html" /></div>
+      <div class="field"><label>Target HTML for hop2 (optional — alongslides renders this)</label><input id="html" style="width:100%" placeholder="/path/to/deck.html" /></div>
       <div class="field"><label>Notes</label><textarea id="notes"></textarea></div>
       <button class="btn" id="create">Create</button>
       <p id="err" class="muted" style="color:var(--fail)"></p>
@@ -67,6 +83,12 @@ async function renderNewProject(root) {
       const body = {
         name: root.querySelector("#name").value,
         template: root.querySelector("#template").value,
+        theme: root.querySelector("#theme").value,
+        standards: {
+          "fit-overfull": root.querySelector("#std-fit").checked,
+          hop1: root.querySelector("#std-hop1").checked,
+          hop2: root.querySelector("#std-hop2").checked,
+        },
         source: root.querySelector("#source").value || undefined,
         work_id: root.querySelector("#work").value || undefined,
         html: root.querySelector("#html").value || undefined,
@@ -106,7 +128,9 @@ async function renderProjectDetail(root, id) {
       <button class="btn danger ghost" id="del">Delete</button>
     </div>
     <h1>${esc(p.name)}</h1>
-    <p class="lede mono">${esc(p.work || "")} · ${esc(p.template)}</p>
+    <p class="lede mono">${esc(p.work || "")} · ${esc(p.template)} · ${esc(p.theme || "—")}
+      ${p.standards ? Object.entries(p.standards).map(([k, v]) => badge(v ? "ok" : "warn", k)).join(" ") : ""}
+    </p>
     <div class="grid grid-2">
       <div class="card">
         <h3>Paths</h3>
@@ -132,6 +156,7 @@ async function renderProjectDetail(root, id) {
                <div class="row" style="margin-top:.75rem">
                  <a class="btn ghost" href="#/runs/${esc(runId)}">Open run</a>
                  <a class="btn ghost" href="#/runs/${esc(runId)}/audit">Audit inspector</a>
+                 ${run.deckHref ? `<a class="btn" href="${esc(run.deckHref)}" target="_blank">Open deck</a>` : ""}
                </div>
                ${
                  brief
@@ -157,6 +182,8 @@ async function renderProjectDetail(root, id) {
           work: p.work,
           source: p.source,
           html: p.html,
+          theme: p.theme,
+          standards: p.standards,
         },
       });
       location.hash = `#/jobs/${job.id}`;

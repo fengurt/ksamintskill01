@@ -5,7 +5,7 @@ import { readFile, mkdir } from "node:fs/promises";
 import { existsSync, createReadStream, statSync } from "node:fs";
 import { dirname, join, extname, basename } from "node:path";
 import { fileURLToPath } from "node:url";
-import { PORT, DATA_DIR, REPO_ROOT, GUI_ROOT, safeResolve, isDeniedPath, relToRepo } from "./lib/paths.js";
+import { PORT, DATA_DIR, REPO_ROOT, GUI_ROOT, safeResolve, isDeniedPath, relToRepo, safeWorkDir } from "./lib/paths.js";
 import { repoStatus } from "./lib/repo.js";
 import { listSkills, getSkillDetail, skillGraph, searchSkills } from "./lib/skills.js";
 import { registryStatus, checkUpstreamDrift } from "./lib/registry.js";
@@ -27,6 +27,7 @@ import {
 import { listTemplates, getTemplate } from "./lib/templates.js";
 import { listJobs, getJob, startJob, cancelJob, subscribe } from "./lib/jobs.js";
 import { healthSnapshot, symlinkIntegrity } from "./lib/health.js";
+import { listThemes } from "./lib/themes.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PUBLIC = join(__dirname, "public");
@@ -83,6 +84,10 @@ const server = createServer(async (req, res) => {
   try {
     if (path.startsWith("/api/")) {
       await handleApi(req, res, method, path, u);
+      return;
+    }
+    if (method === "GET" && path.startsWith("/slides/")) {
+      await serveDeck(res, path);
       return;
     }
     await serveStatic(req, res, path);
@@ -229,6 +234,10 @@ async function handleApi(req, res, method, path, u) {
     }
   }
 
+  if (method === "GET" && path === "/api/themes") {
+    return send(res, 200, listThemes());
+  }
+
   // Templates
   if (method === "GET" && path === "/api/templates") {
     return send(res, 200, { templates: listTemplates() });
@@ -255,6 +264,8 @@ async function handleApi(req, res, method, path, u) {
         work: body.work,
         source: body.source,
         html: body.html,
+        theme: body.theme,
+        standards: body.standards,
       });
       return send(res, 201, job);
     } catch (e) {
@@ -338,6 +349,20 @@ async function handleApi(req, res, method, path, u) {
   }
 
   return send(res, 404, { error: "unknown api" });
+}
+
+function serveDeck(res, path) {
+  const m = path.match(/^\/slides\/([^/]+)\/deck\.html$/);
+  if (!m) return send(res, 404, { error: "not found" });
+  let abs;
+  try {
+    abs = join(safeWorkDir(decodeURIComponent(m[1])), "slides/deck.html");
+  } catch (e) {
+    return send(res, 400, { error: e.message });
+  }
+  if (!existsSync(abs) || !statSync(abs).isFile()) return send(res, 404, { error: "deck not rendered" });
+  res.writeHead(200, { "content-type": "text/html; charset=utf-8", "cache-control": "no-store" });
+  createReadStream(abs).pipe(res);
 }
 
 await mkdir(DATA_DIR, { recursive: true });
