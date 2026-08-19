@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 500">
+  <rect width="1000" height="500" fill="#FFFFFF"/>
+  <!-- Background pattern -->
+  <g opacity="0.10" fill="#A88B52">
+    <circle cx="100" cy="100" r="2"/><circle cx="200" cy="80" r="2"/><circle cx="300" cy="120" r="2"/>
+    <circle cx="400" cy="100" r="2"/><circle cx="500" cy="80" r="2"/><circle cx="600" cy="120" r="2"/>
+    <circle cx="700" cy="100" r="2"/><circle cx="800" cy="80" r="2"/><circle cx="900" cy="120" r="2"/>
+    <circle cx="100" cy="400" r="2"/><circle cx="200" cy="380" r="2"/><circle cx="300" cy="420" r="2"/>
+    <circle cx="400" cy="400" r="2"/><circle cx="500" cy="380" r="2"/><circle cx="600" cy="420" r="2"/>
+    <circle cx="700" cy="400" r="2"/><circle cx="800" cy="380" r="2"/><circle cx="900" cy="420" r="2"/>
+  </g>
+  <!-- Big quote mark -->
+  <text x="80" y="200" font-family="Georgia, serif" font-size="200" font-weight="700" fill="#A88B52" opacity="0.32">"</text>
+  <!-- Quote text -->
+  <text x="500" y="230" text-anchor="middle" font-family="Songti SC, STSong, serif" font-size="22" font-weight="600" fill="#0A1626">沉香是一片森林的事,</text>
+  <text x="500" y="270" text-anchor="middle" font-family="Songti SC, STSong, serif" font-size="22" font-weight="600" fill="#0A1626">不是一家酒店的事。</text>
+  <text x="500" y="320" text-anchor="middle" font-family="var(--sans-tab)" font-size="14" font-weight="400" fill="#44474C">—— 内部备忘录, 2026 Q2</text>
+  <line x1="450" y1="350" x2="550" y2="350" stroke="#A88B52" stroke-width="2"/>
+  <text x="500" y="385" text-anchor="middle" font-family="var(--sans-tab)" font-size="11" font-weight="600" fill="#A88B52" letter-spacing="0.18em">PRINCIPLE · 原则</text>
+  <text x="500" y="410" text-anchor="middle" font-family="var(--sans-tab)" font-size="10" fill="#75777D">AGARWOOD IS A FOREST STORY, NOT A HOTEL STORY</text>
+</svg>

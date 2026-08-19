@@ -16,6 +16,7 @@ Do not emit HTML or CSS. Downstream HTML lives in `md-to-html-slides` via [adapt
 | [scripts/segment.py](scripts/segment.py) | Stage a — units + digest |
 | [scripts/check-coverage.py](scripts/check-coverage.py) | Gates: `index` / `outline` / `deck` |
 | [scripts/estimate-fit.py](scripts/estimate-fit.py) | Stage c — overfull / starved |
+| [scripts/emit-pack.py](scripts/emit-pack.py) | Stage d — slide-plan + MANIFEST (no HTML) |
 | [budgets.json](budgets.json) | Role fit budgets |
 | [pagination.md](pagination.md) | Cohesion rules (load at stage c) |
 | [schema/](schema/) | index + deck JSON schemas |
@@ -95,7 +96,16 @@ Hop1 (`deck-audit`) must exit 0 before the adapter. Structural coverage alone is
 
 ## After this skill
 
-1. Map `deck.json` → slide-plan with [adapters/md-to-html-slides.md](adapters/md-to-html-slides.md)
-2. Run `md-to-html-slides` + `page-loop`
-3. Hop2 fidelity: `python3 skills/deck-audit/scripts/audit-html.py --work "$WORK" --html "$DECK.html"` then `audit-report.py`
-4. Surface hygiene: `page-audit`
+The **file pack is the completion**. Close it with:
+
+```bash
+python3 skills/longdoc-to-deck/scripts/emit-pack.py --work "$WORK"
+```
+
+That writes `slide-plan.json` (job + locked L3 `fill`), `pack.json`, and `MANIFEST.md`. Do not emit HTML here.
+
+Later, Baslide01 development (`modules/baslide01`):
+
+1. `md-to-html-slides` + `page-loop` from the slide-plan
+2. Hop2: `python3 skills/deck-audit/scripts/audit-html.py --work "$WORK" --html "$DECK.html"` then `audit-report.py`
+3. Surface hygiene: `page-audit`

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Baslide01 · 页面类型</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+SC:wght@400;600;700&family=Noto+Serif:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/baslide-thumbs.css">
+<style>
+:root{
+  --surface:#F4F0E7; --paper:#FFFDF8; --charcoal:#17130D;
+  --gold:#76551F; --gold-hi:#D4A862; --seal:#8C3228; --muted:#706758;
+  --navy:#0A1626; --ink-primary:#EFE6D2;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--surface);color:var(--charcoal);
+  font-family:"Noto Serif SC","Songti SC",serif;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px 96px}
+header.hero{padding:28px 0 32px;border-bottom:1px solid var(--gold)}
+.cap{font-family:"Noto Serif",serif;text-transform:uppercase;letter-spacing:.34em;font-size:11px;color:var(--gold)}
+h1{font-size:40px;font-weight:700;letter-spacing:.01em;line-height:.95;margin-top:8px}
+h1 em{font-style:italic;font-weight:400;color:var(--gold)}
+.lede{margin-top:14px;max-width:64ch;font-size:16px;line-height:1.7;color:var(--muted)}
+.rule{height:0;border-top:1px solid var(--gold);width:170px;margin:20px 0 0;position:relative}
+.rule::after{content:"";position:absolute;left:0;top:3px;width:64px;border-top:1px solid var(--gold);opacity:.5}
+.meta{display:flex;gap:18px;flex-wrap:wrap;margin-top:18px;font-size:12px;letter-spacing:.12em;
+  text-transform:uppercase;font-family:"IBM Plex Mono",monospace;color:var(--muted)}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin:28px 0 8px}
+.filters button{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  background:transparent;border:1px solid rgba(118,85,31,.34);color:var(--charcoal);padding:6px 12px;border-radius:2px;cursor:pointer}
+.filters button.on{background:var(--navy);color:var(--paper);border-color:var(--navy)}
+section.fam{padding:28px 0 4px}
+h2{font-size:20px;font-weight:600;padding-left:12px;border-left:3px solid var(--gold);margin-bottom:6px}
+.fam .job{font-size:13px;color:var(--muted);margin:0 0 14px 15px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.card{background:var(--paper);border:1px solid rgba(118,85,31,.34);border-radius:2px;padding:14px 14px 16px;
+  display:flex;flex-direction:column;gap:8px}
+.card .loop-line{font-family:"IBM Plex Mono",monospace;font-size:11px;line-height:1.55;color:var(--muted);
+  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.card .k{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.card h3{font-size:18px;font-weight:600}
+.card p{font-size:13.5px;line-height:1.6;color:var(--muted)}
+.skins{display:flex;flex-wrap:wrap;gap:6px}
+.skins a{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.04em;
+  border:1px solid rgba(118,85,31,.34);padding:3px 8px;border-radius:2px;color:var(--gold)}
+.skins a:hover{background:var(--ink-primary)}
+.tools{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-top:12px}
+.tools a{background:var(--navy);color:var(--paper);padding:16px 18px;border-radius:2px}
+.tools a span{display:block;font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-hi);margin-bottom:6px}
+.tools a b{font-size:16px;font-weight:600}
+footer{margin-top:48px;padding-top:16px;border-top:1px solid rgba(23,19,13,.18);font-size:12px;color:var(--muted);line-height:1.8}
+code{font-family:"IBM Plex Mono",monospace;font-size:.92em;background:rgba(118,85,31,.08);padding:1px 5px;border-radius:2px}
+</style>
+</head>
+<body class="baslide-doc">
+<div class="wrap">
+  <header class="hero">
+    <p class="cap">Baslide01 · Page types first</p>
+    <h1>先选页面类型。<br><em>再选皮肤，生成可复用。</em></h1>
+    <p class="lede">十七种页面类型是生成高品质 slides 的真源。封面、指标、单图、对照、名录、证伪——先定这一页要完成的决策，再套侍天 / 杂志 / 瑞士 / Table AI 皮肤。不要从模板文件名倒推结构。</p>
+    <div class="rule"></div>
+    <div class="meta">
+      <span>17 types</span>
+      <span>6 families</span>
+      <span>5 skins</span>
+      <span>H 隐藏顶栏</span>
+    </div>
+  </header>
+  <div class="filters" id="filters"></div>
+  <div id="catalog"></div>
+  <section>
+    <h2>工作台</h2>
+    <div class="tools">
+      <a href="preview/"><span>Preview</span><b>模板预览</b></a>
+      <a href="types/"><span>Catalog</span><b>类型详表</b></a>
+      <a href="audit/?run=1"><span>Agent</span><b>页面审计</b></a>
+      <a href="demos/TIANSIGHT/"><span>Demo</span><b>侍天原型</b></a>
+      <a href="templates/TIANSIGHT/gallery.html"><span>TIANSIGHT v2</span><b>12 Job 模板</b></a>
+      <a href="decks/"><span>D01–D06</span><b>Deck 编号总表</b></a>
+    </div>
+  </section>
+  <section class="fam">
+    <h2>Deck 编号</h2>
+    <p class="job">定位更新用稳定编号。D03 含生成稿与 HTML 导入稿。</p>
+    <div class="tools">
+      <a href="decks/zengcheng-taizikeng/deck.html"><span>D01</span><b>增城太子坑</b></a>
+      <a href="decks/premium-ppt/presentation.html"><span>D02</span><b>Premium PPT</b></a>
+      <a href="decks/stone-briefing/"><span>D03</span><b>首版汇报</b></a>
+      <a href="decks/stone-roadmap/presentation.html"><span>D04</span><b>赋能路线图</b></a>
+      <a href="decks/stone-dossier/presentation.html"><span>D05</span><b>品牌专项</b></a>
+      <a href="decks/qingshuiting/presentation.html"><span>D06</span><b>清水亭诊断</b></a>
+    </div>
+  </section>
+  <footer>
+    生成时读 <code>page-types.json</code> 与 <code>prompts/loop/</code>。点缩略图预览模板。顶栏可隐藏（H），<code>?export=1</code> 与打印不出现。<br>
+    Local: <code>bash scripts/dev-up.sh</code>
+  </footer>
+</div>
+<script src="/assets/baslide-catalog.js"></script>
+<script>
+fetch("/page-types.json").then(r => r.json()).then(data => {
+  const C = window.BaslideCatalog;
+  const catalog = document.getElementById("catalog");
+  const filters = document.getElementById("filters");
+  let active = "all";
+  const allBtn = Object.assign(document.createElement("button"), { textContent: "全部", className: "on" });
+  allBtn.onclick = () => { active = "all"; draw(); };
+  filters.appendChild(allBtn);
+  data.families.forEach(f => {
+    const b = document.createElement("button");
+    b.textContent = f.label;
+    b.onclick = () => { active = f.id; draw(); };
+    filters.appendChild(b);
+  });
+  function draw() {
+    const t0 = performance.now();
+    [...filters.children].forEach((b, i) => {
+      const id = i === 0 ? "all" : data.families[i - 1].id;
+      b.classList.toggle("on", id === active);
+    });
+    catalog.innerHTML = "";
+    data.families.forEach(fam => {
+      const types = data.types.filter(t => t.family === fam.id && (active === "all" || active === fam.id));
+      if (!types.length) return;
+      const sec = document.createElement("section");
+      sec.className = "fam";
+      sec.innerHTML = "<h2>" + fam.label + "</h2><p class='job'>" + fam.job + "</p>";
+      const grid = document.createElement("div");
+      grid.className = "grid";
+      types.forEach(t => {
+        const card = document.createElement("article");
+        card.className = "card";
+        card.innerHTML =
+          C.thumbHTML(t) +
+          "<span class='k'>" + t.id + "</span>" +
+          "<h3>" + t.label + "</h3>" +
+          "<p>" + t.job + "</p>" +
+          "<p class='loop-line'>" + (t.loop && t.loop.prompt ? t.loop.prompt : "") + "</p>" +
+          "<div class='skins'>" + C.skinLinks(t, data.skins) + "</div>";
+        grid.appendChild(card);
+      });
+      sec.appendChild(grid);
+      catalog.appendChild(sec);
+    });
+    // #region agent log
+    fetch('http://127.0.0.1:7413/ingest/823441ad-59f6-4b3e-a911-72d56e2cb3ec',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'1a3c9c'},body:JSON.stringify({sessionId:'1a3c9c',runId:'pre-fix',hypothesisId:'H2',location:'index.html:draw',message:'homepage catalog draw',data:{active:active,cards:catalog.querySelectorAll('.card').length,thumbs:catalog.querySelectorAll('.thumb').length,ms:Math.round(performance.now()-t0),catalogReady:!!C,typeCount:data.types.length},timestamp:Date.now()})}).catch(()=>{});
+    // #endregion
+  }
+  draw();
+}).catch(err => {
+  document.getElementById("catalog").textContent = "无法读取 page-types.json：" + err;
+});
+</script>
+</body>
+</html>

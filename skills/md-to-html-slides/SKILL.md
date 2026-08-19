@@ -10,11 +10,11 @@ Two models. Top model **plans**. Cheap model **fills**. Neither invents CSS.
 Locked counts: **5 genres · 4 L1 shells · 12 L2 jobs · 16 L3 viz**. Tables are a mark on `body`, not a sixth type layer.
 
 - [taxonomy.md](taxonomy.md) · [taxonomy.json](taxonomy.json) · [pipeline.md](pipeline.md)
-- Mechanical renderer: [scripts/render-deck.py](scripts/render-deck.py) (`deck.json` + `pages/` → TIANSIGHT `slides/deck.html`, used by the alongslides GUI template)
+- Mechanical renderer: [scripts/render-deck.py](scripts/render-deck.py) (`deck.json` + `pages/` → TIANSIGHT `slides/deck.html`, L3 SVG from Baslide01 `svg_figure`)
 - Original samples per type: [samples/INDEX.md](samples/INDEX.md)
 - Complete one-file report: [`ref/REPORT-md-to-html-slide-types.md`](../../ref/REPORT-md-to-html-slide-types.md)
 - Full ref audit: [`ref/AUDIT-md-to-html-taxonomy.md`](../../ref/AUDIT-md-to-html-taxonomy.md)
-- Repo home: `/Users/af/cpro01/0thebrain01/baslide01`
+- Baslide01 module: [`modules/baslide01`](../../modules/baslide01)
 
 ## When to use
 

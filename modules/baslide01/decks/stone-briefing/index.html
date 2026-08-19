@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>D03 首版汇报 · Baslide01</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+SC:wght@400;600;700&family=Noto+Serif:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --surface:#F4F0E7; --paper:#FFFDF8; --charcoal:#17130D;
+  --gold:#76551F; --gold-hi:#D4A862; --muted:#706758; --navy:#0A1626;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--surface);color:var(--charcoal);
+  font-family:"Noto Serif SC","Songti SC",serif;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:880px;margin:0 auto;padding:0 28px 96px}
+header.hero{padding:28px 0 32px;border-bottom:1px solid var(--gold)}
+.cap{font-family:"Noto Serif",serif;text-transform:uppercase;letter-spacing:.34em;font-size:11px;color:var(--gold)}
+h1{font-size:36px;font-weight:700;letter-spacing:.01em;line-height:.95;margin-top:8px}
+.lede{margin-top:14px;max-width:64ch;font-size:16px;line-height:1.7;color:var(--muted)}
+.tools{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-top:28px}
+.tools a{background:var(--navy);color:var(--paper);padding:16px 18px;border-radius:2px}
+.tools a span{display:block;font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-hi);margin-bottom:6px}
+.tools a b{font-size:16px;font-weight:600}
+.tools a em{display:block;margin-top:8px;font-style:normal;font-size:13px;line-height:1.55;color:rgba(239,230,210,.72)}
+code{font-family:"IBM Plex Mono",monospace;font-size:.92em;background:rgba(118,85,31,.08);padding:1px 5px;border-radius:2px}
+.back{display:inline-block;margin-top:28px;font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.08em;color:var(--gold)}
+</style>
+</head>
+<body class="baslide-doc">
+<div class="wrap">
+  <header class="hero">
+    <p class="cap">D03 · stone-briefing</p>
+    <h1>石头先生 · 首版汇报</h1>
+    <p class="lede">两份并列：D03.1 是 06 号 MD 生成的侍天 2880×1620 稿；D03.2 是导入的 32 页 1280×720 HTML，不替换生成稿。合生汇库在本稿内，不编号。</p>
+  </header>
+  <div class="tools">
+    <a href="presentation.html">
+      <span>D03.1</span>
+      <b>MD→侍天 v2</b>
+      <em>2880×1620 · ref/mds/06_首版汇报报告_V1.0_数据校准版.md</em>
+    </a>
+    <a href="html-v1.html">
+      <span>D03.2</span>
+      <b>HTML 导入 V1.0</b>
+      <em>32 页 · 1280×720 · ref/htmls/石头先生的汉堡_北京首店战略分析报告_V1.0.html</em>
+    </a>
+  </div>
+  <a class="back" href="data.html">本稿库 →</a>
+  <a class="back" href="/decks/">← 编号总表</a>
+</div>
+</body>
+</html>

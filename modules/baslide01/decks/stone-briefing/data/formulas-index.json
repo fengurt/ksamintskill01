@@ -1,0 +1,162 @@
+[
+  {
+    "id": "F01",
+    "name": "北京西式参考集",
+    "expr": "COUNT(store WHERE scope=city_beijing)",
+    "unit": "家",
+    "value": "6052",
+    "n": 6052,
+    "source_table": "store",
+    "note": "manifest.counts.city_beijing"
+  },
+  {
+    "id": "F02",
+    "name": "朝阳区西式",
+    "expr": "COUNT(store WHERE scope=district_chaoyang)",
+    "unit": "家",
+    "value": "1698",
+    "n": 1698,
+    "source_table": "store",
+    "note": "manifest.counts.district_chaoyang"
+  },
+  {
+    "id": "F03",
+    "name": "合生汇 5km 西式",
+    "expr": "COUNT(store WHERE scope=ring_0_5km_all)",
+    "unit": "家",
+    "value": "684",
+    "n": 684,
+    "source_table": "store",
+    "note": "四层环带并集"
+  },
+  {
+    "id": "F04",
+    "name": "合生汇场内全餐饮",
+    "expr": "COUNT(store WHERE scope=mall_heshenghui_all_dining)",
+    "unit": "家",
+    "value": "275",
+    "n": 275,
+    "source_table": "store",
+    "note": "不限西式"
+  },
+  {
+    "id": "F05",
+    "name": "合生汇场内西式",
+    "expr": "COUNT(store WHERE scope=mall_heshenghui_inside)",
+    "unit": "家",
+    "value": "9",
+    "n": 9,
+    "source_table": "store",
+    "note": "直接对手"
+  },
+  {
+    "id": "F06",
+    "name": "品牌归一化规模",
+    "expr": "GROUP BY brand_canon; n=COUNT(*); spend=MEDIAN(avg_spend); rating=AVG(rating)",
+    "unit": "品牌",
+    "value": "134",
+    "n": 2404,
+    "source_table": "store.city_beijing",
+    "note": "店名+品牌字段按 brand_rule 归一。CV=stdev(spend)/mean(spend)"
+  },
+  {
+    "id": "F07",
+    "name": "北京门店 ≥ 20 家",
+    "expr": "F06 WHERE n >= 20",
+    "unit": "品牌",
+    "value": "26",
+    "n": 26,
+    "source_table": "formula_row F06",
+    "note": "对应 D03.1 图 2 / D05 图 2 清单"
+  },
+  {
+    "id": "F08",
+    "name": "价格带 × 规模天花板",
+    "expr": "F06 WHERE n>=3 GROUP BY median_spend band; ge20=COUNT(n>=20)",
+    "unit": "价格带",
+    "value": "26",
+    "n": 8,
+    "source_table": "formula_row F06",
+    "note": "≥3 店品牌按人均中位分箱。对应 D03.1 图 1"
+  },
+  {
+    "id": "F09",
+    "name": "店名含汉堡/Burger",
+    "expr": "COUNT(city_beijing WHERE name ~ 汉堡|Burger)",
+    "unit": "家",
+    "value": "940",
+    "n": 940,
+    "source_table": "store",
+    "note": "06 声称 782；本包按店名复算"
+  },
+  {
+    "id": "F10",
+    "name": "场内评分 < 4.0",
+    "expr": "COUNT(mall_dining WHERE rating < 4) / COUNT(*)",
+    "unit": "家",
+    "value": "117",
+    "n": 275,
+    "source_table": "store",
+    "note": "占比 117/275"
+  },
+  {
+    "id": "F11",
+    "name": "场内西式九家",
+    "expr": "SELECT * FROM mall_heshenghui_inside",
+    "unit": "家",
+    "value": "9",
+    "n": 9,
+    "source_table": "store",
+    "note": "Shake Shack 合生汇店是价格锚"
+  },
+  {
+    "id": "F12",
+    "name": "兄弟店烤炉",
+    "expr": "store WHERE name/brand 石头先生的烤炉",
+    "unit": "店",
+    "value": "1",
+    "n": 1,
+    "source_table": "store",
+    "note": "同一老板，合生汇 B2"
+  },
+  {
+    "id": "F13",
+    "name": "客户 SKU 结构",
+    "expr": "COUNT(sku); AVG(price); AVG(gross_margin) GROUP BY category",
+    "unit": "SKU",
+    "value": "47",
+    "n": 47,
+    "source_table": "sku",
+    "note": "来自 sku-catalog/skus.csv，不是点评库"
+  },
+  {
+    "id": "F14",
+    "name": "场内客单×评分相关",
+    "expr": "CORR(avg_spend, rating) on mall_dining",
+    "unit": "r",
+    "value": "0.5021048579644085",
+    "n": 255,
+    "source_table": "store",
+    "note": "06 §3.1 声称 0.513"
+  },
+  {
+    "id": "F15",
+    "name": "魏斯理在北京库",
+    "expr": "COUNT(city_beijing WHERE 魏斯理|Wesley)",
+    "unit": "家",
+    "value": "0",
+    "n": 0,
+    "source_table": "store",
+    "note": "08 §5.1 声称 0；不足则走 web_source"
+  },
+  {
+    "id": "F16",
+    "name": "有人均 / 有评分",
+    "expr": "COUNT(avg_spend>0); COUNT(rating>0)",
+    "unit": "家",
+    "value": "5145/5173",
+    "n": 5145,
+    "source_table": "store",
+    "note": "08 声称 5145 / 5173"
+  }
+]

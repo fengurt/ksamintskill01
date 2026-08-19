@@ -1,0 +1,7552 @@
+[
+  {
+    "deck_id": "D03.1",
+    "page": 1,
+    "job": "cover",
+    "title": "",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=1",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 2,
+    "job": "toc",
+    "title": "目录 · CONTENTS",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=2",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 3,
+    "job": "toc",
+    "title": "目录 · CONTENTS · 2",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=3",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 4,
+    "job": "statement",
+    "title": "序",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=4",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 5,
+    "job": "readme",
+    "title": "版本说明 · 本次更新了什么",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=5",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 6,
+    "job": "statement",
+    "title": "版本说明 · 本次更新了什么",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=6",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 7,
+    "job": "readme",
+    "title": "本报告的数据资产",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=7",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 8,
+    "job": "readme",
+    "title": "锚点与口径",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=8",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 9,
+    "job": "statement",
+    "title": "仍然存在的数据缺口",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=9",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 10,
+    "job": "divider",
+    "title": "",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=10",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 11,
+    "job": "chart",
+    "title": "1.1 价格带 × 规模天花板",
+    "fill": "hist-cdf",
+    "formula_id": "F08",
+    "href": "/decks/stone-briefing/presentation.html#p=11",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 12,
+    "job": "roster",
+    "title": "1.1 价格带 × 规模天花板 · 清单",
+    "fill": "",
+    "formula_id": "F08",
+    "href": "/decks/stone-briefing/presentation.html#p=12",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 13,
+    "job": "roster",
+    "title": "1.1 价格带 × 规模天花板 · 清单 · 2",
+    "fill": "",
+    "formula_id": "F08",
+    "href": "/decks/stone-briefing/presentation.html#p=13",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 14,
+    "job": "roster",
+    "title": "1.1 价格带 × 规模天花板 · 清单 · 3",
+    "fill": "",
+    "formula_id": "F08",
+    "href": "/decks/stone-briefing/presentation.html#p=14",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 15,
+    "job": "roster",
+    "title": "1.1 价格带 × 规模天花板 · 清单 · 4",
+    "fill": "",
+    "formula_id": "F08",
+    "href": "/decks/stone-briefing/presentation.html#p=15",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 16,
+    "job": "roster",
+    "title": "1.1 价格带 × 规模天花板 · 清单 · 5",
+    "fill": "",
+    "formula_id": "F08",
+    "href": "/decks/stone-briefing/presentation.html#p=16",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 17,
+    "job": "roster",
+    "title": "1.1 价格带 × 规模天花板 · 清单 · 6",
+    "fill": "",
+    "formula_id": "F08",
+    "href": "/decks/stone-briefing/presentation.html#p=17",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 18,
+    "job": "chart",
+    "title": "北京品牌分布 · 门店数 ≥ 20 家 · 客单×评分",
+    "fill": "bubble",
+    "formula_id": "F07",
+    "href": "/decks/stone-briefing/presentation.html#p=18",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 19,
+    "job": "roster",
+    "title": "北京品牌分布 · 门店数 ≥ 20 家 · 客单×评分 · 清单",
+    "fill": "",
+    "formula_id": "F07",
+    "href": "/decks/stone-briefing/presentation.html#p=19",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 20,
+    "job": "roster",
+    "title": "北京品牌分布 · 门店数 ≥ 20 家 · 客单×评分 · 清单 · 2",
+    "fill": "",
+    "formula_id": "F07",
+    "href": "/decks/stone-briefing/presentation.html#p=20",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 21,
+    "job": "roster",
+    "title": "北京品牌分布 · 门店数 ≥ 20 家 · 客单×评分 · 清单 · 3",
+    "fill": "",
+    "formula_id": "F07",
+    "href": "/decks/stone-briefing/presentation.html#p=21",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 22,
+    "job": "roster",
+    "title": "北京品牌分布 · 门店数 ≥ 20 家 · 客单×评分 · 清单 · 4",
+    "fill": "",
+    "formula_id": "F07",
+    "href": "/decks/stone-briefing/presentation.html#p=22",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 23,
+    "job": "statement",
+    "title": "1.1 价格带 × 规模天花板",
+    "fill": "poster",
+    "formula_id": "F08",
+    "href": "/decks/stone-briefing/presentation.html#p=23",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 24,
+    "job": "statement",
+    "title": "铁律一：25–35 元是唯一的「万店带」，也是唯一有 11 个品牌能开过 20 家店的价格带",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=24",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 25,
+    "job": "statement",
+    "title": "铁律二：35–45 元是一道断崖",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=25",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 26,
+    "job": "chart",
+    "title": "铁律三：45 元以上还能开到 20 家店的西式品牌，全北京只有 8 个 · 客单×评分",
+    "fill": "bubble",
+    "formula_id": "F06",
+    "href": "/decks/stone-briefing/presentation.html#p=26",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 27,
+    "job": "roster",
+    "title": "铁律三：45 元以上还能开到 20 家店的西式品牌，全北京只有 8 个 · 客单×评分 · 清单",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-briefing/presentation.html#p=27",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 28,
+    "job": "statement",
+    "title": "铁律三：45 元以上还能开到 20 家店的西式品牌，全北京只有 8 个",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=28",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 29,
+    "job": "statement",
+    "title": "1.2 披萨与烘焙是规模载体",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=29",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 30,
+    "job": "statement",
+    "title": "三段推理",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=30",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 31,
+    "job": "statement",
+    "title": "三段推理 · 2",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=31",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 32,
+    "job": "roster",
+    "title": "结论重述",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=32",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 33,
+    "job": "statement",
+    "title": "必须同时说清的反面",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=33",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 34,
+    "job": "chart",
+    "title": "1.3 四个阶段与决策方式（保留 V0.1，补充数据锚）",
+    "fill": "timeline",
+    "formula_id": "F06",
+    "href": "/decks/stone-briefing/presentation.html#p=34",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 35,
+    "job": "roster",
+    "title": "1.3 四个阶段与决策方式（保留 V0.1，补充数据锚） · 清单",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-briefing/presentation.html#p=35",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 36,
+    "job": "statement",
+    "title": "1.3 四个阶段与决策方式（保留 V0.1，补充数据锚）",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=36",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 37,
+    "job": "chart",
+    "title": "1.4 中国简餐心智地图（数据校准版）",
+    "fill": "pareto",
+    "formula_id": "F06",
+    "href": "/decks/stone-briefing/presentation.html#p=37",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 38,
+    "job": "roster",
+    "title": "1.4 中国简餐心智地图（数据校准版） · 清单",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-briefing/presentation.html#p=38",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 39,
+    "job": "statement",
+    "title": "1.4 中国简餐心智地图（数据校准版）",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=39",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 40,
+    "job": "roster",
+    "title": "1.5 千店俱乐部的五条结构规律（现状对照，含施工图校验）",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=40",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 41,
+    "job": "roster",
+    "title": "1.6 关键里程碑倒排（更新）",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=41",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 42,
+    "job": "roster",
+    "title": "1.6 关键里程碑倒排（更新） · 2",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=42",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 43,
+    "job": "divider",
+    "title": "",
+    "fill": "",
+    "formula_id": "F01",
+    "href": "/decks/stone-briefing/presentation.html#p=43",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 44,
+    "job": "kpi",
+    "title": "2.1 全市大盘",
+    "fill": "",
+    "formula_id": "F01",
+    "href": "/decks/stone-briefing/presentation.html#p=44",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 45,
+    "job": "chart",
+    "title": "2.1 全市大盘 · 客单×评分",
+    "fill": "bubble",
+    "formula_id": "F01",
+    "href": "/decks/stone-briefing/presentation.html#p=45",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 46,
+    "job": "roster",
+    "title": "2.1 全市大盘 · 客单×评分 · 清单",
+    "fill": "",
+    "formula_id": "F01",
+    "href": "/decks/stone-briefing/presentation.html#p=46",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 47,
+    "job": "statement",
+    "title": "2.1 全市大盘",
+    "fill": "poster",
+    "formula_id": "F01",
+    "href": "/decks/stone-briefing/presentation.html#p=47",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 48,
+    "job": "statement",
+    "title": "2.2 价格带直方图 · 核心假设的验证结果",
+    "fill": "poster",
+    "formula_id": "F01",
+    "href": "/decks/stone-briefing/presentation.html#p=48",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 49,
+    "job": "chart",
+    "title": "全市西式（n=5,145） · 价格带",
+    "fill": "hist-cdf",
+    "formula_id": "F16",
+    "href": "/decks/stone-briefing/presentation.html#p=49",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 50,
+    "job": "roster",
+    "title": "全市西式（n=5,145） · 价格带 · 清单",
+    "fill": "",
+    "formula_id": "F16",
+    "href": "/decks/stone-briefing/presentation.html#p=50",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 51,
+    "job": "roster",
+    "title": "全市西式（n=5,145） · 价格带 · 清单 · 2",
+    "fill": "",
+    "formula_id": "F16",
+    "href": "/decks/stone-briefing/presentation.html#p=51",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 52,
+    "job": "chart",
+    "title": "关键区间精算",
+    "fill": "heatmap",
+    "formula_id": "F01",
+    "href": "/decks/stone-briefing/presentation.html#p=52",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 53,
+    "job": "roster",
+    "title": "关键区间精算 · 清单",
+    "fill": "",
+    "formula_id": "F01",
+    "href": "/decks/stone-briefing/presentation.html#p=53",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 54,
+    "job": "statement",
+    "title": "关键区间精算",
+    "fill": "poster",
+    "formula_id": "F01",
+    "href": "/decks/stone-briefing/presentation.html#p=54",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 55,
+    "job": "statement",
+    "title": "2.3 汉堡赛道的真相：97.8% 在 55 元以下",
+    "fill": "poster",
+    "formula_id": "F01",
+    "href": "/decks/stone-briefing/presentation.html#p=55",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 56,
+    "job": "chart",
+    "title": "汉堡相关门店价格分布（n=2,060，含连锁） · 价格带",
+    "fill": "hist-cdf",
+    "formula_id": "F09",
+    "href": "/decks/stone-briefing/presentation.html#p=56",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 57,
+    "job": "roster",
+    "title": "汉堡相关门店价格分布（n=2,060，含连锁） · 价格带 · 清单",
+    "fill": "",
+    "formula_id": "F09",
+    "href": "/decks/stone-briefing/presentation.html#p=57",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 58,
+    "job": "roster",
+    "title": "汉堡相关门店价格分布（n=2,060，含连锁） · 价格带 · 清单 · 2",
+    "fill": "",
+    "formula_id": "F09",
+    "href": "/decks/stone-briefing/presentation.html#p=58",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 59,
+    "job": "chart",
+    "title": "汉堡相关门店价格分布（n=2,060，含连锁）",
+    "fill": "heatmap",
+    "formula_id": "F09",
+    "href": "/decks/stone-briefing/presentation.html#p=59",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 60,
+    "job": "roster",
+    "title": "汉堡相关门店价格分布（n=2,060，含连锁） · 清单",
+    "fill": "",
+    "formula_id": "F09",
+    "href": "/decks/stone-briefing/presentation.html#p=60",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 61,
+    "job": "statement",
+    "title": "这意味着什么",
+    "fill": "",
+    "formula_id": "F01",
+    "href": "/decks/stone-briefing/presentation.html#p=61",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 62,
+    "job": "chart",
+    "title": "2.4 60 元以上靠酒撑住 · 价格带",
+    "fill": "hist-cdf",
+    "formula_id": "F01",
+    "href": "/decks/stone-briefing/presentation.html#p=62",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 63,
+    "job": "roster",
+    "title": "2.4 60 元以上靠酒撑住 · 价格带 · 清单",
+    "fill": "",
+    "formula_id": "F01",
+    "href": "/decks/stone-briefing/presentation.html#p=63",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 64,
+    "job": "kpi",
+    "title": "2.4 60 元以上靠酒撑住",
+    "fill": "",
+    "formula_id": "F01",
+    "href": "/decks/stone-briefing/presentation.html#p=64",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 65,
+    "job": "chart",
+    "title": "2.4 60 元以上靠酒撑住 · 客单×评分",
+    "fill": "bubble",
+    "formula_id": "F01",
+    "href": "/decks/stone-briefing/presentation.html#p=65",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 66,
+    "job": "roster",
+    "title": "2.4 60 元以上靠酒撑住 · 客单×评分 · 清单",
+    "fill": "",
+    "formula_id": "F01",
+    "href": "/decks/stone-briefing/presentation.html#p=66",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 67,
+    "job": "roster",
+    "title": "2.4 60 元以上靠酒撑住 · 客单×评分 · 清单 · 2",
+    "fill": "",
+    "formula_id": "F01",
+    "href": "/decks/stone-briefing/presentation.html#p=67",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 68,
+    "job": "statement",
+    "title": "2.4 60 元以上靠酒撑住",
+    "fill": "",
+    "formula_id": "F01",
+    "href": "/decks/stone-briefing/presentation.html#p=68",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 69,
+    "job": "chart",
+    "title": "2.5 评分 × 价格：4.5 分是流量分水岭 · 价格带",
+    "fill": "hist-cdf",
+    "formula_id": "F01",
+    "href": "/decks/stone-briefing/presentation.html#p=69",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 70,
+    "job": "roster",
+    "title": "2.5 评分 × 价格：4.5 分是流量分水岭 · 价格带 · 清单",
+    "fill": "",
+    "formula_id": "F01",
+    "href": "/decks/stone-briefing/presentation.html#p=70",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 71,
+    "job": "chart",
+    "title": "2.5 评分 × 价格：4.5 分是流量分水岭 · 评分区间",
+    "fill": "hist-cdf",
+    "formula_id": "F01",
+    "href": "/decks/stone-briefing/presentation.html#p=71",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 72,
+    "job": "roster",
+    "title": "2.5 评分 × 价格：4.5 分是流量分水岭 · 评分区间 · 清单",
+    "fill": "",
+    "formula_id": "F01",
+    "href": "/decks/stone-briefing/presentation.html#p=72",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 73,
+    "job": "statement",
+    "title": "2.5 评分 × 价格：4.5 分是流量分水岭",
+    "fill": "poster",
+    "formula_id": "F01",
+    "href": "/decks/stone-briefing/presentation.html#p=73",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 74,
+    "job": "chart",
+    "title": "2.6 北京商圈优先级底稿 · 客单×评分",
+    "fill": "bubble",
+    "formula_id": "F01",
+    "href": "/decks/stone-briefing/presentation.html#p=74",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 75,
+    "job": "roster",
+    "title": "2.6 北京商圈优先级底稿 · 客单×评分 · 清单",
+    "fill": "",
+    "formula_id": "F01",
+    "href": "/decks/stone-briefing/presentation.html#p=75",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 76,
+    "job": "roster",
+    "title": "2.6 北京商圈优先级底稿 · 客单×评分 · 清单 · 2",
+    "fill": "",
+    "formula_id": "F01",
+    "href": "/decks/stone-briefing/presentation.html#p=76",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 77,
+    "job": "roster",
+    "title": "2.6 北京商圈优先级底稿 · 客单×评分 · 清单 · 3",
+    "fill": "",
+    "formula_id": "F01",
+    "href": "/decks/stone-briefing/presentation.html#p=77",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 78,
+    "job": "chart",
+    "title": "二店与三店的候选逻辑（A 级推导）",
+    "fill": "pareto",
+    "formula_id": "F01",
+    "href": "/decks/stone-briefing/presentation.html#p=78",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 79,
+    "job": "roster",
+    "title": "二店与三店的候选逻辑（A 级推导） · 清单",
+    "fill": "",
+    "formula_id": "F01",
+    "href": "/decks/stone-briefing/presentation.html#p=79",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 80,
+    "job": "statement",
+    "title": "二店与三店的候选逻辑（A 级推导）",
+    "fill": "poster",
+    "formula_id": "F01",
+    "href": "/decks/stone-briefing/presentation.html#p=80",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 81,
+    "job": "divider",
+    "title": "",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=81",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 82,
+    "job": "roster",
+    "title": "3.1 商场全景：275 家餐饮的真实画像",
+    "fill": "",
+    "formula_id": "F04",
+    "href": "/decks/stone-briefing/presentation.html#p=82",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 83,
+    "job": "chart",
+    "title": "3.1 商场全景：275 家餐饮的真实画像 · 价格带",
+    "fill": "hist-cdf",
+    "formula_id": "F04",
+    "href": "/decks/stone-briefing/presentation.html#p=83",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 84,
+    "job": "roster",
+    "title": "3.1 商场全景：275 家餐饮的真实画像 · 价格带 · 清单",
+    "fill": "",
+    "formula_id": "F04",
+    "href": "/decks/stone-briefing/presentation.html#p=84",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 85,
+    "job": "roster",
+    "title": "3.1 商场全景：275 家餐饮的真实画像 · 价格带 · 清单 · 2",
+    "fill": "",
+    "formula_id": "F04",
+    "href": "/decks/stone-briefing/presentation.html#p=85",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 86,
+    "job": "chart",
+    "title": "3.1 商场全景：275 家餐饮的真实画像 · 评分区间",
+    "fill": "hist-cdf",
+    "formula_id": "F04",
+    "href": "/decks/stone-briefing/presentation.html#p=86",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 87,
+    "job": "roster",
+    "title": "3.1 商场全景：275 家餐饮的真实画像 · 评分区间 · 清单",
+    "fill": "",
+    "formula_id": "F04",
+    "href": "/decks/stone-briefing/presentation.html#p=87",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 88,
+    "job": "statement",
+    "title": "3.1 商场全景：275 家餐饮的真实画像",
+    "fill": "",
+    "formula_id": "F04",
+    "href": "/decks/stone-briefing/presentation.html#p=88",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 89,
+    "job": "roster",
+    "title": "3.2 楼层二元结构：合生汇其实是两个商场",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=89",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 90,
+    "job": "chart",
+    "title": "3.2 楼层二元结构：合生汇其实是两个商场 · 价格带",
+    "fill": "hist-cdf",
+    "formula_id": "F04",
+    "href": "/decks/stone-briefing/presentation.html#p=90",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 91,
+    "job": "roster",
+    "title": "3.2 楼层二元结构：合生汇其实是两个商场 · 价格带 · 清单",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-briefing/presentation.html#p=91",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 92,
+    "job": "chart",
+    "title": "3.2 楼层二元结构：合生汇其实是两个商场 · 客单×评分",
+    "fill": "bubble",
+    "formula_id": "F04",
+    "href": "/decks/stone-briefing/presentation.html#p=92",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 93,
+    "job": "roster",
+    "title": "3.2 楼层二元结构：合生汇其实是两个商场 · 客单×评分 · 清单",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-briefing/presentation.html#p=93",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 94,
+    "job": "roster",
+    "title": "3.2 楼层二元结构：合生汇其实是两个商场 · 客单×评分 · 清单 · 2",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-briefing/presentation.html#p=94",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 95,
+    "job": "chart",
+    "title": "3.2 楼层二元结构：合生汇其实是两个商场",
+    "fill": "hbar",
+    "formula_id": "F04",
+    "href": "/decks/stone-briefing/presentation.html#p=95",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 96,
+    "job": "roster",
+    "title": "3.2 楼层二元结构：合生汇其实是两个商场 · 清单",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-briefing/presentation.html#p=96",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 97,
+    "job": "statement",
+    "title": "3.2 楼层二元结构：合生汇其实是两个商场",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=97",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 98,
+    "job": "chart",
+    "title": "3.3 合生汇并不逼迫品牌降价 · 合生汇 vs 北京",
+    "fill": "slope",
+    "formula_id": "F04",
+    "href": "/decks/stone-briefing/presentation.html#p=98",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 99,
+    "job": "roster",
+    "title": "3.3 合生汇并不逼迫品牌降价 · 合生汇 vs 北京 · 清单",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-briefing/presentation.html#p=99",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 100,
+    "job": "statement",
+    "title": "3.3 合生汇并不逼迫品牌降价",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=100",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 101,
+    "job": "chart",
+    "title": "3.4 但汉堡是个例外：Shake Shack 的场景折价 · 客单×评分",
+    "fill": "bubble",
+    "formula_id": "F06",
+    "href": "/decks/stone-briefing/presentation.html#p=101",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 102,
+    "job": "roster",
+    "title": "3.4 但汉堡是个例外：Shake Shack 的场景折价 · 客单×评分 · 清单",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-briefing/presentation.html#p=102",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 103,
+    "job": "statement",
+    "title": "3.4 但汉堡是个例外：Shake Shack 的场景折价",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=103",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 104,
+    "job": "kpi",
+    "title": "这条数据是本报告给出的最硬的定价锚",
+    "fill": "",
+    "formula_id": "F01",
+    "href": "/decks/stone-briefing/presentation.html#p=104",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 105,
+    "job": "statement",
+    "title": "由此确定首店的一句话竞争战略",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=105",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 106,
+    "job": "chart",
+    "title": "3.5 场内西式九家 · 55–90 元真空 · 客单×评分",
+    "fill": "bubble",
+    "formula_id": "F11",
+    "href": "/decks/stone-briefing/presentation.html#p=106",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 107,
+    "job": "roster",
+    "title": "3.5 场内西式九家 · 55–90 元真空 · 客单×评分 · 清单",
+    "fill": "",
+    "formula_id": "F11",
+    "href": "/decks/stone-briefing/presentation.html#p=107",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 108,
+    "job": "chart",
+    "title": "把这 9 家按价格排成一条线",
+    "fill": "number-axis",
+    "formula_id": "F11",
+    "href": "/decks/stone-briefing/presentation.html#p=108",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 109,
+    "job": "roster",
+    "title": "把这 9 家按价格排成一条线 · 清单",
+    "fill": "",
+    "formula_id": "F11",
+    "href": "/decks/stone-briefing/presentation.html#p=109",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 110,
+    "job": "statement",
+    "title": "把这 9 家按价格排成一条线",
+    "fill": "",
+    "formula_id": "F11",
+    "href": "/decks/stone-briefing/presentation.html#p=110",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 111,
+    "job": "statement",
+    "title": "3.6 隐藏资产：兄弟店「石头先生的烤炉」就在本场（同一老板）",
+    "fill": "poster",
+    "formula_id": "F12",
+    "href": "/decks/stone-briefing/presentation.html#p=111",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 112,
+    "job": "roster",
+    "title": "3.6 隐藏资产：兄弟店「石头先生的烤炉」就在本场（同一老板）",
+    "fill": "",
+    "formula_id": "F12",
+    "href": "/decks/stone-briefing/presentation.html#p=112",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 113,
+    "job": "roster",
+    "title": "这个数字有多大",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=113",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 114,
+    "job": "statement",
+    "title": "这个数字有多大",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=114",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 115,
+    "job": "kpi",
+    "title": "但同时，这是一个红色警报",
+    "fill": "",
+    "formula_id": "F01",
+    "href": "/decks/stone-briefing/presentation.html#p=115",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 116,
+    "job": "chart",
+    "title": "但同时，这是一个红色警报 · 客单×评分",
+    "fill": "bubble",
+    "formula_id": "F06",
+    "href": "/decks/stone-briefing/presentation.html#p=116",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 117,
+    "job": "roster",
+    "title": "但同时，这是一个红色警报 · 客单×评分 · 清单",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-briefing/presentation.html#p=117",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 118,
+    "job": "roster",
+    "title": "三个必须现在做的决策",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=118",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 119,
+    "job": "statement",
+    "title": "三个必须现在做的决策",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=119",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 120,
+    "job": "statement",
+    "title": "三个必须现在做的决策 · 2",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=120",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 121,
+    "job": "chart",
+    "title": "3.7 分环竞争强度 · 客单×评分",
+    "fill": "hist-cdf",
+    "formula_id": "F03",
+    "href": "/decks/stone-briefing/presentation.html#p=121",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 122,
+    "job": "roster",
+    "title": "3.7 分环竞争强度 · 客单×评分 · 清单",
+    "fill": "",
+    "formula_id": "F03",
+    "href": "/decks/stone-briefing/presentation.html#p=122",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 123,
+    "job": "chart",
+    "title": "0–500m 全量明细 · 客单×评分",
+    "fill": "bubble",
+    "formula_id": "F03",
+    "href": "/decks/stone-briefing/presentation.html#p=123",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 124,
+    "job": "roster",
+    "title": "0–500m 全量明细 · 客单×评分 · 清单",
+    "fill": "",
+    "formula_id": "F03",
+    "href": "/decks/stone-briefing/presentation.html#p=124",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 125,
+    "job": "roster",
+    "title": "0–500m 全量明细 · 客单×评分 · 清单 · 2",
+    "fill": "",
+    "formula_id": "F03",
+    "href": "/decks/stone-briefing/presentation.html#p=125",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 126,
+    "job": "chart",
+    "title": "500m–1km 全量明细（社区带） · 客单×评分",
+    "fill": "bubble",
+    "formula_id": "F03",
+    "href": "/decks/stone-briefing/presentation.html#p=126",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 127,
+    "job": "roster",
+    "title": "500m–1km 全量明细（社区带） · 客单×评分 · 清单",
+    "fill": "",
+    "formula_id": "F03",
+    "href": "/decks/stone-briefing/presentation.html#p=127",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 128,
+    "job": "roster",
+    "title": "500m–1km 全量明细（社区带） · 客单×评分 · 清单 · 2",
+    "fill": "",
+    "formula_id": "F03",
+    "href": "/decks/stone-briefing/presentation.html#p=128",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 129,
+    "job": "statement",
+    "title": "竞争结构的一句话总结",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=129",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 130,
+    "job": "chart",
+    "title": "3.8 1–3km：真正的心智竞争带在双井 · 客单×评分",
+    "fill": "bubble",
+    "formula_id": "F03",
+    "href": "/decks/stone-briefing/presentation.html#p=130",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 131,
+    "job": "roster",
+    "title": "3.8 1–3km：真正的心智竞争带在双井 · 客单×评分 · 清单",
+    "fill": "",
+    "formula_id": "F03",
+    "href": "/decks/stone-briefing/presentation.html#p=131",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 132,
+    "job": "roster",
+    "title": "3.8 1–3km：真正的心智竞争带在双井 · 客单×评分 · 清单 · 2",
+    "fill": "",
+    "formula_id": "F03",
+    "href": "/decks/stone-briefing/presentation.html#p=132",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 133,
+    "job": "chart",
+    "title": "3.8 1–3km：真正的心智竞争带在双井 · 客单×评分",
+    "fill": "quadrant",
+    "formula_id": "F03",
+    "href": "/decks/stone-briefing/presentation.html#p=133",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 134,
+    "job": "roster",
+    "title": "3.8 1–3km：真正的心智竞争带在双井 · 客单×评分 · 清单",
+    "fill": "",
+    "formula_id": "F03",
+    "href": "/decks/stone-briefing/presentation.html#p=134",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 135,
+    "job": "statement",
+    "title": "3.8 1–3km：真正的心智竞争带在双井",
+    "fill": "poster",
+    "formula_id": "F03",
+    "href": "/decks/stone-briefing/presentation.html#p=135",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 136,
+    "job": "roster",
+    "title": "3.9 竞争定位矩阵（数据版）",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=136",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 137,
+    "job": "roster",
+    "title": "3.10 竞争力雷达（数据校准版）",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=137",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 138,
+    "job": "statement",
+    "title": "3.10 竞争力雷达（数据校准版）",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=138",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 139,
+    "job": "divider",
+    "title": "",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=139",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 140,
+    "job": "readme",
+    "title": "4.1 数据口径修正（V0.1 结论保留，仍然有效）",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=140",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 141,
+    "job": "roster",
+    "title": "4.1 数据口径修正（V0.1 结论保留，仍然有效）",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=141",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 142,
+    "job": "statement",
+    "title": "4.1 数据口径修正（V0.1 结论保留，仍然有效）",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=142",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 143,
+    "job": "chart",
+    "title": "4.2 SKU 全景",
+    "fill": "treemap",
+    "formula_id": "F13",
+    "href": "/decks/stone-briefing/presentation.html#p=143",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 144,
+    "job": "roster",
+    "title": "4.2 SKU 全景 · 清单",
+    "fill": "",
+    "formula_id": "F13",
+    "href": "/decks/stone-briefing/presentation.html#p=144",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 145,
+    "job": "statement",
+    "title": "4.2 SKU 全景",
+    "fill": "",
+    "formula_id": "F13",
+    "href": "/decks/stone-briefing/presentation.html#p=145",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 146,
+    "job": "matrix",
+    "title": "4.3 九宫格重复度诊断",
+    "fill": "",
+    "formula_id": "F01",
+    "href": "/decks/stone-briefing/presentation.html#p=146",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 147,
+    "job": "statement",
+    "title": "4.3 九宫格重复度诊断",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=147",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 148,
+    "job": "chart",
+    "title": "4.4 档口负荷诊断（施工图已给出答案）",
+    "fill": "hbar",
+    "formula_id": "F13",
+    "href": "/decks/stone-briefing/presentation.html#p=148",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 149,
+    "job": "roster",
+    "title": "4.4 档口负荷诊断（施工图已给出答案） · 清单",
+    "fill": "",
+    "formula_id": "F13",
+    "href": "/decks/stone-briefing/presentation.html#p=149",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 150,
+    "job": "chart",
+    "title": "4.4 档口负荷诊断（施工图已给出答案）",
+    "fill": "hbar",
+    "formula_id": "F13",
+    "href": "/decks/stone-briefing/presentation.html#p=150",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 151,
+    "job": "roster",
+    "title": "4.4 档口负荷诊断（施工图已给出答案） · 清单",
+    "fill": "",
+    "formula_id": "F13",
+    "href": "/decks/stone-briefing/presentation.html#p=151",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 152,
+    "job": "roster",
+    "title": "判定结论",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=152",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 153,
+    "job": "roster",
+    "title": "判定结论",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=153",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 154,
+    "job": "roster",
+    "title": "判定结论",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=154",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 155,
+    "job": "statement",
+    "title": "判定结论",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=155",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 156,
+    "job": "statement",
+    "title": "4.5 人均测算（模型推演，C 级）",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=156",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 157,
+    "job": "statement",
+    "title": "情景 A：汉堡主导（目标结构）",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=157",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 158,
+    "job": "chart",
+    "title": "情景 A：汉堡主导（目标结构）",
+    "fill": "waterfall",
+    "formula_id": "F06",
+    "href": "/decks/stone-briefing/presentation.html#p=158",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 159,
+    "job": "roster",
+    "title": "情景 A：汉堡主导（目标结构） · 清单",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-briefing/presentation.html#p=159",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 160,
+    "job": "statement",
+    "title": "情景 B：披萨上升（风险路径）",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=160",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 161,
+    "job": "roster",
+    "title": "情景 B：披萨上升（风险路径）",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=161",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 162,
+    "job": "statement",
+    "title": "情景 C：加入 28 元入口款后（建议路径）",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=162",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 163,
+    "job": "roster",
+    "title": "情景 C：加入 28 元入口款后（建议路径）",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=163",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 164,
+    "job": "chart",
+    "title": "结论 · 人均对照",
+    "fill": "waterfall",
+    "formula_id": "F06",
+    "href": "/decks/stone-briefing/presentation.html#p=164",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 165,
+    "job": "roster",
+    "title": "结论 · 人均对照 · 清单",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-briefing/presentation.html#p=165",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 166,
+    "job": "statement",
+    "title": "结论",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=166",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 167,
+    "job": "roster",
+    "title": "4.6 价格锚点现状与建议",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=167",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 168,
+    "job": "divider",
+    "title": "",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=168",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 169,
+    "job": "statement",
+    "title": "5.0 处理原则（不变）",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=169",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 170,
+    "job": "statement",
+    "title": "5.1 首版菜单终稿（预售可用版）",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=170",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 171,
+    "job": "roster",
+    "title": "主 · 汉堡 5 款 · 品牌记忆必须集中在这一格",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=171",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 172,
+    "job": "statement",
+    "title": "主 · 汉堡 5 款 · 品牌记忆必须集中在这一格",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=172",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 173,
+    "job": "roster",
+    "title": "辅 · 披萨 5 款 · 规模载体（V1.0 战略重构后的核心调整）",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=173",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 174,
+    "job": "statement",
+    "title": "辅 · 披萨 5 款 · 规模载体（V1.0 战略重构后的核心调整）",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=174",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 175,
+    "job": "roster",
+    "title": "辅 · 主食 2 款 · 大幅收敛（V0.1 为 3 款）",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=175",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 176,
+    "job": "statement",
+    "title": "辅 · 主食 2 款 · 大幅收敛（V0.1 为 3 款）",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=176",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 177,
+    "job": "roster",
+    "title": "佐 · 小吃 3 款 + 沙拉 2 款 + 甜品 2 款",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=177",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 178,
+    "job": "roster",
+    "title": "引 · 3 款",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=178",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 179,
+    "job": "chart",
+    "title": "饮品 · 从 19 收敛至 8 款",
+    "fill": "hbar",
+    "formula_id": "F06",
+    "href": "/decks/stone-briefing/presentation.html#p=179",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 180,
+    "job": "roster",
+    "title": "饮品 · 从 19 收敛至 8 款 · 清单",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-briefing/presentation.html#p=180",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 181,
+    "job": "statement",
+    "title": "饮品 · 从 19 收敛至 8 款",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=181",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 182,
+    "job": "roster",
+    "title": "5.2 首版菜单的「三层架构」读法",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=182",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 183,
+    "job": "statement",
+    "title": "5.2 首版菜单的「三层架构」读法",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=183",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 184,
+    "job": "roster",
+    "title": "5.3 预售第一刀 · 只砍客观障碍款（不碰偏好款）",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=184",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 185,
+    "job": "roster",
+    "title": "5.3 预售第一刀 · 只砍客观障碍款（不碰偏好款） · 2",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=185",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 186,
+    "job": "statement",
+    "title": "5.3 预售第一刀 · 只砍客观障碍款（不碰偏好款）",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=186",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 187,
+    "job": "roster",
+    "title": "保留但转「隐藏款」（保护创始人表达空间）",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=187",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 188,
+    "job": "statement",
+    "title": "保留但转「隐藏款」（保护创始人表达空间）",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=188",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 189,
+    "job": "statement",
+    "title": "5.4 关键补位一：28 元以下的日常入口",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=189",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 190,
+    "job": "statement",
+    "title": "问题",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=190",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 191,
+    "job": "kpi",
+    "title": "建议：把「苗堡」定义清楚，做成 26 元的小份经典堡",
+    "fill": "",
+    "formula_id": "F01",
+    "href": "/decks/stone-briefing/presentation.html#p=191",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 192,
+    "job": "statement",
+    "title": "建议：把「苗堡」定义清楚，做成 26 元的小份经典堡",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=192",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 193,
+    "job": "statement",
+    "title": "5.5 关键补位二：披萨的基础款与战略定位",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=193",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 194,
+    "job": "chart",
+    "title": "若采纳 §1.2 的「双载体」路径，披萨线必须补一款基础款",
+    "fill": "hist-cdf",
+    "formula_id": "F06",
+    "href": "/decks/stone-briefing/presentation.html#p=194",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 195,
+    "job": "roster",
+    "title": "若采纳 §1.2 的「双载体」路径，披萨线必须补一款基础款 · 清单",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-briefing/presentation.html#p=195",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 196,
+    "job": "roster",
+    "title": "若采纳 §1.2 的「双载体」路径，披萨线必须补一款基础款",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=196",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 197,
+    "job": "statement",
+    "title": "披萨的三条运营铁律（若走双载体路径）",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=197",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 198,
+    "job": "statement",
+    "title": "5.6 关键补位三：把烘焙做成一个可带走的产品",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=198",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 199,
+    "job": "statement",
+    "title": "逻辑",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=199",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 200,
+    "job": "roster",
+    "title": "建议动作（成本极低，价值极高）",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=200",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 201,
+    "job": "statement",
+    "title": "建议动作（成本极低，价值极高）",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=201",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 202,
+    "job": "statement",
+    "title": "5.7 菜品去留评估表 + 红绿灯规则（开业即生效，本次签字）",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=202",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 203,
+    "job": "roster",
+    "title": "评估表字段（每 SKU 每周回填）",
+    "fill": "",
+    "formula_id": "F13",
+    "href": "/decks/stone-briefing/presentation.html#p=203",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 204,
+    "job": "roster",
+    "title": "红绿灯规则（建议阈值，本次确认）",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=204",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 205,
+    "job": "statement",
+    "title": "红绿灯规则（建议阈值，本次确认）",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=205",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 206,
+    "job": "divider",
+    "title": "",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=206",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 207,
+    "job": "roster",
+    "title": "6.1 定价原则（数据校准版）",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=207",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 208,
+    "job": "roster",
+    "title": "6.2 Shake Shack 对标定价法",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=208",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 209,
+    "job": "statement",
+    "title": "6.2 Shake Shack 对标定价法",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=209",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 210,
+    "job": "chart",
+    "title": "6.3 大众点评 5 个限时套餐（场景导向，非折扣导向）",
+    "fill": "slope",
+    "formula_id": "F06",
+    "href": "/decks/stone-briefing/presentation.html#p=210",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 211,
+    "job": "roster",
+    "title": "6.3 大众点评 5 个限时套餐（场景导向，非折扣导向） · 清单",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-briefing/presentation.html#p=211",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 212,
+    "job": "statement",
+    "title": "6.3 大众点评 5 个限时套餐（场景导向，非折扣导向）",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=212",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 213,
+    "job": "roster",
+    "title": "6.4 三平台价盘差异",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=213",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 214,
+    "job": "statement",
+    "title": "6.4 三平台价盘差异",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=214",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 215,
+    "job": "roster",
+    "title": "6.5 调价预案",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=215",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 216,
+    "job": "statement",
+    "title": "6.6 巴斯克三个月赠送",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=216",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 217,
+    "job": "roster",
+    "title": "6.6 巴斯克三个月赠送",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=217",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 218,
+    "job": "chart",
+    "title": "6.6 巴斯克三个月赠送",
+    "fill": "waterfall",
+    "formula_id": "F06",
+    "href": "/decks/stone-briefing/presentation.html#p=218",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 219,
+    "job": "roster",
+    "title": "6.6 巴斯克三个月赠送 · 清单",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-briefing/presentation.html#p=219",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 220,
+    "job": "statement",
+    "title": "6.6 巴斯克三个月赠送",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=220",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 221,
+    "job": "roster",
+    "title": "赠送必须换取的四件事（任选其一即可领取）",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=221",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 222,
+    "job": "statement",
+    "title": "赠送必须换取的四件事（任选其一即可领取）",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=222",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 223,
+    "job": "kpi",
+    "title": "三个月后停或续的判定标准（现在就定）",
+    "fill": "",
+    "formula_id": "F01",
+    "href": "/decks/stone-briefing/presentation.html#p=223",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 224,
+    "job": "statement",
+    "title": "6.7 烤炉导流：合生汇 B2 的零成本启动流量",
+    "fill": "poster",
+    "formula_id": "F12",
+    "href": "/decks/stone-briefing/presentation.html#p=224",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 225,
+    "job": "roster",
+    "title": "三步走方案",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=225",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 226,
+    "job": "roster",
+    "title": "品牌关联的表述边界（重要）",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=226",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 227,
+    "job": "statement",
+    "title": "品牌关联的表述边界（重要）",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=227",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 228,
+    "job": "roster",
+    "title": "6.8 开业营销日历",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=228",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 229,
+    "job": "divider",
+    "title": "",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=229",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 230,
+    "job": "statement",
+    "title": "7.1 心智层的核心问题：一句话要占哪个词",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=230",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 231,
+    "job": "roster",
+    "title": "三个必须做出的取舍",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=231",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 232,
+    "job": "statement",
+    "title": "三个必须做出的取舍",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=232",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 233,
+    "job": "roster",
+    "title": "三个必须做出的取舍",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=233",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 234,
+    "job": "kpi",
+    "title": "三个必须做出的取舍",
+    "fill": "",
+    "formula_id": "F01",
+    "href": "/decks/stone-briefing/presentation.html#p=234",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 235,
+    "job": "statement",
+    "title": "三个必须做出的取舍",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=235",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 236,
+    "job": "roster",
+    "title": "7.2 品牌手册的四个具体问题（需在物料落地前修正）",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=236",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 237,
+    "job": "statement",
+    "title": "7.2 品牌手册的四个具体问题（需在物料落地前修正）",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=237",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 238,
+    "job": "statement",
+    "title": "7.3 品牌架构：石头先生的烤炉 × 石头先生的汉堡",
+    "fill": "poster",
+    "formula_id": "F12",
+    "href": "/decks/stone-briefing/presentation.html#p=238",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 239,
+    "job": "roster",
+    "title": "已定架构：母品牌 + 业态子品牌",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=239",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 240,
+    "job": "statement",
+    "title": "已定架构：母品牌 + 业态子品牌",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=240",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 241,
+    "job": "roster",
+    "title": "母品牌「石头先生」的资产盘点",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=241",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 242,
+    "job": "statement",
+    "title": "7.4 视觉菜单设计规划",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=242",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 243,
+    "job": "readme",
+    "title": "阅读动线与版位分配",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=243",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 244,
+    "job": "statement",
+    "title": "阅读动线与版位分配",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=244",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 245,
+    "job": "statement",
+    "title": "图片策略",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=245",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 246,
+    "job": "roster",
+    "title": "文案策略",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=246",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 247,
+    "job": "statement",
+    "title": "文案策略",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=247",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 248,
+    "job": "roster",
+    "title": "门头与橱窗",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=248",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 249,
+    "job": "roster",
+    "title": "7.5 多载体差异",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=249",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 250,
+    "job": "roster",
+    "title": "7.6 内容与 UGC 设计",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=250",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 251,
+    "job": "statement",
+    "title": "7.6 内容与 UGC 设计",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=251",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 252,
+    "job": "divider",
+    "title": "",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=252",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 253,
+    "job": "roster",
+    "title": "8.1 顾客动线七节点",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=253",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 254,
+    "job": "statement",
+    "title": "8.1 顾客动线七节点",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=254",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 255,
+    "job": "roster",
+    "title": "8.2 施工图动线校验：三大明档目前只落实了一个",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=255",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 256,
+    "job": "statement",
+    "title": "8.2 施工图动线校验：三大明档目前只落实了一个",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=256",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 257,
+    "job": "roster",
+    "title": "三个必须在 8.15 会议上确认的空间问题",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=257",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 258,
+    "job": "statement",
+    "title": "三个必须在 8.15 会议上确认的空间问题",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=258",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 259,
+    "job": "roster",
+    "title": "三个必须在 8.15 会议上确认的空间问题",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=259",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 260,
+    "job": "statement",
+    "title": "三个必须在 8.15 会议上确认的空间问题",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=260",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 261,
+    "job": "chart",
+    "title": "8.3 点单渠道结构",
+    "fill": "hbar",
+    "formula_id": "F06",
+    "href": "/decks/stone-briefing/presentation.html#p=261",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 262,
+    "job": "roster",
+    "title": "8.3 点单渠道结构 · 清单",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-briefing/presentation.html#p=262",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 263,
+    "job": "statement",
+    "title": "8.3 点单渠道结构",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=263",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 264,
+    "job": "roster",
+    "title": "8.3 点单渠道结构",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=264",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 265,
+    "job": "statement",
+    "title": "8.4 扫码点餐信息架构（逐屏设计）",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=265",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 266,
+    "job": "chart",
+    "title": "一级页 · 套餐为王",
+    "fill": "slots",
+    "formula_id": "F06",
+    "href": "/decks/stone-briefing/presentation.html#p=266",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 267,
+    "job": "roster",
+    "title": "一级页 · 套餐为王 · 清单",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-briefing/presentation.html#p=267",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 268,
+    "job": "statement",
+    "title": "一级页 · 套餐为王",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=268",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 269,
+    "job": "chart-table",
+    "title": "二级页 · 分类导航（按钮顺序即点击率）",
+    "fill": "hbar",
+    "formula_id": "F06",
+    "href": "/decks/stone-briefing/presentation.html#p=269",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 270,
+    "job": "roster",
+    "title": "二级页 · 分类导航（按钮顺序即点击率） · 清单",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-briefing/presentation.html#p=270",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 271,
+    "job": "roster",
+    "title": "三级页 · 单品详情的三个关键设计",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=271",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 272,
+    "job": "chart",
+    "title": "结算页 · 最后一次加购",
+    "fill": "slots",
+    "formula_id": "F06",
+    "href": "/decks/stone-briefing/presentation.html#p=272",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 273,
+    "job": "roster",
+    "title": "结算页 · 最后一次加购 · 清单",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-briefing/presentation.html#p=273",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 274,
+    "job": "statement",
+    "title": "结算页 · 最后一次加购",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=274",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 275,
+    "job": "roster",
+    "title": "8.5 出餐三梯队与承诺时长",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=275",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 276,
+    "job": "statement",
+    "title": "8.5 出餐三梯队与承诺时长",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=276",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 277,
+    "job": "statement",
+    "title": "8.6 点单效率与高峰堵点",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=277",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 278,
+    "job": "statement",
+    "title": "决策成本问题",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=278",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 279,
+    "job": "roster",
+    "title": "三个可预见的高峰堵点与对策",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=279",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 280,
+    "job": "statement",
+    "title": "出餐口设计（结合施工图）",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=280",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 281,
+    "job": "roster",
+    "title": "8.7 门店物料四层级",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=281",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 282,
+    "job": "statement",
+    "title": "8.7 门店物料四层级",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=282",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 283,
+    "job": "divider",
+    "title": "",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=283",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 284,
+    "job": "statement",
+    "title": "第九部分 · 数据测试与验证体系（本次大幅扩写）",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=284",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 285,
+    "job": "roster",
+    "title": "9.1 开业前必须完成的五项测试",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=285",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 286,
+    "job": "statement",
+    "title": "9.1 开业前必须完成的五项测试",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=286",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 287,
+    "job": "statement",
+    "title": "9.2 开业首 15 天的数据回传清单",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=287",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 288,
+    "job": "roster",
+    "title": "日级（每日 23:00 前回填）",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=288",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 289,
+    "job": "roster",
+    "title": "周级（每周一汇总）",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=289",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 290,
+    "job": "statement",
+    "title": "D15 必须回答的四个问题（§4.1 的四个未知）",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=290",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 291,
+    "job": "roster",
+    "title": "9.3 A/B 测试设计（开业后 D15–D60）",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=291",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 292,
+    "job": "roster",
+    "title": "9.4 待证伪的七个核心假设",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=292",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 293,
+    "job": "verdict",
+    "title": "9.4 待证伪的七个核心假设",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=293",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 294,
+    "job": "roster",
+    "title": "9.5 数据字典（开业前必须定稿）",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=294",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 295,
+    "job": "statement",
+    "title": "9.5 数据字典（开业前必须定稿）",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=295",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 296,
+    "job": "kpi",
+    "title": "9.6 经营分析看板 V1",
+    "fill": "",
+    "formula_id": "F01",
+    "href": "/decks/stone-briefing/presentation.html#p=296",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 297,
+    "job": "statement",
+    "title": "9.6 经营分析看板 V1",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=297",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 298,
+    "job": "roster",
+    "title": "9.6 经营分析看板 V1",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=298",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 299,
+    "job": "divider",
+    "title": "",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=299",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 300,
+    "job": "readme",
+    "title": "10.1 地基：数据资产标准",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=300",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 301,
+    "job": "statement",
+    "title": "10.2 菜单迭代决策智能体系",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=301",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 302,
+    "job": "roster",
+    "title": "10.3 产品创新智能体系",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=302",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 303,
+    "job": "kpi",
+    "title": "10.4 选址评分卡（用本次数据校准）",
+    "fill": "",
+    "formula_id": "F01",
+    "href": "/decks/stone-briefing/presentation.html#p=303",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 304,
+    "job": "statement",
+    "title": "10.4 选址评分卡（用本次数据校准）",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=304",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 305,
+    "job": "chart",
+    "title": "10.5 单店模型与店型分化",
+    "fill": "hbar",
+    "formula_id": "F06",
+    "href": "/decks/stone-briefing/presentation.html#p=305",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 306,
+    "job": "roster",
+    "title": "10.5 单店模型与店型分化 · 清单",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-briefing/presentation.html#p=306",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 307,
+    "job": "statement",
+    "title": "10.5 单店模型与店型分化",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=307",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 308,
+    "job": "roster",
+    "title": "10.6 二店建议",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=308",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 309,
+    "job": "statement",
+    "title": "10.6 二店建议",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=309",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 310,
+    "job": "roster",
+    "title": "10.7 复制期工具包",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=310",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 311,
+    "job": "divider",
+    "title": "",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=311",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 312,
+    "job": "roster",
+    "title": "第十一部分 · 需当场决策清单",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-briefing/presentation.html#p=312",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 313,
+    "job": "roster",
+    "title": "第十一部分 · 需当场决策清单 · 2",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-briefing/presentation.html#p=313",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 314,
+    "job": "roster",
+    "title": "第十一部分 · 需当场决策清单 · 3",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-briefing/presentation.html#p=314",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 315,
+    "job": "divider",
+    "title": "",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=315",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 316,
+    "job": "roster",
+    "title": "12.1 本次仍未能回答的问题",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=316",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 317,
+    "job": "roster",
+    "title": "12.2 二期服务路线",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=317",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 318,
+    "job": "divider",
+    "title": "",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=318",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 319,
+    "job": "readme",
+    "title": "A. 数据来源与口径",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=319",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 320,
+    "job": "readme",
+    "title": "B. 数据口径的三点声明",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=320",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 321,
+    "job": "roster",
+    "title": "C. 术语表",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=321",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 322,
+    "job": "roster",
+    "title": "D. 附件清单",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-briefing/presentation.html#p=322",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 323,
+    "job": "statement",
+    "title": "一页纸总结",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=323",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.1",
+    "page": 324,
+    "job": "statement",
+    "title": "一页纸总结 · 2",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/presentation.html#p=324",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.2",
+    "page": 1,
+    "job": "",
+    "title": "",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/html-v1.html#p=1",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.2",
+    "page": 2,
+    "job": "",
+    "title": "五项关键发现",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/html-v1.html#p=2",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.2",
+    "page": 3,
+    "job": "",
+    "title": "价格带与规模天花板：定价决策的结构性约束",
+    "fill": "",
+    "formula_id": "F08",
+    "href": "/decks/stone-briefing/html-v1.html#p=3",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.2",
+    "page": 4,
+    "job": "",
+    "title": "战略路径：规模载体的品类选择",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/html-v1.html#p=4",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.2",
+    "page": 5,
+    "job": "",
+    "title": "扩张阶段划分与品类心智定位",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/html-v1.html#p=5",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.2",
+    "page": 6,
+    "job": "",
+    "title": "千店级品牌的五项结构规律与现状对照",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/html-v1.html#p=6",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.2",
+    "page": 7,
+    "job": "",
+    "title": "全市西式餐饮赛道总览",
+    "fill": "",
+    "formula_id": "F01",
+    "href": "/decks/stone-briefing/html-v1.html#p=7",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.2",
+    "page": 8,
+    "job": "",
+    "title": "全市西式门店客单价分布",
+    "fill": "",
+    "formula_id": "F01",
+    "href": "/decks/stone-briefing/html-v1.html#p=8",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.2",
+    "page": 9,
+    "job": "",
+    "title": "汉堡品类价格结构分析：97.8% 的门店客单价在 55 元以下",
+    "fill": "",
+    "formula_id": "F09",
+    "href": "/decks/stone-briefing/html-v1.html#p=9",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.2",
+    "page": 10,
+    "job": "",
+    "title": "独立汉堡门店的定价结构与酒饮场景相关性",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/html-v1.html#p=10",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.2",
+    "page": 11,
+    "job": "",
+    "title": "评分与流量相关性分析：4.5 分是关键分水岭",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/html-v1.html#p=11",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.2",
+    "page": 12,
+    "job": "",
+    "title": "商圈优先级评估：面向未来 20–30 家门店的选址基础研究",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/html-v1.html#p=12",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.2",
+    "page": 13,
+    "job": "",
+    "title": "合生汇餐饮业态总览：275 家商户的结构画像",
+    "fill": "",
+    "formula_id": "F04",
+    "href": "/decks/stone-briefing/html-v1.html#p=13",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.2",
+    "page": 14,
+    "job": "",
+    "title": "楼层价格结构分析：二元分化特征与跨商场定价一致性检验",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/html-v1.html#p=14",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.2",
+    "page": 15,
+    "job": "",
+    "title": "定价锚点分析：紧邻 Shake Shack 的 62 元参照系",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/html-v1.html#p=15",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.2",
+    "page": 16,
+    "job": "",
+    "title": "场内西式品类竞争全景：9 家门店与 62–90 元价格真空带",
+    "fill": "",
+    "formula_id": "F11",
+    "href": "/decks/stone-briefing/html-v1.html#p=16",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.2",
+    "page": 17,
+    "job": "",
+    "title": "分环竞争强度分析（一）：环带总览与 0–500 米详表",
+    "fill": "",
+    "formula_id": "F03",
+    "href": "/decks/stone-briefing/html-v1.html#p=17",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.2",
+    "page": 18,
+    "job": "",
+    "title": "分环竞争强度分析（二）：500 米至 1 公里详表",
+    "fill": "",
+    "formula_id": "F03",
+    "href": "/decks/stone-briefing/html-v1.html#p=18",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.2",
+    "page": 19,
+    "job": "",
+    "title": "次级心智竞争带分析：双井商圈（1–3 公里范围）",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/html-v1.html#p=19",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.2",
+    "page": 20,
+    "job": "",
+    "title": "竞争定位矩阵与能力评估",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/html-v1.html#p=20",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.2",
+    "page": 21,
+    "job": "",
+    "title": "关联品牌资产分析：石头先生的烤炉",
+    "fill": "",
+    "formula_id": "F12",
+    "href": "/decks/stone-briefing/html-v1.html#p=21",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.2",
+    "page": 22,
+    "job": "",
+    "title": "品牌架构决策：石头先生的烤炉 × 石头先生的汉堡",
+    "fill": "",
+    "formula_id": "F12",
+    "href": "/decks/stone-briefing/html-v1.html#p=22",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.2",
+    "page": 23,
+    "job": "",
+    "title": "产品结构口径说明与 SKU 全景",
+    "fill": "",
+    "formula_id": "F13",
+    "href": "/decks/stone-briefing/html-v1.html#p=23",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D03.2",
+    "page": 24,
+    "job": "",
+    "title": "菜单重复度诊断：九宫格矩阵分析",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/html-v1.html#p=24",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.2",
+    "page": 25,
+    "job": "",
+    "title": "空间承载能力验证与人均客单测算",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/html-v1.html#p=25",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.2",
+    "page": 26,
+    "job": "",
+    "title": "价格锚点体系现状与调整建议",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/html-v1.html#p=26",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.2",
+    "page": 27,
+    "job": "",
+    "title": "首版菜单结构总览",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/html-v1.html#p=27",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.2",
+    "page": 28,
+    "job": "",
+    "title": "三项菜单补位建议",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/html-v1.html#p=28",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.2",
+    "page": 29,
+    "job": "",
+    "title": "对标定价法与场景化套餐设计",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/html-v1.html#p=29",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.2",
+    "page": 30,
+    "job": "",
+    "title": "开业三个月产品赠送方案：获客投资测算",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/html-v1.html#p=30",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.2",
+    "page": 31,
+    "job": "",
+    "title": "选址评分体系与后续拓店建议",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/html-v1.html#p=31",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D03.2",
+    "page": 32,
+    "job": "",
+    "title": "决策事项清单与实施时间表",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-briefing/html-v1.html#p=32",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 1,
+    "job": "cover",
+    "title": "",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=1",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 2,
+    "job": "toc",
+    "title": "目录 · CONTENTS",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=2",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 3,
+    "job": "toc",
+    "title": "目录 · CONTENTS · 2",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=3",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 4,
+    "job": "statement",
+    "title": "序",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=4",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 5,
+    "job": "roster",
+    "title": "目录",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=5",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 6,
+    "job": "divider",
+    "title": "",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=6",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 7,
+    "job": "statement",
+    "title": "第一部分 · 问题定义",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=7",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 8,
+    "job": "statement",
+    "title": "1.1 核心目标的三层定义",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=8",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 9,
+    "job": "roster",
+    "title": "第一层 · 北极星（10 年不变）",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=9",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 10,
+    "job": "chart",
+    "title": "第二层 · 阶段目标（可衡量、有时限）",
+    "fill": "timeline",
+    "formula_id": "F06",
+    "href": "/decks/stone-roadmap/presentation.html#p=10",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D04",
+    "page": 11,
+    "job": "roster",
+    "title": "第二层 · 阶段目标（可衡量、有时限） · 清单",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-roadmap/presentation.html#p=11",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D04",
+    "page": 12,
+    "job": "roster",
+    "title": "第三层 · 可证伪的核心命题",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=12",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 13,
+    "job": "verdict",
+    "title": "第三层 · 可证伪的核心命题",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=13",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 14,
+    "job": "roster",
+    "title": "1.2 本项目涉及的六个问题域",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=14",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 15,
+    "job": "statement",
+    "title": "1.2 本项目涉及的六个问题域",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=15",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 16,
+    "job": "chart",
+    "title": "1.2 本项目涉及的六个问题域",
+    "fill": "weight-shift",
+    "formula_id": "F06",
+    "href": "/decks/stone-roadmap/presentation.html#p=16",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D04",
+    "page": 17,
+    "job": "roster",
+    "title": "1.2 本项目涉及的六个问题域 · 清单",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-roadmap/presentation.html#p=17",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D04",
+    "page": 18,
+    "job": "statement",
+    "title": "1.3 问题的本质：这是一个「双重难题」",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=18",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 19,
+    "job": "statement",
+    "title": "难题一：跨价格带的心智迁移",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=19",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 20,
+    "job": "kpi",
+    "title": "难题一：跨价格带的心智迁移",
+    "fill": "",
+    "formula_id": "F01",
+    "href": "/decks/stone-roadmap/presentation.html#p=20",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D04",
+    "page": 21,
+    "job": "statement",
+    "title": "难题二：可复制的单店模型",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=21",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 22,
+    "job": "roster",
+    "title": "两个难题的冲突点",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=22",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 23,
+    "job": "statement",
+    "title": "两个难题的冲突点",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=23",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 24,
+    "job": "roster",
+    "title": "1.4 项目边界：明确不做什么",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=24",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 25,
+    "job": "divider",
+    "title": "",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=25",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 26,
+    "job": "statement",
+    "title": "第二部分 · 方法论体系",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=26",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 27,
+    "job": "statement",
+    "title": "2.1 框架选择的三条标准",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=27",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 28,
+    "job": "statement",
+    "title": "2.2 战略层框架",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=28",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 29,
+    "job": "roster",
+    "title": "① Playing to Win 五问级联（Lafley &amp; Martin）",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=29",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 30,
+    "job": "statement",
+    "title": "① Playing to Win 五问级联（Lafley &amp; Martin）",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=30",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 31,
+    "job": "roster",
+    "title": "② Jobs-to-be-Done（Christensen）",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=31",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 32,
+    "job": "statement",
+    "title": "② Jobs-to-be-Done（Christensen）",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=32",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 33,
+    "job": "roster",
+    "title": "③ 蓝海 ERRC 四动作（Kim &amp; Mauborgne）",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=33",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 34,
+    "job": "roster",
+    "title": "④ Porter 五力（裁剪版）",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=34",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 35,
+    "job": "statement",
+    "title": "④ Porter 五力（裁剪版）",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=35",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 36,
+    "job": "statement",
+    "title": "2.3 品类与心智层框架",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=36",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 37,
+    "job": "statement",
+    "title": "⑤ 定位理论（Ries &amp; Trout）+ 品类分化",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=37",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 38,
+    "job": "roster",
+    "title": "⑥ Byron Sharp《How Brands Grow》（对定位理论的必要制衡）",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=38",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 39,
+    "job": "statement",
+    "title": "⑥ Byron Sharp《How Brands Grow》（对定位理论的必要制衡）",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=39",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 40,
+    "job": "statement",
+    "title": "⑦ CBBE 品牌资产金字塔（Keller）",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=40",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 41,
+    "job": "chart",
+    "title": "⑦ CBBE 品牌资产金字塔（Keller）",
+    "fill": "stack",
+    "formula_id": "F06",
+    "href": "/decks/stone-roadmap/presentation.html#p=41",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D04",
+    "page": 42,
+    "job": "roster",
+    "title": "⑦ CBBE 品牌资产金字塔（Keller） · 清单",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-roadmap/presentation.html#p=42",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D04",
+    "page": 43,
+    "job": "statement",
+    "title": "⑦ CBBE 品牌资产金字塔（Keller）",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=43",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 44,
+    "job": "statement",
+    "title": "⑧ 超级符号 / 品牌资产可复用性（华与华方法的可取部分）",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=44",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 45,
+    "job": "statement",
+    "title": "2.4 产品与菜单层框架",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=45",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 46,
+    "job": "roster",
+    "title": "⑨ 菜单工程矩阵（Kasavana &amp; Smith）",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=46",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 47,
+    "job": "statement",
+    "title": "⑨ 菜单工程矩阵（Kasavana &amp; Smith）",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=47",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 48,
+    "job": "statement",
+    "title": "⑩ 君臣佐使 / 主辅佐引",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=48",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 49,
+    "job": "statement",
+    "title": "⑪ 九宫格创新矩阵（口味 × 食材 × 工艺）",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=49",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 50,
+    "job": "roster",
+    "title": "⑫ Kano 模型",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=50",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 51,
+    "job": "statement",
+    "title": "⑫ Kano 模型",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=51",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 52,
+    "job": "statement",
+    "title": "2.5 单店经济与运营层框架",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=52",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 53,
+    "job": "statement",
+    "title": "⑬ 单位经济学 UE（Unit Economics）",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=53",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 54,
+    "job": "roster",
+    "title": "⑬ 单位经济学 UE（Unit Economics）",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=54",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 55,
+    "job": "roster",
+    "title": "⑬ 单位经济学 UE（Unit Economics）",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=55",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 56,
+    "job": "statement",
+    "title": "⑬ 单位经济学 UE（Unit Economics）",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=56",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 57,
+    "job": "statement",
+    "title": "⑭ TOC 约束理论（Goldratt）",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=57",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 58,
+    "job": "chart",
+    "title": "⑭ TOC 约束理论（Goldratt）",
+    "fill": "timeline",
+    "formula_id": "F06",
+    "href": "/decks/stone-roadmap/presentation.html#p=58",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D04",
+    "page": 59,
+    "job": "roster",
+    "title": "⑭ TOC 约束理论（Goldratt） · 清单",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-roadmap/presentation.html#p=59",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D04",
+    "page": 60,
+    "job": "statement",
+    "title": "⑭ TOC 约束理论（Goldratt）",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=60",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 61,
+    "job": "statement",
+    "title": "⑮ 精益（Lean）七种浪费 + SOP 与学习曲线",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=61",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 62,
+    "job": "statement",
+    "title": "2.6 增长与顾客资产层框架",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=62",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 63,
+    "job": "roster",
+    "title": "⑯ AARRR 海盗模型（裁剪为餐饮版）",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=63",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 64,
+    "job": "statement",
+    "title": "⑰ 队列分析（Cohort）+ RFM",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=64",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 65,
+    "job": "statement",
+    "title": "⑱ NPS 与差评归因",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=65",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 66,
+    "job": "statement",
+    "title": "2.7 组织与复制层框架",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=66",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 67,
+    "job": "chart",
+    "title": "⑲ Greiner 组织成长五阶段危机模型",
+    "fill": "timeline",
+    "formula_id": "F06",
+    "href": "/decks/stone-roadmap/presentation.html#p=67",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D04",
+    "page": 68,
+    "job": "roster",
+    "title": "⑲ Greiner 组织成长五阶段危机模型 · 清单",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-roadmap/presentation.html#p=68",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D04",
+    "page": 69,
+    "job": "statement",
+    "title": "⑲ Greiner 组织成长五阶段危机模型",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=69",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 70,
+    "job": "statement",
+    "title": "⑳ 管理半径与「三脚凳」",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=70",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 71,
+    "job": "chart",
+    "title": "㉑ 蓝图化（Blueprinting）与复制手册体系",
+    "fill": "hbar",
+    "formula_id": "F06",
+    "href": "/decks/stone-roadmap/presentation.html#p=71",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D04",
+    "page": 72,
+    "job": "roster",
+    "title": "㉑ 蓝图化（Blueprinting）与复制手册体系 · 清单",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-roadmap/presentation.html#p=72",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D04",
+    "page": 73,
+    "job": "statement",
+    "title": "2.8 决策与数据层框架",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=73",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 74,
+    "job": "statement",
+    "title": "㉒ 假设驱动 + MECE + 金字塔原理",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=74",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 75,
+    "job": "statement",
+    "title": "㉓ 北极星指标 + OKR + Stage Gate",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=75",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 76,
+    "job": "statement",
+    "title": "㉔ 实验设计（A/B + 最小可行实验）",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=76",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 77,
+    "job": "roster",
+    "title": "2.9 框架 × 阶段的使用矩阵",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=77",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 78,
+    "job": "roster",
+    "title": "2.9 框架 × 阶段的使用矩阵 · 2",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=78",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 79,
+    "job": "roster",
+    "title": "2.9 框架 × 阶段的使用矩阵 · 3",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=79",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 80,
+    "job": "statement",
+    "title": "2.9 框架 × 阶段的使用矩阵",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=80",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 81,
+    "job": "divider",
+    "title": "",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=81",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 82,
+    "job": "statement",
+    "title": "第三部分 · 高质量数据源体系",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=82",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 83,
+    "job": "roster",
+    "title": "3.1 数据源分层模型",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=83",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 84,
+    "job": "statement",
+    "title": "3.2 各层的具体来源清单",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=84",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 85,
+    "job": "roster",
+    "title": "L0 · 自有一手数据（最高优先级，别人拿不到的）",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=85",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 86,
+    "job": "roster",
+    "title": "L1 · 官方统计",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=86",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 87,
+    "job": "roster",
+    "title": "L2 · 行业协会与权威研究机构",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=87",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 88,
+    "job": "roster",
+    "title": "L3 · 平台与实测数据（本项目的核心竞争力）",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=88",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 89,
+    "job": "statement",
+    "title": "L3 · 平台与实测数据（本项目的核心竞争力）",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=89",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 90,
+    "job": "roster",
+    "title": "L4 · 商业研究与券商报告",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=90",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 91,
+    "job": "statement",
+    "title": "L5 · 媒体与社媒（只用于发现线索）",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=91",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 92,
+    "job": "statement",
+    "title": "3.3 数据源使用的五条纪律",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=92",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 93,
+    "job": "roster",
+    "title": "3.4 建议补建的三项数据能力",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=93",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 94,
+    "job": "divider",
+    "title": "",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=94",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 95,
+    "job": "statement",
+    "title": "第四部分 · 宏观环境（PESTEL 裁剪版）",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=95",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 96,
+    "job": "statement",
+    "title": "4.1 大盘：增速换挡，存量博弈",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=96",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 97,
+    "job": "kpi",
+    "title": "4.1 大盘：增速换挡，存量博弈",
+    "fill": "",
+    "formula_id": "F01",
+    "href": "/decks/stone-roadmap/presentation.html#p=97",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D04",
+    "page": 98,
+    "job": "statement",
+    "title": "4.1 大盘：增速换挡，存量博弈",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=98",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 99,
+    "job": "statement",
+    "title": "4.2 洗牌：新店存活率是本项目最该敬畏的数字",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=99",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 100,
+    "job": "roster",
+    "title": "4.3 连锁化：中等规模是最佳生态位，小连锁是死亡带",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=100",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 101,
+    "job": "statement",
+    "title": "4.3 连锁化：中等规模是最佳生态位，小连锁是死亡带",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=101",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 102,
+    "job": "statement",
+    "title": "4.4 西式快餐：赛道增速高于大盘，但结构在剧变",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=102",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 103,
+    "job": "statement",
+    "title": "4.5 价格：西餐是唯一在涨价的赛道，涨价窗口正在打开",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=103",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 104,
+    "job": "statement",
+    "title": "4.5 价格：西餐是唯一在涨价的赛道，涨价窗口正在打开 · 2",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=104",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 105,
+    "job": "roster",
+    "title": "4.6 政策与合规",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=105",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 106,
+    "job": "statement",
+    "title": "4.6 政策与合规",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=106",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 107,
+    "job": "roster",
+    "title": "4.7 宏观结论：六条推论汇总",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=107",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 108,
+    "job": "divider",
+    "title": "",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=108",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 109,
+    "job": "statement",
+    "title": "5.1 主导趋势：从「性价比」到「值价比」",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=109",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 110,
+    "job": "roster",
+    "title": "对本项目的翻译",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=110",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 111,
+    "job": "statement",
+    "title": "对本项目的翻译",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=111",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 112,
+    "job": "statement",
+    "title": "5.2 结构性分化，而非整体降级",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=112",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 113,
+    "job": "roster",
+    "title": "对本项目的翻译",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=113",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 114,
+    "job": "statement",
+    "title": "对本项目的翻译",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=114",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 115,
+    "job": "statement",
+    "title": "5.3 情绪价值成为常态需求",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=115",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 116,
+    "job": "roster",
+    "title": "对本项目的翻译",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=116",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 117,
+    "job": "statement",
+    "title": "对本项目的翻译",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=117",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 118,
+    "job": "statement",
+    "title": "5.4 一人食：被巨头验证的确定性趋势",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=118",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 119,
+    "job": "roster",
+    "title": "5.4 一人食：被巨头验证的确定性趋势",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=119",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 120,
+    "job": "roster",
+    "title": "5.5 三个「趋势陷阱」——不要跟的趋势",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=120",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 121,
+    "job": "roster",
+    "title": "5.6 消费趋势 → 本项目的六条行动含义",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=121",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 122,
+    "job": "divider",
+    "title": "",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=122",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 123,
+    "job": "statement",
+    "title": "第六部分 · 竞争格局的结构性变化",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=123",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 124,
+    "job": "statement",
+    "title": "6.1 必胜汉堡：一个与石头先生高度重叠的新物种",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=124",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 125,
+    "job": "compare",
+    "title": "逐条对照：这个品牌和石头先生像到什么程度",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=125",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 126,
+    "job": "statement",
+    "title": "三个必须正视的结论",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=126",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 127,
+    "job": "roster",
+    "title": "三个必须正视的结论",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=127",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 128,
+    "job": "statement",
+    "title": "三个必须正视的结论",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=128",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 129,
+    "job": "statement",
+    "title": "6.2 必胜客的价格下行：来自上方的降维挤压",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=129",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 130,
+    "job": "chart",
+    "title": "这对石头先生意味着什么",
+    "fill": "price-ladder",
+    "formula_id": "F06",
+    "href": "/decks/stone-roadmap/presentation.html#p=130",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D04",
+    "page": 131,
+    "job": "roster",
+    "title": "这对石头先生意味着什么 · 清单",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-roadmap/presentation.html#p=131",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D04",
+    "page": 132,
+    "job": "statement",
+    "title": "这对石头先生意味着什么",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=132",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 133,
+    "job": "statement",
+    "title": "6.3 Shake Shack 的教训：高价精品汉堡的天花板",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=133",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 134,
+    "job": "roster",
+    "title": "6.3 Shake Shack 的教训：高价精品汉堡的天花板",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=134",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 135,
+    "job": "chart",
+    "title": "6.4 三面夹击的竞争地图",
+    "fill": "price-ladder",
+    "formula_id": "F06",
+    "href": "/decks/stone-roadmap/presentation.html#p=135",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D04",
+    "page": 136,
+    "job": "roster",
+    "title": "6.4 三面夹击的竞争地图 · 清单",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-roadmap/presentation.html#p=136",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D04",
+    "page": 137,
+    "job": "roster",
+    "title": "6.4 三面夹击的竞争地图",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=137",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 138,
+    "job": "roster",
+    "title": "6.5 时间窗口判断",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=138",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 139,
+    "job": "statement",
+    "title": "6.5 时间窗口判断",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=139",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 140,
+    "job": "divider",
+    "title": "",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=140",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 141,
+    "job": "statement",
+    "title": "7.1 Playing to Win 五问的填写",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=141",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 142,
+    "job": "statement",
+    "title": "问 1：制胜抱负",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=142",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 143,
+    "job": "kpi",
+    "title": "问 2：在哪里竞争",
+    "fill": "",
+    "formula_id": "F01",
+    "href": "/decks/stone-roadmap/presentation.html#p=143",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D04",
+    "page": 144,
+    "job": "roster",
+    "title": "问 3：如何取胜",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=144",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 145,
+    "job": "chart",
+    "title": "问 4：需要什么能力",
+    "fill": "hbar",
+    "formula_id": "F06",
+    "href": "/decks/stone-roadmap/presentation.html#p=145",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D04",
+    "page": 146,
+    "job": "roster",
+    "title": "问 4：需要什么能力 · 清单",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-roadmap/presentation.html#p=146",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D04",
+    "page": 147,
+    "job": "chart",
+    "title": "问 5：需要什么管理系统",
+    "fill": "hbar",
+    "formula_id": "F06",
+    "href": "/decks/stone-roadmap/presentation.html#p=147",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D04",
+    "page": 148,
+    "job": "roster",
+    "title": "问 5：需要什么管理系统 · 清单",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-roadmap/presentation.html#p=148",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D04",
+    "page": 149,
+    "job": "statement",
+    "title": "7.2 定位陈述（填写完成）",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=149",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 150,
+    "job": "kpi",
+    "title": "7.2 定位陈述（填写完成）",
+    "fill": "",
+    "formula_id": "F01",
+    "href": "/decks/stone-roadmap/presentation.html#p=150",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D04",
+    "page": 151,
+    "job": "statement",
+    "title": "7.2 定位陈述（填写完成）",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=151",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 152,
+    "job": "roster",
+    "title": "7.3 五个选择的自洽性检验",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=152",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 153,
+    "job": "statement",
+    "title": "7.3 五个选择的自洽性检验",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=153",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 154,
+    "job": "divider",
+    "title": "",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=154",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 155,
+    "job": "chart",
+    "title": "8.0 阶段划分的逻辑与总览",
+    "fill": "timeline",
+    "formula_id": "F06",
+    "href": "/decks/stone-roadmap/presentation.html#p=155",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D04",
+    "page": 156,
+    "job": "roster",
+    "title": "8.0 阶段划分的逻辑与总览 · 清单",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-roadmap/presentation.html#p=156",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D04",
+    "page": 157,
+    "job": "roster",
+    "title": "全阶段 Gate 指标总表（不达标不进下一阶段）",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=157",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 158,
+    "job": "statement",
+    "title": "全阶段 Gate 指标总表（不达标不进下一阶段）",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=158",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 159,
+    "job": "statement",
+    "title": "8.1 S0 · 开业前 90 天：把不可逆的事做对",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=159",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 160,
+    "job": "statement",
+    "title": "阶段命题",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=160",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 161,
+    "job": "roster",
+    "title": "不可逆事项清单（按不可逆程度排序）",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-roadmap/presentation.html#p=161",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D04",
+    "page": 162,
+    "job": "roster",
+    "title": "关键动作（按问题域）",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=162",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 163,
+    "job": "roster",
+    "title": "关键动作（按问题域） · 2",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=163",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 164,
+    "job": "roster",
+    "title": "关键动作（按问题域） · 3",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=164",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 165,
+    "job": "statement",
+    "title": "我方赋能交付物",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=165",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 166,
+    "job": "statement",
+    "title": "典型死法",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=166",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 167,
+    "job": "statement",
+    "title": "进入 S1 的准入条件",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=167",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 168,
+    "job": "statement",
+    "title": "8.2 S1 · 第 1 家店（0–6 月）：模型成不成立",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=168",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 169,
+    "job": "statement",
+    "title": "阶段命题",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=169",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 170,
+    "job": "statement",
+    "title": "组织形态",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=170",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 171,
+    "job": "statement",
+    "title": "必须回答的四个问题（首店报告 §4.1 的四个未知）",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=171",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 172,
+    "job": "roster",
+    "title": "关键动作时间轴",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=172",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 173,
+    "job": "roster",
+    "title": "关键动作时间轴 · 2",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=173",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 174,
+    "job": "kpi",
+    "title": "六个问题域的工作重心",
+    "fill": "",
+    "formula_id": "F01",
+    "href": "/decks/stone-roadmap/presentation.html#p=174",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D04",
+    "page": 175,
+    "job": "statement",
+    "title": "我方赋能交付物",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=175",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 176,
+    "job": "statement",
+    "title": "典型死法",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=176",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 177,
+    "job": "roster",
+    "title": "S1→S2 Gate（不达标不开二店）",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=177",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 178,
+    "job": "statement",
+    "title": "S1→S2 Gate（不达标不开二店）",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=178",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 179,
+    "job": "statement",
+    "title": "8.3 S2 · 第 2–5 家（6–18 月）：能不能被复制",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=179",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 180,
+    "job": "statement",
+    "title": "阶段命题",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=180",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 181,
+    "job": "statement",
+    "title": "Greiner 危机：领导危机",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=181",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 182,
+    "job": "statement",
+    "title": "组织形态",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=182",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 183,
+    "job": "roster",
+    "title": "关键动作",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=183",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 184,
+    "job": "roster",
+    "title": "关键动作 · 2",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=184",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 185,
+    "job": "roster",
+    "title": "供应链的第一个关键决策",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=185",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 186,
+    "job": "statement",
+    "title": "供应链的第一个关键决策",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=186",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 187,
+    "job": "statement",
+    "title": "我方赋能交付物",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=187",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 188,
+    "job": "statement",
+    "title": "典型死法",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=188",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 189,
+    "job": "roster",
+    "title": "S2→S3 Gate",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=189",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 190,
+    "job": "statement",
+    "title": "8.4 S3 · 第 6–15 家（18–30 月）： 快速穿过死亡带",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=190",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 191,
+    "job": "statement",
+    "title": "阶段命题",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=191",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 192,
+    "job": "roster",
+    "title": "为什么死亡带会存在",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=192",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 193,
+    "job": "statement",
+    "title": "为什么死亡带会存在",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=193",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 194,
+    "job": "statement",
+    "title": "组织形态",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=194",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 195,
+    "job": "roster",
+    "title": "关键动作",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=195",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 196,
+    "job": "roster",
+    "title": "关键动作 · 2",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=196",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 197,
+    "job": "statement",
+    "title": "供应链拐点预警",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=197",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 198,
+    "job": "statement",
+    "title": "我方赋能交付物",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=198",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 199,
+    "job": "statement",
+    "title": "典型死法",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=199",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 200,
+    "job": "roster",
+    "title": "S3→S4 Gate",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=200",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 201,
+    "job": "statement",
+    "title": "8.5 S4 · 第 16–30 家（30–42 月）：系统能不能替代人",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=201",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 202,
+    "job": "statement",
+    "title": "阶段命题",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=202",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 203,
+    "job": "statement",
+    "title": "组织形态",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=203",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 204,
+    "job": "roster",
+    "title": "关键动作",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=204",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 205,
+    "job": "roster",
+    "title": "关键动作 · 2",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=205",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 206,
+    "job": "statement",
+    "title": "我方赋能交付物",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=206",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 207,
+    "job": "statement",
+    "title": "典型死法",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=207",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 208,
+    "job": "roster",
+    "title": "S4→S5 Gate",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=208",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 209,
+    "job": "statement",
+    "title": "8.6 S5 · 第 31–50 家（42–54 月）：供应链能不能承重",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=209",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 210,
+    "job": "statement",
+    "title": "阶段命题",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=210",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 211,
+    "job": "compare",
+    "title": "关键决策：自建 vs 深度绑定第三方",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=211",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 212,
+    "job": "statement",
+    "title": "关键决策：自建 vs 深度绑定第三方",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=212",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 213,
+    "job": "statement",
+    "title": "关键动作",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=213",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 214,
+    "job": "roster",
+    "title": "是否开放加盟的判定",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=214",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 215,
+    "job": "statement",
+    "title": "是否开放加盟的判定",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=215",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 216,
+    "job": "statement",
+    "title": "我方赋能交付物",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=216",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 217,
+    "job": "statement",
+    "title": "典型死法",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=217",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 218,
+    "job": "statement",
+    "title": "8.7 S6 · 第 51–100 家（54–72 月）：多店型、多城并行",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=218",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 219,
+    "job": "statement",
+    "title": "阶段命题",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=219",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 220,
+    "job": "statement",
+    "title": "关键动作",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=220",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 221,
+    "job": "roster",
+    "title": "关键动作",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=221",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 222,
+    "job": "statement",
+    "title": "关键动作",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=222",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 223,
+    "job": "statement",
+    "title": "我方赋能交付物",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=223",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 224,
+    "job": "statement",
+    "title": "典型死法",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=224",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 225,
+    "job": "statement",
+    "title": "8.8 S7 · 第 101–200 家（72–96 月）：平台化与第二曲线",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=225",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 226,
+    "job": "statement",
+    "title": "阶段命题",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=226",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 227,
+    "job": "chart",
+    "title": "关键动作",
+    "fill": "hbar",
+    "formula_id": "F06",
+    "href": "/decks/stone-roadmap/presentation.html#p=227",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D04",
+    "page": 228,
+    "job": "roster",
+    "title": "关键动作 · 清单",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-roadmap/presentation.html#p=228",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D04",
+    "page": 229,
+    "job": "statement",
+    "title": "关键动作",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=229",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 230,
+    "job": "statement",
+    "title": "我方赋能交付物",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=230",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 231,
+    "job": "roster",
+    "title": "8.9 全阶段赋能交付物总表",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=231",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 232,
+    "job": "divider",
+    "title": "",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=232",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 233,
+    "job": "roster",
+    "title": "9.1 北极星指标的分阶段迁移",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=233",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 234,
+    "job": "roster",
+    "title": "9.2 六组固定指标（全阶段不变）",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=234",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 235,
+    "job": "kpi",
+    "title": "9.3 看板四层",
+    "fill": "",
+    "formula_id": "F01",
+    "href": "/decks/stone-roadmap/presentation.html#p=235",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D04",
+    "page": 236,
+    "job": "divider",
+    "title": "",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=236",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 237,
+    "job": "roster",
+    "title": "第十部分 · 风险登记册",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=237",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 238,
+    "job": "roster",
+    "title": "第十部分 · 风险登记册 · 2",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=238",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 239,
+    "job": "verdict",
+    "title": "第十部分 · 风险登记册",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=239",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 240,
+    "job": "divider",
+    "title": "",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=240",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 241,
+    "job": "statement",
+    "title": "11.1 Stage Gate 评审制度（本报告最重要的机制建议）",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=241",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 242,
+    "job": "roster",
+    "title": "11.2 决策节奏",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=242",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 243,
+    "job": "roster",
+    "title": "11.3 三条治理纪律",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=243",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 244,
+    "job": "divider",
+    "title": "",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=244",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 245,
+    "job": "roster",
+    "title": "附录 A · 方法论速查表",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=245",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 246,
+    "job": "roster",
+    "title": "附录 A · 方法论速查表 · 2",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=246",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 247,
+    "job": "roster",
+    "title": "附录 B · 数据源清单（可直接使用）",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-roadmap/presentation.html#p=247",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D04",
+    "page": 248,
+    "job": "roster",
+    "title": "附录 C · 本报告引用的关键外部数据",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=248",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 249,
+    "job": "roster",
+    "title": "附录 C · 本报告引用的关键外部数据 · 2",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=249",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 250,
+    "job": "statement",
+    "title": "附录 D · 一页纸总结",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=250",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D04",
+    "page": 251,
+    "job": "statement",
+    "title": "附录 D · 一页纸总结 · 2",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-roadmap/presentation.html#p=251",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 1,
+    "job": "cover",
+    "title": "",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=1",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 2,
+    "job": "toc",
+    "title": "目录 · CONTENTS",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=2",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 3,
+    "job": "statement",
+    "title": "序",
+    "fill": "poster",
+    "formula_id": "F15",
+    "href": "/decks/stone-dossier/presentation.html#p=3",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 4,
+    "job": "readme",
+    "title": "阅读提示 · 品牌名归一化",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-dossier/presentation.html#p=4",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 5,
+    "job": "statement",
+    "title": "阅读提示 · 品牌名归一化",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-dossier/presentation.html#p=5",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 6,
+    "job": "divider",
+    "title": "",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=6",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 7,
+    "job": "readme",
+    "title": "1.1 数据基础",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=7",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 8,
+    "job": "statement",
+    "title": "1.1 数据基础",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=8",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 9,
+    "job": "kpi",
+    "title": "1.2 五个评估维度",
+    "fill": "",
+    "formula_id": "F01",
+    "href": "/decks/stone-dossier/presentation.html#p=9",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 10,
+    "job": "statement",
+    "title": "关于第 ⑤ 维度：本报告新提出的「复制稳定性」指标",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=10",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 11,
+    "job": "kpi",
+    "title": "1.3 「可参考性」的三层筛选",
+    "fill": "",
+    "formula_id": "F01",
+    "href": "/decks/stone-dossier/presentation.html#p=11",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 12,
+    "job": "divider",
+    "title": "",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=12",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 13,
+    "job": "chart",
+    "title": "2.1 品牌规模总榜（归一化后，北京门店数 ≥ 15 家） · 客单×评分",
+    "fill": "bubble",
+    "formula_id": "F06",
+    "href": "/decks/stone-dossier/presentation.html#p=13",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 14,
+    "job": "roster",
+    "title": "2.1 品牌规模总榜（归一化后，北京门店数 ≥ 15 家） · 客单×评分 · 清单",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-dossier/presentation.html#p=14",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 15,
+    "job": "roster",
+    "title": "2.1 品牌规模总榜（归一化后，北京门店数 ≥ 15 家） · 客单×评分 · 清单 · 2",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-dossier/presentation.html#p=15",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 16,
+    "job": "roster",
+    "title": "2.1 品牌规模总榜（归一化后，北京门店数 ≥ 15 家） · 客单×评分 · 清单 · 3",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-dossier/presentation.html#p=16",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 17,
+    "job": "roster",
+    "title": "2.1 品牌规模总榜（归一化后，北京门店数 ≥ 15 家） · 客单×评分 · 清单 · 4",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-dossier/presentation.html#p=17",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 18,
+    "job": "roster",
+    "title": "2.1 品牌规模总榜（归一化后，北京门店数 ≥ 15 家） · 客单×评分 · 清单 · 5",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-dossier/presentation.html#p=18",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 19,
+    "job": "chart",
+    "title": "北京品牌分布 · 门店数 ≥ 20 家 · 客单×评分",
+    "fill": "bubble",
+    "formula_id": "F07",
+    "href": "/decks/stone-dossier/presentation.html#p=19",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 20,
+    "job": "roster",
+    "title": "北京品牌分布 · 门店数 ≥ 20 家 · 客单×评分 · 清单",
+    "fill": "",
+    "formula_id": "F07",
+    "href": "/decks/stone-dossier/presentation.html#p=20",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 21,
+    "job": "roster",
+    "title": "北京品牌分布 · 门店数 ≥ 20 家 · 客单×评分 · 清单 · 2",
+    "fill": "",
+    "formula_id": "F07",
+    "href": "/decks/stone-dossier/presentation.html#p=21",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 22,
+    "job": "roster",
+    "title": "北京品牌分布 · 门店数 ≥ 20 家 · 客单×评分 · 清单 · 3",
+    "fill": "",
+    "formula_id": "F07",
+    "href": "/decks/stone-dossier/presentation.html#p=22",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 23,
+    "job": "roster",
+    "title": "北京品牌分布 · 门店数 ≥ 20 家 · 客单×评分 · 清单 · 4",
+    "fill": "",
+    "formula_id": "F07",
+    "href": "/decks/stone-dossier/presentation.html#p=23",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 24,
+    "job": "chart",
+    "title": "2.1 品牌规模总榜（归一化后，北京门店数 ≥ 15 家） · 客单×评分",
+    "fill": "bubble",
+    "formula_id": "F06",
+    "href": "/decks/stone-dossier/presentation.html#p=24",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 25,
+    "job": "roster",
+    "title": "2.1 品牌规模总榜（归一化后，北京门店数 ≥ 15 家） · 客单×评分 · 清单",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-dossier/presentation.html#p=25",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 26,
+    "job": "chart",
+    "title": "2.2 价格带 × 规模天花板（归一化后重算）",
+    "fill": "hist-cdf",
+    "formula_id": "F08",
+    "href": "/decks/stone-dossier/presentation.html#p=26",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 27,
+    "job": "roster",
+    "title": "2.2 价格带 × 规模天花板（归一化后重算） · 清单",
+    "fill": "",
+    "formula_id": "F08",
+    "href": "/decks/stone-dossier/presentation.html#p=27",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 28,
+    "job": "roster",
+    "title": "2.2 价格带 × 规模天花板（归一化后重算） · 清单 · 2",
+    "fill": "",
+    "formula_id": "F08",
+    "href": "/decks/stone-dossier/presentation.html#p=28",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 29,
+    "job": "roster",
+    "title": "2.2 价格带 × 规模天花板（归一化后重算） · 清单 · 3",
+    "fill": "",
+    "formula_id": "F08",
+    "href": "/decks/stone-dossier/presentation.html#p=29",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 30,
+    "job": "roster",
+    "title": "2.2 价格带 × 规模天花板（归一化后重算） · 清单 · 4",
+    "fill": "",
+    "formula_id": "F08",
+    "href": "/decks/stone-dossier/presentation.html#p=30",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 31,
+    "job": "roster",
+    "title": "2.2 价格带 × 规模天花板（归一化后重算） · 清单 · 5",
+    "fill": "",
+    "formula_id": "F08",
+    "href": "/decks/stone-dossier/presentation.html#p=31",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 32,
+    "job": "roster",
+    "title": "2.2 价格带 × 规模天花板（归一化后重算） · 清单 · 6",
+    "fill": "",
+    "formula_id": "F08",
+    "href": "/decks/stone-dossier/presentation.html#p=32",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 33,
+    "job": "statement",
+    "title": "三个必须记住的结论",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=33",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 34,
+    "job": "statement",
+    "title": "三个必须记住的结论 · 2",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=34",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 35,
+    "job": "chart",
+    "title": "三个必须记住的结论 · 客单×评分",
+    "fill": "bubble",
+    "formula_id": "F06",
+    "href": "/decks/stone-dossier/presentation.html#p=35",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 36,
+    "job": "roster",
+    "title": "三个必须记住的结论 · 客单×评分 · 清单",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-dossier/presentation.html#p=36",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 37,
+    "job": "statement",
+    "title": "三个必须记住的结论",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=37",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 38,
+    "job": "roster",
+    "title": "2.3 六大品牌原型",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=38",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 39,
+    "job": "divider",
+    "title": "",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=39",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 40,
+    "job": "chart",
+    "title": "3.1 规律一：评论中位数暴露了「真实客流」，而门店数不暴露",
+    "fill": "pareto",
+    "formula_id": "F06",
+    "href": "/decks/stone-dossier/presentation.html#p=40",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 41,
+    "job": "roster",
+    "title": "3.1 规律一：评论中位数暴露了「真实客流」，而门店数不暴露 · 清单",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-dossier/presentation.html#p=41",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 42,
+    "job": "roster",
+    "title": "3.1 规律一：评论中位数暴露了「真实客流」，而门店数不暴露 · 清单 · 2",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-dossier/presentation.html#p=42",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 43,
+    "job": "statement",
+    "title": "3.1 规律一：评论中位数暴露了「真实客流」，而门店数不暴露",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=43",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 44,
+    "job": "chart",
+    "title": "3.2 品质连锁一致性高于巨头",
+    "fill": "pareto",
+    "formula_id": "F06",
+    "href": "/decks/stone-dossier/presentation.html#p=44",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 45,
+    "job": "roster",
+    "title": "3.2 品质连锁一致性高于巨头 · 清单",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-dossier/presentation.html#p=45",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 46,
+    "job": "roster",
+    "title": "3.2 品质连锁一致性高于巨头 · 清单 · 2",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-dossier/presentation.html#p=46",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 47,
+    "job": "roster",
+    "title": "3.2 品质连锁一致性高于巨头 · 清单 · 3",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-dossier/presentation.html#p=47",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 48,
+    "job": "statement",
+    "title": "这张表的三个读法",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=48",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 49,
+    "job": "statement",
+    "title": "这张表的三个读法 · 2",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=49",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 50,
+    "job": "chart",
+    "title": "3.3 4.5 分是流量阀门 · 评分区间",
+    "fill": "hist-cdf",
+    "formula_id": "F06",
+    "href": "/decks/stone-dossier/presentation.html#p=50",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 51,
+    "job": "roster",
+    "title": "3.3 4.5 分是流量阀门 · 评分区间 · 清单",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-dossier/presentation.html#p=51",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 52,
+    "job": "chart",
+    "title": "3.3 4.5 分是流量阀门",
+    "fill": "pareto",
+    "formula_id": "F06",
+    "href": "/decks/stone-dossier/presentation.html#p=52",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 53,
+    "job": "roster",
+    "title": "3.3 4.5 分是流量阀门 · 清单",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-dossier/presentation.html#p=53",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 54,
+    "job": "statement",
+    "title": "3.3 4.5 分是流量阀门",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=54",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 55,
+    "job": "chart",
+    "title": "3.4 商场店 vs 街边 · 商场 vs 街边",
+    "fill": "slope",
+    "formula_id": "F06",
+    "href": "/decks/stone-dossier/presentation.html#p=55",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 56,
+    "job": "roster",
+    "title": "3.4 商场店 vs 街边 · 商场 vs 街边 · 清单",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-dossier/presentation.html#p=56",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 57,
+    "job": "statement",
+    "title": "两个可执行的结论",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=57",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 58,
+    "job": "chart",
+    "title": "3.5 品类词决定天花板 · 客单×评分",
+    "fill": "bubble",
+    "formula_id": "F06",
+    "href": "/decks/stone-dossier/presentation.html#p=58",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 59,
+    "job": "roster",
+    "title": "3.5 品类词决定天花板 · 客单×评分 · 清单",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-dossier/presentation.html#p=59",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 60,
+    "job": "statement",
+    "title": "3.5 品类词决定天花板",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=60",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 61,
+    "job": "divider",
+    "title": "",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=61",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 62,
+    "job": "statement",
+    "title": "第四部分 · 标杆品牌深度档案",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=62",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 63,
+    "job": "statement",
+    "title": "原型 C · 品质简餐型 · 本报告的核心参照组",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=63",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 64,
+    "job": "roster",
+    "title": "C1 · Wagas 沃歌斯 · 「品质西式简餐能开多大」的天花板样本",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=64",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 65,
+    "job": "statement",
+    "title": "C1 · Wagas 沃歌斯 · 「品质西式简餐能开多大」的天花板样本",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=65",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 66,
+    "job": "compare",
+    "title": "C1 · Wagas 沃歌斯 · 「品质西式简餐能开多大」的天花板样本",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=66",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 67,
+    "job": "statement",
+    "title": "C1 · Wagas 沃歌斯 · 「品质西式简餐能开多大」的天花板样本",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=67",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 68,
+    "job": "roster",
+    "title": "C2 · BAKER&amp;SPICE · 与石头先生烘焙资产最相关的品牌",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=68",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 69,
+    "job": "statement",
+    "title": "C2 · BAKER&amp;SPICE · 与石头先生烘焙资产最相关的品牌",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=69",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 70,
+    "job": "roster",
+    "title": "C2 · BAKER&amp;SPICE · 与石头先生烘焙资产最相关的品牌",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=70",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 71,
+    "job": "statement",
+    "title": "C2 · BAKER&amp;SPICE · 与石头先生烘焙资产最相关的品牌",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=71",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 72,
+    "job": "roster",
+    "title": "C3 · Tubestation 站点比萨 · 高分品质连锁的极致",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=72",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 73,
+    "job": "statement",
+    "title": "C3 · Tubestation 站点比萨 · 高分品质连锁的极致",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=73",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 74,
+    "job": "roster",
+    "title": "C4 · 超级碗 FOODBOWL · 35–45 元断崖带唯一的成功者",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=74",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 75,
+    "job": "statement",
+    "title": "C4 · 超级碗 FOODBOWL · 35–45 元断崖带唯一的成功者",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=75",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 76,
+    "job": "kpi",
+    "title": "C5 · 油梨树 AVOCADO TREE · 45–55 元带的品质样本",
+    "fill": "",
+    "formula_id": "F01",
+    "href": "/decks/stone-dossier/presentation.html#p=76",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 77,
+    "job": "statement",
+    "title": "C5 · 油梨树 AVOCADO TREE · 45–55 元带的品质样本",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=77",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 78,
+    "job": "statement",
+    "title": "原型 B · 中价连锁型 · 人均最接近的一组",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=78",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 79,
+    "job": "roster",
+    "title": "B1 · 必胜客 · 55–65 元格子的唯一定义者",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=79",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 80,
+    "job": "statement",
+    "title": "B1 · 必胜客 · 55–65 元格子的唯一定义者",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=80",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 81,
+    "job": "statement",
+    "title": "B1 · 必胜客 · 55–65 元格子的唯一定义者 · 2",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=81",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 82,
+    "job": "roster",
+    "title": "B2 · 达美乐比萨 · 外送驱动的空间模型",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=82",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 83,
+    "job": "statement",
+    "title": "B2 · 达美乐比萨 · 外送驱动的空间模型",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=83",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 84,
+    "job": "kpi",
+    "title": "B3 · 萨莉亚 · 极致客单控制的样本",
+    "fill": "",
+    "formula_id": "F01",
+    "href": "/decks/stone-dossier/presentation.html#p=84",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 85,
+    "job": "statement",
+    "title": "B3 · 萨莉亚 · 极致客单控制的样本",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=85",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 86,
+    "job": "kpi",
+    "title": "B4 · 棒约翰 · 45–55 元带的高分玩家",
+    "fill": "",
+    "formula_id": "F01",
+    "href": "/decks/stone-dossier/presentation.html#p=86",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 87,
+    "job": "statement",
+    "title": "B4 · 棒约翰 · 45–55 元带的高分玩家",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=87",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 88,
+    "job": "statement",
+    "title": "原型 D · 精品单品型 · 学产品与内容，不学规模",
+    "fill": "poster",
+    "formula_id": "F06",
+    "href": "/decks/stone-dossier/presentation.html#p=88",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 89,
+    "job": "roster",
+    "title": "D1 · Shake Shack · 石头先生最直接的价格对标",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=89",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 90,
+    "job": "chart",
+    "title": "D1 · Shake Shack · 石头先生最直接的价格对标 · 客单×评分",
+    "fill": "bubble",
+    "formula_id": "F06",
+    "href": "/decks/stone-dossier/presentation.html#p=90",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 91,
+    "job": "roster",
+    "title": "D1 · Shake Shack · 石头先生最直接的价格对标 · 客单×评分 · 清单",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-dossier/presentation.html#p=91",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 92,
+    "job": "statement",
+    "title": "D1 · Shake Shack · 石头先生最直接的价格对标",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=92",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 93,
+    "job": "chart",
+    "title": "D2 · 北京独立精品汉堡全景 · 客单×评分",
+    "fill": "bubble",
+    "formula_id": "F06",
+    "href": "/decks/stone-dossier/presentation.html#p=93",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 94,
+    "job": "roster",
+    "title": "D2 · 北京独立精品汉堡全景 · 客单×评分 · 清单",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-dossier/presentation.html#p=94",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 95,
+    "job": "roster",
+    "title": "D2 · 北京独立精品汉堡全景 · 客单×评分 · 清单 · 2",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-dossier/presentation.html#p=95",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 96,
+    "job": "roster",
+    "title": "D2 · 北京独立精品汉堡全景 · 客单×评分 · 清单 · 3",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-dossier/presentation.html#p=96",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 97,
+    "job": "roster",
+    "title": "D2 · 北京独立精品汉堡全景 · 客单×评分 · 清单 · 4",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-dossier/presentation.html#p=97",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 98,
+    "job": "roster",
+    "title": "D2 · 北京独立精品汉堡全景 · 客单×评分 · 清单 · 5",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-dossier/presentation.html#p=98",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 99,
+    "job": "roster",
+    "title": "D2 · 北京独立精品汉堡全景",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=99",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 100,
+    "job": "roster",
+    "title": "D2 · 北京独立精品汉堡全景 · 2",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=100",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 101,
+    "job": "chart",
+    "title": "原型 D-补 · 烘焙 × 简餐 cohort（与石头先生资产直接相关） · 客单×评分",
+    "fill": "bubble",
+    "formula_id": "F06",
+    "href": "/decks/stone-dossier/presentation.html#p=101",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 102,
+    "job": "roster",
+    "title": "原型 D-补 · 烘焙 × 简餐 cohort（与石头先生资产直接相关） · 客单×评分 · 清单",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-dossier/presentation.html#p=102",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 103,
+    "job": "roster",
+    "title": "原型 D-补 · 烘焙 × 简餐 cohort（与石头先生资产直接相关） · 客单×评分 · 清单 · 2",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-dossier/presentation.html#p=103",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 104,
+    "job": "statement",
+    "title": "这组数据说明了什么",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=104",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 105,
+    "job": "chart",
+    "title": "原型 E/F · 高客单场景型与流量自助型（学具体手法，不学定位） · 客单×评分",
+    "fill": "bubble",
+    "formula_id": "F06",
+    "href": "/decks/stone-dossier/presentation.html#p=105",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 106,
+    "job": "roster",
+    "title": "原型 E/F · 高客单场景型与流量自助型（学具体手法，不学定位） · 客单×评分 · 清单",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-dossier/presentation.html#p=106",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 107,
+    "job": "roster",
+    "title": "THE WOODS 的双店型策略值得单独强调",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=107",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 108,
+    "job": "statement",
+    "title": "THE WOODS 的双店型策略值得单独强调",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=108",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 109,
+    "job": "chart",
+    "title": "原型 A-补 · 本土性价比手作派（25–40 元，正在长出来的一批） · 客单×评分",
+    "fill": "bubble",
+    "formula_id": "F06",
+    "href": "/decks/stone-dossier/presentation.html#p=109",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 110,
+    "job": "roster",
+    "title": "原型 A-补 · 本土性价比手作派（25–40 元，正在长出来的一批） · 客单×评分 · 清单",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-dossier/presentation.html#p=110",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 111,
+    "job": "statement",
+    "title": "原型 A-补 · 本土性价比手作派（25–40 元，正在长出来的一批）",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=111",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 112,
+    "job": "divider",
+    "title": "",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=112",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 113,
+    "job": "statement",
+    "title": "第五部分 · 全国维度：北京数据库里看不到的品牌",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=113",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 114,
+    "job": "statement",
+    "title": "5.1 魏斯理汉堡（Wesley Burger）—— 全国范围内与石头先生相似度最高的品牌",
+    "fill": "poster",
+    "formula_id": "F15",
+    "href": "/decks/stone-dossier/presentation.html#p=114",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 115,
+    "job": "statement",
+    "title": "为什么它是第一参照对象",
+    "fill": "poster",
+    "formula_id": "F15",
+    "href": "/decks/stone-dossier/presentation.html#p=115",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 116,
+    "job": "roster",
+    "title": "基本档案",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=116",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 117,
+    "job": "statement",
+    "title": "最关键的一条：它的堡胚方案",
+    "fill": "",
+    "formula_id": "F15",
+    "href": "/decks/stone-dossier/presentation.html#p=117",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 118,
+    "job": "compare",
+    "title": "与石头先生的逐项对照",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=118",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 119,
+    "job": "statement",
+    "title": "该学的五件事",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=119",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 120,
+    "job": "statement",
+    "title": "该警惕的三件事",
+    "fill": "",
+    "formula_id": "F15",
+    "href": "/decks/stone-dossier/presentation.html#p=120",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 121,
+    "job": "roster",
+    "title": "5.2 必胜汉堡 · 巨头的正面撞位",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=121",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 122,
+    "job": "statement",
+    "title": "5.2 必胜汉堡 · 巨头的正面撞位",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=122",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 123,
+    "job": "readme",
+    "title": "5.3 手工汉堡加盟赛道（低置信度参照，仅作趋势佐证）",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=123",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 124,
+    "job": "statement",
+    "title": "5.3 手工汉堡加盟赛道（低置信度参照，仅作趋势佐证）",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=124",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 125,
+    "job": "statement",
+    "title": "5.4 Wendy&#x27;s 入华与巨头格局",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=125",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 126,
+    "job": "divider",
+    "title": "",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=126",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 127,
+    "job": "kpi",
+    "title": "6.1 打分模型",
+    "fill": "",
+    "formula_id": "F01",
+    "href": "/decks/stone-dossier/presentation.html#p=127",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 128,
+    "job": "chart",
+    "title": "6.2 TOP 12 学习对象 · 总分",
+    "fill": "pareto",
+    "formula_id": "F06",
+    "href": "/decks/stone-dossier/presentation.html#p=128",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 129,
+    "job": "roster",
+    "title": "6.2 TOP 12 学习对象 · 总分 · 清单",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-dossier/presentation.html#p=129",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 130,
+    "job": "roster",
+    "title": "6.2 TOP 12 学习对象 · 总分 · 清单 · 2",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-dossier/presentation.html#p=130",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 131,
+    "job": "roster",
+    "title": "6.3 分阶段的「该看谁」",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=131",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 132,
+    "job": "divider",
+    "title": "",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=132",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 133,
+    "job": "roster",
+    "title": "7.1 十条可直接迁移的做法",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-dossier/presentation.html#p=133",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 134,
+    "job": "roster",
+    "title": "7.1 十条可直接迁移的做法 · 2",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-dossier/presentation.html#p=134",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 135,
+    "job": "roster",
+    "title": "7.2 六条明确不该学的",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-dossier/presentation.html#p=135",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 136,
+    "job": "roster",
+    "title": "7.3 三个需要用数据回答的开放问题",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-dossier/presentation.html#p=136",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 137,
+    "job": "roster",
+    "title": "关于 Q1 的特别说明",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-dossier/presentation.html#p=137",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 138,
+    "job": "statement",
+    "title": "关于 Q1 的特别说明",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=138",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 139,
+    "job": "divider",
+    "title": "",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=139",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 140,
+    "job": "roster",
+    "title": "8.1 季度监测清单",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-dossier/presentation.html#p=140",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 141,
+    "job": "kpi",
+    "title": "8.2 品牌健康度的六个外部指标",
+    "fill": "",
+    "formula_id": "F01",
+    "href": "/decks/stone-dossier/presentation.html#p=141",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 142,
+    "job": "statement",
+    "title": "8.2 品牌健康度的六个外部指标",
+    "fill": "poster",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=142",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 143,
+    "job": "divider",
+    "title": "",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=143",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 144,
+    "job": "roster",
+    "title": "附录 A · 品牌归一化规则（可复用）",
+    "fill": "",
+    "formula_id": "F06",
+    "href": "/decks/stone-dossier/presentation.html#p=144",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 145,
+    "job": "statement",
+    "title": "附录 A · 品牌归一化规则（可复用）",
+    "fill": "poster",
+    "formula_id": "F06",
+    "href": "/decks/stone-dossier/presentation.html#p=145",
+    "data_ok": true
+  },
+  {
+    "deck_id": "D05",
+    "page": 146,
+    "job": "readme",
+    "title": "附录 B · 数据口径与局限",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=146",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 147,
+    "job": "statement",
+    "title": "附录 C · 一页纸总结",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=147",
+    "data_ok": false
+  },
+  {
+    "deck_id": "D05",
+    "page": 148,
+    "job": "statement",
+    "title": "附录 C · 一页纸总结 · 2",
+    "fill": "",
+    "formula_id": null,
+    "href": "/decks/stone-dossier/presentation.html#p=148",
+    "data_ok": false
+  }
+]

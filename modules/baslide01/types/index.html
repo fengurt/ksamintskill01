@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>页面类型详表 · Baslide01</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+SC:wght@400;600;700&family=Noto+Serif:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/baslide-thumbs.css">
+<style>
+:root{
+  --surface:#F4F0E7; --paper:#FFFDF8; --charcoal:#17130D;
+  --gold:#76551F; --gold-hi:#D4A862; --muted:#706758; --navy:#0A1626;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--surface);color:var(--charcoal);font-family:"Noto Serif SC",serif;-webkit-font-smoothing:antialiased}
+a{color:var(--gold)}
+.wrap{max-width:1180px;margin:0 auto;padding:28px 28px 96px}
+.cap{font-family:"Noto Serif",serif;text-transform:uppercase;letter-spacing:.34em;font-size:11px;color:var(--gold)}
+h1{font-size:32px;margin:8px 0 12px}
+.lede{max-width:62ch;color:var(--muted);line-height:1.7;margin-bottom:28px}
+.card{background:var(--paper);border:1px solid rgba(118,85,31,.34);padding:20px 22px;margin-bottom:14px;border-radius:2px}
+.card h2{font-size:20px}
+.k{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+p{font-size:14px;line-height:1.65;margin-top:8px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}
+@media(max-width:800px){.row{grid-template-columns:1fr}}
+.row div{font-size:13px;color:var(--muted)}
+.row b{color:var(--charcoal);display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-family:"IBM Plex Mono",monospace;margin-bottom:4px}
+.skins{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.skins a{font-family:"IBM Plex Mono",monospace;font-size:12px;text-decoration:none;border:1px solid rgba(118,85,31,.34);padding:4px 10px;border-radius:2px}
+.slots{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--muted);margin-top:8px}
+.thumbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px;margin:12px 0}
+.loop{margin-top:12px;padding:12px 14px;background:var(--surface);border:1px solid rgba(118,85,31,.34);font-size:13.5px;line-height:1.7}
+.loop b{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:6px}
+.checks{margin:8px 0 0 18px;color:var(--muted);font-size:13px}
+</style>
+</head>
+<body class="baslide-doc">
+<div class="wrap">
+  <p class="cap">Reuse catalog</p>
+  <h1>十七种页面类型</h1>
+  <p class="lede">生成前先选 <code>id</code>。点缩略图预览模板。皮肤只换令牌与类名。真源：<code>/page-types.json</code> · loop：<code>/prompts/loop/</code>。</p>
+  <div id="out">载入中…</div>
+</div>
+<script src="/assets/baslide-catalog.js"></script>
+<script>
+fetch("/page-types.json").then(r => r.json()).then(data => {
+  const C = window.BaslideCatalog;
+  const out = document.getElementById("out");
+  out.innerHTML = "";
+  const t0 = performance.now();
+  data.types.forEach(t => {
+    const fam = data.families.find(f => f.id === t.family);
+    const el = document.createElement("article");
+    el.className = "card";
+    el.id = t.id;
+    const skinThumbs = Object.keys(t.skins || {}).map(k => {
+      return C.thumbHTML(t, { skin: k, href: C.previewHref(t.id, k), caption: k });
+    }).join("");
+    const skins = Object.entries(t.skins || {}).map(([k, v]) => {
+      const label = (data.skins[k] && data.skins[k].label) || k;
+      return "<a href='" + C.previewHref(t.id, k) + "'>" + label + " · " + v.layout + "</a>";
+    }).join("");
+    const checks = ((t.loop && t.loop.checks) || []).map(c => "<li>" + c + "</li>").join("");
+    el.innerHTML =
+      "<span class='k'>" + t.id + " · " + (fam ? fam.label : t.family) + "</span>" +
+      "<h2>" + t.label + "</h2>" +
+      "<div class='thumbs'>" + skinThumbs + "</div>" +
+      "<p>" + t.job + "</p>" +
+      "<div class='row'><div><b>Use when</b>" + t.useWhen + "</div><div><b>Avoid</b>" + t.avoidWhen + "</div></div>" +
+      "<p class='slots'>slots · " + (t.slots || []).join(" · ") + "</p>" +
+      "<div class='skins'>" + skins + "</div>" +
+      "<div class='loop'><b>Loop · " + t.id + "</b>" + (t.loop ? t.loop.prompt : "") +
+        "<ul class='checks'>" + checks + "</ul></div>";
+    out.appendChild(el);
+  });
+  // #region agent log
+  fetch('http://127.0.0.1:7413/ingest/823441ad-59f6-4b3e-a911-72d56e2cb3ec',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'1a3c9c'},body:JSON.stringify({sessionId:'1a3c9c',runId:'pre-fix',hypothesisId:'H2',location:'types/index.html:render',message:'types page render',data:{types:data.types.length,thumbs:out.querySelectorAll('.thumb').length,ms:Math.round(performance.now()-t0)},timestamp:Date.now()})}).catch(()=>{});
+  // #endregion
+});
+</script>
+</body>
+</html>

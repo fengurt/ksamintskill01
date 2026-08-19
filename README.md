@@ -7,6 +7,7 @@ Private skill monorepo: single source of truth for authored Agent Skills, plus a
 ```
 skills/                 # Authored skills (source of truth)
 gui/                    # Skill Hub local control panel (port 7979)
+modules/baslide01/      # In-repo Baslide01 (templates, L3 viz recipes, gold decks)
 registry/sources.yaml   # Upstream libs, pinned commits
 vendor/                 # gitignored; populated by sync-vendor.sh
 scripts/                # segment, coverage, catalog, install-links, dev-up

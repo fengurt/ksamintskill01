@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guizang PPT Skill · Project Index</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0A1626;
+    --ink-rgb:10,22,38;
+    --paper:#FFFFFF;
+    --paper-rgb:255,255,255;
+    --grey-1:#F5F3F4;
+    --grey-2:#DCD9DB;
+    --grey-3:#75777D;
+    --accent:#A88B52;
+    --accent-rgb:168,139,82;
+    --accent-on:#FFFFFF;
+    --accent-bright:#C9A86B;
+    --gold-mist:rgba(168,139,82,0.08);
+    --text-primary:#0A1626;
+    --text-secondary:#44474C;
+    --text-helper:#75777D;
+    --text-placeholder:#C5C6CD;
+    --border-subtle:#E4E2E3;
+    --border-strong:#C5C6CD;
+
+    --sans-tab:"Manrope","Inter","Helvetica Neue","Helvetica","Arial",system-ui,-apple-system,sans-serif;
+    --sans-zh:"Noto Sans SC","PingFang SC","Hiragino Sans GB","Source Han Sans SC","Microsoft YaHei UI","Microsoft YaHei","微软雅黑",sans-serif;
+    --mono:"JetBrains Mono","IBM Plex Mono","SF Mono","Cascadia Code","Consolas","Courier New",ui-monospace,monospace;
+
+    --sp-5:16px; --sp-6:24px; --sp-7:32px; --sp-8:40px;
+    --sp-9:48px; --sp-10:64px; --sp-11:80px; --sp-12:96px;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:var(--sans-tab),var(--sans-zh);
+    background:var(--paper);
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    line-height:1.55;
+  }
+
+  /* ============== HERO ============== */
+  .hero{
+    min-height:100vh;
+    background:var(--ink);
+    color:var(--paper);
+    display:flex;flex-direction:column;justify-content:space-between;
+    padding:var(--sp-12) var(--sp-10);
+    position:relative;overflow:hidden;
+  }
+  .hero::before{
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background-image:radial-gradient(circle at 18% 22%, rgba(168,139,82,0.18) 0, transparent 38%),
+                     radial-gradient(circle at 82% 78%, rgba(201,168,107,0.12) 0, transparent 42%);
+  }
+  .hero .chrome-min{
+    display:flex;justify-content:space-between;align-items:flex-start;
+    font-family:var(--mono);font-size:12px;font-weight:600;
+    letter-spacing:.16em;text-transform:uppercase;
+    color:rgba(255,255,255,.62);
+    position:relative;z-index:1;
+  }
+  .hero .chrome-min .l,.hero .chrome-min .r{display:flex;gap:1.6em;align-items:center}
+  .hero .chrome-min .sep{width:24px;height:1px;background:currentColor;opacity:.5}
+  .hero .body{position:relative;z-index:1;display:flex;flex-direction:column;gap:var(--sp-9);max-width:78vw}
+  .hero .kicker{font-family:var(--sans-tab);font-size:14px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.78)}
+  .hero h1{font-family:var(--sans-tab),var(--sans-zh);font-weight:700;font-size:clamp(56px,8vw,128px);line-height:.94;letter-spacing:-.035em}
+  .hero h1 em{font-style:italic;font-weight:500;color:var(--accent-bright)}
+  .hero .lede{font-family:var(--sans-tab),var(--sans-zh);font-size:max(18px,1.6vw);line-height:1.5;font-weight:400;color:rgba(255,255,255,.86);max-width:62ch}
+  .hero .meta-row{display:flex;gap:1.6em;flex-wrap:wrap;font-family:var(--mono);font-size:14px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.62)}
+  .hero .meta-row span.dot{display:inline-block;width:4px;height:4px;background:currentColor;border-radius:50%;opacity:.5;align-self:center}
+  .hero .actions{display:flex;gap:var(--sp-6);flex-wrap:wrap;margin-top:var(--sp-7)}
+  .btn{
+    display:inline-flex;align-items:center;gap:.8em;
+    padding:1.4vh 1.6vw;
+    font-family:var(--sans-tab);font-weight:600;font-size:14px;letter-spacing:.06em;
+    border-radius:4px;cursor:pointer;text-decoration:none;
+    transition:transform .15s ease;
+  }
+  .btn:hover{transform:translateY(-1px)}
+  .btn-primary{background:var(--accent);color:var(--accent-on)}
+  .btn-ghost{background:transparent;color:var(--paper);border:1px solid rgba(255,255,255,.32)}
+  .btn-ink{background:var(--paper);color:var(--ink)}
+  .hero .scroll-hint{
+    position:relative;z-index:1;display:flex;gap:1.4em;align-items:center;
+    font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+    color:rgba(255,255,255,.5);
+  }
+  .hero .scroll-hint::before{content:"";width:48px;height:1px;background:currentColor}
+
+  /* ============== SECTION SHELL ============== */
+  section.block{padding:var(--sp-12) var(--sp-10)}
+  section.block.dark{background:var(--ink);color:var(--paper)}
+  section.block.tinted{background:var(--grey-1);color:var(--ink)}
+  .section-num{
+    font-family:var(--mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--text-helper);margin-bottom:var(--sp-6);
+    display:flex;gap:1.6em;align-items:center;
+  }
+  .section-num::before{content:"";width:32px;height:1px;background:currentColor}
+  .section-title{
+    font-family:var(--sans-tab),var(--sans-zh);font-weight:700;
+    font-size:clamp(40px,5vw,80px);line-height:1.04;letter-spacing:-.025em;
+    max-width:20ch;margin-bottom:var(--sp-7);
+  }
+  .section-lede{
+    font-family:var(--sans-tab),var(--sans-zh);font-weight:400;
+    font-size:max(18px,1.5vw);line-height:1.55;max-width:54ch;
+    color:var(--text-secondary);margin-bottom:var(--sp-9);
+  }
+  section.block.dark .section-lede{color:rgba(255,255,255,.78)}
+
+  /* ============== STYLE CARDS ============== */
+  .style-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);
+    gap:var(--sp-7);
+  }
+  .style-card{
+    background:var(--paper);color:var(--ink);
+    border:1px solid var(--border-subtle);
+    border-radius:8px;padding:var(--sp-8) var(--sp-7) var(--sp-7);
+    display:flex;flex-direction:column;gap:var(--sp-5);
+    text-decoration:none;transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+    position:relative;overflow:hidden;
+  }
+  .style-card:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(10,22,38,.08);border-color:var(--accent)}
+  .style-card .swatch{
+    height:8vh;border-radius:4px;margin-bottom:var(--sp-5);
+    display:flex;align-items:flex-end;justify-content:space-between;
+    padding:0 var(--sp-5) 1.4vh;
+  }
+  .style-card .swatch .swatch-num{
+    font-family:var(--sans-tab);font-weight:700;font-size:max(28px,3.6vw);
+    line-height:.85;letter-spacing:-.04em;
+  }
+  .style-card .swatch .swatch-tag{
+    font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+    padding:5px 9px;border:1px solid currentColor;border-radius:2px;opacity:.78;
+  }
+  .style-card.a .swatch{background:#f1efea;color:#0a0a0b}
+  .style-card.b .swatch{background:#fafaf8;color:#002FA7}
+  .style-card.c .swatch{background:#FFFFFF;color:#0A1626;border:1px solid var(--grey-2)}
+  .style-card.c .swatch::after{content:"";position:absolute;height:8px;width:60px;background:var(--accent);border-radius:0 0 4px 4px;left:var(--sp-7);bottom:calc(8vh + var(--sp-5) + 1.4vh - 4px);opacity:0;pointer-events:none}
+  .style-card .label-row{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border-subtle);padding-top:var(--sp-5)}
+  .style-card .label-row .name{font-family:var(--sans-tab);font-weight:600;font-size:max(18px,1.4vw);letter-spacing:-.01em}
+  .style-card .label-row .meta{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-helper)}
+  .style-card .lead{font-family:var(--sans-tab),var(--sans-zh);font-weight:400;font-size:max(14px,1vw);line-height:1.6;color:var(--text-secondary)}
+  .style-card .pill-row{display:flex;gap:.8em;flex-wrap:wrap;margin-top:auto;padding-top:var(--sp-5)}
+  .pill{
+    display:inline-block;padding:4px 10px;
+    font-family:var(--sans-tab);font-weight:600;font-size:11px;letter-spacing:.04em;
+    border-radius:2px;background:var(--gold-mist);color:var(--accent);
+  }
+  .style-card.a .pill{background:rgba(10,10,11,.06);color:#0a0a0b}
+  .style-card.b .pill{background:rgba(0,47,167,.08);color:#002FA7}
+  .style-card .open-link{
+    display:inline-flex;align-items:center;gap:.6em;align-self:flex-start;
+    font-family:var(--sans-tab);font-weight:600;font-size:13px;letter-spacing:.04em;
+    color:var(--accent);text-decoration:none;
+  }
+  .style-card .open-link::after{content:"→";transition:transform .15s ease}
+  .style-card:hover .open-link::after{transform:translateX(3px)}
+
+  /* ============== QUICK START ============== */
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--sp-7)}
+  .step{display:flex;flex-direction:column;gap:var(--sp-5)}
+  .step .num{
+    font-family:var(--sans-tab);font-weight:700;font-size:max(56px,5vw);
+    line-height:.85;letter-spacing:-.04em;color:var(--accent);
+  }
+  .step h3{font-family:var(--sans-tab),var(--sans-zh);font-weight:600;font-size:max(20px,1.6vw);letter-spacing:-.01em}
+  .step p{font-family:var(--sans-tab),var(--sans-zh);font-weight:400;font-size:max(14px,1vw);line-height:1.6;color:var(--text-secondary);max-width:36ch}
+  .code-block{
+    background:var(--ink);color:var(--paper);
+    border-radius:6px;padding:var(--sp-6);
+    font-family:var(--mono);font-size:max(12px,.95vw);line-height:1.65;
+    overflow-x:auto;border-left:3px solid var(--accent);
+  }
+  .code-block .prompt{color:var(--accent-bright)}
+  .code-block .comment{color:rgba(255,255,255,.4)}
+
+  /* ============== FILE MAP ============== */
+  .tree{
+    display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-7);
+  }
+  .tree pre{
+    font-family:var(--mono);font-size:max(13px,1vw);line-height:1.7;
+    color:rgba(255,255,255,.78);background:transparent;
+    white-space:pre;overflow-x:auto;
+  }
+  .tree pre .accent-c{color:var(--accent-bright)}
+  .tree pre .muted-c{color:rgba(255,255,255,.36)}
+  .legend{display:flex;flex-direction:column;gap:var(--sp-5);font-family:var(--mono);font-size:max(12px,.95vw);line-height:1.6;color:rgba(255,255,255,.74)}
+  .legend h4{font-family:var(--sans-tab);font-weight:600;font-size:14px;letter-spacing:.04em;color:var(--paper);margin-bottom:.4em}
+  .legend code{background:rgba(255,255,255,.06);padding:2px 6px;border-radius:3px;font-size:.92em;color:var(--accent-bright)}
+  .legend p{margin-bottom:.4em}
+
+  /* ============== VALIDATOR ============== */
+  .val-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-7)}
+  .val-card{
+    background:var(--paper);color:var(--ink);border:1px solid var(--border-subtle);
+    border-radius:8px;padding:var(--sp-7);
+  }
+  .val-card header{display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--sp-5);padding-bottom:var(--sp-5);border-bottom:1px solid var(--border-subtle)}
+  .val-card .name{font-family:var(--sans-tab);font-weight:600;font-size:max(18px,1.4vw);letter-spacing:-.01em}
+  .val-card .badge{
+    display:inline-flex;align-items:center;gap:.6em;
+    font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+    padding:4px 10px;border-radius:2px;font-weight:600;
+  }
+  .val-card .badge.pass{background:rgba(168,139,82,.18);color:var(--accent)}
+  .val-card .badge .pulse{display:inline-block;width:6px;height:6px;border-radius:50%;background:currentColor}
+  pre.log{
+    font-family:var(--mono);font-size:max(12px,.9vw);line-height:1.7;
+    color:var(--text-secondary);background:var(--grey-1);
+    border-radius:4px;padding:var(--sp-6);
+    white-space:pre-wrap;
+  }
+  pre.log .ok{color:var(--accent);font-weight:600}
+  pre.log .warn{color:#b88a30;font-weight:500}
+  pre.log .err{color:#ba1a1a;font-weight:600}
+
+  /* ============== FOOTER ============== */
+  footer.foot{
+    background:var(--ink);color:rgba(255,255,255,.62);
+    padding:var(--sp-10) var(--sp-10) var(--sp-9);
+    font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;
+  }
+  footer.foot .row{
+    display:flex;justify-content:space-between;align-items:end;gap:var(--sp-7);
+    border-top:1px solid rgba(255,255,255,.16);padding-top:var(--sp-7);
+  }
+  footer.foot a{color:var(--accent-bright);text-decoration:none;transition:color .2s}
+  footer.foot a:hover{color:var(--paper)}
+  footer.foot .col{display:flex;flex-direction:column;gap:.8em}
+  footer.foot .col strong{color:var(--paper);font-weight:600}
+
+  @media (max-width:900px){
+    .style-grid,.steps,.val-grid,.tree{grid-template-columns:1fr}
+    section.block{padding:var(--sp-9) var(--sp-7)}
+    .hero{padding:var(--sp-9) var(--sp-7)}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============== HERO ============== -->
+<section class="hero">
+  <div class="chrome-min">
+    <div class="l">
+      <span>guizang-ppt-skill</span>
+      <span class="sep"></span>
+      <span>Table AI · Fork</span>
+    </div>
+    <div class="r">
+      <span>index.html</span>
+      <span class="sep"></span>
+      <span>SS · 26.07.07</span>
+    </div>
+  </div>
+
+  <div class="body">
+    <div class="kicker">一个 Agent Skill · 三种视觉系统 · 一份 Q3 demo</div>
+    <h1>
+      横向翻页网页 PPT，<br>
+      像一本<em>杂志</em>，或一张<em>瑞士海报</em>，<br>
+      或一份<em>Table AI 报告</em>。
+    </h1>
+    <p class="lede">
+      三个模板，10/22/22 个版式，同一个 Q3 NorthStar Analytics 复盘 demo。
+      单文件 HTML · 键盘翻页 · 离线渲染 · Agent 友好。
+    </p>
+    <div class="actions">
+      <a class="btn btn-primary" href="#styles">查看三种风格</a>
+      <a class="btn btn-ghost" href="assets/template-tableai.html">直接打开 Style C demo →</a>
+      <a class="btn btn-ghost" href="https://github.com/op7418/guizang-ppt-skill" target="_blank" rel="noopener">GitHub ↗</a>
+    </div>
+  </div>
+
+  <div class="scroll-hint">↓ scroll · see the system</div>
+</section>
+
+<!-- ============== 三种风格 ============== -->
+<section class="block" id="styles">
+  <div class="section-num">01 · 视觉系统</div>
+  <h2 class="section-title">三种风格，同一套版式骨架。</h2>
+  <p class="section-lede">
+    Style B 的 22 个版式是这一套 Skill 的核心。Style A 是叙事风的 10 个版式；
+    Style C 是 Style B 的品牌化 fork，换色 / 字体 / 圆角，不发明任何新结构。
+  </p>
+
+  <div class="style-grid">
+    <!-- Style A -->
+    <a class="style-card a" href="assets/template.html">
+      <div class="swatch">
+        <span class="swatch-num">A.</span>
+        <span class="swatch-tag">magazine</span>
+      </div>
+      <div class="label-row">
+        <span class="name">电子杂志 × 电子墨水</span>
+        <span class="meta">10 layouts</span>
+      </div>
+      <p class="lead">衬线标题 · WebGL 流体背景 · 暖色 Monocle 感。适合人文分享、行业观察、需要"杂志感"的演讲。</p>
+      <div class="pill-row">
+        <span class="pill">衬线</span>
+        <span class="pill">WebGL 流体</span>
+        <span class="pill">5 themes</span>
+      </div>
+      <span class="open-link">打开 demo</span>
+    </a>
+
+    <!-- Style B -->
+    <a class="style-card b" href="assets/template-swiss.html">
+      <div class="swatch">
+        <span class="swatch-num">B.</span>
+        <span class="swatch-tag">swiss</span>
+      </div>
+      <div class="label-row">
+        <span class="name">瑞士国际主义</span>
+        <span class="meta">22 layouts</span>
+      </div>
+      <p class="lead">网格至上 · 单一高饱和锚点色 · 直角 · 发丝线。适合科技产品、数据汇报、设计/工程领域分享。</p>
+      <div class="pill-row">
+        <span class="pill">Inter · 200</span>
+        <span class="pill">网格 + ASCII</span>
+        <span class="pill">4 themes</span>
+        <span class="pill">locked</span>
+      </div>
+      <span class="open-link">打开 demo</span>
+    </a>
+
+    <!-- Style C -->
+    <a class="style-card c" href="assets/template-tableai.html">
+      <div class="swatch">
+        <span class="swatch-num">C.</span>
+        <span class="swatch-tag">tableai</span>
+      </div>
+      <div class="label-row">
+        <span class="name">Table AI Design System</span>
+        <span class="meta">22 layouts (fork)</span>
+      </div>
+      <p class="lead">寰宇深蓝 + 日晷暗金 + Manrope + 2-4px 微圆角。Table AI 产品汇报、SaaS Dashboard、KPI 汇报。</p>
+      <div class="pill-row">
+        <span class="pill">Manrope · 700</span>
+        <span class="pill">微圆角</span>
+        <span class="pill">1 theme</span>
+        <span class="pill">fork of B</span>
+      </div>
+      <span class="open-link">打开 demo</span>
+    </a>
+  </div>
+</section>
+
+<!-- ============== 快速开始 ============== -->
+<section class="block tinted" id="quickstart">
+  <div class="section-num">02 · 30 秒开始</div>
+  <h2 class="section-title">复制一个模板，填入内容，直接打开。</h2>
+  <p class="section-lede">
+    没有构建，没有服务器，没有依赖。Python 任意一行 http.server 就能跑。
+    三个模板都自带同一份 Q3 demo，可以直接对比视觉效果。
+  </p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="num">01</div>
+      <h3>复制模板</h3>
+      <p>从 GitHub 克隆或本地 cp 一份最像的模板到你的项目目录。</p>
+    </div>
+    <div class="step">
+      <div class="num">02</div>
+      <h3>替换内容</h3>
+      <p>打开 HTML，找到 <code>&lt;!-- SLIDES_HERE --&gt;</code> 标记，粘贴或修改 <code>&lt;section&gt;</code> 块。</p>
+    </div>
+    <div class="step">
+      <div class="num">03</div>
+      <h3>本地预览</h3>
+      <p>起一个静态 server，浏览器打开。用 ← → / 滚轮 / 触屏翻页，ESC 看缩略图。</p>
+    </div>
+  </div>
+
+  <div class="code-block" style="margin-top:var(--sp-8)">
+<span class="prompt">$</span> npx skills add https://github.com/op7418/guizang-ppt-skill --skill guizang-ppt-skill
+<span class="comment"># 或者直接克隆</span>
+<span class="prompt">$</span> git clone https://github.com/op7418/guizang-ppt-skill.git ~/.claude/skills/guizang-ppt-skill
+
+<span class="comment"># 本地预览（任一风格）</span>
+<span class="prompt">$</span> python3 -m http.server 8765
+<span class="comment"># 浏览器访问:</span>
+<span class="prompt">$</span> open http://127.0.0.1:8765/INDEX.html         <span class="comment"># 项目总览</span>
+<span class="prompt">$</span> open http://127.0.0.1:8765/assets/template-tableai.html  <span class="comment"># Style C demo</span>
+
+<span class="comment"># 瑞士风版式校验 (Style B / C 都用)</span>
+<span class="prompt">$</span> node scripts/validate-swiss-deck.mjs assets/template-swiss.html
+<span class="prompt">$</span> node scripts/validate-tableai-deck.mjs assets/template-tableai.html
+  </div>
+</section>
+
+<!-- ============== 文件结构 ============== -->
+<section class="block dark" id="structure">
+  <div class="section-num">03 · 项目结构</div>
+  <h2 class="section-title">一个仓库，三套模板，9 个 markdown。</h2>
+  <p class="section-lede">
+    Style B 的 references/ 是核心。Style C 多出 4 个 fork 文件（themes-tableai.md / layouts-tableai.md / swiss-tableai-layout-lock.md / validate-tableai-deck.mjs）。
+  </p>
+
+  <div class="tree">
+<pre><span class="muted-c">guizang-ppt-skill/</span>
+├── <span class="accent-c">SKILL.md</span>                <span class="muted-c">← Skill 主文件:工作流、原则、常见错误</span>
+├── <span class="accent-c">INDEX.html</span>             <span class="muted-c">← 你正在看的这个文件 (本文件)</span>
+├── <span class="accent-c">README.md</span>              <span class="muted-c">← 项目说明 (中文 / 英文)</span>
+├── <span class="accent-c">CONTRIBUTING.md</span>       <span class="muted-c">← 贡献指南</span>
+├── <span class="accent-c">LICENSE</span>               <span class="muted-c">← MIT</span>
+│
+├── <span class="accent-c">assets/</span>                      <span class="muted-c">← 三个模板 + 截图美化背景</span>
+│   ├── template.html             <span class="muted-c">Style A · 电子杂志风 (10 layouts)</span>
+│   ├── template-swiss.html       <span class="muted-c">Style B · 瑞士国际主义 (22 layouts)</span>
+│   ├── template-tableai.html     <span class="muted-c">Style C · Table AI 品牌 fork (22 layouts)</span>
+│   ├── motion.min.js             <span class="muted-c">Motion One 动效引擎本地副本</span>
+│   └── screenshot-backgrounds/   <span class="muted-c">style-a 5 / style-b 4 / style-c (按需)</span>
+│
+├── <span class="accent-c">references/</span>
+│   ├── <span class="muted-c">layout docs</span>
+│   │   ├── layouts.md            <span class="muted-c">Style A · 10 layouts</span>
+│   │   ├── layouts-swiss.md      <span class="muted-c">Style B · 22 layouts (S01-S22)</span>
+│   │   ├── layouts-tableai.md    <span class="muted-c">Style C · 22 layouts (fork)</span>
+│   │   └── swiss-layout-lock.md  <span class="muted-c">Style B 版式硬约束</span>
+│   │   └── swiss-tableai-layout-lock.md  <span class="muted-c">Style C 视觉/排版约束 (fork)</span>
+│   │
+│   ├── <span class="muted-c">theme docs</span>
+│   │   ├── themes.md             <span class="muted-c">Style A · 5 套主题色</span>
+│   │   ├── themes-swiss.md       <span class="muted-c">Style B · 4 套主题色</span>
+│   │   └── themes-tableai.md     <span class="muted-c">Style C · 1 套 Table AI 暗金 (fork)</span>
+│   │
+│   └── <span class="muted-c">component docs</span>
+│       ├── components.md         <span class="muted-c">组件手册</span>
+│       ├── swiss-map-component.md  <span class="muted-c">Style B · S08 地图扩展</span>
+│       ├── image-prompts.md      <span class="muted-c">配图 prompt 库</span>
+│       ├── screenshot-framing.md <span class="muted-c">截图适配语义</span>
+│       └── checklist.md          <span class="muted-c">质量检查清单 P0-P3</span>
+│
+└── <span class="accent-c">scripts/</span>
+    ├── validate-swiss-deck.mjs   <span class="muted-c">Style B 校验器 (S01-S22 锁版)</span>
+    └── validate-tableai-deck.mjs <span class="muted-c">Style C 校验器 (共用 allowedLayouts)</span>
+</pre>
+
+    <div class="legend">
+      <div>
+        <h4>文件读法</h4>
+        <p>Style A 起步读 <code>SKILL.md</code> + <code>themes.md</code> + <code>layouts.md</code>。</p>
+        <p>Style B 起步读 <code>SKILL.md</code> + <code>themes-swiss.md</code> + <code>layouts-swiss.md</code> + <code>swiss-layout-lock.md</code>。</p>
+        <p>Style C 起步读 <code>themes-tableai.md</code> + <code>layouts-tableai.md</code> + <code>swiss-tableai-layout-lock.md</code>。无需选色。</p>
+      </div>
+      <div>
+        <h4>触发关键词</h4>
+        <p>Claude Code 看到 "杂志风 PPT" / "瑞士风 PPT" / "Table AI" / "horizontal swipe deck" 都会自动调用本 Skill。</p>
+      </div>
+      <div>
+        <h4>不要改</h4>
+        <p>Style C 不应发明任何 <code>S23</code> / <code>S24</code> 编号 — 所有版式变更必须先在 Style B 上游合入。</p>
+        <p>不要用户自定义 hex 值 — 主题色固定保护美学稳定性。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 校验器 ============== -->
+<section class="block" id="validator">
+  <div class="section-num">04 · 校验器</div>
+  <h2 class="section-title">内置两个 lint 脚本，CI 友好。</h2>
+  <p class="section-lede">
+    两个 validator 共享 S01-S22 版式白名单。Style C 的 validator 还额外检查 Manrope 字重、box-shadow 禁用、hex 色板白名单。
+  </p>
+
+  <div class="val-grid">
+    <div class="val-card">
+      <header>
+        <span class="name">Style B · validate-swiss-deck.mjs</span>
+        <span class="badge pass"><span class="pulse"></span>22 slide(s) passed</span>
+      </header>
+      <pre class="log"><span class="prompt">$</span> node scripts/validate-swiss-deck.mjs assets/template-swiss.html
+
+Warnings:
+- Slide 6: heading inside a custom fr/fr grid ...
+- Slide 16: heading inside a custom fr/fr grid ...
+- Slide 20: heading inside a custom fr/fr grid ...
+
+<span class="ok">✓ Swiss deck validation passed: 22 slide(s).</span></pre>
+    </div>
+
+    <div class="val-card">
+      <header>
+        <span class="name">Style C · validate-tableai-deck.mjs</span>
+        <span class="badge pass"><span class="pulse"></span>23 slide(s) passed</span>
+      </header>
+      <pre class="log"><span class="prompt">$</span> node scripts/validate-tableai-deck.mjs assets/template-tableai.html
+
+Warnings:
+- Slide 2: heading uses font-weight:200/300 ...
+- Slide 7: heading inside a custom fr/fr grid ...
+- Slide 17: heading inside a custom fr/fr grid ...
+- Slide 21: heading inside a custom fr/fr grid ...
+
+<span class="ok">✓ Table AI deck validation passed: 23 slide(s).</span></pre>
+    </div>
+  </div>
+
+  <div style="margin-top:var(--sp-8);display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-7);font-family:var(--mono);font-size:max(12px,.9vw);line-height:1.7;color:var(--text-secondary)">
+    <div>
+      <strong style="display:block;font-family:var(--sans-tab);font-weight:600;font-size:14px;color:var(--ink);margin-bottom:.6em">Style B 校验规则</strong>
+      <ul style="list-style:none;display:flex;flex-direction:column;gap:.4em">
+        <li>· <code>data-layout</code> 必须在 S01-S22 / SWISS-COVER-ASCII / SWISS-CLOSING-ASCII 内</li>
+        <li>· 顶部大标题不得 <code>text-align:center</code></li>
+        <li>· SVG 不得包含可见 <code>&lt;text&gt;</code></li>
+        <li>· S22 必须使用 <code>data-image-slot="s22-hero-21x9"</code></li>
+        <li>· <code>object-position:top center</code> 在 S22 照片上禁用 (会裁人脸)</li>
+      </ul>
+    </div>
+    <div>
+      <strong style="display:block;font-family:var(--sans-tab);font-weight:600;font-size:14px;color:var(--ink);margin-bottom:.6em">Style C 额外规则</strong>
+      <ul style="list-style:none;display:flex;flex-direction:column;gap:.4em">
+        <li>· 主标题不得用 <code>font-weight:200/300</code> (应保持 600/700)</li>
+        <li>· 卡片不得使用 <code>box-shadow</code></li>
+        <li>· hex 不得超出 ink / gold / paper / grey ramp 白名单</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============== FOOTER ============== -->
+<footer class="foot">
+  <div class="row">
+    <div class="col">
+      <strong>guizang-ppt-skill</strong>
+      <span>由 歸藏 创建与维护</span>
+    </div>
+    <div class="col" style="text-align:right">
+      <a href="https://github.com/op7418/guizang-ppt-skill" target="_blank" rel="noopener">GitHub ↗</a>
+      <a href="SKILL.md">SKILL.md</a>
+      <a href="README.md">README.md</a>
+    </div>
+  </div>
+  <div class="row" style="margin-top:var(--sp-7)">
+    <span>MIT © 2026 op7418 · Table AI fork 2026.07</span>
+    <span>INDEX.html · built with Style C tokens</span>
+  </div>
+</footer>
+
+</body>
+</html>

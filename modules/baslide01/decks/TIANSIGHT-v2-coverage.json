@@ -1,0 +1,81 @@
+[
+  {
+    "id": "stone-briefing",
+    "source": "ref/mds/06_首版汇报报告_V1.0_数据校准版.md",
+    "out": "decks/stone-briefing/presentation.html",
+    "bytes": 1559635,
+    "slides": 324,
+    "chapters": 13,
+    "tables_in_md": 118,
+    "tables_emitted": 118,
+    "jobs": {
+      "cover": 1,
+      "toc": 2,
+      "statement": 106,
+      "readme": 8,
+      "divider": 13,
+      "chart": 44,
+      "roster": 138,
+      "kpi": 9,
+      "matrix": 1,
+      "chart-table": 1,
+      "verdict": 1
+    },
+    "cover_titles": [
+      "石头先生的汉堡 · 北京首店",
+      "首版汇报报告 V1.0（数据校准版）"
+    ],
+    "h2_covered": true
+  },
+  {
+    "id": "stone-roadmap",
+    "source": "ref/mds/07_战略方法论体系与分阶段赋能路线图_M1.0.md",
+    "out": "decks/stone-roadmap/presentation.html",
+    "bytes": 1047944,
+    "slides": 251,
+    "chapters": 12,
+    "tables_in_md": 73,
+    "tables_emitted": 73,
+    "jobs": {
+      "cover": 1,
+      "toc": 2,
+      "statement": 128,
+      "roster": 86,
+      "divider": 12,
+      "chart": 12,
+      "verdict": 2,
+      "kpi": 6,
+      "compare": 2
+    },
+    "cover_titles": [
+      "石头先生的汉堡",
+      "战略方法论体系与分阶段赋能路线图"
+    ],
+    "h2_covered": true
+  },
+  {
+    "id": "stone-dossier",
+    "source": "ref/mds/08_北京西式快餐可参考品牌分析专项_B1.0.md",
+    "out": "decks/stone-dossier/presentation.html",
+    "bytes": 787125,
+    "slides": 148,
+    "chapters": 9,
+    "tables_in_md": 47,
+    "tables_emitted": 47,
+    "jobs": {
+      "cover": 1,
+      "toc": 1,
+      "statement": 47,
+      "readme": 4,
+      "divider": 9,
+      "kpi": 7,
+      "chart": 17,
+      "roster": 60,
+      "compare": 2
+    },
+    "cover_titles": [
+      "北京西式快餐 · 可参考品牌分析专项报告"
+    ],
+    "h2_covered": true
+  }
+]

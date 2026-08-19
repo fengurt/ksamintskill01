@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600">
+  <rect width="1200" height="600" fill="#FFFFFF"/>
+  <text x="600" y="50" text-anchor="middle" font-family="var(--sans-tab)" font-size="16" font-weight="700" fill="#0A1626" letter-spacing="0.18em">3 PATHS · Q2 vs Q3 GTM</text>
+  <text x="600" y="72" text-anchor="middle" font-family="var(--sans-tab)" font-size="11" fill="#75777D">从纯 PLG 到 Hybrid GTM 的三个选择</text>
+  <!-- Start node -->
+  <g transform="translate(600,140)">
+    <circle r="42" fill="#0A1626"/>
+    <text y="-2" text-anchor="middle" font-family="var(--sans-tab)" font-size="12" font-weight="700" fill="#FFFFFF">START</text>
+    <text y="14" text-anchor="middle" font-family="var(--sans-tab)" font-size="10" fill="#FFFFFF" opacity="0.7">Q2 模式</text>
+  </g>
+  <!-- Three branches -->
+  <line x1="600" y1="182" x2="240" y2="260" stroke="#DCD9DB" stroke-width="2"/>
+  <line x1="600" y1="182" x2="600" y2="260" stroke="#44474C" stroke-width="2.5"/>
+  <line x1="600" y1="182" x2="960" y2="260" stroke="#A88B52" stroke-width="2.5"/>
+  <!-- Option A: continue PLG -->
+  <g transform="translate(240,300)">
+    <rect x="-130" y="-40" width="260" height="100" fill="#FFFFFF" stroke="#DCD9DB" stroke-width="1.5"/>
+    <text x="0" y="-18" text-anchor="middle" font-family="var(--sans-tab)" font-size="11" font-weight="700" fill="#0A1626" letter-spacing="0.12em">OPTION A · PURE PLG</text>
+    <text x="0" y="2" text-anchor="middle" font-family="var(--sans-tab)" font-size="10" fill="#44474C">Pure self-serve only</text>
+    <text x="0" y="20" text-anchor="middle" font-family="var(--sans-tab)" font-size="9" fill="#75777D">所有流量自注册</text>
+    <text x="0" y="34" text-anchor="middle" font-family="var(--sans-tab)" font-size="9" fill="#75777D">Sales 仅接 inbound</text>
+    <text x="0" y="48" text-anchor="middle" font-family="var(--sans-tab)" font-size="9" fill="#75777D">Mid-market 真空</text>
+  </g>
+  <text x="240" y="370" text-anchor="middle" font-family="var(--sans-tab)" font-size="10" font-weight="600" fill="#DCD9DB">同 Q2 表现</text>
+  <text x="240" y="385" text-anchor="middle" font-family="var(--sans-tab)" font-size="9" fill="#75777D">ARR 增长 ≈ 5-8% / 季</text>
+  <!-- Option B: big investment -->
+  <g transform="translate(600,300)">
+    <rect x="-130" y="-40" width="260" height="100" fill="#FFFFFF" stroke="#44474C" stroke-width="1.5"/>
+    <text x="0" y="-18" text-anchor="middle" font-family="var(--sans-tab)" font-size="11" font-weight="700" fill="#44474C" letter-spacing="0.12em">OPTION B · BIG BET</text>
+    <text x="0" y="2" text-anchor="middle" font-family="var(--sans-tab)" font-size="10" fill="#44474C">全 enterprise 押注</text>
+    <text x="0" y="20" text-anchor="middle" font-family="var(--sans-tab)" font-size="9" fill="#75777D">12 个 AE/SE 一次到位</text>
+    <text x="0" y="34" text-anchor="middle" font-family="var(--sans-tab)" font-size="9" fill="#75777D">放弃 SMB 流量</text>
+    <text x="0" y="48" text-anchor="middle" font-family="var(--sans-tab)" font-size="9" fill="#75777D">高风险 · 高回报</text>
+  </g>
+  <text x="600" y="370" text-anchor="middle" font-family="var(--sans-tab)" font-size="10" font-weight="600" fill="#44474C">30–45% 增长 / 季</text>
+  <text x="600" y="385" text-anchor="middle" font-family="var(--sans-tab)" font-size="9" fill="#75777D">但 culture shock 高</text>
+  <!-- Option C: hybrid (recommended) -->
+  <g transform="translate(960,300)">
+    <rect x="-130" y="-40" width="260" height="100" fill="#A88B52" fill-opacity="0.10" stroke="#A88B52" stroke-width="2.5"/>
+    <text x="0" y="-18" text-anchor="middle" font-family="var(--sans-tab)" font-size="11" font-weight="700" fill="#A88B52" letter-spacing="0.12em">OPTION C · HYBRID ✓</text>
+    <text x="0" y="2" text-anchor="middle" font-family="var(--sans-tab)" font-size="10" fill="#44474C">三轨并行 (推荐)</text>
+    <text x="0" y="20" text-anchor="middle" font-family="var(--sans-tab)" font-size="9" fill="#75777D">PLG 继续 · SDR 打 Ent</text>
+    <text x="0" y="34" text-anchor="middle" font-family="var(--sans-tab)" font-size="9" fill="#75777D">SC 跟 Mid-market</text>
+    <text x="0" y="48" text-anchor="middle" font-family="var(--sans-tab)" font-size="9" fill="#75777D">月度合并复盘</text>
+  </g>
+  <text x="960" y="370" text-anchor="middle" font-family="var(--sans-tab)" font-size="10" font-weight="600" fill="#A88B52">20–35% 增长 / 季 ✓</text>
+  <text x="960" y="385" text-anchor="middle" font-family="var(--sans-tab)" font-size="9" fill="#75777D">稳定 + 自有需求托底</text>
+  <!-- Arrows from options to outcomes -->
+  <g transform="translate(600,500)">
+    <rect x="-180" y="-30" width="360" height="60" fill="#44474C" fill-opacity="0.04" stroke="#44474C" stroke-width="1.5" stroke-dasharray="3 3"/>
+    <text y="-8" text-anchor="middle" font-family="var(--sans-tab)" font-size="11" font-weight="700" fill="#0A1626">RECOMMENDATION</text>
+    <text y="14" text-anchor="middle" font-family="var(--sans-tab)" font-size="10" fill="#44474C">走 Option C · Hybrid GTM</text>
+  </g>
+  <path d="M 240 410 L 410 470 M 600 410 L 600 470 M 960 410 L 790 470" stroke="#44474C" stroke-width="1.5" stroke-dasharray="2 2"/>
+</svg>

@@ -16,6 +16,7 @@ import {
   getAuditPage,
   listAuditPages,
   agentBrief,
+  getUnitTexts,
 } from "./lib/runs.js";
 import {
   listProjects,
@@ -28,6 +29,8 @@ import { listTemplates, getTemplate } from "./lib/templates.js";
 import { listJobs, getJob, startJob, cancelJob, subscribe } from "./lib/jobs.js";
 import { healthSnapshot, symlinkIntegrity } from "./lib/health.js";
 import { listThemes } from "./lib/themes.js";
+import { getPack, skillStagesFor, VIEW_STAGES, stageReady, getStageView } from "./lib/pack.js";
+import { streamPackZip } from "./lib/archive.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PUBLIC = join(__dirname, "public");
@@ -183,6 +186,15 @@ async function handleApi(req, res, method, path, u) {
     }
   }
   {
+    const m = path.match(/^\/api\/runs\/([^/]+)\/units\/([^/]+)$/);
+    if (method === "GET" && m) {
+      const texts = getUnitTexts(decodeURIComponent(m[1]), [decodeURIComponent(m[2])]);
+      const unit = texts[decodeURIComponent(m[2])];
+      if (!unit) return send(res, 404, { error: "unit not found" });
+      return send(res, 200, unit);
+    }
+  }
+  {
     const m = path.match(/^\/api\/runs\/([^/]+)\/audit$/);
     if (method === "GET" && m) {
       return send(res, 200, { pages: listAuditPages(decodeURIComponent(m[1])) });
@@ -207,11 +219,40 @@ async function handleApi(req, res, method, path, u) {
 
   // Projects
   if (method === "GET" && path === "/api/projects") {
-    return send(res, 200, { projects: listProjects() });
+    const projects = listProjects().map((p) => {
+      const runId = (p.work || "").replace(/^\.work\//, "");
+      return { ...p, pack: runId ? getPack(runId) : null };
+    });
+    return send(res, 200, { projects });
   }
   if (method === "POST" && path === "/api/projects") {
     const body = await readBody(req);
     return send(res, 201, createProject(body));
+  }
+  {
+    const m = path.match(/^\/api\/projects\/([^/]+)\/pack\.zip$/);
+    if (method === "GET" && m) {
+      const p = getProject(decodeURIComponent(m[1]));
+      if (!p) return send(res, 404, { error: "not found" });
+      const runId = (p.work || "").replace(/^\.work\//, "");
+      if (!runId) return send(res, 400, { error: "no work dir" });
+      try {
+        streamPackZip(runId, res);
+      } catch (e) {
+        return send(res, 400, { error: e.message });
+      }
+      return;
+    }
+  }
+  {
+    const m = path.match(/^\/api\/projects\/([^/]+)\/stage\/([^/]+)$/);
+    if (method === "GET" && m) {
+      const p = getProject(decodeURIComponent(m[1]));
+      if (!p) return send(res, 404, { error: "not found" });
+      const runId = (p.work || "").replace(/^\.work\//, "");
+      const stageId = decodeURIComponent(m[2]);
+      return send(res, 200, getStageView(runId, stageId, { source: p.source }));
+    }
   }
   {
     const m = path.match(/^\/api\/projects\/([^/]+)$/);
@@ -220,7 +261,45 @@ async function handleApi(req, res, method, path, u) {
       if (method === "GET") {
         const p = getProject(id);
         if (!p) return send(res, 404, { error: "not found" });
-        return send(res, 200, p);
+        const runId = (p.work || "").replace(/^\.work\//, "");
+        const pack = runId ? getPack(runId) : null;
+        const { skills, laterSkills } = skillStagesFor(p, pack);
+        let run = null;
+        try {
+          run = runId ? getRun(runId) : null;
+        } catch {
+          run = null;
+        }
+        return send(res, 200, {
+          ...p,
+          pack,
+          skills,
+          laterSkills,
+          run: run
+            ? {
+                id: run.id,
+                page_count: run.deck?.page_count,
+                total_units: run.index?.total_units,
+                hop1: run.auditSource?.counts || null,
+                hop2: run.auditHtml?.counts || null,
+                deckHref: run.deckHref,
+              }
+            : null,
+          templateMeta: getTemplate(p.template),
+          viewStages: VIEW_STAGES.map((s) => {
+            let abs = null;
+            try {
+              abs = runId ? safeWorkDir(runId) : null;
+            } catch {
+              abs = null;
+            }
+            const ready = stageReady(abs, s.id, { pack, source: p.source });
+            return {
+              ...s,
+              status: ready ? "ok" : s.later ? "later" : "pending",
+            };
+          }),
+        });
       }
       if (method === "PATCH") {
         const body = await readBody(req);
@@ -266,6 +345,7 @@ async function handleApi(req, res, method, path, u) {
         html: body.html,
         theme: body.theme,
         standards: body.standards,
+        genre: body.genre,
       });
       return send(res, 201, job);
     } catch (e) {

@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Premium PPT Template</title>
+<style>
+  /* ========== 主题变量（更换主题只需修改这里） ========== */
+  :root {
+    --primary: #6366f1;        /* 主色 */
+    --primary-dark: #4f46e5;
+    --accent: #22d3ee;         /* 强调色 */
+    --bg: #0f1222;             /* 背景色 */
+    --surface: #191d33;        /* 卡片色 */
+    --text: #f4f5fb;           /* 主文字 */
+    --text-muted: #9aa0b8;     /* 次要文字 */
+    --radius: 20px;
+    --font: "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: var(--font);
+    background: #06070f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    overflow: hidden;
+  }
+
+  /* ========== 16:9 舞台 ========== */
+  .stage {
+    position: relative;
+    width: 100vw;
+    height: 56.25vw;           /* 16:9 */
+    max-height: 100vh;
+    max-width: 177.78vh;
+    background: var(--bg);
+    overflow: hidden;
+  }
+
+  /* ========== 幻灯片 ========== */
+  .slide {
+    position: absolute;
+    inset: 0;
+    padding: 5% 7%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    opacity: 0;
+    transform: translateX(60px);
+    transition: opacity .6s ease, transform .6s ease;
+    pointer-events: none;
+    color: var(--text);
+  }
+  .slide.active {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+  }
+
+  /* 装饰光晕 */
+  .glow {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: .35;
+    pointer-events: none;
+  }
+  .glow-1 { width: 40vw; height: 40vw; background: var(--primary); top: -15%; right: -10%; }
+  .glow-2 { width: 30vw; height: 30vw; background: var(--accent); bottom: -20%; left: -8%; opacity: .2; }
+
+  /* ========== 通用排版 ========== */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: .6em;
+    font-size: clamp(12px, 1.1vw, 18px);
+    letter-spacing: .35em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.4em;
+  }
+  .eyebrow::before {
+    content: "";
+    width: 2.5em; height: 2px;
+    background: var(--accent);
+  }
+
+  h1 {
+    font-size: clamp(36px, 5.2vw, 88px);
+    line-height: 1.12;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  h2 {
+    font-size: clamp(28px, 3.6vw, 60px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: .5em;
+  }
+  .gradient-text {
+    background: linear-gradient(120deg, var(--primary), var(--accent));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .lead {
+    font-size: clamp(14px, 1.4vw, 22px);
+    color: var(--text-muted);
+    line-height: 1.8;
+    max-width: 60%;
+  }
+
+  /* ========== 卡片网格 ========== */
+  .grid {
+    display: grid;
+    gap: 2vw;
+    margin-top: 3vw;
+  }
+  .grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid rgba(255,255,255,.07);
+    border-radius: var(--radius);
+    padding: 2vw;
+    transition: transform .3s ease, border-color .3s ease;
+  }
+  .card:hover {
+    transform: translateY(-6px);
+    border-color: var(--primary);
+  }
+  .card .num {
+    font-size: clamp(20px, 2vw, 32px);
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: .6em;
+  }
+  .card h3 {
+    font-size: clamp(15px, 1.5vw, 24px);
+    margin-bottom: .5em;
+  }
+  .card p {
+    font-size: clamp(12px, 1.1vw, 17px);
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  /* ========== 数据页 ========== */
+  .stat .value {
+    font-size: clamp(36px, 4.5vw, 76px);
+    font-weight: 800;
+    background: linear-gradient(120deg, var(--primary), var(--accent));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .stat .label {
+    font-size: clamp(12px, 1.1vw, 17px);
+    color: var(--text-muted);
+    margin-top: .5em;
+  }
+
+  /* ========== 两栏布局 ========== */
+  .split {
+    display: grid;
+    grid-template-columns: 1.1fr .9fr;
+    gap: 4vw;
+    align-items: center;
+  }
+  .visual {
+    aspect-ratio: 4/3;
+    border-radius: var(--radius);
+    background: linear-gradient(135deg, var(--primary-dark), var(--accent));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(40px, 5vw, 90px);
+  }
+
+  ul.points { list-style: none; margin-top: 1.5vw; }
+  ul.points li {
+    display: flex;
+    gap: 1em;
+    align-items: flex-start;
+    font-size: clamp(13px, 1.25vw, 20px);
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-bottom: 1.2em;
+  }
+  ul.points li::before {
+    content: "✓";
+    flex-shrink: 0;
+    width: 1.6em; height: 1.6em;
+    border-radius: 50%;
+    background: rgba(99,102,241,.18);
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: .85em;
+    margin-top: .15em;
+  }
+
+  /* ========== 页脚与导航 ========== */
+  .footer {
+    position: absolute;
+    bottom: 4%;
+    left: 7%;
+    right: 7%;
+    display: flex;
+    justify-content: space-between;
+    font-size: clamp(10px, .9vw, 14px);
+    color: var(--text-muted);
+    letter-spacing: .15em;
+  }
+
+  .nav {
+    position: absolute;
+    bottom: 4%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 10;
+  }
+  .dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.2);
+    cursor: pointer;
+    transition: all .3s;
+  }
+  .dot.active { background: var(--accent); width: 28px; border-radius: 6px; }
+
+  .progress {
+    position: absolute;
+    top: 0; left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    transition: width .5s ease;
+    z-index: 10;
+  }
+
+  html.printing .slide,
+  html.printing .slide.active { opacity: 1; transform: none; pointer-events: auto; }
+
+  @media print {
+    @page { size: 16in 9in; margin: 0; }
+    html, body {
+      background: #fff !important;
+      overflow: visible !important;
+      height: auto !important;
+      display: block !important;
+    }
+    .stage {
+      position: static !important;
+      width: 16in !important;
+      height: auto !important;
+      max-width: none !important;
+      max-height: none !important;
+      overflow: visible !important;
+    }
+    .slide {
+      position: relative !important;
+      inset: auto !important;
+      opacity: 1 !important;
+      transform: none !important;
+      pointer-events: auto !important;
+      display: flex !important;
+      width: 16in !important;
+      height: 9in !important;
+      page-break-after: always;
+      break-after: page;
+      page-break-inside: avoid;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .slide:last-of-type { page-break-after: auto; break-after: auto; }
+    .nav, .progress, .glow { display: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="stage" id="stage">
+  <div class="progress" id="progress"></div>
+  <div class="glow glow-1"></div>
+  <div class="glow glow-2"></div>
+
+  <!-- Slide 1 封面 -->
+  <section class="slide active" data-page-type="cover">
+    <div class="eyebrow">Keynote · 2025</div>
+    <h1>用设计驱动<br><span class="gradient-text">产品的未来</span></h1>
+    <p class="lead" style="margin-top:2em;">一套面向现代团队的高端演示模板 —— 简洁、克制、有呼吸感。</p>
+    <div class="footer"><span>YOUR COMPANY</span><span>PRESENTED BY DESIGN TEAM</span></div>
+  </section>
+
+  <!-- Slide 2 目录 -->
+  <section class="slide" data-page-type="chapter">
+    <div class="eyebrow">Agenda</div>
+    <h2>今天的<span class="gradient-text">议程</span></h2>
+    <div class="grid grid-4">
+      <div class="card"><div class="num">01</div><h3>背景与机会</h3><p>市场趋势与用户洞察</p></div>
+      <div class="card"><div class="num">02</div><h3>核心策略</h3><p>产品定位与设计原则</p></div>
+      <div class="card"><div class="num">03</div><h3>关键数据</h3><p>验证结果与增长指标</p></div>
+      <div class="card"><div class="num">04</div><h3>未来规划</h3><p>路线图与下一步行动</p></div>
+    </div>
+    <div class="footer"><span>02 / 05</span><span>AGENDA</span></div>
+  </section>
+
+  <!-- Slide 3 两栏内容页 -->
+  <section class="slide" data-page-type="statement">
+    <div class="split">
+      <div>
+        <div class="eyebrow">Strategy</div>
+        <h2>三个核心<span class="gradient-text">设计原则</span></h2>
+        <ul class="points">
+          <li>克制的视觉层级 —— 每一页只讲一个重点，信息密度恰到好处。</li>
+          <li>一致的设计语言 —— 统一的色彩、圆角与间距系统贯穿全稿。</li>
+          <li>数据可视化优先 —— 用图形代替长文本，让洞察一目了然。</li>
+        </ul>
+      </div>
+      <div class="visual">🎨</div>
+    </div>
+    <div class="footer"><span>03 / 05</span><span>STRATEGY</span></div>
+  </section>
+
+  <!-- Slide 4 数据页 -->
+  <section class="slide" data-page-type="kpi">
+    <div class="eyebrow">Metrics</div>
+    <h2>关键<span class="gradient-text">数据表现</span></h2>
+    <div class="grid grid-3">
+      <div class="card stat"><div class="value">+128%</div><div class="label">年度用户增长率，远超行业平均水平</div></div>
+      <div class="card stat"><div class="value">4.9</div><div class="label">应用商店平均评分（满分 5.0）</div></div>
+      <div class="card stat"><div class="value">32s</div><div class="label">新用户完成核心任务的平均时长</div></div>
+    </div>
+    <div class="footer"><span>04 / 05</span><span>METRICS</span></div>
+  </section>
+
+  <!-- Slide 5 结尾 -->
+  <section class="slide" data-page-type="verdict" style="align-items:center; text-align:center;">
+    <div class="eyebrow" style="justify-content:center;">Thank You</div>
+    <h1><span class="gradient-text">谢谢观看</span></h1>
+    <p class="lead" style="max-width:100%; margin-top:1.5em;">contact@yourcompany.com · www.yourcompany.com</p>
+    <div class="footer"><span>05 / 05</span><span>Q&A</span></div>
+  </section>
+
+  <div class="nav" id="nav"></div>
+</div>
+
+<script>
+  const params = new URLSearchParams(location.search);
+  const printMode = params.get('print') === '1';
+  if (printMode) document.documentElement.classList.add('printing');
+  const slides = document.querySelectorAll('.slide');
+  const nav = document.getElementById('nav');
+  const progress = document.getElementById('progress');
+  let current = 0;
+
+  slides.forEach((_, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'dot' + (i === 0 ? ' active' : '');
+    dot.onclick = () => go(i);
+    nav.appendChild(dot);
+  });
+
+  function go(i) {
+    if (i < 0 || i >= slides.length) return;
+    slides[current].classList.remove('active');
+    nav.children[current].classList.remove('active');
+    current = i;
+    slides[current].classList.add('active');
+    nav.children[current].classList.add('active');
+    progress.style.width = ((current + 1) / slides.length * 100) + '%';
+  }
+  progress.style.width = (1 / slides.length * 100) + '%';
+
+  document.addEventListener('keydown', e => {
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') go(current + 1);
+    if (e.key === 'ArrowLeft' || e.key === 'PageUp') go(current - 1);
+    if (e.key === 'Home') go(0);
+    if (e.key === 'End') go(slides.length - 1);
+    if (e.key === 'p' || e.key === 'P') { e.preventDefault(); window.print(); }
+  });
+  window.addEventListener('beforeprint', () => {
+    slides.forEach(s => s.classList.add('active'));
+  });
+  window.addEventListener('afterprint', () => {
+    if (printMode) return;
+    slides.forEach((s, i) => s.classList.toggle('active', i === current));
+  });
+  if (printMode) slides.forEach(s => s.classList.add('active'));
+
+  document.getElementById('stage').addEventListener('click', e => {
+    if (e.target.classList.contains('dot')) return;
+    const x = e.clientX / window.innerWidth;
+    x > 0.5 ? go(current + 1) : go(current - 1);
+  });
+</script>
+
+</body>
+</html>

@@ -53,7 +53,9 @@
           "source": { "type": "string" },
           "how_to_read": { "type": "string" },
           "takeaway": { "type": "string" },
-          "notes": { "type": "string" }
+          "notes": { "type": "string" },
+          "fill": { "type": ["string", "null"] },
+          "recipe": { "type": ["string", "null"] }
         }
       }
     }

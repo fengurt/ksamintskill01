@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <rect width="800" height="600" fill="#0A1626"/>
+  <!-- Big number -->
+  <text x="400" y="380" text-anchor="middle" font-family="var(--sans-tab)" font-size="280" font-weight="700" fill="#A88B52" letter-spacing="-0.04em" opacity="0.8">02</text>
+  <text x="400" y="500" text-anchor="middle" font-family="Songti SC, STSong, serif" font-size="48" font-weight="500" fill="#FFFFFF" letter-spacing="0.2em">前言与研究</text>
+  <line x1="280" y1="540" x2="520" y2="540" stroke="#A88B52" stroke-width="1"/>
+  <text x="400" y="572" text-anchor="middle" font-family="var(--sans-tab)" font-size="10" font-weight="600" fill="#C9A86B" letter-spacing="0.32em">INTRODUCTION · STUDY NOTES</text>
+</svg>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-font-pack="TIANSIGHT" data-skin="TIANSIGHT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TIANSIGHT Template · cover</title>
+<!--
+  TEMPLATE: cover  ·  L1 SHELL from v2.0 spec
+  Fill slots only. Do not add CSS classes.
+  Tokens: ../TIANSIGHT-v2.css  ·  QA: keep chrome positions.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link id="sd-font-link" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../TIANSIGHT-v2.css">
+</head>
+<body>
+<div id="sd-stage"><div id="deck">
+<section class="slide sd-slide on shell-cover" data-job="cover" data-page-type="cover">
+
+  <div class="sd-tk"><span class="sd-chip">{{DECK_KICKER_EN}}</span></div>
+  <div style="position:absolute; top:20%; left:var(--sd-margin); right:18%;">
+    <div class="sd-hero" style="font-size:var(--sd-type-hero);">{{TITLE_LINE1}}<br><span style="font-size:.52em; color:var(--sd-ink-72); font-weight:600;">{{TITLE_LINE2}}</span></div>
+    <div class="sd-rule" style="margin:calc(var(--sd-canvas-h) * 0.022) 0 calc(var(--sd-canvas-h) * 0.016);"></div>
+    <div style="font-family:var(--sd-font-serif); font-size:var(--sd-type-h3); color:var(--sd-ink-72); max-width:22em; line-height:1.5;">{{ONE_LINE_DECISION}}</div>
+  </div>
+  <div style="position:absolute; left:var(--sd-margin); right:var(--sd-margin); bottom:calc(var(--sd-canvas-h) * 0.048); display:flex; gap:48px; flex-wrap:wrap; font-family:var(--sd-font-mono); font-size:var(--sd-type-small); color:var(--sd-ink-60); border-top:var(--sd-hairline); padding-top:0.5em;">
+    <span>分析期间 / PERIOD&nbsp; <b style="color:var(--sd-accent)">{{PERIOD}}</b></span>
+    <span>分析范围 / SCOPE&nbsp; <b style="color:var(--sd-accent)">{{SCOPE}}</b></span>
+    <span>分类基准 / BASIS&nbsp; <b style="color:var(--sd-accent)">{{BASIS}}</b></span>
+    <span>出具日期 / ISSUED&nbsp; <b style="color:var(--sd-accent)">{{ISSUED_DATE}}</b></span>
+  </div>
+  <div style="position:absolute; right:var(--sd-margin); top:20%; width:calc(var(--sd-canvas-h) * 0.20); height:calc(var(--sd-canvas-h) * 0.20);"><img src="../logo/侍天.png" alt="侍天" style="width:100%;height:100%;object-fit:contain" /></div>
+
+</section>
+</div></div>
+<script src="../TIANSIGHT-deck.js"></script>
+</body>
+</html>

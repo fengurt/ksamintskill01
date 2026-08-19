@@ -1,0 +1,1756 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>石头先生的汉堡 · 北京首店 · 战略分析报告 V1.0</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Noto+Serif+SC:wght@600;700;900&family=Noto+Sans+SC:wght@400;500;600;700;900&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#EDE6D8;
+  --paper-2:#E4DBC7;
+  --paper-3:#D9CCAF;
+  --ink:#1D1712;
+  --ink-soft:#5B5044;
+  --ink-faint:#8A7F6E;
+  --charcoal:#15100A;
+  --charcoal-2:#221A11;
+  --paper-on-dark:#EDE6D8;
+  --soft-on-dark:#B9AD97;
+  --ember:#B8451F;
+  --ember-deep:#7E2A11;
+  --ember-soft:#E2C4B4;
+  --brass:#A9812F;
+  --brass-light:#D8B968;
+  --slate:#5E665F;
+  --alert:#7C2320;
+  --alert-bg:#E7D3C9;
+  --good:#4B6350;
+  --good-bg:#DAE0CE;
+  --line:rgba(29,23,18,0.15);
+  --line-strong:rgba(29,23,18,0.28);
+  --line-dark:rgba(237,230,216,0.18);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{background:#3a352c;}
+body{font-family:"Noto Sans SC","IBM Plex Mono",sans-serif;color:var(--ink);}
+.deck{display:block;text-align:center;padding:28px 0 60px;}
+.slide{
+  position:relative;width:1280px;height:720px;background:var(--paper);
+  overflow:hidden;box-shadow:0 18px 46px rgba(0,0,0,0.38);
+  margin:0 auto 28px;text-align:left;
+  break-after:page;break-inside:avoid;page-break-after:always;page-break-inside:avoid;
+}
+.slide.dark{background:var(--charcoal);color:var(--paper-on-dark);}
+.slide-inner{position:absolute;inset:0;padding:36px 56px 0 56px;display:flex;flex-direction:column;}
+
+/* ---------- typography ---------- */
+.eyebrow{
+  font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.14em;
+  color:var(--ember-deep);font-weight:600;text-transform:uppercase;display:flex;align-items:center;gap:10px;
+}
+.eyebrow::before{
+  content:"";width:22px;height:22px;flex:none;
+  background:url("../../templates/TIANSIGHT/logo/侍天.png") center/contain no-repeat;
+}
+.slide.dark .eyebrow{color:var(--brass-light);}
+.ruler-rule{display:flex;align-items:flex-end;gap:3px;height:10px;}
+.ruler-rule i{display:block;width:1px;height:5px;background:var(--ember);opacity:.55;}
+.ruler-rule i:nth-child(5n){height:9px;opacity:.95;}
+.slide.dark .ruler-rule i{background:var(--brass-light);}
+
+.h-zh{
+  font-family:"Noto Serif SC",serif;font-weight:900;color:var(--ink);
+  letter-spacing:.01em;line-height:1.2;
+}
+.slide.dark .h-zh{color:var(--paper-on-dark);}
+.h1{font-size:24px;margin-top:6px;}
+.h1 .accent{color:var(--ember);}
+.slide.dark .h1 .accent{color:var(--brass-light);}
+.sub{font-size:12px;color:var(--ink-soft);margin-top:6px;line-height:1.5;max-width:1040px;font-weight:500;}
+.slide.dark .sub{color:var(--soft-on-dark);}
+
+.num-display{font-family:"Fraunces",serif;font-weight:700;font-variant-numeric:oldstyle-nums;}
+
+.footer{
+  position:absolute;left:0;right:0;bottom:0;height:44px;
+  padding:0 66px;display:flex;align-items:center;justify-content:space-between;
+  border-top:1px solid var(--line);font-family:"IBM Plex Mono",monospace;
+  font-size:10px;letter-spacing:.07em;color:var(--ink-faint);text-transform:uppercase;
+}
+.slide.dark .footer{border-top:1px solid var(--line-dark);color:var(--soft-on-dark);}
+.footer .tag{color:var(--ember-deep);font-weight:600;}
+.slide.dark .footer .tag{color:var(--brass-light);}
+
+/* ---------- generic pieces ---------- */
+.content{flex:1;min-height:0;padding-top:14px;}
+.card{background:var(--paper-2);border:1px solid var(--line);border-radius:2px;padding:14px 17px;}
+.slide.dark .card{background:var(--charcoal-2);border-color:var(--line-dark);}
+.card.ember{background:var(--ember-deep);border-color:var(--ember-deep);color:var(--paper-on-dark);}
+.card.brass{background:#F4E9CC;border-color:var(--brass);}
+.card.alert{background:var(--alert-bg);border-color:var(--alert);}
+.card.good{background:var(--good-bg);border-color:var(--good);}
+
+.tag-chip{
+  display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:10px;font-weight:600;
+  letter-spacing:.05em;padding:3px 8px;border-radius:2px;background:var(--ember);color:#fff;white-space:nowrap;
+}
+.tag-chip.alt{background:var(--brass);color:#1D1712;}
+.tag-chip.alert{background:var(--alert);}
+.tag-chip.good{background:var(--good);}
+.tag-chip.ghost{background:transparent;border:1px solid var(--line-strong);color:var(--ink-soft);}
+.tag-chip.slate{background:var(--slate);}
+
+.divider{height:1px;background:var(--line);width:100%;}
+.slide.dark .divider{background:var(--line-dark);}
+
+/* ---------- data table (workhorse for dense tabular slides) ---------- */
+.data-table{width:100%;border-collapse:collapse;}
+.data-table thead th{background:var(--charcoal);color:var(--paper-on-dark);font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.04em;text-transform:uppercase;padding:6px 9px;text-align:left;font-weight:600;}
+.data-table thead th.num{text-align:right;}
+.data-table tbody td{font-size:11px;padding:3px 8px;border-bottom:1px solid var(--line);color:var(--ink);}
+.data-table.tight tbody td{padding:3px 9px;}
+.data-table.tight thead th{padding:4px 9px;}
+.data-table tbody td.num{text-align:right;font-family:"IBM Plex Mono",monospace;}
+.data-table tbody tr:nth-child(even){background:rgba(29,23,18,0.035);}
+.data-table tbody tr.hi{background:var(--ember-deep);}
+.data-table tbody tr.hi td{color:#fff;font-weight:700;}
+.data-table tbody tr.hi td b{color:#fff;}
+.data-table tbody tr.hi2{background:#F4E9CC;}
+.data-table tbody tr.hi2 td{font-weight:700;color:var(--ember-deep);}
+.data-table tbody td b{color:var(--ember-deep);}
+.slide.dark .data-table tbody td{color:var(--paper-on-dark);border-bottom:1px solid var(--line-dark);}
+.slide.dark .data-table tbody tr:nth-child(even){background:rgba(237,230,216,0.04);}
+.src-note{font-size:9.5px;color:var(--ink-faint);margin-top:7px;font-family:"IBM Plex Mono",monospace;letter-spacing:.01em;}
+.slide.dark .src-note{color:var(--soft-on-dark);}
+
+table{border-collapse:collapse;width:100%;}
+td,th{text-align:left;padding:4px 8px;font-size:11.5px;}
+
+/* ============ layout helpers ============ */
+.two-col{display:flex;gap:22px;height:100%;}
+.two-col > div{flex:1;min-width:0;}
+.two-col.w60-40 > div:first-child{flex:1.5;}
+.two-col.w40-60 > div:first-child{flex:0.8;}
+.three-col{display:flex;gap:16px;}
+.three-col > div{flex:1;min-width:0;}
+
+.finding{font-family:"Noto Serif SC",serif;font-weight:700;font-size:15px;color:var(--ink);line-height:1.55;margin-top:8px;}
+.finding .accent{color:var(--ember-deep);}
+.slide.dark .finding{color:var(--paper-on-dark);}
+.slide.dark .finding .accent{color:var(--brass-light);}
+
+.note-list{display:flex;flex-direction:column;gap:6px;margin-top:10px;}
+.note-list .t{display:flex;gap:9px;font-size:11.5px;color:var(--ink-soft);line-height:1.5;align-items:flex-start;}
+.note-list .t .dot{width:5px;height:5px;border-radius:50%;background:var(--ember);margin-top:6px;flex:none;}
+.slide.dark .note-list .t{color:var(--soft-on-dark);}
+.slide.dark .note-list .t .dot{background:var(--brass-light);}
+
+/* price ruler svg shared look */
+.pr-axis{stroke:var(--line-strong);stroke-width:1;}
+.pr-tick{stroke:var(--ink-faint);stroke-width:1;}
+.slide.dark .pr-tick{stroke:var(--soft-on-dark);}
+.pr-label{font-family:"IBM Plex Mono",monospace;font-size:11px;fill:var(--ink-faint);}
+.slide.dark .pr-label{fill:var(--soft-on-dark);}
+
+/* ============ SLIDE 1 : COVER ============ */
+#s1 .cover-wrap{position:absolute;inset:0;display:flex;flex-direction:column;padding:60px 76px;}
+#s1 .brandmark{font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.22em;color:var(--brass-light);text-transform:uppercase;display:flex;align-items:center;gap:12px;}
+#s1 .brandmark img{height:28px;width:auto;flex:none;}
+#s1 .cover-mid{flex:1;display:flex;flex-direction:column;justify-content:center;}
+#s1 .title-cn{font-family:"Noto Serif SC",serif;font-weight:900;font-size:72px;color:var(--paper-on-dark);line-height:1.08;letter-spacing:.01em;}
+#s1 .title-sub{font-family:"Noto Serif SC",serif;font-weight:700;font-size:24px;color:var(--brass-light);margin-top:16px;}
+#s1 .title-en{font-family:"Fraunces",serif;font-style:italic;font-size:15px;color:var(--soft-on-dark);margin-top:18px;letter-spacing:.02em;}
+#s1 .meta-row{display:flex;gap:36px;margin-top:34px;}
+#s1 .meta-row .m{flex:1 1 0;min-width:0;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--soft-on-dark);}
+#s1 .meta-row .m b{display:block;color:var(--paper-on-dark);font-size:13.5px;font-family:"Noto Sans SC",sans-serif;font-weight:700;margin-top:4px;}
+#s1 .stat-strip{display:flex;gap:0;border-top:1px solid var(--line-dark);padding-top:20px;margin-top:auto;}
+#s1 .stat-strip .st{flex:1;padding-right:24px;}
+#s1 .stat-strip .st + .st{border-left:1px solid var(--line-dark);padding-left:24px;}
+#s1 .stat-strip .stn{font-family:"Fraunces",serif;font-weight:700;font-size:32px;color:var(--brass-light);}
+#s1 .stat-strip .stl{font-size:11px;color:var(--soft-on-dark);margin-top:4px;font-weight:500;}
+
+/* ============ SLIDE 2 : EXEC SUMMARY ============ */
+#s2 .five-grid{display:flex;flex-direction:column;gap:14px;}
+#s2 .five-row{display:flex;gap:20px;align-items:center;background:var(--paper-2);border:1px solid var(--line);padding:17px 22px;}
+#s2 .five-row .fn{font-family:"Fraunces",serif;font-weight:700;font-size:32px;color:var(--ember);width:44px;flex:none;line-height:1;}
+#s2 .five-row .ft{font-size:13.5px;line-height:1.58;color:var(--ink);}
+#s2 .five-row .ft b{font-weight:700;color:var(--ember-deep);}
+#s2 .five-row.hi{background:var(--ember-deep);border-color:var(--ember-deep);}
+#s2 .five-row.hi .ft{color:var(--paper-on-dark);}
+#s2 .five-row.hi .ft b{color:var(--brass-light);}
+#s2 .five-row.hi .fn{color:var(--brass-light);}
+
+/* ============ PRICE BAND CHART (reused across slides) ============ */
+.pb-chart{display:flex;flex-direction:column;gap:5px;}
+.pb-row{display:flex;align-items:center;gap:12px;}
+.pb-row .band{flex:0 0 92px;font-family:"IBM Plex Mono",monospace;font-size:12px;font-weight:600;color:var(--ink);text-align:right;}
+.pb-row .bartrack{flex:1;position:relative;height:22px;background:rgba(29,23,18,0.06);}
+.pb-row .bar{position:absolute;left:0;top:0;bottom:0;background:var(--ember);display:flex;align-items:center;}
+.pb-row .bar.gold{background:var(--brass);}
+.pb-row .bar.crimson{background:var(--alert);}
+.pb-row .bar .barval{position:absolute;left:100%;margin-left:8px;font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600;color:var(--ink);white-space:nowrap;}
+.pb-row .bar.full{justify-content:flex-end;}
+.pb-row .bar.full .barval{position:static;margin-left:0;margin-right:12px;color:#fff;font-weight:700;}
+.pb-row .chips-count{flex:0 0 52px;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-soft);text-align:right;}
+.pb-row .b20{flex:0 0 68px;font-family:"IBM Plex Mono",monospace;font-size:11px;text-align:right;color:var(--ink-soft);}
+.laws{display:flex;gap:14px;margin-top:14px;}
+.laws .lc{flex:1;padding:11px 14px;border-left:3px solid var(--ember);background:var(--paper-2);}
+.laws .lc.gold{border-color:var(--brass);}
+.laws .lc.crimson{border-color:var(--alert);}
+.laws .lc .lt{font-weight:700;font-size:12px;color:var(--ink);margin-bottom:4px;}
+.laws .lc .ld{font-size:11px;color:var(--ink-soft);line-height:1.48;}
+
+/* ============ dark strategic path slide ============ */
+.quote-big{font-family:"Noto Serif SC",serif;font-weight:700;font-size:20px;line-height:1.58;color:var(--paper-on-dark);margin:12px 0 4px;}
+.quote-big .accent{color:var(--brass-light);}
+.paths{display:flex;gap:16px;margin-top:14px;}
+.path-card{flex:1;background:var(--charcoal-2);border:1px solid var(--line-dark);padding:14px 16px;}
+.path-card .pt{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.1em;color:var(--brass-light);text-transform:uppercase;font-weight:600;}
+.path-card .pn{font-family:"Noto Serif SC",serif;font-weight:900;font-size:18px;margin-top:5px;color:var(--paper-on-dark);}
+.path-card .pex{font-size:11.5px;color:var(--soft-on-dark);margin-top:7px;line-height:1.52;}
+.path-card .pex b{color:var(--brass-light);}
+.rev4{display:flex;gap:10px;margin-top:14px;}
+.rev4 .rc{flex:1;background:var(--charcoal-2);border:1px solid var(--line-dark);padding:9px 11px;}
+.rev4 .rc .k{font-size:10px;color:var(--brass-light);font-weight:700;letter-spacing:.03em;}
+.rev4 .rc .v{font-size:10.5px;color:var(--soft-on-dark);margin-top:4px;line-height:1.42;}
+.caveat{margin-top:12px;font-size:11px;color:var(--soft-on-dark);border-top:1px solid var(--line-dark);padding-top:10px;line-height:1.62;}
+.caveat b{color:var(--brass-light);}
+
+/* ============ floor / bar comparisons ============ */
+.floorbar-wrap{display:flex;flex-direction:column;gap:12px;}
+.floorbar{display:flex;flex-direction:column;gap:5px;}
+.floorbar .flabel{font-size:11.5px;font-weight:700;color:var(--ink);display:flex;justify-content:space-between;}
+.floorbar .ftrack{height:30px;background:rgba(29,23,18,0.06);position:relative;}
+.floorbar .ffill{position:absolute;left:0;top:0;bottom:0;background:var(--ember);display:flex;align-items:center;}
+.floorbar .ffill.up{background:var(--brass);}
+.floorbar .fval{position:absolute;left:100%;margin-left:10px;top:0;bottom:0;display:flex;align-items:center;font-family:"Fraunces",serif;font-weight:700;color:var(--ink);font-size:15px;white-space:nowrap;}
+.floorbar .ffill.full .fval{position:static;margin-left:0;margin-right:14px;color:#fff;margin-left:auto;}
+
+/* ============ big numbers ============ */
+.bignum-row{display:flex;gap:14px;margin:12px 0;}
+.bignum{flex:1;background:var(--charcoal);color:var(--paper-on-dark);padding:15px 16px;text-align:center;}
+.bignum .bn{font-family:"Fraunces",serif;font-weight:700;font-size:34px;color:var(--brass-light);line-height:1;}
+.bignum .bl{font-size:10.5px;color:var(--soft-on-dark);margin-top:6px;font-weight:600;}
+.opp-risk{display:flex;gap:16px;}
+.opp-risk .col{flex:1;}
+.opp-risk .col h4{font-size:12px;font-weight:700;margin-bottom:7px;padding-bottom:5px;border-bottom:2px solid var(--good);color:var(--good);}
+.opp-risk .col.risk h4{border-color:var(--alert);color:var(--alert);}
+.opp-risk .item{font-size:11.3px;color:var(--ink-soft);line-height:1.5;padding:5px 0;border-bottom:1px dashed var(--line);}
+.opp-risk .item b{color:var(--ink);}
+.slide.dark .opp-risk .item{color:var(--soft-on-dark);border-bottom:1px dashed var(--line-dark);}
+.slide.dark .opp-risk .item b{color:var(--paper-on-dark);}
+
+/* ============ kitchen + scenario ============ */
+.kitchen-eq{background:var(--paper-2);border:1px solid var(--line);padding:14px 16px;text-align:center;margin-top:8px;}
+.kitchen-eq .eq{font-family:"Fraunces",serif;font-size:20px;font-weight:700;color:var(--ink);}
+.kitchen-eq .eq .op{color:var(--ink-faint);font-weight:400;margin:0 7px;}
+.kitchen-eq .res{margin-top:7px;font-size:11.5px;color:var(--alert);font-weight:700;}
+.scenario{display:flex;flex-direction:column;gap:9px;}
+.scenario .srow{display:flex;align-items:center;gap:12px;}
+.scenario .stag{width:118px;font-size:11px;font-weight:700;color:var(--ink);flex:none;}
+.scenario .strack{flex:1;height:24px;background:rgba(29,23,18,0.06);position:relative;}
+.scenario .sfill{height:100%;background:var(--brass);position:relative;display:flex;align-items:center;}
+.scenario .sfill.bad{background:var(--alert);}
+.scenario .sfill.good{background:var(--good);}
+.scenario .sval{position:absolute;left:100%;margin-left:8px;font-family:"Fraunces",serif;font-weight:700;font-size:13px;white-space:nowrap;}
+.scenario .smark{position:absolute;top:-4px;bottom:-4px;width:1px;background:var(--ink);opacity:.4;}
+
+/* ============ decisions + timeline (dark closing) ============ */
+.decision-list{display:flex;flex-direction:column;gap:9px;}
+.decision-item{display:flex;gap:10px;align-items:flex-start;padding:11px 13px;background:var(--charcoal-2);border-left:3px solid var(--ember);}
+.decision-item .dn{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--brass-light);flex:none;width:16px;padding-top:2px;}
+.decision-item .dt{font-size:11.3px;line-height:1.48;color:var(--soft-on-dark);}
+.decision-item .dt b{color:var(--paper-on-dark);font-weight:700;}
+.decision-item .dd{margin-left:auto;flex:none;font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--ember-deep);background:var(--brass-light);padding:2px 7px;font-weight:700;}
+
+.timeline{position:relative;padding-left:2px;margin-top:4px;}
+.tl-line{position:absolute;left:6px;top:6px;bottom:6px;width:1px;background:var(--line-dark);}
+.tl-item{position:relative;padding-left:24px;padding-bottom:17px;}
+.tl-item::before{content:"";position:absolute;left:1px;top:4px;width:11px;height:11px;border-radius:50%;background:var(--charcoal);border:2px solid var(--brass-light);}
+.tl-item.hi::before{background:var(--ember);border-color:var(--brass-light);}
+.tl-item .tm{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--brass-light);font-weight:700;}
+.tl-item .tt{font-size:11.5px;color:var(--paper-on-dark);margin-top:2px;font-weight:600;}
+
+@media print{
+  html,body{background:#fff;margin:0;padding:0;}
+  .deck{padding:0;}
+  .slide{box-shadow:none;margin:0;break-after:page;page-break-after:always;}
+  .slide:last-child{break-after:auto;page-break-after:auto;}
+  @page{size:1280px 720px;margin:0;}
+}
+</style>
+</head>
+<body>
+<div class="deck">
+
+<!-- ============================================================ -->
+<!-- SLIDE 1 — COVER -->
+<!-- ============================================================ -->
+<section class="slide dark" id="s1">
+  <div class="cover-wrap">
+    <div class="brandmark"><img src="../../templates/TIANSIGHT/logo/侍天.png" alt="侍天" />MR. STONE'S BURGER — BEIJING FLAGSHIP · STRATEGIC ANALYSIS</div>
+    <div class="cover-mid">
+      <div class="title-cn">石头先生的汉堡</div>
+      <div class="title-sub">北京首店 · 战略分析报告</div>
+      <div class="title-en">Site Strategy and Category Positioning for the Beijing Flagship Store</div>
+      <div class="meta-row">
+        <div class="m">提报日期<b>2026 年 8 月 15 日</b></div>
+        <div class="m">研究范围<b>品牌模型调研 + 产品模型 + 竞争环境分析</b></div>
+        <div class="m">报告版本<b>V1.0</b></div>
+        <div class="m">分析框架<b>以全国连锁 1000 家为终局目标，倒推首店定位决策</b></div>
+      </div>
+    </div>
+
+    <svg width="1148" height="86" viewBox="0 0 1148 86" style="margin-bottom:8px;">
+      <line x1="0" y1="46" x2="1148" y2="46" class="pr-axis" stroke="rgba(237,230,216,0.35)"/>
+      <g>
+        <line x1="0" y1="40" x2="0" y2="52" class="pr-tick" stroke="rgba(237,230,216,0.5)"/>
+        <text x="0" y="70" class="pr-label" fill="#B9AD97">0</text>
+        <line x1="216" y1="40" x2="216" y2="52" class="pr-tick" stroke="rgba(237,230,216,0.5)"/>
+        <text x="205" y="70" class="pr-label" fill="#B9AD97">30</text>
+        <line x1="432" y1="40" x2="432" y2="52" class="pr-tick" stroke="rgba(237,230,216,0.5)"/>
+        <text x="421" y="70" class="pr-label" fill="#B9AD97">60</text>
+        <line x1="648" y1="40" x2="648" y2="52" class="pr-tick" stroke="rgba(237,230,216,0.5)"/>
+        <text x="637" y="70" class="pr-label" fill="#B9AD97">90</text>
+        <line x1="864" y1="40" x2="864" y2="52" class="pr-tick" stroke="rgba(237,230,216,0.5)"/>
+        <text x="847" y="70" class="pr-label" fill="#B9AD97">120元</text>
+        <line x1="1080" y1="40" x2="1080" y2="52" class="pr-tick" stroke="rgba(237,230,216,0.5)"/>
+        <text x="1063" y="70" class="pr-label" fill="#B9AD97">150元</text>
+      </g>
+      <rect x="417.6" y="38" width="28.8" height="16" fill="#B8451F" opacity="0.85"/>
+      <text x="405" y="24" class="pr-label" fill="#E2C4B4" font-weight="600">目标定价带 58–62 元</text>
+      <circle cx="446.4" cy="46" r="5" fill="#D8B968" stroke="#15100A" stroke-width="1.5"/>
+      <text x="452" y="66" class="pr-label" fill="#D8B968" font-weight="700">场内定价参照 62 元</text>
+    </svg>
+
+    <div class="stat-strip">
+      <div class="st"><div class="stn">6,052</div><div class="stl">北京西式门店竞争数据库（全量样本）</div></div>
+      <div class="st"><div class="stn">163,210</div><div class="stl">原始点评门店库记录数，全部含有效坐标</div></div>
+      <div class="st"><div class="stn">70%</div><div class="stl">核心结论达到 A 级数据支撑标准</div></div>
+      <div class="st"><div class="stn">32</div><div class="stl">项分析维度，覆盖赛道、竞争、产品、定价、复制五个模块</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 2 — EXECUTIVE SUMMARY -->
+<!-- ============================================================ -->
+<section class="slide" id="s2">
+  <div class="slide-inner">
+    <div class="eyebrow"><div class="ruler-rule"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>EXECUTIVE SUMMARY · 核心结论摘要</div>
+    <div class="h-zh h1">五项关键发现</div>
+    <div class="content" style="padding-top:10px;">
+      <div class="five-grid">
+        <div class="five-row hi">
+          <div class="fn">01</div>
+          <div class="ft"><b>北京市场中，客单价 45 元以上、门店规模突破 20 家的西式连锁品牌仅 8 个</b>——其中 6 个为披萨/意式品类，2 个为烘焙咖啡品类，<b>尚无一个汉堡品牌进入此列</b>。这一结构性事实表明，石头先生的规模化路径未必依赖汉堡单一品类，其现有的窑炉与烘焙产线具备承接规模化的潜力。</div>
+        </div>
+        <div class="five-row">
+          <div class="fn">02</div>
+          <div class="ft"><b>北京汉堡门店中，97.8% 的客单价位于 55 元以下。</b>石头先生的目标定价（58–62 元）对应该品类的第 95–97 百分位，属于尚未有品牌完成规模化验证的定价区间，而非填补现有市场空白。</div>
+        </div>
+        <div class="fn"></div>
+        <div class="five-row">
+          <div class="fn">03</div>
+          <div class="ft">合生汇的商场整体定价结构不会对入驻品牌形成向下压力（同品牌跨商场客单价中位差为 <b>−0.5 元</b>），但楼层选择将直接影响定价感知（B1/B2 层客单中位 35.5 元，地上楼层 55 元），且该定价带的评分门槛为 <b>4.5 分</b>（55–60 元带平均评分 4.35）。</div>
+        </div>
+        <div class="five-row">
+          <div class="fn">04</div>
+          <div class="ft">核心竞争对手并非客单价 136 元的蓝蛙，而是场内 <b>Shake Shack 合生汇店（客单 62 元 / 评分 4.3 / 评论 6,305 条）</b>——该门店已验证合生汇客群对 62 元汉堡定价的接受度，可作为定价决策的直接参照系。</div>
+        </div>
+        <div class="five-row">
+          <div class="fn">05</div>
+          <div class="ft">合生汇 B2 层已有一家同一控制人旗下的关联品牌门店——<b>石头先生的烤炉（13,831 条评论，评分 3.9）</b>。该门店构成首店启动阶段可直接调用的客群资产，但其当前口碑水平需要在首店开业前完成修复。</div>
+        </div>
+      </div>
+      <div style="margin-top:20px;padding-top:14px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--ink-faint);letter-spacing:.03em;">数据基础：6,052 家北京西式门店竞争数据库 · 275 家合生汇场内餐饮全量数据 · 施工图 A1.02 · 产品结构表 0812</div>
+        <div style="font-family:'Noto Serif SC',serif;font-weight:700;font-size:12.5px;color:var(--ember-deep);">详细论证见后续各章节</div>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>石头先生的汉堡 · 北京首店战略分析</span><span class="tag">核心结论摘要</span><span>02 / 32</span></div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 3 — §1.1 PRICE BAND × SCALE CEILING -->
+<!-- ============================================================ -->
+<section class="slide" id="s3">
+  <div class="slide-inner">
+    <div class="eyebrow"><div class="ruler-rule"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>第一部分 · 战略全局 &nbsp;/&nbsp; §1.1</div>
+    <div class="h-zh h1">价格带与规模天花板：定价决策的结构性约束</div>
+    <div class="sub">北京 6,052 家西式门店中，所有拥有 ≥3 家北京门店的连锁品牌，按中位客单价分组；柱长代表该价格带内单一品牌的最大规模</div>
+
+    <div class="content">
+      <div class="pb-chart">
+        <div class="pb-row"><div class="band">&lt;25 元</div><div class="bartrack"><div class="bar" style="width:21.2%"><span class="barval">131 家 · 华莱士</span></div></div><div class="chips-count">19 品牌</div><div class="b20">≥20店 <b>3</b></div></div>
+        <div class="pb-row"><div class="band">25–35 元</div><div class="bartrack"><div class="bar gold full" style="width:100%"><span class="barval">617 家 · 麦当劳</span></div></div><div class="chips-count">38 品牌</div><div class="b20">≥20店 <b>11</b></div></div>
+        <div class="pb-row"><div class="band">35–45 元</div><div class="bartrack"><div class="bar crimson" style="width:8.9%"><span class="barval">55 家 · 超级碗</span></div></div><div class="chips-count">12 品牌</div><div class="b20">≥20店 <b>2</b></div></div>
+        <div class="pb-row"><div class="band">45–55 元</div><div class="bartrack"><div class="bar" style="width:30.1%"><span class="barval">186 家 · 达美乐</span></div></div><div class="chips-count">8 品牌</div><div class="b20">≥20店 <b>3</b></div></div>
+        <div class="pb-row"><div class="band" style="color:var(--ember-deep);">55–65 元</div><div class="bartrack"><div class="bar" style="width:45.5%;background:var(--ember-deep);"><span class="barval">281 家 · 必胜客</span></div></div><div class="chips-count">4 品牌</div><div class="b20">≥20店 <b>1</b></div></div>
+        <div class="pb-row"><div class="band">65–80 元</div><div class="bartrack"><div class="bar" style="width:13.6%"><span class="barval">84 家 · 比格自助</span></div></div><div class="chips-count">8 品牌</div><div class="b20">≥20店 <b>4</b></div></div>
+        <div class="pb-row"><div class="band">80–100 元</div><div class="bartrack"><div class="bar" style="width:1.8%"><span class="barval">11 家 · THE WOODS</span></div></div><div class="chips-count">8 品牌</div><div class="b20">≥20店 <b>0</b></div></div>
+        <div class="pb-row"><div class="band">100 元以上</div><div class="bartrack"><div class="bar" style="width:2.9%"><span class="barval">18 家 · 西十二街牛排</span></div></div><div class="chips-count">32 品牌</div><div class="b20">≥20店 <b>0</b></div></div>
+      </div>
+
+      <div class="laws">
+        <div class="lc gold"><div class="lt">发现一 · 25–35 元是唯一的规模化价格带</div><div class="ld">该带是唯一有 11 个品牌突破 20 家门店的价格带，但平均评分仅 3.78——在此价格带，规模与口碑呈替代关系。</div></div>
+        <div class="lc crimson"><div class="lt">发现二 · 35–45 元存在明显的规模化断层</div><div class="ld">12 个品牌中仅 2 个突破 20 家，规模化难度反而高于 45–55 元带。若主力产品定价落在 38–42 元，将进入北京西式餐饮中最难规模化的区间。</div></div>
+        <div class="lc"><div class="lt">发现三 · 45 元以上仅 8 个品牌突破 20 家</div><div class="ld">其中 6 个为披萨/意式品类，2 个为烘焙咖啡品类，无汉堡品类品牌。该价格带内汉堡品类的最大规模为 Shake Shack，共 7 家门店。</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>石头先生的汉堡 · 北京首店战略分析</span><span class="tag">§1.1 战略全局</span><span>03 / 32</span></div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 4 — §1.2 STRATEGIC PATH (dark) -->
+<!-- ============================================================ -->
+<section class="slide dark" id="s4">
+  <div class="slide-inner">
+    <div class="eyebrow"><div class="ruler-rule"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>第一部分 · 战略全局 &nbsp;/&nbsp; §1.2</div>
+    <div class="h-zh h1" style="color:#EDE6D8;">战略路径：规模载体的品类选择</div>
+    <div class="quote-big">分析表明，石头先生的商业模型不宜定义为<span class="accent">"一家客单价 55–60 元的汉堡店"</span>——该定位在中国市场尚无品牌完成百店级验证。更适配的定义是：<span class="accent">以汉堡建立品类心智、以披萨与烘焙承载规模复制的西式简餐品牌</span>。汉堡承担品牌心智占位功能，披萨与烘焙承担规模复制功能。</div>
+
+    <div class="content" style="padding-top:6px;">
+      <div class="paths">
+        <div class="path-card">
+          <div class="pt">路径 A</div>
+          <div class="pn">披萨 / 意式</div>
+          <div class="pex">已验证规模：必胜客 281 家・达美乐 186 家・萨莉亚 65 家・棒约翰 22 家<br><b>现有资产基础：</b>窑炉设备、手擀拿坡里饼底工艺、总厨具备米其林体系背景（Le Calandre 三星、GUCCI 1921 上海行政主厨），并在香港 54 个月内主导创立 7 家连锁休闲餐厅，具备可复制连锁运营的直接经验</div>
+        </div>
+        <div class="path-card">
+          <div class="pt">路径 B</div>
+          <div class="pn">烘焙 + 咖啡 + 简餐</div>
+          <div class="pex">已验证规模：BAKER&amp;SPICE 27 家・Wagas 47 家・The Daily Bagel（客单 66 元 / 评分 4.7）<br><b>现有资产基础：</b>十余年精品烘焙经验、独家配方现烤堡胚工艺，且合生汇 B2 层已有一家关联品牌烘焙门店，评论量 13,831 条</div>
+        </div>
+      </div>
+
+      <table class="data-table" style="margin-top:14px;">
+        <thead><tr><th>维度</th><th>现状</th><th>建议方向</th></tr></thead>
+        <tbody>
+          <tr><td style="color:var(--paper-on-dark);font-weight:700;">披萨 SKU</td><td style="color:var(--soft-on-dark);">10 款</td><td style="color:var(--paper-on-dark);">收敛至 5 款并做深，作为二店标准产线配置</td></tr>
+          <tr><td style="color:var(--paper-on-dark);font-weight:700;">窑炉定位</td><td style="color:var(--soft-on-dark);">形象店专属设备</td><td style="color:var(--paper-on-dark);">纳入标准店型配置，需同步验证电窑/平炉替代方案的出品品质</td></tr>
+          <tr><td style="color:var(--paper-on-dark);font-weight:700;">堡胚定位</td><td style="color:var(--soft-on-dark);">汉堡产品的卖点之一</td><td style="color:var(--paper-on-dark);">发展为可独立零售的产品线</td></tr>
+          <tr><td style="color:var(--paper-on-dark);font-weight:700;">二店店型</td><td style="color:var(--soft-on-dark);">单一轻量店型</td><td style="color:var(--paper-on-dark);">"汉堡+披萨"标准店与"堡胚+咖啡+简餐"烘焙店双线并行</td></tr>
+        </tbody>
+      </table>
+
+      <div class="caveat"><b>需同步评估的风险因素：</b>必胜客 281 家门店的规模建立在 30 年经营与百胜供应链体系之上，披萨品类可规模化不等同于石头先生的披萨可规模化，窑炉、冷发酵工艺、专岗人力均构成复制成本；披萨占比过高将推高人均客单（占主食比例超过 35% 时，人均客单将超过 70 元）；"石头先生的汉堡"品牌命名本身对披萨销售权重存在抑制作用。<b>建议的验证路径：</b>首店以"汉堡 4 款 + 披萨 5 款"双核心结构测试，以开业 60 天披萨订单渗透率是否达到 25% 作为双载体路径成立与否的判定依据。</div>
+    </div>
+  </div>
+  <div class="footer"><span>石头先生的汉堡 · 北京首店战略分析</span><span class="tag">§1.2 战略全局</span><span>04 / 32</span></div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 5 — §1.3-1.4 EXPANSION PHASES + MINDSHARE MAP -->
+<!-- ============================================================ -->
+<section class="slide" id="s5">
+  <div class="slide-inner">
+    <div class="eyebrow"><div class="ruler-rule"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>第一部分 · 战略全局 &nbsp;/&nbsp; §1.3–1.4</div>
+    <div class="h-zh h1">扩张阶段划分与品类心智定位</div>
+    <div class="sub">以全国连锁 1000 家为终局目标，将扩张路径划分为四个阶段，并将石头先生的品类定位置于北京简餐心智地图中进行参照</div>
+
+    <div class="content">
+      <div style="font-size:12px;font-weight:700;color:var(--ink-soft);margin-bottom:6px;">四阶段扩张路径与决策方式</div>
+      <table class="data-table">
+        <thead><tr><th>阶段</th><th>门店数</th><th>核心命题</th><th>决策方式</th><th>北京数据参照</th></tr></thead>
+        <tbody>
+          <tr><td><b>验证期</b></td><td class="num">1 家</td><td>简餐新模型能否成立</td><td>创始人判断 + 数据校验</td><td>首店需验证：披萨渗透率、汉堡渗透率、实际人均客单</td></tr>
+          <tr><td><b>复制期</b></td><td class="num">2–30 家</td><td>模型能否被复制</td><td>智能决策系统上线</td><td>北京 45 元以上西式品牌中能突破 20 家的仅 8 个，反映复制期的实际难度</td></tr>
+          <tr><td><b>系统期</b></td><td class="num">30–300 家</td><td>决策能否规模化自动化</td><td>系统驱动 + 组织协同</td><td>该量级在北京仅必胜客、达美乐、比格三个品牌达到过</td></tr>
+          <tr><td><b>规模期</b></td><td class="num">300–1,000 家</td><td>供应链与组织能否承重</td><td>系统 + 供应链一体化</td><td>全北京仅 4 个西式品牌门店数超过 180 家</td></tr>
+        </tbody>
+      </table>
+
+      <div style="font-size:12px;font-weight:700;color:var(--ink-soft);margin:16px 0 6px;">中国简餐心智地图（北京数据校准）</div>
+      <table class="data-table">
+        <thead><tr><th>心智格</th><th>代表赛道</th><th>客单带</th><th>北京实证规模天花板</th><th>心智关键词</th></tr></thead>
+        <tbody>
+          <tr><td>效率 × 低价</td><td>西式快餐巨头 / 中式汉堡</td><td class="num">15–35</td><td>万店级（麦当劳北京 617 店）</td><td>快、稳、便宜</td></tr>
+          <tr><td>效率 × 中价</td><td>米饭快餐 / 日式简餐</td><td class="num">25–45</td><td>千店级</td><td>刚需、日常</td></tr>
+          <tr><td>社交 × 中价</td><td>咖啡+简餐 / 烘焙复合</td><td class="num">30–60</td><td>千店级</td><td>空间、全时段</td></tr>
+          <tr class="hi2"><td><b>社交 × 中高价</b></td><td><b>精品汉堡、西式简餐（石头先生当前定位）</b></td><td class="num">55–90</td><td>百店级（必胜客 281 / Wagas 47 / BAKER&amp;SPICE 27）</td><td>品质、体面</td></tr>
+          <tr><td>社交 × 高价</td><td>休闲西餐 / 正餐</td><td class="num">100+</td><td>十至二十店级（北京最大 18 家）</td><td>聚会、正式</td></tr>
+        </tbody>
+      </table>
+      <div class="src-note">石头先生当前落位：社交 × 中高价（人均 55–60 元）。该心智格在北京的实证天花板：披萨系品牌 281 家，非披萨系品牌 47 家。</div>
+    </div>
+  </div>
+  <div class="footer"><span>石头先生的汉堡 · 北京首店战略分析</span><span class="tag">§1.3–1.4 战略全局</span><span>05 / 32</span></div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 6 — §1.5 STRUCTURAL RULES OF SCALE BRANDS -->
+<!-- ============================================================ -->
+<section class="slide" id="s6">
+  <div class="slide-inner">
+    <div class="eyebrow"><div class="ruler-rule"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>第一部分 · 战略全局 &nbsp;/&nbsp; §1.5</div>
+    <div class="h-zh h1">千店级品牌的五项结构规律与现状对照</div>
+    <div class="sub">将千店级连锁品牌的共性结构特征，与石头先生当前的产品与空间结构逐项对照，识别结构性差距</div>
+
+    <div class="content">
+      <table class="data-table">
+        <thead><tr><th>结构规律</th><th>千店品牌的共性特征</th><th>石头先生现状</th><th>差距评估</th><th>验证依据</th></tr></thead>
+        <tbody>
+          <tr><td><b>SKU 精简</b></td><td>核心 SKU 20–30 款，高度共用食材</td><td>食品 39 款，饮品 19 款，合计 58 款</td><td><span class="tag-chip alt">偏多</span></td><td>建议首版收敛至 24–28 款</td></tr>
+          <tr><td><b>工艺收敛</b></td><td>1–2 个核心加热工艺</td><td>5 个出品档口</td><td><span class="tag-chip alert">严重超载</span></td><td>施工图核实热厨房面积仅 33.5㎡</td></tr>
+          <tr><td><b>场景高频刚需</b></td><td>日常正餐，支持周中复购</td><td>简餐 + 分享场景，消费频次偏中低</td><td><span class="tag-chip ghost">待验证</span></td><td>当前缺少 35 元以下价格入口款</td></tr>
+          <tr><td><b>单店模型轻量化</b></td><td>投资低、回收快、人力精简</td><td>产品结构表列示高峰人力 17–19 人</td><td><span class="tag-chip good">已核实</span></td><td>经施工图验证，该数值为全天班次总人数，非高峰同时在岗人数</td></tr>
+          <tr><td><b>心智占位单一</b></td><td>一个关键词即可完成品类定义</td><td>汉堡 + 披萨 + 意面 + 沙拉 + 甜品 + 咖啡，概念分散</td><td><span class="tag-chip alert">发散</span></td><td>详见品牌心智分析章节（§7.1）</td></tr>
+        </tbody>
+      </table>
+      <div class="finding" style="margin-top:16px;">五项规律中，<span class="accent">工艺收敛与心智占位</span>是当前差距最大的两项，也是首店阶段最需要优先处理的结构性问题。</div>
+    </div>
+  </div>
+  <div class="footer"><span>石头先生的汉堡 · 北京首店战略分析</span><span class="tag">§1.5 战略全局</span><span>06 / 32</span></div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 7 — §2.1 CITYWIDE OVERVIEW -->
+<!-- ============================================================ -->
+<section class="slide" id="s7">
+  <div class="slide-inner">
+    <div class="eyebrow"><div class="ruler-rule"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>第二部分 · 北京西式赛道结构 &nbsp;/&nbsp; §2.1</div>
+    <div class="h-zh h1">全市西式餐饮赛道总览</div>
+    <div class="sub">北京西式参考集共 6,052 家门店（含西餐、西式快餐、比萨、牛排、意大利菜、轻食沙拉等品类），作为全部竞争分析的基础样本</div>
+
+    <div class="content">
+      <div class="bignum-row">
+        <div class="bignum"><div class="bn">5,145</div><div class="bl">家门店含客单价样本</div></div>
+        <div class="bignum"><div class="bn">38 元</div><div class="bl">客单价中位数</div></div>
+        <div class="bignum"><div class="bn">67.7 元</div><div class="bl">客单价均值（受高端正餐拉高）</div></div>
+        <div class="bignum"><div class="bn">4.04</div><div class="bl">全市平均评分</div></div>
+      </div>
+
+      <div style="font-size:12px;font-weight:700;color:var(--ink-soft);margin-bottom:6px;">分品类结构</div>
+      <table class="data-table">
+        <thead><tr><th>品类</th><th class="num">门店数</th><th class="num">客单中位</th><th class="num">平均评分</th><th class="num">评论中位</th></tr></thead>
+        <tbody>
+          <tr><td>西式快餐</td><td class="num">2,490</td><td class="num"><b>30</b></td><td class="num">3.87</td><td class="num">321</td></tr>
+          <tr><td>西餐</td><td class="num">1,205</td><td class="num">89</td><td class="num">4.29</td><td class="num">578</td></tr>
+          <tr><td>比萨</td><td class="num">752</td><td class="num"><b>56</b></td><td class="num">4.23</td><td class="num">500</td></tr>
+          <tr><td>意大利菜</td><td class="num">210</td><td class="num">107</td><td class="num">4.36</td><td class="num">1,200</td></tr>
+          <tr><td>牛排</td><td class="num">199</td><td class="num">109</td><td class="num">4.20</td><td class="num">221</td></tr>
+          <tr><td>披萨自助</td><td class="num">86</td><td class="num">74</td><td class="num">4.17</td><td class="num">3,600</td></tr>
+        </tbody>
+      </table>
+      <div class="finding" style="margin-top:16px;">西式快餐品类以 2,490 家门店构成全市样本的最大占比，客单中位价仅 30 元；比萨品类以 56 元的客单中位价，成为中高客单区间内门店密度最高的品类——这一结构为后续价格带与规模天花板分析提供了基础参照。</div>
+    </div>
+  </div>
+  <div class="footer"><span>石头先生的汉堡 · 北京首店战略分析</span><span class="tag">§2.1 赛道结构</span><span>07 / 32</span></div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 8 — §2.2 PRICE DISTRIBUTION -->
+<!-- ============================================================ -->
+<section class="slide" id="s8">
+  <div class="slide-inner">
+    <div class="eyebrow"><div class="ruler-rule"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>第二部分 · 北京西式赛道结构 &nbsp;/&nbsp; §2.2</div>
+    <div class="h-zh h1">全市西式门店客单价分布</div>
+    <div class="sub">全市西式门店客单价分布（n = 5,145），用于验证 55–60 元价格带在不同地理尺度下的稀薄程度</div>
+
+    <div class="content">
+      <div class="two-col">
+        <div>
+          <table class="data-table">
+            <thead><tr><th>价格带</th><th class="num">门店数</th><th class="num">占比</th><th class="num">累计占比</th></tr></thead>
+            <tbody>
+              <tr><td>&lt;15 元</td><td class="num">34</td><td class="num">0.7%</td><td class="num">0.7%</td></tr>
+              <tr><td>15–20 元</td><td class="num">177</td><td class="num">3.4%</td><td class="num">4.1%</td></tr>
+              <tr><td>20–25 元</td><td class="num">358</td><td class="num">7.0%</td><td class="num">11.1%</td></tr>
+              <tr><td>25–30 元</td><td class="num">711</td><td class="num">13.8%</td><td class="num">24.9%</td></tr>
+              <tr class="hi2"><td><b>30–35 元</b></td><td class="num">960</td><td class="num">18.7%</td><td class="num">43.6%</td></tr>
+              <tr><td>35–40 元</td><td class="num">440</td><td class="num">8.6%</td><td class="num">52.2%</td></tr>
+              <tr><td>40–45 元</td><td class="num">173</td><td class="num">3.4%</td><td class="num">55.6%</td></tr>
+              <tr><td>45–50 元</td><td class="num">179</td><td class="num">3.5%</td><td class="num">59.1%</td></tr>
+              <tr><td>50–55 元</td><td class="num">235</td><td class="num">4.6%</td><td class="num">63.7%</td></tr>
+              <tr class="hi2"><td><b>55–60 元</b></td><td class="num">197</td><td class="num">3.8%</td><td class="num">67.5%</td></tr>
+              <tr><td>60–70 元</td><td class="num">279</td><td class="num">5.4%</td><td class="num">72.9%</td></tr>
+              <tr><td>70–80 元</td><td class="num">253</td><td class="num">4.9%</td><td class="num">77.8%</td></tr>
+              <tr><td>80–100 元</td><td class="num">255</td><td class="num">5.0%</td><td class="num">82.8%</td></tr>
+              <tr><td>100–150 元</td><td class="num">525</td><td class="num">10.2%</td><td class="num">93.0%</td></tr>
+              <tr><td>150 元以上</td><td class="num">369</td><td class="num">7.2%</td><td class="num">100%</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <div style="font-size:12px;font-weight:700;color:var(--ink-soft);margin-bottom:6px;">关键区间跨地理尺度比较</div>
+          <table class="data-table">
+            <thead><tr><th>区间</th><th class="num">全市</th><th class="num">朝阳区</th><th class="num">合生汇 5km 内</th></tr></thead>
+            <tbody>
+              <tr><td>45–55 元</td><td class="num">414（8.0%）</td><td class="num">91（6.3%）</td><td class="num">33（5.7%）</td></tr>
+              <tr class="hi2"><td><b>55–60 元</b></td><td class="num"><b>197（3.8%）</b></td><td class="num"><b>53（3.7%）</b></td><td class="num"><b>19（3.3%）</b></td></tr>
+              <tr><td>55–70 元</td><td class="num">476（9.3%）</td><td class="num">128（8.8%）</td><td class="num">56（9.6%）</td></tr>
+              <tr><td>50–70 元</td><td class="num">711（13.8%）</td><td class="num">182（12.6%）</td><td class="num">74（12.7%）</td></tr>
+            </tbody>
+          </table>
+          <div class="finding" style="margin-top:18px;">55–60 元区间在全市、朝阳区、合生汇 5 公里范围内的占比分别为 3.8%、3.7%、3.3%，三个尺度高度一致，表明该区间的稀薄程度是<span class="accent">稳定的市场结构特征</span>，而非抽样误差或局部现象。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>石头先生的汉堡 · 北京首店战略分析</span><span class="tag">§2.2 赛道结构</span><span>08 / 32</span></div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 9 — §2.3 BURGER CATEGORY PRICE TRUTH -->
+<!-- ============================================================ -->
+<section class="slide" id="s9">
+  <div class="slide-inner">
+    <div class="eyebrow"><div class="ruler-rule"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>第二部分 · 北京西式赛道结构 &nbsp;/&nbsp; §2.3</div>
+    <div class="h-zh h1">汉堡品类价格结构分析：<span class="accent">97.8%</span> 的门店客单价在 55 元以下</div>
+
+    <div class="content">
+      <div class="two-col">
+        <div style="flex:1.5;">
+          <svg width="100%" height="320" viewBox="0 0 700 320">
+            <line x1="50" y1="262" x2="680" y2="262" class="pr-axis"/>
+            <line x1="50" y1="20" x2="50" y2="262" class="pr-axis"/>
+            <line x1="50" y1="262" x2="680" y2="262" stroke="var(--line)"/>
+            <line x1="50" y1="201" x2="680" y2="201" stroke="var(--line)"/>
+            <line x1="50" y1="140" x2="680" y2="140" stroke="var(--line)"/>
+            <line x1="50" y1="79" x2="680" y2="79" stroke="var(--line)"/>
+            <line x1="50" y1="20" x2="680" y2="20" stroke="var(--line)"/>
+            <text x="20" y="266" class="pr-label">0%</text>
+            <text x="10" y="144" class="pr-label">50%</text>
+            <text x="6" y="24" class="pr-label">100%</text>
+            <polyline fill="none" stroke="var(--ember)" stroke-width="2.5" points="
+              50,259.5 95,242.2 140,209.8 185,155.2 230,74.9 275,43.6 320,28.4 365,23.4 410,20.5 455,19.6 500,18.7 545,18 590,17.5 635,15.6 680,15.6
+            "/>
+            <polygon fill="var(--ember)" opacity="0.09" points="
+              50,262 50,259.5 95,242.2 140,209.8 185,155.2 230,74.9 275,43.6 320,28.4 365,23.4 410,20.5 455,19.6 500,18.7 545,18 590,17.5 635,15.6 680,15.6 680,262
+            "/>
+            <circle cx="455" cy="19.6" r="6" fill="var(--brass)" stroke="var(--ink)" stroke-width="1"/>
+            <text x="405" y="10" class="pr-label" fill="var(--ink)" font-weight="700">55–60 元 → 累计 97.8%</text>
+            <text x="40" y="282" class="pr-label">&lt;15</text>
+            <text x="120" y="282" class="pr-label">25</text>
+            <text x="210" y="282" class="pr-label">35</text>
+            <text x="300" y="282" class="pr-label">45</text>
+            <text x="390" y="282" class="pr-label">55</text>
+            <text x="480" y="282" class="pr-label">70</text>
+            <text x="570" y="282" class="pr-label">100</text>
+            <text x="655" y="282" class="pr-label">150+</text>
+            <text x="330" y="307" class="pr-label" font-weight="600">客单价区间（元）— n = 2,060</text>
+            <line x1="455" y1="19.6" x2="600" y2="72" stroke="var(--ink-faint)" stroke-dasharray="3,3"/>
+            <circle cx="600" cy="72" r="5" fill="var(--ember-deep)"/>
+            <text x="478" y="97" class="pr-label" fill="var(--ember-deep)" font-weight="700">目标定价带 58–62 元</text>
+            <text x="478" y="112" class="pr-label" fill="var(--ink-faint)">对应第 95–97 百分位</text>
+          </svg>
+        </div>
+        <div>
+          <div class="card" style="margin-top:16px;">
+            <div style="font-size:11.5px;color:var(--ink-soft);">中位数</div>
+            <div class="num-display" style="font-size:28px;color:var(--ember-deep);">30 元</div>
+            <div style="font-size:11px;color:var(--ink-faint);margin-top:2px;">四分之三的门店客单价在 35 元以下</div>
+          </div>
+          <div class="card" style="margin-top:10px;">
+            <div style="font-size:11.5px;color:var(--ink-soft);">更严格口径：店名含"汉堡/Burger"（n=782）</div>
+            <div class="num-display" style="font-size:22px;color:var(--ember-deep);margin-top:4px;">仅 5.8% 客单 ≥ 55 元</div>
+            <div style="font-size:11px;color:var(--ink-faint);margin-top:2px;">共 45 家门店；≥60 元仅 37 家（4.7%）</div>
+          </div>
+          <div class="finding">该定位并非填补市场空档，而是在<span class="accent">尚未有品牌完成规模化验证</span>的价格区间建立门店——不存在直接可比对手，也缺乏成熟先例可供参照。</div>
+          <div class="note-list">
+            <div class="t"><span class="dot"></span>传播语中应避免"汉堡"与具体价格的直接并置</div>
+            <div class="t"><span class="dot"></span>定价沟通的参照对象应为必胜客，而非麦当劳</div>
+            <div class="t"><span class="dot"></span>菜单需保留 35 元以下入口产品（目前仅蒜香烟熏鸡腿堡一款，定价 22 元）</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>石头先生的汉堡 · 北京首店战略分析</span><span class="tag">§2.3 赛道结构</span><span>09 / 32</span></div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 10 — §2.4 INDEPENDENT BURGER STORES & ALCOHOL CORRELATION -->
+<!-- ============================================================ -->
+<section class="slide" id="s10">
+  <div class="slide-inner">
+    <div class="eyebrow"><div class="ruler-rule"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>第二部分 · 北京西式赛道结构 &nbsp;/&nbsp; §2.4</div>
+    <div class="h-zh h1">独立汉堡门店的定价结构与酒饮场景相关性</div>
+    <div class="sub">剔除连锁品牌，仅分析独立汉堡门店（n=256），识别客单价 60 元以上门店的共性特征</div>
+
+    <div class="content">
+      <div class="two-col">
+        <div>
+          <table class="data-table">
+            <thead><tr><th>价格带</th><th class="num">门店数</th></tr></thead>
+            <tbody>
+              <tr><td>&lt;25 元</td><td class="num">98</td></tr>
+              <tr><td>25–35 元</td><td class="num">73</td></tr>
+              <tr><td>35–45 元</td><td class="num">29</td></tr>
+              <tr><td>45–55 元</td><td class="num">17</td></tr>
+              <tr><td>55–65 元</td><td class="num">8</td></tr>
+              <tr><td>65–80 元</td><td class="num">11</td></tr>
+              <tr><td>80–100 元</td><td class="num">11</td></tr>
+              <tr><td>100 元以上</td><td class="num">9</td></tr>
+            </tbody>
+          </table>
+          <div style="font-size:12px;font-weight:700;color:var(--ink-soft);margin:14px 0 6px;">关键交叉分析</div>
+          <table class="data-table">
+            <thead><tr><th>分组</th><th class="num">门店数</th><th class="num">店名含"精酿/啤酒/bar/酒馆/餐吧"</th></tr></thead>
+            <tbody>
+              <tr class="hi2"><td><b>客单 ≥60 元的独立汉堡店</b></td><td class="num">35</td><td class="num"><b>14 家（40%）</b></td></tr>
+              <tr><td>客单 &lt;45 元的独立汉堡店</td><td class="num">198</td><td class="num">2 家（1%）</td></tr>
+            </tbody>
+          </table>
+          <div class="finding" style="margin-top:14px;">在中国市场，汉堡产品本身通常无法支撑 60 元以上的客单价，能够支撑该定价的通常是酒饮、氛围或食材等级（和牛/鹅肝）三者之一。石头先生选择的是<span class="accent">食材等级路径</span>——安格斯原切、现绞现煎、现烤堡胚，这一路径的执行难度更高，因为它要求顾客在消费前即建立信任。</div>
+        </div>
+        <div>
+          <div style="font-size:12px;font-weight:700;color:var(--ink-soft);margin-bottom:6px;">高分独立汉堡门店样本（评分 ≥4.5 且评论 ≥500，中位客单 73.5 元）</div>
+          <table class="data-table" style="font-size:10.5px;">
+            <thead><tr><th>门店</th><th class="num">客单</th><th class="num">评分</th><th class="num">评论</th><th>酒饮场景</th></tr></thead>
+            <tbody>
+              <tr><td>He BURGER·手工汉堡</td><td class="num">91</td><td class="num">4.6</td><td class="num">6,358</td><td>否</td></tr>
+              <tr><td>KAI FINE 開飯·汉堡排</td><td class="num">72</td><td class="num">4.5</td><td class="num">5,931</td><td>否</td></tr>
+              <tr><td>黑叔美式餐吧</td><td class="num">109</td><td class="num">4.5</td><td class="num">3,615</td><td>是</td></tr>
+              <tr><td>犇儿堡 BUR BAR</td><td class="num">105</td><td class="num">4.6</td><td class="num">1,759</td><td>是</td></tr>
+              <tr><td>Smelly Cat 小酒馆</td><td class="num">81</td><td class="num">4.7</td><td class="num">1,710</td><td>是</td></tr>
+              <tr><td>游目牛排·和牛汉堡</td><td class="num">138</td><td class="num">4.7</td><td class="num">1,589</td><td>否</td></tr>
+              <tr><td>BTURF 必特福·精酿</td><td class="num">95</td><td class="num">4.5</td><td class="num">1,092</td><td>是</td></tr>
+              <tr><td>BOWEN BURGER</td><td class="num">51</td><td class="num">4.7</td><td class="num">1,001</td><td>否</td></tr>
+              <tr><td>INNER CAFE 汉堡咖啡店</td><td class="num">58</td><td class="num">4.7</td><td class="num">971</td><td>咖啡场景</td></tr>
+              <tr><td>RICH BURGER 发财汉堡</td><td class="num">69</td><td class="num">4.6</td><td class="num">971</td><td>否</td></tr>
+              <tr class="hi2"><td><b>和牛怪物汉堡（双井店）</b></td><td class="num"><b>75</b></td><td class="num"><b>4.8</b></td><td class="num">965</td><td>否</td></tr>
+              <tr><td>WAWABEER 精酿&amp;汉堡</td><td class="num">89</td><td class="num">4.8</td><td class="num">577</td><td>是</td></tr>
+              <tr><td>Take A Bite·TAB 汉堡</td><td class="num">57</td><td class="num">4.6</td><td class="num">680</td><td>否</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>石头先生的汉堡 · 北京首店战略分析</span><span class="tag">§2.4 赛道结构</span><span>10 / 32</span></div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 11 — §2.5 RATING × PRICE -->
+<!-- ============================================================ -->
+<section class="slide" id="s11">
+  <div class="slide-inner">
+    <div class="eyebrow"><div class="ruler-rule"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>第二部分 · 北京西式赛道结构 &nbsp;/&nbsp; §2.5</div>
+    <div class="h-zh h1">评分与流量相关性分析：<span class="accent">4.5 分</span>是关键分水岭</div>
+
+    <div class="content">
+      <div class="two-col">
+        <div>
+          <div style="font-size:12px;font-weight:700;color:var(--ink-soft);margin-bottom:6px;">评分 ≥4.5 门店占比，按价格带（评论 ≥50 的门店）</div>
+          <svg width="100%" height="260" viewBox="0 0 560 260">
+            <line x1="40" y1="220" x2="560" y2="220" class="pr-axis"/>
+            <g font-family="IBM Plex Mono" font-size="9.5" fill="var(--ink-faint)">
+            <rect x="42" y="218.4" width="34" height="1.6" fill="var(--ember)"/>
+            <rect x="84" y="218.8" width="34" height="1.2" fill="var(--ember)"/>
+            <rect x="126" y="214" width="34" height="6" fill="var(--ember)"/>
+            <rect x="168" y="183.7" width="34" height="36.3" fill="var(--ember)"/>
+            <rect x="210" y="187.3" width="34" height="32.7" fill="var(--ember)"/>
+            <rect x="252" y="173.2" width="34" height="46.8" fill="var(--ember)"/>
+            <rect x="294" y="147.1" width="34" height="72.9" fill="var(--ember)"/>
+            <rect x="336" y="102.1" width="34" height="117.9" fill="var(--brass)"/>
+            <rect x="378" y="112" width="34" height="108" fill="var(--ember)"/>
+            <rect x="420" y="120.1" width="34" height="99.9" fill="var(--ember)"/>
+            <rect x="462" y="77.6" width="34" height="142.4" fill="var(--ember)"/>
+            <rect x="504" y="27.2" width="34" height="192.8" fill="var(--ember-deep)"/>
+            </g>
+            <text x="336" y="95" text-anchor="middle" class="pr-label" font-weight="700" fill="var(--brass)">39.3%</text>
+            <text x="504" y="20" text-anchor="middle" class="pr-label" font-weight="700">64.0%</text>
+            <g font-family="IBM Plex Mono" font-size="9" fill="var(--ink-faint)">
+              <text x="59" y="236">20-25</text><text x="101" y="236">25-30</text><text x="143" y="236">30-35</text>
+              <text x="185" y="236">35-40</text><text x="227" y="236">40-45</text><text x="269" y="236">45-50</text>
+              <text x="311" y="236">50-55</text><text x="345" y="236" font-weight="700" fill="var(--ink)">55-60</text>
+              <text x="395" y="236">60-70</text><text x="437" y="236">70-80</text><text x="472" y="236">80-100</text><text x="505" y="236">100-150</text>
+            </g>
+          </svg>
+          <div style="font-size:11px;color:var(--ink-soft);margin-top:4px;">55–60 元带平均评分 <b>4.35</b>，评论中位 687 — 在此价格带，4.5 分并非行业优秀水平，而是<b>基准合格线</b>。</div>
+        </div>
+        <div>
+          <div style="font-size:12px;font-weight:700;color:var(--ink-soft);margin-bottom:6px;">评论中位数（流量代理指标），按评分区间</div>
+          <svg width="100%" height="195" viewBox="0 0 480 195">
+            <line x1="10" y1="165" x2="470" y2="165" class="pr-axis"/>
+            <rect x="20" y="133.6" width="60" height="31.4" fill="var(--slate)"/>
+            <rect x="94" y="107.2" width="60" height="57.8" fill="var(--slate)"/>
+            <rect x="168" y="103.1" width="60" height="61.9" fill="var(--slate)"/>
+            <rect x="242" y="103.1" width="60" height="61.9" fill="var(--slate)"/>
+            <rect x="316" y="74.7" width="60" height="90.3" fill="var(--brass)"/>
+            <rect x="390" y="25" width="60" height="140" fill="var(--ember-deep)"/>
+            <text x="50" y="125" text-anchor="middle" class="pr-label">369</text>
+            <text x="124" y="99" text-anchor="middle" class="pr-label">680</text>
+            <text x="198" y="95" text-anchor="middle" class="pr-label">731</text>
+            <text x="272" y="95" text-anchor="middle" class="pr-label">731</text>
+            <text x="346" y="67" text-anchor="middle" class="pr-label" font-weight="700">1,051</text>
+            <text x="420" y="17" text-anchor="middle" class="pr-label" font-weight="700">1,643</text>
+            <g font-family="IBM Plex Mono" font-size="9.5" fill="var(--ink-faint)">
+              <text x="34" y="180">&lt;3.8</text><text x="100" y="180">3.8–4.0</text><text x="176" y="180">4.0–4.2</text>
+              <text x="250" y="180">4.2–4.4</text><text x="318" y="180">4.4–4.6</text><text x="400" y="180">4.6+</text>
+            </g>
+          </svg>
+          <div style="font-size:11px;color:var(--ink-soft);margin-top:4px;">评分 4.4 以下，评论数（流量代理指标）几乎不随评分提升而增长；评分越过 4.4 后，出现<b>台阶式跃升</b>。</div>
+          <div class="card ember" style="margin-top:14px;">
+            <div style="font-size:10.5px;letter-spacing:.03em;color:var(--brass-light);font-weight:700;">建议首店核心运营指标</div>
+            <div style="font-family:'Fraunces',serif;font-size:20px;font-weight:700;margin-top:4px;">开业 90 天内点评评分达到 4.5 分及以上</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>石头先生的汉堡 · 北京首店战略分析</span><span class="tag">§2.5 赛道结构</span><span>11 / 32</span></div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 12 — §2.6 DISTRICT PRIORITY -->
+<!-- ============================================================ -->
+<section class="slide" id="s12">
+  <div class="slide-inner">
+    <div class="eyebrow"><div class="ruler-rule"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>第二部分 · 北京西式赛道结构 &nbsp;/&nbsp; §2.6</div>
+    <div class="h-zh h1" style="font-size:20px;margin-top:2px;">商圈优先级评估：面向未来 20–30 家门店的选址基础研究</div>
+
+    <div class="content" style="padding-top:4px;">
+      <table class="data-table tight" style="font-size:9.3px;">
+        <thead><tr><th>商圈</th><th class="num">西式门店</th><th class="num">其中汉堡</th><th class="num">中位客单</th><th class="num">平均评分</th><th class="num">评论总量</th><th>选址判断</th></tr></thead>
+        <tbody>
+          <tr><td>望京</td><td class="num">150</td><td class="num">36</td><td class="num">36</td><td class="num">4.15</td><td class="num">193,378</td><td><span class="tag-chip good">优先</span> 密度最高，客单偏低，需匹配小店型</td></tr>
+          <tr><td>回龙观</td><td class="num">125</td><td class="num">55</td><td class="num">29</td><td class="num">3.97</td><td class="num">83,639</td><td><span class="tag-chip alert">不建议</span> 汉堡供给饱和且客单偏低</td></tr>
+          <tr><td>三里屯 / 工体</td><td class="num">121</td><td class="num">6</td><td class="num">121</td><td class="num">4.39</td><td class="num">398,130</td><td><span class="tag-chip alt">观察</span> 汉堡供给稀薄，但客单过高</td></tr>
+          <tr><td>五道口</td><td class="num">103</td><td class="num">32</td><td class="num">35</td><td class="num">4.06</td><td class="num">144,571</td><td><span class="tag-chip alt">观察</span> 学生客群，价格受压制</td></tr>
+          <tr><td>亦庄</td><td class="num">100</td><td class="num">35</td><td class="num">39</td><td class="num">4.06</td><td class="num">85,501</td><td><span class="tag-chip good">优先</span> 客单水平可接受</td></tr>
+          <tr><td>中关村</td><td class="num">92</td><td class="num">28</td><td class="num">38</td><td class="num">4.14</td><td class="num">105,936</td><td><span class="tag-chip good">优先</span></td></tr>
+          <tr class="hi2"><td><b>国贸 / 建外</b></td><td class="num">92</td><td class="num"><b>13</b></td><td class="num"><b>68</b></td><td class="num">4.38</td><td class="num">287,710</td><td><span class="tag-chip good">重点优先</span> 客单 68 元，汉堡供给仅 13 家</td></tr>
+          <tr><td>亮马桥 / 三元桥</td><td class="num">85</td><td class="num">10</td><td class="num">110</td><td class="num">4.33</td><td class="num">185,185</td><td><span class="tag-chip alt">观察</span> 高端定位商圈</td></tr>
+          <tr><td>酒仙桥</td><td class="num">79</td><td class="num">17</td><td class="num">66</td><td class="num">4.17</td><td class="num">99,496</td><td><span class="tag-chip good">优先</span></td></tr>
+          <tr><td>朝外大街</td><td class="num">77</td><td class="num">12</td><td class="num">39.5</td><td class="num">4.11</td><td class="num">112,126</td><td><span class="tag-chip good">优先</span></td></tr>
+          <tr><td>亚运村</td><td class="num">73</td><td class="num">18</td><td class="num">50.5</td><td class="num">4.07</td><td class="num">70,202</td><td><span class="tag-chip good">优先</span></td></tr>
+          <tr><td>王府井 / 东单</td><td class="num">67</td><td class="num">12</td><td class="num">69.5</td><td class="num">4.21</td><td class="num">180,939</td><td><span class="tag-chip alt">观察</span> 客流型商圈，复购较弱</td></tr>
+          <tr><td>大望路</td><td class="num">57</td><td class="num">10</td><td class="num">77</td><td class="num">4.34</td><td class="num">113,476</td><td><span class="tag-chip good">优先</span> 首店所在商圈</td></tr>
+          <tr class="hi2"><td><b>双井</b></td><td class="num">39</td><td class="num">—</td><td class="num"><b>59</b></td><td class="num">4.26</td><td class="num">—</td><td><span class="tag-chip good">重点优先</span> 中位客单 59 元，正处目标价格带</td></tr>
+          <tr><td>百子湾</td><td class="num">30</td><td class="num">—</td><td class="num">48</td><td class="num">4.12</td><td class="num">—</td><td><span class="tag-chip good">优先</span></td></tr>
+          <tr><td>九龙山</td><td class="num">17</td><td class="num">—</td><td class="num">36</td><td class="num">3.99</td><td class="num">—</td><td><span class="tag-chip ghost">谨慎</span> 供给薄，但消费力偏低</td></tr>
+          <tr><td>劲松 / 潘家园</td><td class="num">30</td><td class="num">—</td><td class="num">34</td><td class="num">3.95</td><td class="num">—</td><td><span class="tag-chip alert">不建议</span> 快餐品类主导</td></tr>
+        </tbody>
+      </table>
+
+      <div class="three-col" style="margin-top:6px;">
+        <div class="card brass" style="padding:6px 11px;"><div style="font-size:9.5px;font-weight:700;color:var(--ember-deep);">候选一 · 国贸 / 建外</div><div style="font-size:9.5px;color:var(--ink-soft);margin-top:2px;line-height:1.3;">客单匹配、汉堡供给稀薄、客流基数大</div></div>
+        <div class="card brass" style="padding:6px 11px;"><div style="font-size:9.5px;font-weight:700;color:var(--ember-deep);">候选二 · 双井</div><div style="font-size:9.5px;color:var(--ink-soft);margin-top:2px;line-height:1.3;">客单几乎正中目标带，风险最低的二店选址</div></div>
+        <div class="card" style="padding:6px 11px;"><div style="font-size:9.5px;font-weight:700;color:var(--ink-soft);">候选三 · 酒仙桥 / 798</div><div style="font-size:9.5px;color:var(--ink-soft);margin-top:2px;line-height:1.3;">年轻创意客群集中，UGC 内容产出能力强</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>石头先生的汉堡 · 北京首店战略分析</span><span class="tag">§2.6 赛道结构</span><span>12 / 32</span></div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 13 — §3.1 HESHENGHUI MALL OVERVIEW -->
+<!-- ============================================================ -->
+<section class="slide" id="s13">
+  <div class="slide-inner">
+    <div class="eyebrow"><div class="ruler-rule"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>第三部分 · 合生汇竞争分析 &nbsp;/&nbsp; §3.1</div>
+    <div class="h-zh h1">合生汇餐饮业态总览：275 家商户的结构画像</div>
+
+    <div class="content">
+      <div class="bignum-row">
+        <div class="bignum"><div class="bn">275</div><div class="bl">场内餐饮商户总数</div></div>
+        <div class="bignum"><div class="bn">41 元</div><div class="bl">客单价中位数</div></div>
+        <div class="bignum"><div class="bn">4.08</div><div class="bl">全场平均评分</div></div>
+        <div class="bignum"><div class="bn">2,153</div><div class="bl">评论数中位数</div></div>
+      </div>
+
+      <div class="two-col">
+        <div>
+          <div style="font-size:12px;font-weight:700;color:var(--ink-soft);margin-bottom:6px;">客单价分布</div>
+          <table class="data-table" style="font-size:10.5px;">
+            <thead><tr><th>价格带</th><th class="num">商户数</th></tr></thead>
+            <tbody>
+              <tr><td>&lt;15 元</td><td class="num">5</td></tr>
+              <tr><td>15–20 元</td><td class="num">24</td></tr>
+              <tr class="hi2"><td><b>20–25 元</b></td><td class="num"><b>34</b></td></tr>
+              <tr><td>25–30 元</td><td class="num">19</td></tr>
+              <tr><td>30–35 元</td><td class="num">18</td></tr>
+              <tr><td>35–40 元</td><td class="num">27</td></tr>
+              <tr><td>40–45 元</td><td class="num">20</td></tr>
+              <tr><td>45–50 元</td><td class="num">8</td></tr>
+              <tr><td>50–55 元</td><td class="num">8</td></tr>
+              <tr><td>55–60 元</td><td class="num">5</td></tr>
+              <tr><td>60–70 元</td><td class="num">7</td></tr>
+              <tr><td>70–80 元</td><td class="num">11</td></tr>
+              <tr><td>80–100 元</td><td class="num">23</td></tr>
+              <tr class="hi2"><td><b>100–150 元</b></td><td class="num"><b>39</b></td></tr>
+              <tr><td>150 元以上</td><td class="num">9</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <div style="font-size:12px;font-weight:700;color:var(--ink-soft);margin-bottom:6px;">评分分布</div>
+          <table class="data-table">
+            <thead><tr><th>评分区间</th><th class="num">商户数</th><th class="num">占比</th></tr></thead>
+            <tbody>
+              <tr><td>≥4.5</td><td class="num">48</td><td class="num">19%</td></tr>
+              <tr><td>4.0–4.5</td><td class="num">94</td><td class="num">36%</td></tr>
+              <tr class="hi2"><td><b>&lt;4.0</b></td><td class="num"><b>117</b></td><td class="num"><b>45%</b></td></tr>
+            </tbody>
+          </table>
+          <div class="finding">客单价分布呈现双峰结构：一个峰值在 20–25 元（34 家），另一个峰值在 100–150 元（39 家），中间的 45–70 元区间合计仅 28 家（10.9%）。评分与客单价的相关系数为 0.513，呈中度正相关。</div>
+          <div class="card brass" style="margin-top:12px;">
+            <div style="font-size:11.5px;line-height:1.55;">全场 45% 的商户评分低于 4.0 分，反映合生汇整体口碑水平中等。对新进入品牌而言，这意味着<b>评分达到 4.5 分即可进入全场前 19%</b>的口碑分位。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>石头先生的汉堡 · 北京首店战略分析</span><span class="tag">§3.1 合生汇分析</span><span>13 / 32</span></div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 14 — §3.2-3.3 FLOOR STRUCTURE + CROSS-MALL PRICING -->
+<!-- ============================================================ -->
+<section class="slide" id="s14">
+  <div class="slide-inner">
+    <div class="eyebrow"><div class="ruler-rule"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>第三部分 · 合生汇竞争分析 &nbsp;/&nbsp; §3.2–3.3</div>
+    <div class="h-zh h1">楼层价格结构分析：二元分化特征与跨商场定价一致性检验</div>
+
+    <div class="content">
+      <div class="two-col">
+        <div>
+          <div style="font-size:12px;font-weight:700;color:var(--ink-soft);margin-bottom:8px;">楼层二元结构 · 客单价中位数对比</div>
+          <div class="floorbar-wrap">
+            <div class="floorbar">
+              <div class="flabel"><span>B1 / B2 + 21 街区（129 商户）</span><span>评分 4.01</span></div>
+              <div class="ftrack"><div class="ffill" style="width:64.5%;"><div class="fval">35.5 元</div></div></div>
+            </div>
+            <div class="floorbar">
+              <div class="flabel"><span>地上楼层 L1–L5（146 商户）</span><span>评分 4.16</span></div>
+              <div class="ftrack"><div class="ffill up full" style="width:100%;justify-content:flex-end;"><div class="fval">55.0 元</div></div></div>
+            </div>
+          </div>
+          <div class="card" style="margin-top:14px;">
+            <div style="font-size:12px;color:var(--ink);line-height:1.55;">两个分区客单价中位数相差 <b style="color:var(--ember-deep);">19.5 元</b>，评分相差 <b style="color:var(--ember-deep);">0.15 分</b>。21 街区并非低价小吃街，TOP 人气商户客单价集中在 65–130 元区间（烤鱼、烤肉、火锅、湘菜品类为主）。</div>
+          </div>
+          <div class="finding" style="font-size:14px;margin-top:12px;">选址建议：首店应落位于 <span class="accent">L1 层</span>，与 Shake Shack、gaga、蓝蛙同层——相同定价在不同楼层的客群感知存在显著差异，L1 层是场内消费者认知中的"西式餐饮区"。</div>
+        </div>
+        <div>
+          <div style="font-size:12px;font-weight:700;color:var(--ink-soft);margin-bottom:8px;">跨商场定价一致性检验 · 同品牌客单价对比</div>
+          <table class="data-table">
+            <thead><tr><th>品牌</th><th class="num">合生汇店客单</th><th class="num">同品牌其他门店中位</th><th class="num">差额</th></tr></thead>
+            <tbody>
+              <tr><td>Shake Shack</td><td class="num">62</td><td class="num">65.5</td><td class="num" style="color:var(--good);font-weight:700;">−3.5</td></tr>
+              <tr><td>gaga</td><td class="num">110</td><td class="num">111</td><td class="num" style="color:var(--good);font-weight:700;">−1</td></tr>
+              <tr><td>bluefrog 蓝蛙</td><td class="num">136</td><td class="num">137</td><td class="num" style="color:var(--good);font-weight:700;">−1</td></tr>
+              <tr><td>西堤牛排</td><td class="num">90</td><td class="num">94</td><td class="num" style="color:var(--good);font-weight:700;">−4</td></tr>
+              <tr><td>Papà Danilo</td><td class="num">125</td><td class="num">125</td><td class="num">0</td></tr>
+              <tr><td>SPACELAB 失重</td><td class="num">107</td><td class="num">107</td><td class="num">0</td></tr>
+              <tr><td>萨莉亚</td><td class="num">52</td><td class="num">50</td><td class="num">+2</td></tr>
+              <tr><td>西十二街牛排</td><td class="num">114</td><td class="num">109</td><td class="num">+5</td></tr>
+            </tbody>
+          </table>
+          <div class="card good" style="margin-top:14px;">
+            <div style="font-size:12px;line-height:1.58;">样本中位差为 <b>−0.5 元</b>，表明合生汇整体客单价中位数（41 元）偏低的原因在于其<b>业态结构</b>（B1/B2 层聚集大量 20–35 元小吃与茶饮商户），而非商场对入驻品牌施加定价压力。已入驻品牌的定价水平在合生汇与其他商场之间基本保持一致。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>石头先生的汉堡 · 北京首店战略分析</span><span class="tag">§3.2–3.3 合生汇分析</span><span>14 / 32</span></div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 15 — §3.4 PRICING ANCHOR -->
+<!-- ============================================================ -->
+<section class="slide" id="s15">
+  <div class="slide-inner">
+    <div class="eyebrow"><div class="ruler-rule"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>第三部分 · 合生汇竞争分析 &nbsp;/&nbsp; §3.4</div>
+    <div class="h-zh h1">定价锚点分析：紧邻 Shake Shack 的 62 元参照系</div>
+
+    <div class="content">
+      <div class="two-col">
+        <div>
+          <div style="font-size:12px;font-weight:700;color:var(--ink-soft);margin-bottom:6px;">Shake Shack 北京全门店客单价 · 场景折价现象</div>
+          <table class="data-table">
+            <thead><tr><th>门店</th><th class="num">客单</th><th class="num">评分</th><th class="num">评论</th></tr></thead>
+            <tbody>
+              <tr><td>三里屯太古里南区</td><td class="num">81</td><td class="num">4.1</td><td class="num">23,103</td></tr>
+              <tr><td>国贸商城</td><td class="num">76</td><td class="num">4.4</td><td class="num">7,045</td></tr>
+              <tr><td>西单大悦城</td><td class="num">66</td><td class="num">4.1</td><td class="num">15,783</td></tr>
+              <tr><td>颐堤港</td><td class="num">65</td><td class="num">4.5</td><td class="num">4,592</td></tr>
+              <tr class="hi2"><td><b>合生汇店</b></td><td class="num"><b>62</b></td><td class="num"><b>4.3</b></td><td class="num"><b>6,305</b></td></tr>
+              <tr><td>大兴荟聚</td><td class="num">62</td><td class="num">4.2</td><td class="num">5,602</td></tr>
+              <tr><td>中关村大融城</td><td class="num">62</td><td class="num">4.2</td><td class="num">448</td></tr>
+            </tbody>
+          </table>
+          <div style="font-size:11px;color:var(--ink-faint);margin-top:6px;">三里屯 81 元 → 合生汇 62 元，场景折价幅度 <b style="color:var(--ember-deep);">−23%</b></div>
+          <div class="finding" style="margin-top:14px;">合生汇客群已通过 6,305 条评论验证了对 62 元汉堡定价的接受度（评分 4.3）。石头先生 55–60 元的定位恰好落在该参照价格下方 2–7 元区间，构成一个精确但存在直接比价风险的定位——竞争关系要求评分不低于 4.5 分方能形成说服力。</div>
+        </div>
+        <div>
+          <div style="font-size:12px;font-weight:700;color:var(--ink-soft);margin-bottom:6px;">场内西式品类价格坐标</div>
+          <svg width="100%" height="200" viewBox="0 0 560 200">
+            <line x1="30" y1="120" x2="530" y2="120" class="pr-axis"/>
+            <rect x="30" y="60" width="500" height="60" fill="var(--paper-3)" opacity="0.3"/>
+            <rect x="110" y="112" width="40" height="16" fill="var(--ember)" opacity="0.9"/>
+            <text x="70" y="150" class="pr-label" fill="var(--ember-deep)" font-weight="700">目标带 58–62</text>
+            <circle cx="150" cy="120" r="8" fill="var(--brass)" stroke="var(--ink)" stroke-width="1.5"/>
+            <text x="112" y="170" class="pr-label" fill="var(--brass)" font-weight="700">Shake Shack 62（参照锚点）</text>
+            <circle cx="66" cy="120" r="6" fill="var(--slate)"/><text x="35" y="105" class="pr-label">萨莉亚 52</text>
+            <circle cx="330" cy="120" r="6" fill="var(--slate)"/><text x="315" y="105" class="pr-label">西堤 90</text>
+            <circle cx="450" cy="120" r="6" fill="var(--slate)"/><text x="435" y="105" class="pr-label">gaga 110</text>
+            <circle cx="510" cy="120" r="6" fill="var(--slate)"/><text x="488" y="105" class="pr-label">蓝蛙 136</text>
+          </svg>
+          <div class="card ember" style="margin-top:10px;">
+            <div style="font-size:10.5px;letter-spacing:.03em;color:var(--brass-light);font-weight:700;">核心竞争主张</div>
+            <div style="font-size:13.5px;font-weight:700;margin-top:5px;line-height:1.5;">在相近的价格水平下，提供现做而非预制的产品体验</div>
+          </div>
+          <table class="data-table" style="margin-top:12px;">
+            <thead><tr><th>比较对象</th><th>差异化定位</th></tr></thead>
+            <tbody>
+              <tr><td>Shake Shack（62 元）</td><td>产品现做程度更高，品类组合更完整（含意面披萨沙拉甜品），价格更低</td></tr>
+              <tr><td>萨莉亚（52 元）</td><td>产品工艺与食材等级更高</td></tr>
+              <tr><td>21 街区商户均值</td><td>同楼层内唯一提供西式坐食体验且客单低于 100 元的选择</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>石头先生的汉堡 · 北京首店战略分析</span><span class="tag">§3.4 合生汇分析</span><span>15 / 32</span></div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 16 — §3.5 IN-MALL WESTERN COMPETITORS -->
+<!-- ============================================================ -->
+<section class="slide" id="s16">
+  <div class="slide-inner">
+    <div class="eyebrow"><div class="ruler-rule"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>第三部分 · 合生汇竞争分析 &nbsp;/&nbsp; §3.5</div>
+    <div class="h-zh h1">场内西式品类竞争全景：9 家门店与 62–90 元价格真空带</div>
+
+    <div class="content">
+      <table class="data-table">
+        <thead><tr><th>门店</th><th>品类</th><th class="num">客单</th><th class="num">评分</th><th class="num">评论</th><th class="num">距锚点</th><th>与石头先生的竞争关系</th></tr></thead>
+        <tbody>
+          <tr><td>gaga</td><td>西餐</td><td class="num">110</td><td class="num">4.7</td><td class="num">8,621</td><td class="num">10m</td><td>轻食正餐，客单约为目标带两倍</td></tr>
+          <tr class="hi2"><td><b>Shake Shack</b></td><td>西式快餐</td><td class="num"><b>62</b></td><td class="num"><b>4.3</b></td><td class="num"><b>6,305</b></td><td class="num">20m</td><td><span class="tag-chip alert">唯一同价位直接对手</span></td></tr>
+          <tr><td>西十二街牛排</td><td>自助餐</td><td class="num">114</td><td class="num">3.9</td><td class="num">583</td><td class="num">21m</td><td>自助场景，业态不冲突</td></tr>
+          <tr><td>SPACELAB 失重餐厅</td><td>西餐</td><td class="num">107</td><td class="num">4.6</td><td class="num">13,092</td><td class="num">75m</td><td>主题体验型餐厅</td></tr>
+          <tr><td>萨莉亚意式餐厅</td><td>意大利菜</td><td class="num">52</td><td class="num">4.1</td><td class="num">1,310</td><td class="num">117m</td><td><span class="tag-chip alt">披萨/意面价格参照</span></td></tr>
+          <tr><td>bluefrog 蓝蛙</td><td>西餐</td><td class="num">136</td><td class="num">4.8</td><td class="num">2,475</td><td class="num">119m</td><td>美式休闲西餐，客单约为目标带两倍以上</td></tr>
+          <tr><td>品尝 SAVOR</td><td>西餐</td><td class="num">—</td><td class="num">—</td><td class="num">0</td><td class="num">141m</td><td>新店，尚未形成运营数据</td></tr>
+          <tr><td>西堤牛排</td><td>西餐</td><td class="num">90</td><td class="num">4.6</td><td class="num">22,990</td><td class="num">157m</td><td>正餐牛排，场内西式流量最高门店</td></tr>
+          <tr><td>Papà Danilo 达尼罗叔叔</td><td>意大利菜</td><td class="num">125</td><td class="num">4.7</td><td class="num">6,564</td><td class="num">164m</td><td>手工意面，高端定位</td></tr>
+        </tbody>
+      </table>
+      <div class="finding" style="margin-top:16px;">场内西式门店按客单价排列后可见：52 元（萨莉亚）→ 62 元（Shake Shack）→ 90 元（西堤）→ 107–136 元（失重/gaga/西十二街/Danilo/蓝蛙）。<span class="accent">62 元至 90 元之间，场内西式门店数为 0</span>——这一 28 元区间是场内西式品类唯一的价格空白，但空白本身通常反映需求或竞争壁垒，紧邻已验证价格点（Shake Shack 62 元）的定位风险更低。建议目标定价落在 58–62 元，紧邻该参照系。</div>
+    </div>
+  </div>
+  <div class="footer"><span>石头先生的汉堡 · 北京首店战略分析</span><span class="tag">§3.5 合生汇分析</span><span>16 / 32</span></div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 17 — §3.7a RING INTENSITY + 0-500M DETAIL -->
+<!-- ============================================================ -->
+<section class="slide" id="s17">
+  <div class="slide-inner">
+    <div class="eyebrow"><div class="ruler-rule"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>第三部分 · 合生汇竞争分析 &nbsp;/&nbsp; §3.7</div>
+    <div class="h-zh h1" style="font-size:22px;margin-top:4px;">分环竞争强度分析（一）：环带总览与 0–500 米详表</div>
+
+    <div class="content" style="padding-top:5px;">
+      <table class="data-table tight" style="font-size:10.5px;">
+        <thead><tr><th>环带</th><th class="num">西式门店</th><th class="num">其中汉堡相关</th><th class="num">客单中位</th><th class="num">平均评分</th><th>结构特征</th></tr></thead>
+        <tbody>
+          <tr class="hi2"><td><b>0–500m</b></td><td class="num">15</td><td class="num">3</td><td class="num"><b>98</b></td><td class="num">4.38</td><td>商场内高价西式主导</td></tr>
+          <tr><td>500m–1km</td><td class="num">16</td><td class="num"><b>7</b></td><td class="num"><b>35</b></td><td class="num">4.09</td><td>社区快餐带</td></tr>
+          <tr><td>1–3km</td><td class="num">263</td><td class="num">62</td><td class="num">50</td><td class="num">4.22</td><td>双井 / CBD 过渡带</td></tr>
+          <tr><td>3–5km</td><td class="num">390</td><td class="num">85</td><td class="num">61</td><td class="num">4.18</td><td>国贸 / CBD 高消费带</td></tr>
+        </tbody>
+      </table>
+
+      <div style="font-size:11.5px;font-weight:700;color:var(--ink-soft);margin:9px 0 4px;">0–500 米范围全量明细</div>
+      <table class="data-table tight" style="font-size:9.6px;">
+        <thead><tr><th>门店</th><th>品类</th><th class="num">客单</th><th class="num">评分</th><th class="num">评论</th><th class="num">距离</th><th>场内</th></tr></thead>
+        <tbody>
+          <tr><td>gaga</td><td>西餐</td><td class="num">110</td><td class="num">4.7</td><td class="num">8,621</td><td class="num">10m</td><td>是</td></tr>
+          <tr><td>Shake Shack</td><td>西式快餐</td><td class="num">62</td><td class="num">4.3</td><td class="num">6,305</td><td class="num">20m</td><td>是</td></tr>
+          <tr><td>西十二街牛排</td><td>自助餐</td><td class="num">114</td><td class="num">3.9</td><td class="num">583</td><td class="num">21m</td><td>是</td></tr>
+          <tr><td>SPACELAB 失重餐厅</td><td>西餐</td><td class="num">107</td><td class="num">4.6</td><td class="num">13,092</td><td class="num">75m</td><td>是</td></tr>
+          <tr><td>O'eat（北京首店）</td><td>牛排</td><td class="num">128</td><td class="num">4.6</td><td class="num">1,728</td><td class="num">100m</td><td>否</td></tr>
+          <tr><td>十点半 R&amp;B bar</td><td>西餐</td><td class="num">—</td><td class="num">—</td><td class="num">0</td><td class="num">105m</td><td>否</td></tr>
+          <tr><td>萨莉亚</td><td>意大利菜</td><td class="num">52</td><td class="num">4.1</td><td class="num">1,310</td><td class="num">117m</td><td>是</td></tr>
+          <tr><td>bluefrog 蓝蛙</td><td>西餐</td><td class="num">136</td><td class="num">4.8</td><td class="num">2,475</td><td class="num">119m</td><td>是</td></tr>
+          <tr><td>品尝 SAVOR</td><td>西餐</td><td class="num">—</td><td class="num">—</td><td class="num">0</td><td class="num">141m</td><td>是</td></tr>
+          <tr><td>西堤牛排</td><td>西餐</td><td class="num">90</td><td class="num">4.6</td><td class="num">22,990</td><td class="num">157m</td><td>是</td></tr>
+          <tr><td>Papà Danilo</td><td>意大利菜</td><td class="num">125</td><td class="num">4.7</td><td class="num">6,564</td><td class="num">164m</td><td>是</td></tr>
+          <tr><td>麦当劳（西大望路店）</td><td>西式快餐</td><td class="num">30</td><td class="num">4.2</td><td class="num">2,358</td><td class="num">239m</td><td>否</td></tr>
+          <tr><td>肯德基（西大望路店）</td><td>西式快餐</td><td class="num">29</td><td class="num">3.7</td><td class="num">32</td><td class="num">254m</td><td>否</td></tr>
+          <tr><td>达美乐比萨（双井店）</td><td>比萨</td><td class="num">58</td><td class="num">4.4</td><td class="num">1,238</td><td class="num">366m</td><td>否</td></tr>
+          <tr><td>谷色升香·手工吐司</td><td>西式快餐</td><td class="num">—</td><td class="num">—</td><td class="num">0</td><td class="num">445m</td><td>否</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="footer"><span>石头先生的汉堡 · 北京首店战略分析</span><span class="tag">§3.7 合生汇分析</span><span>17 / 32</span></div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 18 — §3.7b 500M-1KM DETAIL -->
+<!-- ============================================================ -->
+<section class="slide" id="s18">
+  <div class="slide-inner">
+    <div class="eyebrow"><div class="ruler-rule"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>第三部分 · 合生汇竞争分析 &nbsp;/&nbsp; §3.7</div>
+    <div class="h-zh h1" style="font-size:25px;">分环竞争强度分析（二）：500 米至 1 公里详表</div>
+
+    <div class="content">
+      <table class="data-table">
+        <thead><tr><th>门店</th><th class="num">客单</th><th class="num">评分</th><th class="num">评论</th><th class="num">距离</th></tr></thead>
+        <tbody>
+          <tr><td>黑牛先生和牛料理（广渠金茂府店）</td><td class="num">468</td><td class="num">3.8</td><td class="num">146</td><td class="num">564m</td></tr>
+          <tr><td>好煌牛 HhnSteak&amp;Burger（金茂府店）</td><td class="num">—</td><td class="num">3.6</td><td class="num">18</td><td class="num">586m</td></tr>
+          <tr><td>塔斯汀中国汉堡</td><td class="num">19</td><td class="num">4.2</td><td class="num">1,305</td><td class="num">734m</td></tr>
+          <tr><td>麦当劳（芳圆里 ID Mall 店）</td><td class="num">37</td><td class="num">3.8</td><td class="num">1,518</td><td class="num">767m</td></tr>
+          <tr><td>赛百味 SUBWAY（芳圆里店）</td><td class="num">29</td><td class="num">4.4</td><td class="num">426</td><td class="num">772m</td></tr>
+          <tr><td>德克士（双井店）</td><td class="num">32</td><td class="num">4.3</td><td class="num">657</td><td class="num">781m</td></tr>
+          <tr class="hi2"><td><b>必胜客（大郊亭桥店）</b></td><td class="num"><b>63</b></td><td class="num"><b>4.5</b></td><td class="num"><b>1,560</b></td><td class="num">786m</td></tr>
+          <tr><td>肯德基（新大郊亭桥店）</td><td class="num">35</td><td class="num">3.5</td><td class="num">687</td><td class="num">806m</td></tr>
+          <tr><td>极致·极度意大利经典比萨</td><td class="num">36</td><td class="num">4.3</td><td class="num">874</td><td class="num">818m</td></tr>
+          <tr><td>牛约堡-牛肉汉堡（北京双井店）</td><td class="num">26</td><td class="num">3.5</td><td class="num">9</td><td class="num">875m</td></tr>
+          <tr><td>超级碗 FOODBOWL</td><td class="num">35</td><td class="num">4.6</td><td class="num">350</td><td class="num">895m</td></tr>
+          <tr><td>汉堡王（首城国际）</td><td class="num">32</td><td class="num">3.9</td><td class="num">2,720</td><td class="num">938m</td></tr>
+          <tr><td>玺公馆民国餐厅</td><td class="num">188</td><td class="num">4.7</td><td class="num">3,354</td><td class="num">940m</td></tr>
+        </tbody>
+      </table>
+      <div class="finding" style="margin-top:18px;">合生汇周边呈现"哑铃型"竞争结构：商场内以 90–136 元的正餐西式为主（6 家），商场外 1 公里范围内以 19–37 元的社区快餐为主（8 家）。中间的 45–70 元价格带，1 公里范围内仅有 Shake Shack（62 元）、达美乐（58 元）、必胜客大郊亭桥店（63 元）、萨莉亚（52 元）四家，其中<span class="accent">三家为披萨品类</span>——这一分布进一步印证了披萨在该价格带、该区位内的市场接受度。</div>
+    </div>
+  </div>
+  <div class="footer"><span>石头先生的汉堡 · 北京首店战略分析</span><span class="tag">§3.7 合生汇分析</span><span>18 / 32</span></div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 19 — §3.8 SHUANGJING MINDSHARE COMPETITION -->
+<!-- ============================================================ -->
+<section class="slide" id="s19">
+  <div class="slide-inner">
+    <div class="eyebrow"><div class="ruler-rule"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>第三部分 · 合生汇竞争分析 &nbsp;/&nbsp; §3.8</div>
+    <div class="h-zh h1">次级心智竞争带分析：双井商圈（1–3 公里范围）</div>
+    <div class="sub">场内竞争反映同场客流，但顾客的心智比较对象来自更大范围。双井商圈（39 家西式门店，中位客单 59 元，平均评分 4.26）是该品类心智竞争的核心参照区域</div>
+
+    <div class="content">
+      <div class="two-col">
+        <div>
+          <table class="data-table" style="font-size:10.3px;">
+            <thead><tr><th>门店</th><th class="num">客单</th><th class="num">评分</th><th class="num">评论</th></tr></thead>
+            <tbody>
+              <tr><td>Q MEX 库迈墨西哥餐吧</td><td class="num">126</td><td class="num">4.8</td><td class="num">9,324</td></tr>
+              <tr><td>bluefrog 蓝蛙（乐成 SPACE3）</td><td class="num">127</td><td class="num">4.8</td><td class="num">5,017</td></tr>
+              <tr class="hi2"><td><b>Wagas 沃歌斯（富力广场）</b></td><td class="num"><b>82</b></td><td class="num"><b>4.6</b></td><td class="num">4,211</td></tr>
+              <tr><td>Little Tomato 小番茄西餐厅</td><td class="num">135</td><td class="num">4.8</td><td class="num">3,550</td></tr>
+              <tr class="hi2"><td><b>BAKER&amp;SPICE（富力广场）</b></td><td class="num"><b>74</b></td><td class="num"><b>4.6</b></td><td class="num">3,291</td></tr>
+              <tr class="hi2"><td><b>Lily's American Diner（双井店）</b></td><td class="num"><b>80</b></td><td class="num"><b>4.7</b></td><td class="num">2,952</td></tr>
+              <tr><td>叫板比萨 Gung Ho（双井乐成店）</td><td class="num">106</td><td class="num">4.8</td><td class="num">2,035</td></tr>
+              <tr class="hi2"><td><b>和牛怪物汉堡（双井店）</b></td><td class="num"><b>75</b></td><td class="num"><b>4.8</b></td><td class="num">965</td></tr>
+              <tr><td>麦当劳（富力广场店）</td><td class="num">31</td><td class="num">4.0</td><td class="num">3,494</td></tr>
+              <tr><td>汉堡王（首城国际）</td><td class="num">32</td><td class="num">3.9</td><td class="num">2,720</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <div style="font-size:12px;font-weight:700;color:var(--ink-soft);margin-bottom:6px;">五家核心心智竞争对手</div>
+          <table class="data-table" style="font-size:10.5px;">
+            <thead><tr><th>对手</th><th class="num">客单</th><th>代表定位</th><th>差异化空间</th></tr></thead>
+            <tbody>
+              <tr><td>Wagas 沃歌斯</td><td class="num">82</td><td>健康×西式×全时段，47 家连锁</td><td>产品更具饱腹感与正餐属性</td></tr>
+              <tr><td>BAKER&amp;SPICE</td><td class="num">74</td><td>烘焙×简餐，27 家连锁</td><td>路径 B 的直接参照系</td></tr>
+              <tr><td>Lily's American Diner</td><td class="num">80</td><td>美式餐厅×汉堡招牌×氛围</td><td>价格低约 25%，出餐更快</td></tr>
+              <tr><td>和牛怪物汉堡</td><td class="num">75</td><td>精品汉堡×食材等级</td><td>采用原切安格斯而非和牛，价格低约 20%</td></tr>
+              <tr><td>叫板比萨</td><td class="num">106</td><td>手工窑烤披萨</td><td>披萨定价约为其一半</td></tr>
+            </tbody>
+          </table>
+          <div class="finding" style="margin-top:14px;">实地踩点建议优先覆盖：Wagas 富力、BAKER&amp;SPICE 富力、和牛怪物汉堡、Lily's American Diner，重点记录人均实收、客群构成、SKU 数量与菜单文案；必胜客大郊亭桥店（63 元 / 4.5 分）是 1 公里范围内唯一同价位的"披萨+意面+简餐"完整模型，建议同步考察。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>石头先生的汉堡 · 北京首店战略分析</span><span class="tag">§3.8 合生汇分析</span><span>19 / 32</span></div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 20 — §3.9-3.10 POSITIONING MATRIX + CAPABILITY COMPARISON -->
+<!-- ============================================================ -->
+<section class="slide" id="s20">
+  <div class="slide-inner">
+    <div class="eyebrow"><div class="ruler-rule"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>第三部分 · 合生汇竞争分析 &nbsp;/&nbsp; §3.9–3.10</div>
+    <div class="h-zh h1" style="font-size:23px;">竞争定位矩阵与能力评估</div>
+
+    <div class="content" style="padding-top:6px;">
+      <table class="data-table" style="font-size:9.8px;">
+        <thead><tr><th>维度</th><th>石头先生（目标）</th><th>Shake Shack 合生汇</th><th>萨莉亚 合生汇</th><th>蓝蛙 合生汇</th><th>21 街区均值</th><th>必胜客 大郊亭桥</th></tr></thead>
+        <tbody>
+          <tr><td>人均</td><td><b>58–62</b></td><td>62</td><td>52</td><td>136</td><td>35.5</td><td>63</td></tr>
+          <tr><td>评分</td><td><b>目标 ≥4.5</b></td><td>4.3</td><td>4.1</td><td>4.8</td><td>4.01</td><td>4.5</td></tr>
+          <tr><td>评论量级</td><td>目标 90 天 ≥2,000</td><td>6,305</td><td>1,310</td><td>2,475</td><td>中位 2,153</td><td>1,560</td></tr>
+          <tr><td>品类心智</td><td>现做西式简餐</td><td>美式汉堡</td><td>意式平价</td><td>美式休闲西餐</td><td>重口中餐+小吃</td><td>披萨简餐</td></tr>
+          <tr><td>出餐速度</td><td>待压测</td><td>快</td><td>中</td><td>慢</td><td>快</td><td>中</td></tr>
+          <tr><td>明档设计</td><td><b>三大明档</b></td><td>半开放</td><td>无</td><td>无</td><td>部分</td><td>无</td></tr>
+          <tr><td>北京规模</td><td>1</td><td>7</td><td>65</td><td>17</td><td>—</td><td>281</td></tr>
+          <tr><td>营业时段</td><td>午 / 晚 / 下午茶</td><td>全天</td><td>全天</td><td>晚市为主</td><td>晚市为主</td><td>全天</td></tr>
+        </tbody>
+      </table>
+
+      <div style="font-size:12px;font-weight:700;color:var(--ink-soft);margin:12px 0 6px;">能力对比（五分制，数据依据见右列）</div>
+      <table class="data-table" style="font-size:9.8px;">
+        <thead><tr><th>维度</th><th>石头先生</th><th>Shake Shack</th><th>蓝蛙</th><th>21 街区均值</th><th>西式快餐巨头</th><th>数据依据</th></tr></thead>
+        <tbody>
+          <tr><td>产品力（食材/工艺）</td><td>★★★★★</td><td>★★★★</td><td>★★★★</td><td>★★</td><td>★★</td><td>现绞现煎现烤</td></tr>
+          <tr><td>价格力</td><td>★★★</td><td>★★★</td><td>★★</td><td>★★★★★</td><td>★★★★★</td><td>58–62 / 62 / 136 / 35.5</td></tr>
+          <tr><td>品牌认知（北京）</td><td>★</td><td>★★★★★</td><td>★★★★</td><td>★★</td><td>★★★★★</td><td>Shake Shack 北京 7 店，评论合计 6.3 万条</td></tr>
+          <tr><td>同场既有客群</td><td><b>★★★★</b></td><td>★★★</td><td>★★</td><td>★★★</td><td>★★</td><td>关联品牌门店评论 13,831 条</td></tr>
+          <tr><td>视觉表现</td><td>★★★★★</td><td>★★★★</td><td>★★★</td><td>★★</td><td>★★★</td><td>品牌手册完成度高</td></tr>
+          <tr><td>出品效率</td><td>★★（待验证）</td><td>★★★★</td><td>★★</td><td>★★★★</td><td>★★★★★</td><td>五档口结构存在瓶颈风险</td></tr>
+          <tr><td>线上运营</td><td>★（新店）</td><td>★★★★</td><td>★★★</td><td>★★★</td><td>★★★★★</td><td>需从零建立</td></tr>
+          <tr><td>供应链标准化</td><td>★★（跨省首店）</td><td>★★★★★</td><td>★★★★</td><td>★★</td><td>★★★★★</td><td>跨省首店存在履约风险</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="footer"><span>石头先生的汉堡 · 北京首店战略分析</span><span class="tag">§3.9–3.10 合生汇分析</span><span>20 / 32</span></div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 21 — §3.6 AFFILIATED BRAND ASSET: THE OVEN STORE (dark) -->
+<!-- ============================================================ -->
+<section class="slide dark" id="s21">
+  <div class="slide-inner">
+    <div class="eyebrow"><div class="ruler-rule"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>第三部分 · 合生汇竞争分析 &nbsp;/&nbsp; §3.6</div>
+    <div class="h-zh h1" style="color:#EDE6D8;">关联品牌资产分析：石头先生的烤炉</div>
+    <div class="sub" style="color:var(--soft-on-dark);">石头先生的烤炉（朝阳合生汇旗舰店）位于合生汇 B2 层 21 街区门口（近 OPPO 体验店），与石头先生的汉堡同属一个品牌体系，由同一实际控制人运营。该门店已在合生汇稳定经营，构成首店选址与获客策略中需要纳入评估的关联资产。</div>
+
+    <div class="content">
+      <div class="bignum-row">
+        <div class="bignum"><div class="bn">13,831</div><div class="bl">累计评论数</div></div>
+        <div class="bignum"><div class="bn">3.9</div><div class="bl">当前评分</div></div>
+        <div class="bignum"><div class="bn">41 元</div><div class="bl">客单价</div></div>
+        <div class="bignum"><div class="bn">第 16 位</div><div class="bl">合生汇全场 275 家评论量排名</div></div>
+      </div>
+
+      <div class="opp-risk">
+        <div class="col">
+          <h4>作为客群资产的价值</h4>
+          <div class="item">合生汇全场 275 家餐饮商户评论数排名<b>第 16 位</b>（前 6%）</div>
+          <div class="item">21 街区 / B1B2 层 129 家商户中排名<b>第 5 位</b></div>
+          <div class="item">评论数为全场中位数（2,153）的<b>6.4 倍</b>，超过 90 分位线（11,858）</div>
+          <div class="item">该品牌资产已在同一商场内积累起进入全场人气前 6% 的客群基础，可作为首店启动阶段的获客渠道</div>
+        </div>
+        <div class="col risk">
+          <h4>需要管理的口碑风险</h4>
+          <div class="item">评分 3.9 位于合生汇 275 家商户的<b>第 29.3 百分位</b>——约 70% 的商户评分高于该店</div>
+          <div class="item">低于合生汇全场平均分 4.08（<b>−0.18</b>），亦低于面包蛋糕品类 18 家均值 3.97</div>
+          <div class="item">首店开业后，"石头先生"品牌关键词搜索结果将同时呈现该店 3.9 分的评价</div>
+          <div class="item">在客单 58 元的汉堡定位下，母品牌口碑基线是需要提前管理的资产，而非可忽略的背景信息</div>
+        </div>
+      </div>
+
+      <div class="three-col" style="margin-top:14px;">
+        <div class="card"><div style="font-size:10.5px;font-weight:700;color:var(--brass-light);">品牌关联策略</div><div style="font-size:11px;color:var(--soft-on-dark);margin-top:5px;line-height:1.5;">建议采用弱视觉关联——会员体系与私域打通，保留导流价值，同时隔离评分风险，遵循"流量打通、评分隔离"的原则</div></div>
+        <div class="card"><div style="font-size:10.5px;font-weight:700;color:var(--brass-light);">口碑修复计划</div><div style="font-size:11px;color:var(--soft-on-dark);margin-top:5px;line-height:1.5;">开业前 60–90 天启动：差评归因分析、针对性整改、逐条回复，目标将评分由 3.9 提升至 4.2，不采用刷分手段</div></div>
+        <div class="card"><div style="font-size:10.5px;font-weight:700;color:var(--brass-light);">获客渠道定位</div><div style="font-size:11px;color:var(--soft-on-dark);margin-top:5px;line-height:1.5;">该门店是首店启动阶段边际成本最低的获客渠道——同一栋楼内已建立品牌认知的现成客群池</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>石头先生的汉堡 · 北京首店战略分析</span><span class="tag">§3.6 合生汇分析</span><span>21 / 32</span></div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 22 — §7.3 BRAND ARCHITECTURE DECISION -->
+<!-- ============================================================ -->
+<section class="slide" id="s22">
+  <div class="slide-inner">
+    <div class="eyebrow"><div class="ruler-rule"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>第七部分 · 品牌心智与视觉 &nbsp;/&nbsp; §7.3</div>
+    <div class="h-zh h1">品牌架构决策：石头先生的烤炉 × 石头先生的汉堡</div>
+    <div class="sub">首店开业后，"石头先生"品牌名称将在同一栋楼内同时指向两家门店，两者的品牌架构关系需要在开业前明确定义</div>
+
+    <div class="content">
+      <div class="two-col">
+        <div>
+          <table class="data-table">
+            <thead><tr><th>架构方案</th><th>说明</th><th>优点</th><th>风险</th></tr></thead>
+            <tbody>
+              <tr class="hi2"><td><b>A. 母品牌+子品牌</b></td><td>「石头先生」为母品牌，「的烤炉」「的汉堡」为业态子品牌</td><td>复用品牌资产、双向导流、未来可延展新业态</td><td>母品牌口碑受烤炉店 3.9 分现状牵连</td></tr>
+              <tr><td>B. 平行品牌</td><td>两个独立品牌，仅共享供应链与会员体系</td><td>风险隔离</td><td>浪费已积累的认知资产</td></tr>
+              <tr><td>C. 合并运营</td><td>一家门店同时运营烘焙与汉堡业态</td><td>运营成本最低</td><td>与首店定位冲突，且现有施工图不支持</td></tr>
+            </tbody>
+          </table>
+          <div class="card ember" style="margin-top:14px;">
+            <div style="font-size:11px;color:var(--brass-light);font-weight:700;letter-spacing:.03em;">建议方案：A（母品牌 + 子品牌），附三项前置条件</div>
+            <div style="font-size:11.5px;margin-top:8px;line-height:1.65;">
+              1. 烤炉店评分修复至 4.2 分以上后，方可推进视觉层面的强关联<br>
+              2. 母品牌视觉资产（巨石阵 logo、牛皮纸质感、荧光绿主色）保持统一，但两店门头主视觉各自独立呈现<br>
+              3. 大众点评平台保持两个独立门店页面，不做品牌页合并
+            </div>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:12px;font-weight:700;color:var(--ink-soft);margin-bottom:6px;">母品牌"石头先生"资产盘点</div>
+          <table class="data-table" style="font-size:10.5px;">
+            <thead><tr><th>资产</th><th>现状</th><th>评估</th></tr></thead>
+            <tbody>
+              <tr><td>巨石阵三块立石 logo</td><td>完整，识别度高</td><td>★★★★★</td></tr>
+              <tr><td>牛皮纸 / 荧光绿 / 品牌黑</td><td>色彩系统清晰（#D3B597 / #CDDD05 / #000000）</td><td>★★★★★</td></tr>
+              <tr><td>石形印章标签（TOP/NEW）</td><td>已有，是包装与菜单的延伸符号</td><td>★★★★</td></tr>
+              <tr><td>十余年烘焙功底</td><td>合生汇 B2 门店提供实体验证</td><td>★★★★★</td></tr>
+              <tr><td>合生汇 13,831 条评论的客群</td><td>已识别的可调用资产</td><td>★★★★★</td></tr>
+              <tr><td>米其林体系背景总厨</td><td>履历可核实</td><td>★★★★</td></tr>
+              <tr><td>3.9 分口碑基线</td><td>需在开业前完成修复</td><td style="color:var(--alert);font-weight:700;">负资产，需管理</td></tr>
+            </tbody>
+          </table>
+          <div style="font-size:12px;font-weight:700;color:var(--ink-soft);margin:12px 0 6px;">品牌关联表述边界</div>
+          <table class="data-table" style="font-size:10.5px;">
+            <thead><tr><th style="color:var(--good);">建议表述</th><th style="color:var(--alert);">避免表述</th></tr></thead>
+            <tbody>
+              <tr><td>"同一支烘焙团队，十余年现烤功底"</td><td>"石头先生的烤炉旗下"</td></tr>
+              <tr><td>"堡胚出自石头先生的烘焙工艺"</td><td>门头 / 主视觉上直接出现烤炉门店 logo</td></tr>
+              <tr><td>会员体系打通，一个身份两家门店通用</td><td>大众点评品牌页合并</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>石头先生的汉堡 · 北京首店战略分析</span><span class="tag">§7.3 品牌心智</span><span>22 / 32</span></div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 23 — §4.1-4.2 SKU STRUCTURE -->
+<!-- ============================================================ -->
+<section class="slide" id="s23">
+  <div class="slide-inner">
+    <div class="eyebrow"><div class="ruler-rule"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>第四部分 · 产品结构诊断 &nbsp;/&nbsp; §4.1–4.2</div>
+    <div class="h-zh h1">产品结构口径说明与 SKU 全景</div>
+    <div class="sub">产品结构表中的"点单率"字段经核算，实际含义为"品类内销量份额"，而非"订单渗透率"；本报告统一按此口径重新解读，标注为"预估结构"</div>
+
+    <div class="content">
+      <table class="data-table">
+        <thead><tr><th>品类</th><th class="num">SKU 数</th><th class="num">加权均价</th><th class="num">加权毛利率</th><th class="num">价格区间</th><th>出品档口</th></tr></thead>
+        <tbody>
+          <tr><td>汉堡</td><td class="num">9（+ 苗堡待定）</td><td class="num"><b>36.1</b></td><td class="num">65.2%</td><td class="num">22–58</td><td>扒炉档</td></tr>
+          <tr class="hi2"><td><b>披萨</b></td><td class="num">10</td><td class="num"><b>55.7</b></td><td class="num">69.7%</td><td class="num">38–68</td><td>窑炉档</td></tr>
+          <tr><td>意粉 / 主食</td><td class="num">5</td><td class="num">33.1</td><td class="num">70.8%</td><td class="num">29–68</td><td>热菜档</td></tr>
+          <tr><td>小吃</td><td class="num">8</td><td class="num">30.3</td><td class="num">67.9%</td><td class="num">12–42</td><td>炸炉档</td></tr>
+          <tr><td>沙拉</td><td class="num">3（+ 7 研发中）</td><td class="num">29.0</td><td class="num">69.9%</td><td class="num">26–32</td><td>沙拉档</td></tr>
+          <tr><td>甜品</td><td class="num">3</td><td class="num">28.4</td><td class="num"><b>77.8%</b></td><td class="num">28–32</td><td>沙拉档</td></tr>
+          <tr><td>饮品</td><td class="num">19</td><td class="num">约 17</td><td class="num">—</td><td class="num">10–24</td><td>饮品档</td></tr>
+          <tr class="hi"><td><b>合计</b></td><td class="num"><b>58（食品 39）</b></td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td><b>5 个档口</b></td></tr>
+        </tbody>
+      </table>
+
+      <div style="font-size:12px;font-weight:700;color:var(--ink-soft);margin:14px 0 6px;">结构性问题识别</div>
+      <div class="note-list" style="gap:9px;">
+        <div class="t"><span class="dot"></span>披萨加权均价（55.7 元）高于汉堡加权均价（36.1 元）——以"汉堡"命名的门店，最高客单产线并非汉堡，需在菜单版位设计中主动管理这一结构</div>
+        <div class="t"><span class="dot"></span>饮品线共 19 个 SKU，其中 6 款茶饮在结构表中仅标注价格、未定品名，尚未定型，建议开业前收敛</div>
+        <div class="t"><span class="dot"></span>沙拉在售 3 款，研发管线另有 7 款；北京轻食沙拉品类中位客单 30 元、平均评分 3.60，是西式细分品类中评分最低的一类，建议冻结该研发管线</div>
+        <div class="t"><span class="dot"></span>披萨线现有 10 款中最低价为 38 元，缺少一款 30–45 元区间的经典基础款，而必胜客、达美乐、萨莉亚的走量产品均集中在该价格带</div>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>石头先生的汉堡 · 北京首店战略分析</span><span class="tag">§4.1–4.2 产品诊断</span><span>23 / 32</span></div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 24 — §4.3 MENU REPETITION DIAGNOSIS -->
+<!-- ============================================================ -->
+<section class="slide" id="s24">
+  <div class="slide-inner">
+    <div class="eyebrow"><div class="ruler-rule"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>第四部分 · 产品结构诊断 &nbsp;/&nbsp; §4.3</div>
+    <div class="h-zh h1">菜单重复度诊断：九宫格矩阵分析</div>
+    <div class="sub">以口味 × 食材 × 工艺为维度构建九宫格矩阵，识别菜单中的重复元素与空白机会区</div>
+
+    <div class="content">
+      <table class="data-table">
+        <thead><tr><th>重复元素</th><th class="num">出现次数</th><th>涉及产品</th><th>问题识别</th></tr></thead>
+        <tbody>
+          <tr><td><b>黑松露</b></td><td class="num">5 处</td><td>火柴薯条、芝士熔岩球、黑松露蘑菇牛肉堡、黑松露什锦蘑菇披萨、硬币堡酱料</td><td>高级感被稀释为日常调味；北京 6,052 家西式门店中，店名含"黑松露"的门店数为 <b>0</b>，说明该词不构成可被顾客搜索的记忆点</td></tr>
+          <tr><td><b>川味 / 香辣</b></td><td class="num">7 处</td><td>香辣鸡翅、川味椒麻堡、辣肉酱堡、蜀香辣肉酱披萨、麻辣小龙虾披萨、川味腊肠意面、泰式酸辣沙拉</td><td>国风融合是真实差异化机会点，但当前 7 处分布过于分散，跨越 5 个出品档口</td></tr>
+          <tr><td><b>海鲜</b></td><td class="num">7 处</td><td>西班牙鱿鱼煎蛋、墨鱼肠、那不勒斯海鲜披萨、蒜香白酒海鲜面、日式海胆拌饭、麻辣小龙虾披萨、藜麦大虾沙拉</td><td style="color:var(--alert);">损耗率最高、备货难度最大、跨省供应链稳定性最脆弱的品类；首店为跨省首店，该产线风险等级最高</td></tr>
+        </tbody>
+      </table>
+
+      <div style="font-size:12px;font-weight:700;color:var(--ink-soft);margin:16px 0 8px;">九宫格空白区：值得优先补充的方向</div>
+      <div class="three-col">
+        <div class="card"><div style="font-size:11px;font-weight:700;color:var(--ember-deep);">工艺空白</div><div style="font-size:11.5px;color:var(--ink-soft);margin-top:5px;line-height:1.5;">烘焙 × 汉堡的深度结合——现烤堡胚已是既有资产，但尚无一款产品将"烘焙"塑造为核心卖点</div></div>
+        <div class="card"><div style="font-size:11px;font-weight:700;color:var(--ember-deep);">口味空白</div><div style="font-size:11.5px;color:var(--ink-soft);margin-top:5px;line-height:1.5;">清爽 / 酸香系产品——现有汉堡以咸香重口为主，缺少夏季与女性客群导向的轻口味选项</div></div>
+        <div class="card"><div style="font-size:11px;font-weight:700;color:var(--ember-deep);">场景与品类空白</div><div style="font-size:11.5px;color:var(--ink-soft);margin-top:5px;line-height:1.5;">35 元以下日常入口款目前仅一款承担；披萨线缺少基础款，两项均在 §4.6 与 §5 中给出具体补位建议</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>石头先生的汉堡 · 北京首店战略分析</span><span class="tag">§4.3 产品诊断</span><span>24 / 32</span></div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 25 — §4.4-4.5 KITCHEN CAPACITY + REVENUE SCENARIOS -->
+<!-- ============================================================ -->
+<section class="slide" id="s25">
+  <div class="slide-inner">
+    <div class="eyebrow"><div class="ruler-rule"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>第四部分 · 产品结构诊断 &nbsp;/&nbsp; §4.4–4.5</div>
+    <div class="h-zh h1">空间承载能力验证与人均客单测算</div>
+
+    <div class="content">
+      <div class="two-col">
+        <div>
+          <div style="font-size:12px;font-weight:700;color:var(--ink-soft);">后厨空间承载能力（依据施工图 A1.02 验证）</div>
+          <div class="kitchen-eq">
+            <div class="eq">33.5㎡ <span class="op">÷</span> 18 人 <span class="op">=</span> 1.86㎡/人</div>
+            <div class="res">行业下限约 3–4㎡/人 → 该配置在物理空间上不可能同时容纳 18 人作业</div>
+          </div>
+          <table class="data-table" style="margin-top:12px;">
+            <thead><tr><th>区域</th><th class="num">面积</th></tr></thead>
+            <tbody>
+              <tr><td>热厨房</td><td class="num"><b>33.5㎡</b></td></tr>
+              <tr><td>洗碗区</td><td class="num">6.5㎡</td></tr>
+              <tr><td>冷菜区</td><td class="num">5.1㎡</td></tr>
+              <tr><td>肉档</td><td class="num">4.9㎡</td></tr>
+              <tr><td>其他（粗加工 / 冷藏 / 储物）</td><td class="num">13.3㎡</td></tr>
+              <tr class="hi2"><td><b>后厨合计 / 总面积 206㎡</b></td><td class="num"><b>63.3㎡ · 31%</b></td></tr>
+            </tbody>
+          </table>
+          <div style="font-size:11px;color:var(--ink-soft);margin-top:8px;line-height:1.5;">判定结论：产品结构表中的高峰人数字段应理解为"全天班次总人数"，而非"高峰时段同时在岗人数"。按面积测算，全店合理高峰配置约为 <b>14–19 人</b>。</div>
+        </div>
+        <div>
+          <div style="font-size:12px;font-weight:700;color:var(--ink-soft);margin-bottom:10px;">人均客单测算：三种产品结构情景</div>
+          <div class="scenario">
+            <div class="srow">
+              <div class="stag">情景 A · 汉堡主导</div>
+              <div class="strack"><div class="sfill" style="width:79.6%;"><span class="sval">62 元</span></div><div class="smark" style="left:74.3%;"></div></div>
+            </div>
+            <div class="srow">
+              <div class="stag">情景 B · 披萨上升</div>
+              <div class="strack"><div class="sfill bad" style="width:83.5%;"><span class="sval">65 元</span></div><div class="smark" style="left:74.3%;"></div></div>
+            </div>
+            <div class="srow">
+              <div class="stag">情景 C · 补入口款后</div>
+              <div class="strack"><div class="sfill good" style="width:74.3%;"><span class="sval">58–60 元</span></div></div>
+            </div>
+          </div>
+          <div style="font-size:10.5px;color:var(--ink-faint);margin-top:6px;">虚线标记为目标带上沿（62 元，Shake Shack 参照价）</div>
+          <table class="data-table" style="margin-top:16px;">
+            <thead><tr><th>情景</th><th class="num">人均</th><th>评估结论</th></tr></thead>
+            <tbody>
+              <tr><td>A · 汉堡主导</td><td class="num">62</td><td>略高于目标带，接近 Shake Shack 参照价</td></tr>
+              <tr><td>B · 披萨上升</td><td class="num">65</td><td style="color:var(--alert);">超出目标带，触及"不做酒饮场景下的定价上限"</td></tr>
+              <tr class="hi2"><td><b>C · 补入 28 元入口款</b></td><td class="num"><b>58–60</b></td><td style="color:var(--good);font-weight:700;">落入目标带，且低于 Shake Shack 参照价</td></tr>
+            </tbody>
+          </table>
+          <div class="finding" style="font-size:13.5px;margin-top:12px;">补入 28 元区间的入口产品，是将人均客单从 62 元拉回 58–60 元目标带的<span class="accent">关键杠杆</span>，不构成可选项。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>石头先生的汉堡 · 北京首店战略分析</span><span class="tag">§4.4–4.5 产品诊断</span><span>25 / 32</span></div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 26 — §4.6 PRICING ANCHOR SYSTEM -->
+<!-- ============================================================ -->
+<section class="slide" id="s26">
+  <div class="slide-inner">
+    <div class="eyebrow"><div class="ruler-rule"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>第四部分 · 产品结构诊断 &nbsp;/&nbsp; §4.6</div>
+    <div class="h-zh h1">价格锚点体系现状与调整建议</div>
+
+    <div class="content">
+      <table class="data-table">
+        <thead><tr><th>价格锚点角色</th><th>现状</th><th>建议</th><th>理由</th></tr></thead>
+        <tbody>
+          <tr><td><b>最高价锚</b></td><td>鹅肝堡 58 / 海鲜披萨 68 / 龙虾意面 68 / 牛油果肥牛披萨 68</td><td>保留 1 款（鹅肝堡 58，转为晚市隐藏款）</td><td>价格锚点只需一个；三款 68 元产品同时在场会整体推高价格印象</td></tr>
+          <tr><td><b>主力款</b></td><td>经典澳牛芝士堡 36</td><td>维持 36 元，不上调</td><td>该产品决定客单价印象；Shake Shack 单堡定价在 40–50 元区间，36 元构成明确价格优势</td></tr>
+          <tr class="hi2"><td><b>入口款</b></td><td>蒜香烟熏鸡腿堡 22 元（唯一）</td><td>保留 22 元，新增 26–28 元小份经典堡</td><td>当前唯一入口款过于单薄，难以支撑价格入口功能</td></tr>
+          <tr><td><b>披萨基础款</b></td><td>缺失（现有最低价为 38 元黑松露蘑菇披萨）</td><td>补充 38–42 元经典芝士 / 玛格丽特类基础款</td><td>披萨产线缺少"第一款"，即无故事、仅靠口味驱动的走量产品</td></tr>
+          <tr><td><b>心理卡点</b></td><td>—</td><td>单堡定价不超过 50 元，人均客单不超过 65 元</td><td>数据依据：不做酒饮场景下汉堡定价的天花板（§2.4）</td></tr>
+        </tbody>
+      </table>
+      <div class="finding" style="margin-top:20px;">价格锚点体系的核心原则是"每个价格档位只保留一个锚点"——当前菜单中存在多个 68 元产品同时充当最高价锚的情况，稀释了单一锚点应有的心理定位效果，建议在预售菜单定稿前完成收敛。</div>
+    </div>
+  </div>
+  <div class="footer"><span>石头先生的汉堡 · 北京首店战略分析</span><span class="tag">§4.6 产品诊断</span><span>26 / 32</span></div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 27 — §5.1 MENU STRUCTURE OVERVIEW -->
+<!-- ============================================================ -->
+<section class="slide" id="s27">
+  <div class="slide-inner">
+    <div class="eyebrow"><div class="ruler-rule"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>第五部分 · 首店菜单结构 &nbsp;/&nbsp; §5.1</div>
+    <div class="h-zh h1">首版菜单结构总览</div>
+    <div class="sub">预售可用版菜单总量为食品 20 款 + 饮品 8 款，合计 28 款，较现状 58 款收敛 52%</div>
+
+    <div class="content">
+      <div class="two-col">
+        <div>
+          <table class="data-table">
+            <thead><tr><th>品类</th><th class="num">SKU 数</th><th>角色定位</th></tr></thead>
+            <tbody>
+              <tr class="hi2"><td><b>汉堡</b></td><td class="num">5</td><td>主・品牌记忆核心</td></tr>
+              <tr><td>披萨</td><td class="num">5</td><td>辅・规模载体（战略重构后的核心调整）</td></tr>
+              <tr><td>主食（意面）</td><td class="num">2</td><td>辅・大幅收敛（原为 3 款）</td></tr>
+              <tr><td>小吃</td><td class="num">3</td><td>佐・分享与加购场景</td></tr>
+              <tr><td>沙拉</td><td class="num">2</td><td>佐・轻食场景</td></tr>
+              <tr><td>甜品</td><td class="num">2</td><td>佐・含开业赠送主体</td></tr>
+              <tr><td>引流款</td><td class="num">3</td><td>引・社交传播与赠品</td></tr>
+              <tr><td>饮品</td><td class="num">8</td><td>较现状 19 款收敛</td></tr>
+            </tbody>
+          </table>
+          <div style="font-size:12px;font-weight:700;color:var(--ink-soft);margin:14px 0 6px;">两款核心引流单品</div>
+          <table class="data-table">
+            <thead><tr><th>产品</th><th class="num">定价</th><th class="num">毛利率</th><th class="num">品类份额</th></tr></thead>
+            <tbody>
+              <tr><td>经典澳牛芝士堡</td><td class="num">36</td><td class="num">62.6%</td><td class="num">45%</td></tr>
+              <tr class="hi2"><td><b>蒜香烟熏鸡腿堡</b></td><td class="num"><b>22</b></td><td class="num"><b>74.7%</b></td><td class="num"><b>20%</b></td></tr>
+            </tbody>
+          </table>
+          <div class="src-note">鸡腿堡是全菜单唯一"低价×高毛利×高品类份额"三重交叉产品，是团购与外卖引流的主力选项。</div>
+        </div>
+        <div>
+          <div style="font-size:12px;font-weight:700;color:var(--ink-soft);margin-bottom:6px;">菜单三层架构</div>
+          <table class="data-table">
+            <thead><tr><th style="width:70px;">层级</th><th>代表产品</th><th>功能与目标</th></tr></thead>
+            <tbody>
+              <tr><td style="white-space:nowrap;"><b>入口层</b><br><span class="src-note">22–29 元</span></td><td>鸡腿堡 22、小份经典堡 26、凯撒沙拉 26、通心粉 29</td><td>降低进店门槛，覆盖首次到店与预算敏感客群，拉低整体人均、提升到店频次</td></tr>
+              <tr class="hi2"><td style="white-space:nowrap;"><b>主力层</b><br><span class="src-note">36–48 元</span></td><td>经典堡 36、椒麻堡 38、凤梨堡 42、腊味披萨 48、Pepperoni 48、拼盘 42、硬币堡 46</td><td>承担 60% 以上销售额，决定利润结构与品类心智</td></tr>
+              <tr><td style="white-space:nowrap;"><b>场景层</b><br><span class="src-note">52–58 元</span></td><td>榴莲披萨 58、火腿开心果披萨 58、鹅肝堡 58（隐藏款）</td><td>服务多人分享与犒赏场景，拉高桌均而非人均</td></tr>
+            </tbody>
+          </table>
+          <div class="finding" style="margin-top:14px;">入口层 4 款产品中有 3 款并非汉堡，这是有意为之的设计——首次到店的顾客可通过 26–29 元产品建立初次消费，第二次到店再引导至 36 元的主力汉堡产品。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>石头先生的汉堡 · 北京首店战略分析</span><span class="tag">§5.1 菜单结构</span><span>27 / 32</span></div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 28 — §5.4-5.6 THREE MENU GAP-FILLING RECOMMENDATIONS -->
+<!-- ============================================================ -->
+<section class="slide" id="s28">
+  <div class="slide-inner">
+    <div class="eyebrow"><div class="ruler-rule"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>第五部分 · 首店菜单结构 &nbsp;/&nbsp; §5.4–5.6</div>
+    <div class="h-zh h1">三项菜单补位建议</div>
+
+    <div class="content">
+      <div class="three-col">
+        <div class="card alert">
+          <div style="font-size:11px;font-weight:700;color:var(--alert);">补位一 · 28 元以下日常入口款</div>
+          <div style="font-size:11.5px;color:var(--ink-soft);margin-top:8px;line-height:1.55;">北京汉堡门店客单中位数 30 元，78% 集中在 35 元以下，而当前 35 元以下汉堡产品仅鸡腿堡一款。测算显示：补入后人均客单从 62 元降至 58–60 元。</div>
+          <div style="font-size:11.5px;margin-top:8px;line-height:1.55;"><b>建议：</b>将"苗堡"明确定义为 26 元小份经典澳牛芝士堡，完全共用现有扒炉产线，不新增食材、工艺或档口。</div>
+        </div>
+        <div class="card brass">
+          <div style="font-size:11px;font-weight:700;color:var(--ember-deep);">补位二 · 披萨基础款</div>
+          <div style="font-size:11.5px;color:var(--ink-soft);margin-top:8px;line-height:1.55;">现有 10 款披萨价格集中在 38–68 元，缺少一款 38–42 元的经典基础款。若采纳双载体路径，该产品是承接规模化流量的必要环节。</div>
+          <div style="font-size:11.5px;margin-top:8px;line-height:1.55;"><b>建议：</b>补充经典芝士 / 玛格丽特披萨，食材（番茄底酱、马苏里拉、罗勒）已在现有供应链中，零新增成本。</div>
+        </div>
+        <div class="card good">
+          <div style="font-size:11px;font-weight:700;color:var(--good);">补位三 · 烘焙零售化</div>
+          <div style="font-size:11.5px;color:var(--ink-soft);margin-top:8px;line-height:1.55;">现烤堡胚是难以复制的资产，BAKER&amp;SPICE（27 家 / 75 元 / 4.56 分）与 The Daily Bagel（66 元 / 4.7 分）已验证烘焙×简餐模型的规模化潜力。</div>
+          <div style="font-size:11.5px;margin-top:8px;line-height:1.55;"><b>建议：</b>现烤堡胚支持单独零售（3–4 只装，18–22 元），并与关联烤炉门店建立会员权益联动。</div>
+        </div>
+      </div>
+
+      <div style="font-size:12px;font-weight:700;color:var(--ink-soft);margin:18px 0 6px;">同价位披萨品牌产品结构参照</div>
+      <table class="data-table">
+        <thead><tr><th>品牌</th><th class="num">北京门店</th><th class="num">中位客单</th><th>走量款价格带</th></tr></thead>
+        <tbody>
+          <tr><td>必胜客</td><td class="num">281</td><td class="num">58</td><td>基础披萨 39–59 元</td></tr>
+          <tr><td>达美乐</td><td class="num">186</td><td class="num">55</td><td>基础披萨 39–59 元</td></tr>
+          <tr><td>萨莉亚</td><td class="num">65</td><td class="num">50</td><td>基础披萨 20–35 元</td></tr>
+          <tr><td>棒约翰</td><td class="num">22 + 7 + 7</td><td class="num">53–56</td><td>基础披萨 39–59 元</td></tr>
+        </tbody>
+      </table>
+      <div class="src-note">若采纳双载体路径，运营铁律：披萨占主食销量须控制在 25–30%（超过 35% 时人均将突破 65 元）；披萨仅进入双人餐与家庭餐套餐，不进入单人套餐；开业 60 天后以订单渗透率是否达到 25% 作为路径判定依据。</div>
+    </div>
+  </div>
+  <div class="footer"><span>石头先生的汉堡 · 北京首店战略分析</span><span class="tag">§5.4–5.6 菜单结构</span><span>28 / 32</span></div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 29 — §6.2-6.3 BENCHMARK PRICING + PACKAGE DESIGN -->
+<!-- ============================================================ -->
+<section class="slide" id="s29">
+  <div class="slide-inner">
+    <div class="eyebrow"><div class="ruler-rule"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>第六部分 · 定价与开业营销 &nbsp;/&nbsp; §6.2–6.3</div>
+    <div class="h-zh h1">对标定价法与场景化套餐设计</div>
+    <div class="sub">核心思路是相对定价而非绝对定价——每一个价格点都应有明确的对标对象，作为前厅与外卖客服的沟通话术基础</div>
+
+    <div class="content">
+      <div class="two-col">
+        <div>
+          <table class="data-table" style="font-size:10.5px;">
+            <thead><tr><th>产品</th><th class="num">定价</th><th>对标对象</th><th class="num">对标价</th><th class="num">差价</th></tr></thead>
+            <tbody>
+              <tr><td>经典澳牛芝士堡</td><td class="num">36</td><td>Shake Shack 单堡</td><td class="num">40–50</td><td class="num">−4~14</td></tr>
+              <tr><td>小份经典堡</td><td class="num">26</td><td>麦当劳巨无霸套餐</td><td class="num">30–35</td><td class="num">−4~9</td></tr>
+              <tr class="hi2"><td><b>经典单人套餐</b></td><td class="num"><b>56</b></td><td><b>Shake Shack 人均</b></td><td class="num"><b>62</b></td><td class="num"><b>−6</b></td></tr>
+              <tr><td>经典芝士披萨</td><td class="num">38–42</td><td>萨莉亚披萨</td><td class="num">20–35</td><td class="num">+7~20</td></tr>
+              <tr><td>榴莲披萨</td><td class="num">58</td><td>必胜客大郊亭桥人均</td><td class="num">63</td><td class="num">−5</td></tr>
+              <tr><td>整体人均</td><td class="num">58–62</td><td>蓝蛙</td><td class="num">136</td><td class="num">−55%</td></tr>
+            </tbody>
+          </table>
+          <div class="src-note" style="margin-top:8px;">该表可直接作为前厅与外卖客服的定价沟通话术底稿：面对"为何定价较高"的疑问，参照系应为具体竞品而非抽象的用料标准。</div>
+        </div>
+        <div>
+          <div style="font-size:12px;font-weight:700;color:var(--ink-soft);margin-bottom:6px;">大众点评限时套餐设计（场景导向）</div>
+          <table class="data-table" style="font-size:10.3px;">
+            <thead><tr><th>套餐</th><th class="num">售价</th><th class="num">折扣</th><th>场景</th></tr></thead>
+            <tbody>
+              <tr><td>1. 石头经典单人餐</td><td class="num"><b>56</b></td><td class="num">3%</td><td>工作日午餐，直接对标 Shake Shack 62 元</td></tr>
+              <tr><td>2. 轻食解腻餐</td><td class="num">52</td><td class="num">7%</td><td>女性午餐 / 轻食场景，覆盖非汉堡客群</td></tr>
+              <tr class="hi2"><td><b>3. 入门尝鲜餐</b></td><td class="num"><b>39</b></td><td class="num">11%</td><td><b>拉新主力</b>，面向首次到店 / 学生 / 亲子客群</td></tr>
+              <tr><td>4. 双人分享餐</td><td class="num">148</td><td class="num">17%</td><td>朋友小聚，周末主力套餐</td></tr>
+              <tr><td>5. 家庭欢聚餐</td><td class="num">238</td><td class="num">17%</td><td>家庭聚会，是披萨产品的主要销售出口</td></tr>
+            </tbody>
+          </table>
+          <div class="src-note" style="margin-top:8px;">套餐 1–3 为拉新工具，折扣幅度浅（3–11%），依靠场景匹配而非价格让利驱动转化；套餐 4–5 为提升桌均工具，折扣 17%；披萨仅出现在套餐 5，执行"用披萨提升桌均、不拉高人均"的原则。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>石头先生的汉堡 · 北京首店战略分析</span><span class="tag">§6.2–6.3 定价营销</span><span>29 / 32</span></div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 30 — §6.6 CUSTOMER ACQUISITION VIA GIVEAWAY -->
+<!-- ============================================================ -->
+<section class="slide" id="s30">
+  <div class="slide-inner">
+    <div class="eyebrow"><div class="ruler-rule"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>第六部分 · 定价与开业营销 &nbsp;/&nbsp; §6.6</div>
+    <div class="h-zh h1">开业三个月产品赠送方案：获客投资测算</div>
+    <div class="sub">焦香原味巴斯克售价 28 元，毛利率 80.82%，单份食材成本约 5.37 元，是全菜单"感知价值 / 实际成本"比最高的产品</div>
+
+    <div class="content">
+      <div class="two-col">
+        <div>
+          <div style="font-size:12px;font-weight:700;color:var(--ink-soft);margin-bottom:6px;">三个月投入测算</div>
+          <table class="data-table">
+            <thead><tr><th>情景</th><th class="num">日赠送份数</th><th class="num">90 天总份数</th><th class="num">总食材成本</th></tr></thead>
+            <tbody>
+              <tr><td>保守</td><td class="num">80</td><td class="num">7,200</td><td class="num">3.9 万元</td></tr>
+              <tr class="hi2"><td><b>中性</b></td><td class="num"><b>120</b></td><td class="num"><b>10,800</b></td><td class="num"><b>5.8 万元</b></td></tr>
+              <tr><td>激进</td><td class="num">200</td><td class="num">18,000</td><td class="num">9.7 万元</td></tr>
+            </tbody>
+          </table>
+          <div class="card good" style="margin-top:12px;">
+            <div style="font-size:11.5px;line-height:1.6;">中性情景下，若带来 6,000 名新增会员，单会员获取成本约为 <b>9.7 元</b>，显著低于常规获客渠道成本，判断该方案具备执行价值，但需附加换取条件以确保投入产出可衡量。</div>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:12px;font-weight:700;color:var(--ink-soft);margin-bottom:6px;">赠送需换取的动作（任选其一即可领取）</div>
+          <table class="data-table">
+            <thead><tr><th>换取动作</th><th>价值</th></tr></thead>
+            <tbody>
+              <tr><td>大众点评留评（带图）</td><td>直接影响门店评分与平台曝光</td></tr>
+              <tr><td>注册会员</td><td>建立可持续触达的客群资产</td></tr>
+              <tr><td>添加企业微信 / 社群</td><td>私域复购渠道建设</td></tr>
+              <tr><td>小红书 / 抖音发布带定位内容</td><td>UGC 内容与自然流量获取</td></tr>
+            </tbody>
+          </table>
+          <div style="font-size:12px;font-weight:700;color:var(--ink-soft);margin:14px 0 6px;">三个月后停止或延续的判定标准</div>
+          <table class="data-table">
+            <thead><tr><th>指标</th><th>延续条件</th><th>停止条件</th></tr></thead>
+            <tbody>
+              <tr><td>单会员获取成本</td><td style="color:var(--good);">&lt; 15 元</td><td style="color:var(--alert);">&gt; 25 元</td></tr>
+              <tr><td>会员 30 天复购率</td><td style="color:var(--good);">≥ 20%</td><td style="color:var(--alert);">&lt; 10%</td></tr>
+              <tr><td>冷区产能占用</td><td style="color:var(--good);">未影响出餐效率</td><td style="color:var(--alert);">造成出品瓶颈</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>石头先生的汉堡 · 北京首店战略分析</span><span class="tag">§6.6 定价营销</span><span>30 / 32</span></div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 31 — §10.4/10.6 SITE SCORECARD + EXPANSION -->
+<!-- ============================================================ -->
+<section class="slide" id="s31">
+  <div class="slide-inner">
+    <div class="eyebrow"><div class="ruler-rule"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>第十部分 · 全国连锁的体系建设 &nbsp;/&nbsp; §10.4 / §10.6</div>
+    <div class="h-zh h1">选址评分体系与后续拓店建议</div>
+
+    <div class="content">
+      <div class="two-col">
+        <div>
+          <div style="font-size:12px;font-weight:700;color:var(--ink-soft);margin-bottom:6px;">选址评分卡（六维加权）</div>
+          <table class="data-table" style="font-size:10.5px;">
+            <thead><tr><th>维度</th><th class="num">权重</th><th>评分依据</th></tr></thead>
+            <tbody>
+              <tr class="hi2"><td><b>商圈客单匹配度</b></td><td class="num"><b>25%</b></td><td>商圈西式门店客单中位是否落在 50–70 元</td></tr>
+              <tr><td>汉堡供给稀薄度</td><td class="num">20%</td><td>商圈汉堡门店数 ÷ 西式门店数，比值越低越优</td></tr>
+              <tr><td>客流量级</td><td class="num">20%</td><td>商圈西式门店评论总量</td></tr>
+              <tr><td>评分基准线</td><td class="num">15%</td><td>商圈西式门店平均评分</td></tr>
+              <tr><td>场内西式空白带</td><td class="num">10%</td><td>目标商场 55–90 元西式门店数</td></tr>
+              <tr><td>物业硬件</td><td class="num">10%</td><td>明火 / 排烟 / 电容 / 窑炉可行性</td></tr>
+            </tbody>
+          </table>
+          <div class="card alert" style="margin-top:12px;">
+            <div style="font-size:10.5px;font-weight:700;color:var(--alert);">一票否决红线</div>
+            <div style="font-size:11px;color:var(--ink-soft);margin-top:6px;line-height:1.6;">商圈西式客单中位 &lt; 40 元；目标物业不支持明火或排烟；500 米范围内已有 ≥2 家同价位西式门店</div>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:12px;font-weight:700;color:var(--ink-soft);margin-bottom:6px;">二店选址建议：双井商圈</div>
+          <table class="data-table" style="font-size:10.5px;">
+            <thead><tr><th>评估维度</th><th>数据支撑</th></tr></thead>
+            <tbody>
+              <tr><td>客单匹配</td><td>双井西式门店 39 家，中位客单 <b>59 元</b></td></tr>
+              <tr><td>评分基准</td><td>4.26，高于全市均值 4.04</td></tr>
+              <tr><td>地理距离</td><td>距首店 1.4–2.0 公里，可共享供应链、人力与店长培养体系</td></tr>
+              <tr><td>竞争验证</td><td>双井已有 Wagas（82）、BAKER&amp;SPICE（74）、Lily's（80）、和牛怪物汉堡（75）、叫板比萨（106）等对标品牌稳定经营</td></tr>
+              <tr><td>变量控制</td><td>物业形态与合生汇不同（乐成 / 富力广场），但客群结构相近，构成有效的控制变量验证</td></tr>
+            </tbody>
+          </table>
+          <div class="finding" style="margin-top:14px;">相较于选择差异化商圈类型进行验证，双井作为二店选址的风险更低——共享供应链与团队的同时，仍可在不同物业形态下检验模型的可复制性。三店建议在国贸/建外（客单 68 元，汉堡供给仅 13 家）或酒仙桥/798（客单 66 元，UGC 内容产出能力强）中进行差异化验证。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>石头先生的汉堡 · 北京首店战略分析</span><span class="tag">§10.4/10.6 复制体系</span><span>31 / 32</span></div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 32 — DECISIONS + TIMELINE (dark, closing) -->
+<!-- ============================================================ -->
+<section class="slide dark" id="s32">
+  <div class="slide-inner">
+    <div class="eyebrow"><div class="ruler-rule"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>第十一部分 · 需当场决策</div>
+    <div class="h-zh h1" style="color:#EDE6D8;">决策事项清单与实施时间表</div>
+
+    <div class="content">
+      <div class="two-col">
+        <div>
+          <div style="font-size:11px;color:var(--brass-light);font-weight:700;margin-bottom:8px;letter-spacing:.04em;">优先决策事项（8.15 会议）</div>
+          <div class="decision-list">
+            <div class="decision-item"><span class="dn">01</span><span class="dt"><b>战略路径</b>：确认汉堡心智 + 披萨烘焙双载体路径，以开业 60 天披萨渗透率 25% 为判定线</span><span class="dd">8.15</span></div>
+            <div class="decision-item"><span class="dn">02</span><span class="dt"><b>三大明档施工落位</b>：烘焙展示区设于入口右侧，窑炉位置待物业硬件条件确认</span><span class="dd">8.15</span></div>
+            <div class="decision-item"><span class="dn">03</span><span class="dt"><b>首店楼层</b>：确定为 L1 层，与 Shake Shack / gaga / 蓝蛙同层</span><span class="dd">8.15</span></div>
+            <div class="decision-item"><span class="dn">04</span><span class="dt"><b>补位三款产品</b>：26 元小份经典堡、38–42 元基础披萨、堡胚零售化</span><span class="dd">8.15</span></div>
+            <div class="decision-item"><span class="dn">05</span><span class="dt"><b>关联门店口碑修复</b>启动，目标将评分由 3.9 提升至 4.2</span><span class="dd">本周</span></div>
+            <div class="decision-item"><span class="dn">06</span><span class="dt"><b>毛利率口径确认</b>：是否含包材与损耗，直接影响 65% 毛利红线的核算基础</span><span class="dd">8.15</span></div>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:11px;color:var(--brass-light);font-weight:700;margin-bottom:8px;letter-spacing:.04em;">关键里程碑时间表</div>
+          <div class="timeline">
+            <div class="tl-line"></div>
+            <div class="tl-item hi"><div class="tm">8.15</div><div class="tt">菜单结构定稿，完成战略路径与双载体决策</div></div>
+            <div class="tl-item"><div class="tm">8.16–8.18</div><div class="tt">合生汇实地踩点（场内 9 家 + 双井 5 家）</div></div>
+            <div class="tl-item hi"><div class="tm">开业前 −14 天</div><div class="tt">关联门店口碑修复启动</div></div>
+            <div class="tl-item"><div class="tm">开业日</div><div class="tt">数据回传机制启动</div></div>
+            <div class="tl-item"><div class="tm">+15 天</div><div class="tt">首轮数据回测，产出红绿灯首批名单</div></div>
+            <div class="tl-item hi"><div class="tm">+60 天</div><div class="tt">披萨渗透率判定（是否 ≥25%），确认双载体路径</div></div>
+            <div class="tl-item"><div class="tm">+90 天</div><div class="tt">单店模型固化，形成二店方案</div></div>
+            <div class="tl-item"><div class="tm">次年</div><div class="tt">推进 20–30 家一线商圈布局，复制期决策系统上线</div></div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:18px;padding-top:16px;border-top:1px solid var(--line-dark);">
+        <div class="quote-big" style="font-size:18px;margin:0;">复制 1,000 家门店的核心瓶颈不在开店执行能力，而在<span class="accent">决策能力的复制速度</span>。若维持人均 55–60 元的定位，可参照的规模上限是必胜客（281 家）而非麦当劳（617 家）——这一判断需要在门店数达到 30 家之前明确，而非事后调整。</div>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>石头先生的汉堡 · 北京首店战略分析</span><span class="tag">§11 决策清单 · §1.6 里程碑</span><span>32 / 32</span></div>
+</section>
+
+</div>
+</body>
+</html>

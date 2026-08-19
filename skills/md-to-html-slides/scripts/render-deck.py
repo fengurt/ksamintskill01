@@ -14,6 +14,8 @@ import re
 import sys
 from pathlib import Path
 
+from baslide_viz import default_baslide, figure_for_page
+
 ROLE_TO_JOB = {
     "cover": "cover",
     "toc": "toc",
@@ -31,7 +33,7 @@ ROLE_TO_JOB = {
 
 CN_NUM = "零壹贰叁肆伍陆柒捌玖拾"
 
-DEFAULT_BASLIDE = Path("/Users/af/cpro01/0thebrain01/baslide01")
+DEFAULT_BASLIDE = default_baslide()
 
 MUSTACHE_RE = re.compile(r"\{\{[A-Z0-9_]+\}\}")
 
@@ -50,11 +52,6 @@ def cn_chapter(n: int) -> str:
     if 1 <= n <= 10:
         return CN_NUM[n]
     return str(n)
-
-
-def default_baslide() -> Path:
-    env = Path(__import__("os").environ.get("BASLIDE_ROOT") or DEFAULT_BASLIDE)
-    return env.expanduser()
 
 
 def extract_section(template_html: str) -> str:
@@ -266,18 +263,22 @@ def set_section_attrs(section: str, page: dict, job: str, index: int, total: int
     units = " ".join(page.get("units") or [])
     pid = page["id"]
     role = page.get("role") or job
+    fill = page.get("fill") or ""
 
     def add_attrs(m: re.Match[str]) -> str:
         tag = m.group(0)
         tag = re.sub(r'\sclass="([^"]*)"', lambda cm: ' class="' + re.sub(r"\bon\b", "", cm.group(1)).strip() + '"', tag)
         if index == 0 and ' class="' in tag:
             tag = tag.replace(' class="', ' class="on ', 1)
-        for attr, val in (
+        pairs = [
             ("data-page-id", pid),
             ("data-units", units),
             ("data-page-type", role),
             ("data-job", job),
-        ):
+        ]
+        if fill:
+            pairs.append(("data-fill", str(fill)))
+        for attr, val in pairs:
             if f"{attr}=" in tag:
                 tag = re.sub(rf'{attr}="[^"]*"', f'{attr}="{esc(val)}"', tag)
             else:
@@ -285,6 +286,35 @@ def set_section_attrs(section: str, page: dict, job: str, index: int, total: int
         return tag
 
     return re.sub(r"<section\b[^>]*>", add_attrs, section, count=1)
+
+
+def fill_figure(section: str, page: dict, material: str, job: str, body_html: str, title: str) -> str:
+    fig = None
+    try:
+        fig = figure_for_page(title, material, preset_fill=page.get("fill") or page.get("recipe"))
+    except Exception as exc:
+        print(f"render-deck: viz skip {page.get('id')}: {exc}", file=sys.stderr)
+    if fig and fig.svg:
+        page["fill"] = fig.fill or page.get("fill")
+        if job == "chart-table":
+            section = re.sub(
+                r"\[[^\]]*SVG viewBox 0 0 1170 500[^\]]*\]",
+                lambda _: fig.svg,
+                section,
+                count=1,
+            )
+            if fig.table_html:
+                section = re.sub(
+                    r'<table class="sd-table">[\s\S]*?</table>',
+                    lambda _: fig.table_html,
+                    section,
+                    count=1,
+                )
+            return section
+        return replace_div_inner(section, "sd-content", fig.svg)
+    if any(ch in material for ch in "┌│└─█"):
+        body_html = f'<pre class="sd-lede">{esc(material)}</pre>'
+    return replace_div_inner(section, "sd-content", body_html or f"<p>{esc(title)}</p>")
 
 
 def fill_section(section: str, page: dict, work: Path, units: dict[str, str], index: int, total: int, deck_name: str) -> str:
@@ -413,12 +443,15 @@ def fill_section(section: str, page: dict, work: Path, units: dict[str, str], in
             extra = f'<div class="sd-content" style="position:absolute;left:var(--sd-margin);right:var(--sd-margin);bottom:8%;max-height:28%;overflow:auto;font-size:var(--sd-type-small);">{body_html}</div>'
             section = section.replace("</section>", extra + "</section>")
     else:
-        inner = body_html or f"<p>{esc(title)}</p>"
-        replaced = replace_div_inner(section, "sd-content", inner)
-        if replaced == section:
-            section = section.replace("</section>", f'<div class="sd-content">{inner}</div></section>')
+        if job in {"chart", "chart-table"}:
+            section = fill_figure(section, page, material, job, body_html, title)
         else:
-            section = replaced
+            inner = body_html or f"<p>{esc(title)}</p>"
+            replaced = replace_div_inner(section, "sd-content", inner)
+            if replaced == section:
+                section = section.replace("</section>", f'<div class="sd-content">{inner}</div></section>')
+            else:
+                section = replaced
 
     # Drop external logo img (path would 404 in the self-contained file)
     section = re.sub(r"<img\b[^>]*src=\"[^\"]*logo/[^\"]*\"[^>]*>", "", section)

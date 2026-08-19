@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600">
+  <rect width="400" height="600" fill="#FFFFFF"/>
+  <!-- Trunk -->
+  <path d="M 200 600 Q 195 480 200 380 Q 205 320 195 280" stroke="#5C4033" stroke-width="22" fill="none" stroke-linecap="round"/>
+  <!-- Branches -->
+  <path d="M 200 380 Q 150 360 100 320" stroke="#5C4033" stroke-width="10" fill="none" stroke-linecap="round"/>
+  <path d="M 200 340 Q 260 320 320 280" stroke="#5C4033" stroke-width="10" fill="none" stroke-linecap="round"/>
+  <path d="M 200 300 Q 145 285 95 250" stroke="#5C4033" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <path d="M 200 280 Q 255 260 295 220" stroke="#5C4033" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <!-- Foliage clusters (深绿 + 金色树脂纹路) -->
+  <g fill="#0A1626">
+    <ellipse cx="100" cy="320" rx="65" ry="50"/>
+    <ellipse cx="320" cy="280" rx="70" ry="55"/>
+    <ellipse cx="95" cy="250" rx="55" ry="45"/>
+    <ellipse cx="295" cy="220" rx="60" ry="50"/>
+    <ellipse cx="200" cy="160" rx="80" ry="60"/>
+  </g>
+  <!-- Resin veins (金色) - 沉香树脂象征 -->
+  <g fill="none" stroke="#C9A86B" stroke-width="2.5" stroke-linecap="round">
+    <path d="M 120 290 Q 140 310 130 340"/>
+    <path d="M 290 250 Q 310 270 295 295"/>
+    <path d="M 110 240 Q 130 260 120 285"/>
+    <path d="M 280 220 Q 305 240 285 260"/>
+    <path d="M 170 130 Q 200 160 220 175"/>
+    <path d="M 200 170 Q 180 195 165 210"/>
+  </g>
+  <!-- Drops (黄金树脂) -->
+  <g fill="#A88B52">
+    <circle cx="135" cy="335" r="4"/>
+    <circle cx="305" cy="290" r="3.5"/>
+    <circle cx="115" cy="280" r="3.5"/>
+    <circle cx="200" cy="180" r="3"/>
+  </g>
+  <text x="200" y="555" text-anchor="middle" font-family="Songti SC, STSong, serif" font-size="22" font-weight="600" fill="#0A1626">沉香</text>
+  <text x="200" y="582" text-anchor="middle" font-family="var(--sans-tab)" font-size="11" letter-spacing="0.18em" fill="#A88B52">AGARWOOD · AQUILARIA</text>
+</svg>

@@ -112,10 +112,14 @@ export async function startJob({
   html,
   theme,
   standards,
+  genre,
 }) {
   const tpl = getTemplate(templateId);
   if (!tpl) throw new Error(`unknown template: ${templateId}`);
   const std = normalizeStandards(standards);
+  if (templateId === "baslide-slides" && (standards == null || standards.hop2 == null)) {
+    std.hop2 = true;
+  }
 
   const ctx = {
     work: null,
@@ -128,6 +132,7 @@ export async function startJob({
     baslide: BASLIDE_ROOT,
     failOnOverfull: std["fit-overfull"],
     standards: std,
+    genre: genre || "diagnosis",
   };
   if (tpl.needs.includes("work") || work) {
     ctx.workAbs = safeWorkDir(work);

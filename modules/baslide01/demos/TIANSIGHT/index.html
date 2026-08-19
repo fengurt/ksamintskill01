@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>侍天 TIANSIGHT · 智能分析报告系统（框架原型）</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600;700&family=Noto+Serif:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+:root{
+  --surface:#F4F0E7; --paper:#FFFDF8; --ink-primary:#EFE6D2; --charcoal:#17130D;
+  --gold:#76551F; --gold-hi:#D4A862; --gold-deep:#76551F; --ink-muted:#706758; --seal:#8C3228;
+  --hair:rgba(23,19,13,.18); --hair2:rgba(23,19,13,.34); --cardb:rgba(118,85,31,.34);
+  --ok:#4A6B3A; --warn:#A8823C;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#E6E0D2;color:var(--charcoal);
+  font-family:"Noto Serif SC","Source Han Serif SC","Songti SC",serif;-webkit-font-smoothing:antialiased}
+b,strong{font-weight:600}
+n,.sd-num{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums}
+code{font-family:"IBM Plex Mono",monospace;font-size:.9em;color:var(--gold-deep);
+  background:rgba(118,85,31,.08);padding:1px 5px;border-radius:2px}
+.cap{font-family:"Noto Serif",serif;text-transform:uppercase;letter-spacing:.34em;
+  font-size:10px;color:var(--gold-deep);font-weight:400;white-space:nowrap}
+
+/* ── 外壳 ── */
+#app{max-width:1240px;margin:0 auto;padding:0 22px 80px}
+header.top{padding:34px 0 20px;border-bottom:1px solid var(--gold)}
+.brandline{display:flex;align-items:baseline;justify-content:space-between;gap:20px;flex-wrap:wrap}
+h1{font-size:25px;font-weight:600;letter-spacing:.02em}
+h1 small{font-size:13px;font-weight:400;color:var(--ink-muted);margin-left:12px;letter-spacing:0}
+.sub{font-size:12.5px;color:var(--ink-muted);margin-top:7px;line-height:1.7}
+.grule{height:0;border-top:1px solid var(--gold);width:170px;margin:20px 0;position:relative}
+.grule::after{content:"";position:absolute;left:0;top:3px;width:64px;border-top:1px solid var(--gold);opacity:.5}
+
+/* ── 导航 ── */
+nav{display:flex;gap:2px;margin:22px 0 26px;border-bottom:1px solid var(--hair);flex-wrap:wrap}
+nav button{background:none;border:0;border-bottom:2px solid transparent;padding:9px 15px;
+  font-family:inherit;font-size:13.5px;color:var(--ink-muted);cursor:pointer;transition:.16s}
+nav button:hover{color:var(--charcoal)}
+nav button[aria-selected="true"]{color:var(--gold-deep);border-bottom-color:var(--gold);font-weight:600}
+nav button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+select.adj{font-family:inherit;font-size:11.6px;color:var(--charcoal);background:var(--paper);
+  border:1px solid var(--cardb);border-radius:2px;padding:4px 6px;width:100%}
+select.adj:focus-visible{outline:2px solid var(--gold);outline-offset:1px}
+
+section[role=tabpanel]{display:none} section[role=tabpanel].on{display:block}
+
+/* ── 卡片 / 页面 ── */
+.card{background:var(--paper);border:1px solid var(--cardb);border-radius:2px;padding:20px 24px;margin-bottom:18px}
+.card>h3{font-size:15.5px;font-weight:600;padding-left:11px;border-left:3px solid var(--gold);margin-bottom:12px;line-height:1.35}
+.capline{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:8px;flex-wrap:wrap}
+.chip{font-size:10.5px;letter-spacing:.06em;color:var(--charcoal);background:var(--ink-primary);
+  border:1px solid var(--cardb);border-radius:2px;padding:2px 9px;white-space:nowrap;font-family:"IBM Plex Mono",monospace}
+.chip.b{background:rgba(118,85,31,.14)}
+.chip.r{border-color:var(--seal);color:var(--seal);background:rgba(140,50,40,.06)}
+.chip.g{border-color:var(--ok);color:var(--ok);background:rgba(74,107,58,.07)}
+
+.srcbar,.readbar,.takebar{display:flex;gap:12px;align-items:flex-start;font-size:12px;line-height:1.6}
+.srcbar{border-left:2px solid var(--gold);background:rgba(239,230,210,.5);padding:6px 12px;margin:10px 0 4px;border-radius:0 2px 2px 0;color:var(--ink-muted)}
+.readbar{border-left:2px solid var(--ink-muted);background:rgba(112,103,88,.07);padding:6px 12px;margin:8px 0 0;border-radius:0 2px 2px 0;color:var(--ink-muted)}
+.takebar{border-top:1px solid var(--gold);border-bottom:1px solid var(--hair);padding:8px 0 8px 2px;margin-top:12px}
+.takebar b{color:var(--gold-deep)}
+.srcbar b{color:var(--charcoal);font-weight:500}
+
+/* ── 表格 ── */
+table.tbl{width:100%;border-collapse:collapse;background:var(--paper);border:1px solid var(--cardb);font-size:12.2px;margin-top:8px}
+.tbl th{background:var(--ink-primary);font-weight:600;text-align:left;padding:6px 9px;border-bottom:1px solid var(--hair);white-space:nowrap}
+.tbl td{padding:5px 9px;border-bottom:1px solid rgba(23,19,13,.07);vertical-align:top}
+.tbl tr:last-child td{border-bottom:0}
+.tbl td.num,.tbl th.num{text-align:right;font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums}
+.tbl tbody tr:hover{background:rgba(239,230,210,.42)}
+.tbl tr.sum td{border-top:1px solid var(--gold);font-weight:600;background:rgba(239,230,210,.4)}
+.scroll{max-height:440px;overflow:auto;border:1px solid var(--cardb)}
+.scroll table.tbl{border:0;margin:0}
+.scroll thead th{position:sticky;top:0;z-index:2}
+
+/* ── 置信度条 ── */
+.conf{display:inline-flex;align-items:center;gap:7px;min-width:120px}
+.conf .track{flex:1;height:5px;background:var(--ink-primary);border-radius:3px;overflow:hidden}
+.conf .fill{height:100%;background:var(--gold)}
+.conf.ask .fill{background:var(--warn)} .conf.none .fill{background:var(--seal)}
+
+/* ── 状态点 ── */
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+.dot.ready{background:var(--gold)} .dot.degraded{background:var(--warn)}
+.dot.blocked{background:transparent;border:1.5px solid var(--seal)} .dot.pending{background:var(--hair2)}
+
+/* ── 解锁矩阵 ── */
+.umx{display:grid;grid-template-columns:repeat(auto-fill,minmax(52px,1fr));gap:4px;margin-top:10px}
+.umx .u{aspect-ratio:1.5;border-radius:2px;display:grid;place-items:center;font-family:"IBM Plex Mono",monospace;
+  font-size:10px;cursor:default;border:1px solid transparent;transition:.15s}
+.umx .u.ready{background:var(--gold);color:var(--paper)}
+.umx .u.degraded{background:repeating-linear-gradient(45deg,var(--gold-hi),var(--gold-hi) 3px,var(--ink-primary) 3px,var(--ink-primary) 6px);color:var(--charcoal)}
+.umx .u.blocked{background:var(--paper);border-color:var(--seal);color:var(--seal)}
+.umx .u.pending{background:var(--ink-primary);color:var(--ink-muted)}
+.umx .u:hover{transform:scale(1.14);z-index:3;box-shadow:0 3px 10px rgba(23,19,13,.22)}
+.mrow{display:flex;gap:10px;align-items:center;margin-top:12px}
+.mrow .mname{width:150px;flex:0 0 auto;font-size:12px;color:var(--ink-muted)}
+.mrow .umx{flex:1}
+
+/* ── KPI ── */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:12px;margin-top:10px}
+.kpi{background:var(--paper);border:1px solid var(--cardb);border-radius:2px;padding:12px 14px}
+.kpi .v{font-family:"IBM Plex Mono",monospace;font-size:23px;font-weight:500;line-height:1.15;letter-spacing:-.02em}
+.kpi .l{font-size:11px;color:var(--ink-muted);margin-top:4px;letter-spacing:.02em}
+.kpi.alert .v{color:var(--seal)} .kpi.good .v{color:var(--gold-deep)}
+
+/* ── 按钮 / 输入 ── */
+button.act,a.act{background:var(--gold);color:var(--paper);border:0;border-radius:2px;padding:8px 16px;
+  font-family:inherit;font-size:13px;cursor:pointer;letter-spacing:.03em;transition:.16s;text-decoration:none;display:inline-flex;align-items:center}
+button.act:hover,a.act:hover{background:var(--charcoal)}
+button.act.ghost,a.act.ghost{background:transparent;color:var(--gold-deep);border:1px solid var(--cardb)}
+button.act.ghost:hover,a.act.ghost:hover{background:var(--ink-primary);color:var(--charcoal)}
+button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.drop{border:1.5px dashed var(--cardb);border-radius:3px;padding:26px;text-align:center;background:rgba(239,230,210,.32);transition:.16s}
+.drop.over{border-color:var(--gold);background:rgba(212,168,98,.16)}
+.drop p{font-size:13px;color:var(--ink-muted);line-height:1.8}
+select,input[type=text]{font-family:inherit;font-size:12px;padding:3px 6px;border:1px solid var(--cardb);
+  background:var(--paper);border-radius:2px;color:var(--charcoal)}
+
+/* ── D3 图元样式 ── */
+.sd-viz{margin:12px 0 4px}
+.sd-svg{width:100%;height:auto;display:block;background:var(--paper);border:1px solid rgba(118,85,31,.16);border-radius:2px}
+.sd-denom{font-size:11px;color:var(--ink-muted);margin-bottom:5px;display:flex;gap:10px;align-items:center}
+.sd-note{font-size:11px;color:var(--ink-muted);margin-top:6px;font-style:italic}
+.sd-num{font-family:"IBM Plex Mono",monospace;font-size:11px;font-variant-numeric:tabular-nums;fill:var(--charcoal)}
+.sd-cut{font-family:"IBM Plex Mono",monospace;font-size:10px;fill:var(--gold-deep)}
+.sd-quad{font-family:"Noto Serif SC",serif;font-size:12.5px;font-weight:600;fill:var(--gold-deep);opacity:.72}
+.sd-callout{font-family:"Noto Serif SC",serif;font-size:11.5px;font-weight:600;fill:var(--gold-deep)}
+.sd-lab{font-family:"Noto Serif SC",serif;font-size:10.5px;fill:var(--charcoal)}
+.sd-axname{font-family:"Noto Serif SC",serif;font-size:11.5px;fill:var(--charcoal)}
+.sd-axis-l{font-family:"Noto Serif",serif;font-size:10px;letter-spacing:.16em;text-transform:uppercase;fill:var(--ink-muted)}
+.sd-node{font-family:"Noto Serif SC",serif;font-size:11.5px;font-weight:600;fill:var(--charcoal)}
+.sd-nodesub{font-family:"IBM Plex Mono",monospace;font-size:9.5px;fill:var(--ink-muted)}
+.sd-cellnum{font-family:"IBM Plex Mono",monospace;font-size:11.5px;font-weight:500}
+.sd-cellsub{font-family:"IBM Plex Mono",monospace;font-size:9.5px}
+.sd-blank{font-family:"Noto Serif SC",serif;font-size:10px;fill:var(--seal);font-weight:600}
+.sd-iso{font-family:"IBM Plex Mono",monospace;font-size:8.5px;fill:var(--gold);opacity:.6}
+.sd-watermark{font-family:"Noto Serif",serif;font-size:9px;letter-spacing:.22em;fill:var(--seal);opacity:.75;text-transform:uppercase}
+.sd-tip{position:fixed;pointer-events:none;background:var(--charcoal);color:var(--ink-primary);
+  padding:7px 11px;border-radius:2px;font-size:11.5px;line-height:1.55;z-index:99;
+  transition:opacity .12s;font-family:"Noto Serif SC",serif;max-width:280px;box-shadow:0 6px 22px rgba(23,19,13,.3)}
+
+blockquote{border-left:2px solid var(--seal);background:rgba(140,50,40,.045);
+  padding:8px 13px;font-size:12.2px;line-height:1.65;color:var(--ink-muted);margin:10px 0}
+blockquote b{color:var(--seal)}
+ul.lst{list-style:none;padding:0} ul.lst li{position:relative;padding-left:22px;font-size:13px;line-height:1.7;margin-top:5px}
+ul.lst li::before{content:"";position:absolute;left:4px;top:11px;width:8px;border-top:1px solid var(--gold)}
+ul.lst li b{color:var(--gold-deep)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:900px){.two{grid-template-columns:1fr}.mrow{flex-direction:column;align-items:stretch}.mrow .mname{width:auto}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--hair);font-size:11.5px;color:var(--ink-muted);line-height:1.8}
+</style>
+</head>
+<body>
+<div id="app">
+
+<header class="top">
+  <div class="brandline">
+    <div>
+      <span class="cap">TIANSIGHT · WISDOM NAVIGATOR FOR PREMIUM F&amp;B CHAINS</span>
+      <h1>侍天 TIANSIGHT 智能分析报告系统<small>框架原型 v1.0</small></h1>
+      <p class="sub">
+        58 个分析点 · 13 模块 · 2 套口径 · 7 类周期　｜　
+        <b>数据进来 → 字段自动对齐 → 门禁自动判定 → 页面自动生成</b><br>
+        本原型演示前三层（接入 · 对齐 · 门禁）与 D3 图元库。演示数据取自清水亭 6 店 · 118 SKU · 24,752 单。
+      </p>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <a class="act ghost" href="/" style="display:inline-flex;align-items:center;text-decoration:none">首页</a>
+      <a class="act ghost" href="/audit/" style="display:inline-flex;align-items:center;text-decoration:none">审计</a>
+      <button class="act" id="btnDemo">载入演示数据</button>
+      <button class="act ghost" id="btnReset">清空</button>
+    </div>
+  </div>
+</header>
+
+<nav role="tablist">
+  <button role="tab" aria-selected="true"  data-p="p-ingest">① 数据接入与对齐</button>
+  <button role="tab" aria-selected="false" data-p="p-gate">② 门禁与解锁矩阵</button>
+  <button role="tab" aria-selected="false" data-p="p-report">③ 自动生成的报告页</button>
+  <button role="tab" aria-selected="false" data-p="p-gallery">④ D3 图元库</button>
+  <button role="tab" aria-selected="false" data-p="p-registry">⑤ 分析点注册表</button>
+</nav>
+
+<!-- ============ ① 接入与对齐 ============ -->
+<section role="tabpanel" id="p-ingest" class="on">
+  <div class="card">
+    <h3>上传原始数据</h3>
+    <div class="drop" id="drop">
+      <p>把 POS 导出的 <b>CSV</b> 拖到这里，或
+        <button class="act ghost" id="btnPick" style="margin:0 4px">选择文件</button>
+        ——系统会自动识别这是哪张表、每一列对应哪个规范字段。<br>
+        <span style="font-size:12px;opacity:.75">没有数据也可以直接点右上角「载入演示数据」。</span></p>
+      <input type="file" id="file" accept=".csv,.tsv,.txt" multiple hidden>
+    </div>
+    <div class="readbar"><span class="cap">对齐原理</span>
+      <span>双通道打分：<b>列名通道</b>（别名词典 · 全半角归一 · bigram Dice · 编辑距离）× <b>值特征通道</b>（dtype · 基数比 · 正则签名 · 值域枚举）。
+        总分 = 0.55×列名 + 0.45×值特征。<b>值特征权重更高</b>，因为列名可以乱起，数据不会说谎。</span></div>
+  </div>
+  <div id="ingestOut"></div>
+</section>
+
+<!-- ============ ② 门禁 ============ -->
+<section role="tabpanel" id="p-gate"><div id="gateOut"><div class="card"><p class="sub">先载入数据。</p></div></div></section>
+
+<!-- ============ ③ 报告页 ============ -->
+<section role="tabpanel" id="p-report"><div id="reportOut"><div class="card"><p class="sub">先载入数据。</p></div></div></section>
+
+<!-- ============ ④ 图元库 ============ -->
+<section role="tabpanel" id="p-gallery"><div id="galleryOut"></div></section>
+
+<!-- ============ ⑤ 注册表 ============ -->
+<section role="tabpanel" id="p-registry"><div id="registryOut"></div></section>
+
+<footer>
+  侍天 TIANSIGHT 分析体系 Part 1 · 产品结构与经营诊断　｜　方法论手册 v2.0（2026-07-27）· 系统框架 v1.0（2026-08-11）<br>
+  本框架的三条纪律：<b>完整性</b>（分类之和必等于全量且逐一列名）· <b>分母纪律</b>（口径与分母随图走，跨口径运算抛错）· <b>可证伪</b>（每处分析师判断登记证伪条件）。
+</footer>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script src="src/TIANSIGHT.registry.js"></script>
+<script src="src/TIANSIGHT.schema.js"></script>
+<script src="src/TIANSIGHT.viz.js"></script>
+<script src="src/TIANSIGHT.demo.js"></script>
+<script src="src/TIANSIGHT.app.js"></script>
+</body></html>

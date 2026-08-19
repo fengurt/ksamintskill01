@@ -1,0 +1,20 @@
+---
+description: Generate slides from page types in page-types.json. Pick type first, then skin.
+alwaysApply: true
+---
+
+# Page types
+
+Canonical registry: `/page-types.json` (17 types, 6 families).
+
+1. Choose a **type** (`cover` `chapter` `statement` `quote` `question` `kpi` `chart` `chart-table` `matrix` `roster` `compare` `timeline` `diagram` `text-image` `image-grid` `image-hero` `verdict`).
+2. Choose a **skin** (TIANSIGHT / magazine / swiss / tableai / atelier) from that type’s `skins`.
+3. Copy the linked layout (`templates/TIANSIGHT/jobs/<id>.html` for TIANSIGHT v2). Do not invent a new type if one of the seventeen fits.
+4. Put `data-page-type="<id>"` on each `<section class="slide">`.
+5. Apply `prompts/loop/brand.md` then `prompts/loop/<id>.md`. Preview at `/preview/?type=<id>&skin=<skin>`.
+6. Canvas copy must be complete. Never ellipsis on the field. Paginate. No 孤儿字 / 孤儿行. Type scale is secondary to a full glyph.
+7. Fenced ASCII / wireframes / weight bars are `chart` or `roster` infographics. Never a statement wall.
+8. TIANSIGHT `chart` / `roster` jobs carry the locked figure recipe: bubble area ∝ √size, median ≥, unlabeled → 清单; band charts with 品牌数 expand that 清单 to named brands; store-count bin 清单 keeps bins but adds 占比 / 累计 and same-unit named samples.
+9. TIANSIGHT header is one row: transparent 侍天 logo + chip (`图 18 · 叁 · 本报告核心`). Type stair is mid 2.45% em; each slide sets `data-pack=air|mid|tight` from how much copy it carries. No leftover one-line page. Statement claim fills a paper well; 2–4 依据 are peer cards, not a 序 table.
+
+Workshop chrome (`#baslide-chrome`) is not part of the slide. Hide with `H`, `?export=1`, or print. Do not screenshot or PDF the top bar.

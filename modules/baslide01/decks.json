@@ -1,0 +1,85 @@
+{
+  "name": "baslide01-decks",
+  "scheme": "D",
+  "index": "/decks/",
+  "decks": [
+    {
+      "id": "D01",
+      "slug": "zengcheng-taizikeng",
+      "title": "增城太子坑",
+      "href": "/decks/zengcheng-taizikeng/deck.html",
+      "kind": "guizang-c",
+      "canvas": "16:9",
+      "source": "decks/zengcheng-taizikeng/source.md"
+    },
+    {
+      "id": "D02",
+      "slug": "premium-ppt",
+      "title": "Premium PPT",
+      "href": "/decks/premium-ppt/presentation.html",
+      "kind": "sample",
+      "canvas": "16:9",
+      "source": null
+    },
+    {
+      "id": "D03",
+      "slug": "stone-briefing",
+      "title": "石头先生 · 首版汇报",
+      "href": "/decks/stone-briefing/",
+      "kind": "hub",
+      "sourceMd": "06",
+      "data": "/decks/stone-briefing/data.html",
+      "variants": [
+        {
+          "id": "D03.1",
+          "title": "MD→侍天 v2",
+          "href": "/decks/stone-briefing/presentation.html",
+          "kind": "tiansight-v2",
+          "canvas": "2880×1620",
+          "source": "ref/mds/06_首版汇报报告_V1.0_数据校准版.md"
+        },
+        {
+          "id": "D03.2",
+          "title": "HTML 导入 V1.0",
+          "href": "/decks/stone-briefing/html-v1.html",
+          "kind": "import",
+          "canvas": "1280×720",
+          "slides": 32,
+          "source": "ref/htmls/石头先生的汉堡_北京首店战略分析报告_V1.0.html"
+        }
+      ]
+    },
+    {
+      "id": "D04",
+      "slug": "stone-roadmap",
+      "title": "石头先生 · 赋能路线图",
+      "href": "/decks/stone-roadmap/presentation.html",
+      "kind": "tiansight-v2",
+      "canvas": "2880×1620",
+      "sourceMd": "07",
+      "source": "ref/mds/07_战略方法论体系与分阶段赋能路线图_M1.0.md",
+      "data": "/decks/stone-roadmap/data.html"
+    },
+    {
+      "id": "D05",
+      "slug": "stone-dossier",
+      "title": "石头先生 · 品牌专项",
+      "href": "/decks/stone-dossier/presentation.html",
+      "kind": "tiansight-v2",
+      "canvas": "2880×1620",
+      "sourceMd": "08",
+      "source": "ref/mds/08_北京西式快餐可参考品牌分析专项_B1.0.md",
+      "data": "/decks/stone-dossier/data.html"
+    },
+    {
+      "id": "D06",
+      "slug": "qingshuiting",
+      "title": "清水亭 · 产品结构诊断",
+      "href": "/decks/qingshuiting/presentation.html",
+      "kind": "import",
+      "canvas": "1440×810",
+      "slides": 296,
+      "source": "ref/htmls/清水亭_产品结构诊断_TIANSIGHT幻灯片 (5).html"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "name": "baslide01",
+  "surfaces": [
+    {"id": "gallery", "path": "/"},
+    {"id": "TIANSIGHT-demo", "path": "/demos/TIANSIGHT/"},
+    {"id": "TIANSIGHT-original", "path": "/files (10)/"},
+    {"id": "decks-index", "path": "/decks/"},
+    {"id": "D01-zengcheng", "path": "/decks/zengcheng-taizikeng/deck.html"},
+    {"id": "D02-premium-ppt", "path": "/decks/premium-ppt/presentation.html"},
+    {"id": "D03-stone-briefing", "path": "/decks/stone-briefing/"},
+    {"id": "D03.1-stone-briefing", "path": "/decks/stone-briefing/presentation.html"},
+    {"id": "D03.2-stone-briefing-html-v1", "path": "/decks/stone-briefing/html-v1.html"},
+    {"id": "stone-briefing-data", "path": "/decks/stone-briefing/data.html"},
+    {"id": "D04-stone-roadmap", "path": "/decks/stone-roadmap/presentation.html"},
+    {"id": "stone-roadmap-data", "path": "/decks/stone-roadmap/data.html"},
+    {"id": "D05-stone-dossier", "path": "/decks/stone-dossier/presentation.html"},
+    {"id": "stone-dossier-data", "path": "/decks/stone-dossier/data.html"},
+    {"id": "D06-qingshuiting", "path": "/decks/qingshuiting/presentation.html"},
+    {"id": "TIANSIGHT-gallery", "path": "/templates/TIANSIGHT/gallery.html"},
+    {"id": "TIANSIGHT-layouts", "path": "/templates/TIANSIGHT/layouts.html"},
+    {"id": "template-magazine", "path": "/templates/magazine/template.html"},
+    {"id": "template-swiss", "path": "/templates/swiss/template-swiss.html"},
+    {"id": "template-tableai", "path": "/templates/tableai/template-tableai.html"},
+    {"id": "template-atelier", "path": "/templates/atelier/template-atelier.html"},
+    {"id": "guizang-index", "path": "/skills/guizang-ppt/INDEX.html"},
+    {"id": "audit-agent", "path": "/audit/"},
+    {"id": "page-types", "path": "/types/"},
+    {"id": "preview", "path": "/preview/"}
+  ]
+}

@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800">
+  <rect width="1200" height="800" fill="#FFFFFF"/>
+  <!-- Background: topographical contour-like background -->
+  <g stroke="#F5F3F4" fill="none" stroke-width="0.8">
+    <ellipse cx="600" cy="400" rx="450" ry="280"/>
+    <ellipse cx="600" cy="400" rx="380" ry="220"/>
+    <ellipse cx="600" cy="400" rx="320" ry="170"/>
+    <ellipse cx="600" cy="400" rx="260" ry="120"/>
+  </g>
+  <!-- Forest green clusters -->
+  <g fill="#A88B52" opacity="0.32">
+    <ellipse cx="320" cy="280" rx="60" ry="40"/>
+    <ellipse cx="380" cy="320" rx="50" ry="30"/>
+    <ellipse cx="280" cy="350" rx="40" ry="30"/>
+    <ellipse cx="500" cy="240" rx="60" ry="40"/>
+    <ellipse cx="600" cy="200" rx="70" ry="40"/>
+    <ellipse cx="700" cy="240" rx="55" ry="35"/>
+    <ellipse cx="850" cy="280" rx="65" ry="40"/>
+    <ellipse cx="920" cy="320" rx="55" ry="35"/>
+    <ellipse cx="800" cy="450" rx="60" ry="40"/>
+    <ellipse cx="450" cy="500" rx="55" ry="35"/>
+    <ellipse cx="350" cy="520" rx="40" ry="30"/>
+  </g>
+  <!-- Tree icons scattered -->
+  <g fill="#0A1626" opacity="0.5">
+    <circle cx="320" cy="290" r="3"/><circle cx="380" cy="320" r="3"/><circle cx="290" cy="350" r="3"/>
+    <circle cx="500" cy="240" r="3"/><circle cx="600" cy="200" r="3"/><circle cx="700" cy="240" r="3"/>
+    <circle cx="850" cy="280" r="3"/><circle cx="920" cy="320" r="3"/><circle cx="800" cy="450" r="3"/>
+    <circle cx="450" cy="500" r="3"/><circle cx="350" cy="520" r="3"/>
+    <circle cx="270" cy="240" r="3"/><circle cx="540" cy="170" r="3"/><circle cx="680" cy="180" r="3"/>
+  </g>
+  <!-- Project site boundary (dashed gold) -->
+  <rect x="540" y="380" width="120" height="80" fill="#A88B52" fill-opacity="0.20" stroke="#A88B52" stroke-width="2.5" stroke-dasharray="8 4"/>
+  <text x="600" y="425" text-anchor="middle" font-family="var(--sans-tab)" font-size="11" font-weight="700" fill="#0A1626">项目地块</text>
+  <text x="600" y="442" text-anchor="middle" font-family="var(--sans-tab)" font-size="9" fill="#44474C">约 30 亩 · 点状供地</text>
+  <!-- Compass -->
+  <g transform="translate(1100,80)">
+    <circle r="30" fill="#FFFFFF" stroke="#0A1626"/>
+    <polygon points="0,-22 5,0 0,22 -5,0" fill="#0A1626"/>
+    <text y="-30" text-anchor="middle" font-family="var(--sans-tab)" font-size="10" font-weight="700" fill="#0A1626">N</text>
+  </g>
+  <!-- Legend -->
+  <g transform="translate(80,720)" font-family="var(--sans-tab)">
+    <rect width="220" height="60" fill="#FFFFFF" stroke="#DCD9DB"/>
+    <circle cx="20" cy="20" r="5" fill="#A88B52" fill-opacity="0.32"/>
+    <text x="36" y="24" font-size="10" fill="#0A1626">现状森林 / 太子坑</text>
+    <rect x="10" y="40" width="20" height="10" fill="#A88B52" fill-opacity="0.20" stroke="#A88B52" stroke-width="1.5" stroke-dasharray="3 2"/>
+    <text x="36" y="49" font-size="10" fill="#0A1626">项目用地 (30 亩)</text>
+  </g>
+  <!-- Title -->
+  <text x="600" y="50" text-anchor="middle" font-family="Songti SC, STSong, serif" font-size="22" font-weight="600" fill="#0A1626" letter-spacing="6">太子坑森林公园</text>
+  <text x="600" y="78" text-anchor="middle" font-family="var(--sans-tab)" font-size="11" font-weight="600" fill="#A88B52" letter-spacing="0.18em">TAIZIKENG FOREST PARK · 沉香目的地选址示意</text>
+  <text x="600" y="98" text-anchor="middle" font-family="var(--sans-tab)" font-size="10" fill="#75777D">约 700 亩 · 森林覆盖率 97.7% · 距增城中心 6 km</text>
+</svg>

@@ -14,6 +14,7 @@ export const PORT = Number(process.env.PORT || 7979);
 export const ALLOWED_DOC_ROOTS = (
   process.env.ALLOWED_DOC_ROOTS ||
   [
+    join(REPO_ROOT, "modules/baslide01"),
     join(homedir(), "cpro01/0thebrain01/baslide01"),
     join(REPO_ROOT, "fixtures"),
   ].join(":")
@@ -35,7 +36,7 @@ export function expandHome(p) {
 }
 
 export const BASLIDE_ROOT = resolve(
-  expandHome(process.env.BASLIDE_ROOT || join(homedir(), "cpro01/0thebrain01/baslide01"))
+  expandHome(process.env.BASLIDE_ROOT || join(REPO_ROOT, "modules/baslide01"))
 );
 
 export function underRoot(abs, root) {
