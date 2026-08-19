@@ -36,8 +36,8 @@ Frees only port 7979 when the listener is this project's `server.js`.
 
 ## Templates
 
-- `alongslides` — long document → **developable file pack** (segment / outline / pages / `slide-plan.json`). This is the project completion. HTML is not required.
-- `baslide-slides` — optional: clone `modules/baslide01` L2 jobs, draw L3 SVG, hop2. Deck: `/slides/<run>/deck.html`
+- `alongslides` — long document → **developable file pack**. Zip is `source.md` (original long MD) + `pages/` (paginated MD) + `REVIEW.md` (brief hop1). HTML is not required.
+- `baslide-slides` — optional: clone `modules/baslide01` L2 jobs, draw L3 SVG, hop2. Deck: `/slides/<run>/deck.html`. Review zip: `GET /api/projects/:id/slides.zip` (`slides/` + `slide-plan.json` + hop2 audit).
 - `longdoc-to-deck` — same pack path without the Alongslides name
 - `deck-audit-hop2` — `audit-html.py --dump-slides` → report
 - `repo-sync` — sync-vendor → catalog → lint → scan-secrets

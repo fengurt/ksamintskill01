@@ -1,4 +1,4 @@
-import { api, badge, esc, fmtTime } from "./util.js";
+import { api, badge, bindCopyButtons, esc, fmtTime } from "./util.js";
 
 let studioKeyHandler = null;
 
@@ -30,7 +30,7 @@ export async function renderProjects(root, parts) {
   root.innerHTML = `
     <div class="row"><h1 style="margin:0">Projects</h1><span class="spacer"></span>
       <a class="btn" href="#/projects/new">New project</a></div>
-    <p class="lede">每个项目完成长文档 → 可开发文件包。点进项目先看调用的 skill（含阶段）和最终产出。</p>
+    <p class="lede">文件包 = 原始长 md + 无损分页逐页 md + 简要审阅报告。点进项目看 skill / 阶段，或直接复制 ID、下载 zip。</p>
     <div class="grid grid-3">
       ${
         projects
@@ -38,16 +38,25 @@ export async function renderProjects(root, parts) {
             const tpl = templates.find((t) => t.id === p.template);
             const skillNames = (tpl?.skills || []).map((s) => s.label || s.id).join(" · ");
             const counts = p.pack?.counts;
-            return `<a class="card clickable" href="#/projects/${esc(p.id)}" style="text-decoration:none;color:inherit">
-        <h3>${esc(p.name)}</h3>
-        <div>${packBadge(p.pack)} ${badge("", p.template)}</div>
+            const exportId = `${p.id} template=${p.template}`;
+            return `<div class="card clickable" data-href="#/projects/${esc(p.id)}">
+        <div class="row" style="align-items:flex-start">
+          <h3 style="margin:0">${esc(p.name)}</h3>
+          <span class="spacer"></span>
+          <button type="button" class="id-copy" data-copy="${esc(exportId)}" title="复制导出 ID">${esc(p.id)}</button>
+        </div>
+        <div style="margin-top:.45rem">${packBadge(p.pack)} ${badge("", p.template)}</div>
         <div class="muted" style="margin-top:.45rem">${esc(skillNames || p.template)}</div>
         <div class="mono muted" style="margin-top:.35rem">${
           counts
             ? `units ${counts.units ?? "—"} · pages ${counts.pages ?? "—"} · fill ${counts.fills ?? 0}`
             : "尚未产出"
         }</div>
-      </a>`;
+        <div class="row" style="margin-top:.5rem">
+          ${p.pack?.ready ? `<a class="btn ghost" href="/api/projects/${esc(p.id)}/pack.zip">文件包</a>` : ""}
+          ${p.pack?.slides ? `<a class="btn ghost" href="/api/projects/${esc(p.id)}/slides.zip">幻灯片评审包</a>` : ""}
+        </div>
+      </div>`;
           })
           .join("") || `<div class="empty">No projects — create one to run a template.</div>`
       }
@@ -57,7 +66,11 @@ export async function renderProjects(root, parts) {
       ${templates
         .map(
           (t) => `<div class="card">
-        <h3>${esc(t.title)}</h3>
+        <div class="row" style="align-items:flex-start">
+          <h3 style="margin:0">${esc(t.title)}</h3>
+          <span class="spacer"></span>
+          <button type="button" class="id-copy" data-copy="${esc(t.id)}" title="复制模板 ID">${esc(t.id)}</button>
+        </div>
         <p class="muted">${esc(t.description)}</p>
         <div class="step-rail">${(t.skills || [])
           .map((s) => `<span class="step-pill">${esc(s.label || s.id)}</span>`)
@@ -67,6 +80,13 @@ export async function renderProjects(root, parts) {
         .join("")}
     </div>
   `;
+  bindCopyButtons(root);
+  root.querySelectorAll("[data-href]").forEach((card) => {
+    card.addEventListener("click", (e) => {
+      if (e.target.closest("a, button, [data-copy]")) return;
+      location.hash = card.getAttribute("data-href");
+    });
+  });
 }
 
 async function renderNewProject(root) {
@@ -253,10 +273,15 @@ async function renderProjectDetail(root, id, stageId) {
       <span class="spacer"></span>
       <button class="btn" id="run-tpl">生成文件包</button>
       <a class="btn ghost" href="/api/projects/${esc(p.id)}/pack.zip" ${pack?.ready ? "" : "hidden"}>下载文件包</a>
+      <a class="btn ghost" href="/api/projects/${esc(p.id)}/slides.zip" ${pack?.slides ? "" : "hidden"}>下载幻灯片评审包</a>
       <button class="btn ghost" id="run-slides">下一步 · 开发幻灯片</button>
       <button class="btn danger ghost" id="del">Delete</button>
     </div>
-    <h1>${esc(p.name)}</h1>
+    <div class="row" style="align-items:baseline">
+      <h1 style="margin:0">${esc(p.name)}</h1>
+      <button type="button" class="id-copy" data-copy="${esc(`${p.id} template=${p.template}`)}" title="复制导出 ID">${esc(p.id)}</button>
+      <button type="button" class="id-copy" data-copy="${esc(p.template)}" title="复制模板 ID">${esc(p.template)}</button>
+    </div>
     <div class="goal-card card">
       <div class="row" style="align-items:flex-start">
         <div>
@@ -307,6 +332,7 @@ async function renderProjectDetail(root, id, stageId) {
           ${(p.laterSkills || [])
             .map((s) => `<span class="step-pill" title="${esc(s.note || "")}">${esc(s.label || s.id)}</span>`)
             .join("") || `<span class="muted">暂无后续 skill</span>`}
+          ${pack?.slides ? `<a class="btn ghost" href="/api/projects/${esc(p.id)}/slides.zip">幻灯片评审包</a>` : ""}
         </div>
       </div>
     </div>
@@ -327,6 +353,7 @@ async function renderProjectDetail(root, id, stageId) {
     <p id="err" style="color:var(--fail)"></p>
   `;
 
+  bindCopyButtons(root);
   bindJobButtons(root, p);
 
   const dirEl = root.querySelector("#dir");
@@ -499,6 +526,10 @@ async function renderProjectDetail(root, id, stageId) {
       }
       if (e.key === "d") {
         if (pack?.ready) location.href = `/api/projects/${p.id}/pack.zip`;
+        return;
+      }
+      if (e.key === "S") {
+        if (pack?.slides) location.href = `/api/projects/${p.id}/slides.zip`;
         return;
       }
       const leaves = walkVisibleLeaves(currentTree(), []);
