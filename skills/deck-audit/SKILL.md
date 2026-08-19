@@ -9,7 +9,7 @@ Dedicated fidelity auditor. Do not produce decks or HTML in this skill; only ins
 
 Boundaries:
 
-- `longdoc-to-deck` / `check-coverage.py` — **structural** coverage (every `u-` id on exactly one page)
+- `longdoc2mdpages` / `check-coverage.py` — **structural** coverage (every `u-` id on exactly one page)
 - **this skill** — **content fidelity** (anchors survive verbatim across hops)
 - `page-audit` — HTML surface hygiene (assets, home nav, tokens). No content checks.
 
@@ -79,5 +79,5 @@ python3 skills/deck-audit/scripts/audit-report.py --work "$WORK"
 
 ## After this skill
 
-- hop1 pass → continue `longdoc-to-deck` adapter → `md-to-html-slides`
+- hop1 pass → continue `longdoc2mdpages` adapter → `mdpages2htmlslides`
 - hop2 pass → continue `page-audit` for surface hygiene

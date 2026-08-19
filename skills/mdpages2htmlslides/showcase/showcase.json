@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "intro": {
+    "summary": "One GF4p2slides page-plan contract, one deterministic renderer, and measurable layout gates.",
+    "highlights": ["12 page templates", "16 real SVG recipes", "5 themes", "safe local presets"],
+    "workflow": ["Choose a theme and page grammar", "Bind structured page-plan content", "Render and measure in Chrome", "Run hop2 before publishing"]
+  },
+  "demo": {"title": "GF renderer preview", "html": "demo.html"},
+  "theme": {
+    "title": "GF semantic theme",
+    "css": "theme.css",
+    "tokens": {
+      "surface": "#f4f0e7",
+      "ink": "#17130d",
+      "muted": "#71695e",
+      "grid": "#c9c0b1",
+      "accent": "#76551f",
+      "positive": "#217a58",
+      "negative": "#8c3228",
+      "warning": "#9a671b",
+      "fontBody": "Arial, Helvetica, sans-serif",
+      "fontNumber": "ui-monospace, SFMono-Regular, Menlo, monospace"
+    },
+    "presets": {
+      "TIANSIGHT": {"surface": "#f4f0e7", "ink": "#17130d", "muted": "#71695e", "grid": "#c9c0b1", "accent": "#76551f", "positive": "#217a58", "negative": "#8c3228", "warning": "#9a671b"},
+      "magazine": {"surface": "#f1efea", "ink": "#0a0a0b", "muted": "#68645d", "grid": "#c8c2b8", "accent": "#8e382e", "positive": "#27745b", "negative": "#8e382e", "warning": "#b77a29"},
+      "swiss": {"surface": "#fafaf8", "ink": "#0a0a0a", "muted": "#626262", "grid": "#ccccca", "accent": "#002fa7", "positive": "#18704e", "negative": "#d51f2b", "warning": "#aa6a00"},
+      "tableai": {"surface": "#ffffff", "ink": "#0a1626", "muted": "#667080", "grid": "#ccd2d9", "accent": "#a88b52", "positive": "#1e7659", "negative": "#8a3042", "warning": "#a66b18"},
+      "atelier": {"surface": "#fffdf8", "ink": "#251b16", "muted": "#786c64", "grid": "#d7cec6", "accent": "#a54c2f", "positive": "#39735c", "negative": "#8d3440", "warning": "#a66b18"}
+    }
+  },
+  "samples": [
+    {"title": "GF page plan", "description": "Structured renderer input", "file": "samples/deck-plan.json"},
+    {"title": "All visualization recipes", "description": "Golden recipe identifiers", "file": "samples/visualizations.json"}
+  ],
+  "lab": {
+    "defaultSample": "samples/input.md",
+    "templates": ["cover", "toc", "chapter", "readme", "statement", "kpi", "compare", "matrix", "chart", "chart-table", "roster", "verdict"]
+  },
+  "controls": {
+    "theme": ["TIANSIGHT", "magazine", "swiss", "tableai", "atelier"],
+    "logo": ["none", "compact", "full"],
+    "template": ["cover", "toc", "chapter", "readme", "statement", "kpi", "compare", "matrix", "chart", "chart-table", "roster", "verdict"],
+    "layout": ["full", "hero-band", "split-2", "split-2-62", "split-3", "grid-2x2", "grid-3x2", "table-full", "fig-rail", "fig-strip"],
+    "pack": ["air", "mid", "tight"],
+    "visualization": ["bubble", "calendar", "diverging-bar", "funnel", "heatmap", "hist-cdf", "line-dual", "network", "pareto", "quadrant", "radar", "sankey", "slope", "treemap", "venn", "waterfall"]
+  }
+}

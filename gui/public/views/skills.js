@@ -1,12 +1,26 @@
 import { api, badge, esc, fmtTime } from "./util.js";
+import { renderRichSkillDetail } from "./skill-detail.js";
 
 const FILTERS = [
   { id: "ksamint", label: "ksamint" },
-  { id: "ksa", label: "KSA MAT" },
-  { id: "matt", label: "matt" },
-  { id: "system", label: "系统 · cc / cursor" },
+  { id: "mattpocock", label: "mattpocock" },
+  { id: "system", label: "system" },
   { id: "other", label: "其他 vendor" },
 ];
+
+const CAPABILITIES = [
+  ["Context", "Domain language, retrieval, memory, and source quality."],
+  ["Tools", "Reliable access to code, data, browsers, and real systems."],
+  ["Evals", "Tests, rubrics, traces, and fast feedback on actual outcomes."],
+  ["Judgment", "Problem framing, tradeoffs, taste, and knowing when to stop."],
+  ["Shipping", "Security, observability, ownership, and production learning."],
+];
+
+const VIEWS = {
+  starred: ["Starred", "Your saved set for repeat work."],
+  trending: ["Trending", "Recently updated here. Freshness, not internet popularity."],
+  all: ["All skills", "Every unique skill from the selected sources."],
+};
 
 export async function renderSkills(root, parts) {
   root.classList.remove("studio-page");
@@ -18,36 +32,67 @@ export async function renderSkills(root, parts) {
   const graph = await api("/api/skills/graph").catch(() => ({ nodes: [], edges: [] }));
   const all = data.items || [...(data.authored || []), ...(data.vendored || [])];
   const totals = data.totals || {};
-  const on = new Set(["ksamint", "ksa", "matt", "system"]);
+  const on = new Set(["ksamint", "mattpocock", "system"]);
   const copyNote =
     totals.copies && totals.unique && totals.copies !== totals.unique
-      ? ` · ${totals.unique} 条（${totals.copies} 份收成一条）`
+      ? `${totals.unique} unique from ${totals.copies} copies`
       : "";
+  let view = "trending";
+  let searchToken = 0;
 
   root.innerHTML = `
-    <h1>Skills gallery</h1>
-    <p class="lede">同一 name 只记一条（本仓库优先）。星标和导出都打这条。</p>
-    <div class="toolbar">
-      <input class="search" id="q" placeholder="搜索名称或 SKILL.md…" />
+    <section class="skills-hero">
+      <div>
+        <p class="skills-kicker">AI capability library</p>
+        <h1>Learn the whole loop, not only skills.</h1>
+        <p>Skills make good judgment repeatable. Durable advantage also needs context, tools, evaluation, and disciplined shipping.</p>
+      </div>
+      <dl class="skills-summary">
+        <div><dt>Unique skills</dt><dd>${totals.unique ?? all.length}</dd></div>
+        <div><dt>Authored here</dt><dd>${totals.ksamint ?? 0}</dd></div>
+        <div><dt>Matt Pocock</dt><dd>${totals.mattpocock ?? 0}</dd></div>
+      </dl>
+    </section>
+
+    <section class="capability-compass" aria-labelledby="capability-title">
+      <div class="capability-intro">
+        <h2 id="capability-title">What matters beyond a skill file</h2>
+        <p>Build these five capabilities together. A larger skill folder cannot compensate for weak feedback or poor context.</p>
+      </div>
+      <div class="capability-tracks">
+        ${CAPABILITIES.map(([name, description]) => `<article><strong>${name}</strong><span>${description}</span></article>`).join("")}
+      </div>
+    </section>
+
+    <div class="skill-viewbar">
+      <div class="skill-view-tabs" role="tablist" aria-label="Skill views">
+        ${Object.entries(VIEWS)
+          .map(([id, [label]]) => `<button type="button" role="tab" data-view="${id}" aria-selected="${id === view}">${label}<span data-view-count="${id}"></span></button>`)
+          .join("")}
+      </div>
+      <a class="btn ghost" id="export-starred" href="/api/skills/export.zip?starred=1" hidden>Export starred</a>
+    </div>
+
+    <div class="toolbar skill-toolbar">
+      <input class="search" id="q" aria-label="Search skills" placeholder="Search names and SKILL.md" />
       ${FILTERS.map(
         (f) =>
           `<label class="filter-chip"><input type="checkbox" data-origin="${f.id}" ${on.has(f.id) ? "checked" : ""} /> ${esc(f.label)} <span class="mono muted">${totals[f.id] ?? 0}</span></label>`
       ).join("")}
-      <a class="btn ghost" id="export-starred" href="/api/skills/export.zip?starred=1" hidden>导出星标</a>
       <span class="spacer"></span>
-      <span class="muted mono">${totals.ksamint ?? 0} ksamint · ${totals.ksa ?? 0} KSA MAT · ${totals.matt ?? 0} matt · ${totals.system ?? 0} 系统 · ${totals.other ?? 0} 其他${copyNote}</span>
+      <span class="muted mono">${copyNote}</span>
     </div>
     <div id="skill-results"></div>
-    <h2>Skill graph (ksamint 交叉引用)</h2>
-    <div class="card">
+    <details class="skill-graph">
+      <summary>Authored skill relationships <span>${graph.edges.length}</span></summary>
       <ul class="graph">
         ${
           graph.edges
-            .map((e) => `<li><span class="mono">${esc(e.from)}</span> → <span class="mono">${esc(e.to)}</span></li>`)
+            .map((e) => `<li><span class="mono">${esc(e.from)}</span> to <span class="mono">${esc(e.to)}</span></li>`)
             .join("") || `<li class="muted">No cross-references found</li>`
         }
       </ul>
-    </div>
+    </details>
   `;
 
   const results = root.querySelector("#skill-results");
@@ -66,36 +111,34 @@ export async function renderSkills(root, parts) {
     const copies = (s.copies || []).length;
     const href = `#/skills/${esc(s.kind)}/${encodeURIComponent(s.folder)}`;
     const id = esc(s.id || s.name);
-    return `<article class="card skill-card">
+    return `<article class="skill-card">
       <div class="row">
-        <button type="button" class="star ${s.starred ? "on" : ""}" data-star="${id}" title="星标">★</button>
+        <button type="button" class="star ${s.starred ? "on" : ""}" data-star="${id}" aria-label="${s.starred ? "Unstar" : "Star"} ${esc(s.name)}" aria-pressed="${Boolean(s.starred)}">★</button>
         <a class="skill-card-title" href="${href}"><h3 style="margin:0">${esc(s.name)}</h3></a>
         ${who}${dirty}${copies > 1 ? badge("", `${copies} 处`) : ""}
         <span class="spacer"></span>
-        ${s.zip ? `<a class="btn ghost skill-export" href="${esc(s.zip)}" download="${esc(s.zipName || `${s.name}-skill.zip`)}">导出</a>` : ""}
+        ${s.zip ? `<a class="btn ghost skill-export" href="${esc(s.zip)}" download="${esc(s.zipName || `${s.name}-skill.zip`)}">Export</a>` : ""}
       </div>
       <a class="skill-card-body" href="${href}">
         <p class="muted" style="margin:.4rem 0;font-size:.88rem">${esc((s.description || "").slice(0, 140))}${(s.description || "").length > 140 ? "…" : ""}</p>
-        <div class="mono muted">${esc(s.author || s.origin)} · ${esc(s.repo || s.source)} · ${esc(fmtTime(s.updatedAt))}</div>
+        <div class="skill-meta mono muted"><span>${esc(s.author || s.origin)}</span><span>${esc(s.repo || s.source)}</span><time>${esc(fmtTime(s.updatedAt))}</time></div>
       </a>
     </article>`;
   }
 
-  function paint(list, origins) {
-    const shown = [...list]
-      .filter((s) => origins.has(s.origin || "other"))
-      .sort((a, b) => {
-        if (!!b.starred !== !!a.starred) return a.starred ? -1 : 1;
-        return (b.updatedAt || 0) - (a.updatedAt || 0);
-      });
-    const starred = shown.filter((s) => s.starred);
-    const rest = shown.filter((s) => !s.starred);
-    const block = (title, rows) =>
-      rows.length
-        ? `<h2>${esc(title)} <span class="mono muted">${rows.length}</span></h2><div class="grid grid-3">${rows.map(card).join("")}</div>`
-        : "";
-    results.innerHTML =
-      block("星标", starred) + block("按更新", rest) || `<div class="empty">没有命中当前筛选。</div>`;
+  function paint(list, origins, { searching = false } = {}) {
+    let shown = [...list].filter((s) => origins.has(s.origin || "other"));
+    let title = "Search results";
+    let description = "Matches across names, descriptions, and skill instructions.";
+    if (!searching) {
+      [title, description] = VIEWS[view];
+      if (view === "starred") shown = shown.filter((s) => s.starred);
+      if (view === "trending") shown = shown.sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0)).slice(0, 24);
+      if (view === "all") shown = shown.sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
+    }
+    results.innerHTML = `<div class="skill-section-head"><div><h2>${esc(title)}</h2><p>${esc(description)}</p></div><strong>${shown.length}</strong></div>${
+      shown.length ? `<div class="skill-grid">${shown.map(card).join("")}</div>` : `<div class="empty">Nothing here yet. Change the source filters or star a skill.</div>`
+    }`;
     results.querySelectorAll("[data-star]").forEach((btn) => {
       btn.addEventListener("click", async (e) => {
         e.preventDefault();
@@ -111,13 +154,18 @@ export async function renderSkills(root, parts) {
     const starredN = all.filter((s) => s.starred).length;
     if (exportBtn) {
       exportBtn.hidden = starredN === 0;
-      exportBtn.textContent = starredN ? `导出星标 ${starredN}` : "导出星标";
+      exportBtn.textContent = starredN ? `Export starred ${starredN}` : "Export starred";
     }
+    root.querySelector('[data-view-count="starred"]').textContent = ` ${starredN}`;
+    root.querySelector('[data-view-count="trending"]').textContent = ` ${Math.min(24, all.length)}`;
+    root.querySelector('[data-view-count="all"]').textContent = ` ${all.length}`;
+    root.querySelectorAll("[data-view]").forEach((button) => button.setAttribute("aria-selected", String(button.dataset.view === view)));
   }
 
   paint(all, activeOrigins());
 
   function refresh() {
+    const token = ++searchToken;
     const q = root.querySelector("#q").value.trim();
     const origins = activeOrigins();
     if (!q) {
@@ -125,15 +173,25 @@ export async function renderSkills(root, parts) {
       return;
     }
     api(`/api/skills/search?q=${encodeURIComponent(q)}`).then(({ hits }) => {
+      if (token !== searchToken) return;
       paint(
         (hits || []).map((s) => ({
           ...s,
           origin: s.origin || (s.kind === "authored" ? "ksamint" : "other"),
         })),
-        origins
+        origins,
+        { searching: true }
       );
     });
   }
+
+  root.querySelectorAll("[data-view]").forEach((button) => {
+    button.addEventListener("click", () => {
+      view = button.dataset.view;
+      root.querySelector("#q").value = "";
+      refresh();
+    });
+  });
 
   root.querySelectorAll("[data-origin]").forEach((el) => {
     el.addEventListener("change", refresh);
@@ -147,66 +205,5 @@ export async function renderSkills(root, parts) {
 }
 
 async function renderSkillDetail(root, kind, id) {
-  root.classList.remove("studio-page");
-  root.innerHTML = `<p class="muted">Loading…</p>`;
-  const s = await api(`/api/skills/${encodeURIComponent(kind)}/${encodeURIComponent(id)}`);
-  const treeHtml = (nodes, depth = 0) =>
-    nodes
-      .map((n) => {
-        if (n.type === "dir") {
-          return `<div style="margin-left:${depth * 12}px">📁 ${esc(n.name)}${treeHtml(n.children || [], depth + 1)}</div>`;
-        }
-        return `<div style="margin-left:${depth * 12}px">· ${esc(n.name)} <span class="muted">${n.size}b</span></div>`;
-      })
-      .join("");
-
-  const extras = s.runtime || [];
-  root.innerHTML = `
-    <div class="row"><a class="btn ghost" href="#/skills">← gallery</a><span class="spacer"></span>
-      <button type="button" class="star ${s.starred ? "on" : ""}" id="star-one" title="星标">★</button>
-      ${badge("", s.origin || s.kind)} ${s.agent ? badge("", s.agent) : ""} ${(s.installTargets || []).map((t) => badge("ok", `装到 ${t}`)).join("")}
-      ${s.zip ? `<a class="btn" href="${esc(s.zip)}">导出</a>` : ""}
-    </div>
-    <h1>${esc(s.name)}</h1>
-    <p class="lede">${esc(s.description)}</p>
-    <p class="muted">导出是整包 zip（${esc(s.zipName || "skill.zip")}），同一 name 只打这份。${
-      extras.length ? "下面 runtime 会一并打进压缩包。" : ""
-    }</p>
-    <div class="grid grid-2">
-      <div class="card">
-        <h3>Meta</h3>
-        <div class="mono">path: ${esc(s.path)}</div>
-        <div class="mono">author: ${esc(s.author || "—")}</div>
-        <div class="mono">repo: ${esc(s.repo || s.source)}</div>
-        <div class="mono">updated: ${esc(fmtTime(s.updatedAt))}</div>
-        <div class="mono">origin: ${esc(s.origin || "—")} ${s.agent ? `· ${esc(s.agent)}` : ""}</div>
-        <div class="mono">version: ${esc(s.version?.hash || s.version?.synced_commit || "—")} ${s.version?.dirty ? badge("warn", "dirty") : ""}</div>
-        <div class="mono">license: ${esc(s.license || "—")}</div>
-        ${
-          (s.copies || []).length > 1
-            ? `<h3 style="margin-top:1rem">出现位置 ${(s.copies || []).length}</h3><ul>${(s.copies || [])
-                .map((c) => `<li class="mono">${esc(c.path)} · ${esc(c.source || c.sourceId || "")}</li>`)
-                .join("")}</ul>`
-            : ""
-        }
-        ${
-          extras.length
-            ? `<h3 style="margin-top:1rem">Zip 另含 runtime</h3><ul>${extras
-                .map((e) => `<li class="mono">${esc(e.to)} <span class="muted">${esc(e.why)}</span></li>`)
-                .join("")}</ul>`
-            : ""
-        }
-        <h3 style="margin-top:1rem">Tree</h3>
-        <div class="mono" style="font-size:.75rem">${treeHtml(s.tree || [])}</div>
-      </div>
-      <div class="card">
-        <h3>SKILL.md</h3>
-        <pre class="pre light">${esc(s.raw)}</pre>
-      </div>
-    </div>
-  `;
-  root.querySelector("#star-one")?.addEventListener("click", async () => {
-    const out = await api("/api/skills/star", { method: "POST", body: { id: s.id || s.name } });
-    root.querySelector("#star-one")?.classList.toggle("on", out.starred);
-  });
+  return renderRichSkillDetail(root, kind, id);
 }

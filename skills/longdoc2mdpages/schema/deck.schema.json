@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ksamintskill01.local/schemas/deck.json",
+  "title": "longdoc2mdpages deck",
+  "type": "object",
+  "required": ["version", "source", "pages"],
+  "properties": {
+    "version": { "type": "string" },
+    "source": { "type": "string" },
+    "outline": { "type": "string" },
+    "pages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "role", "title", "units"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^p-\\d{4}$" },
+          "role": {
+            "type": "string",
+            "enum": [
+              "cover",
+              "toc",
+              "chapter",
+              "readme",
+              "statement",
+              "kpi",
+              "roster",
+              "chart",
+              "chart-table",
+              "matrix",
+              "compare",
+              "verdict"
+            ]
+          },
+          "outline_path": { "type": "array", "items": { "type": "string" } },
+          "title": { "type": "string", "minLength": 1 },
+          "units": {
+            "type": "array",
+            "items": { "type": "string", "pattern": "^u-\\d{4}$" }
+          },
+          "overflow_of": { "type": ["string", "null"], "pattern": "^p-\\d{4}$" },
+          "fit": {
+            "type": "object",
+            "properties": {
+              "chars": { "type": "integer" },
+              "rows": { "type": "integer" },
+              "bullets": { "type": "integer" },
+              "budget": { "type": "string" },
+              "verdict": { "type": "string", "enum": ["ok", "overfull", "starved"] }
+            }
+          },
+          "material": { "type": "object" },
+          "source": { "type": "string" },
+          "how_to_read": { "type": "string" },
+          "takeaway": { "type": "string" },
+          "notes": { "type": "string" },
+          "fill": { "type": ["string", "null"] },
+          "recipe": { "type": ["string", "null"] }
+        }
+      }
+    }
+  }
+}

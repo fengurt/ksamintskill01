@@ -1,0 +1,21 @@
+{
+  "contract_version": "1.0.0",
+  "title": "GF contract demonstration",
+  "mode": "slide",
+  "theme": "TIANSIGHT",
+  "pages": [
+    {
+      "id": "p-001",
+      "template": "chart",
+      "title": "One renderer closes the loop",
+      "source": "GF4p2slides contract demonstration",
+      "takeaway": "Planning, rendering, and audit share typed page data.",
+      "visualization": "sankey",
+      "layout": "fig-rail",
+      "pack": "mid",
+      "units": ["u-0001"],
+      "overflow_of": null,
+      "content": {"blocks": [{"kind": "fig", "viz": "sankey", "data": {"labels": ["plan", "render", "audit"], "values": [12, 16, 3]}}]}
+    }
+  ]
+}

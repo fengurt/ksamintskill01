@@ -5,7 +5,8 @@ import { randomBytes } from "node:crypto";
 import { EventEmitter } from "node:events";
 import { DATA_DIR, REPO_ROOT, BASLIDE_ROOT, safeWorkDir, safeResolve, expandHome } from "./paths.js";
 import { getTemplate, resolveStep, stepsFor, normalizeStandards } from "./templates.js";
-import { appendGate } from "./projects.js";
+import { appendGate, getProject, updateProject } from "./projects.js";
+import { getPack } from "./pack.js";
 
 const JOBS_DIR = join(DATA_DIR, "jobs");
 const RING = 4000;
@@ -116,8 +117,18 @@ export async function startJob({
 }) {
   const tpl = getTemplate(templateId);
   if (!tpl) throw new Error(`unknown template: ${templateId}`);
+  if (projectId && ["long4hslides", "longdoc2mdpages", "longdoc-to-deck", "alongslides"].includes(templateId)) {
+    updateProject(projectId, { page_pack_approved: false });
+  }
+  if (["baslide-slides", "deck-audit-hop2", "long4hslides-slides"].includes(templateId)) {
+    const project = projectId ? getProject(projectId) : null;
+    const runId = (project?.work || "").replace(/^\.work\//, "");
+    if (!project || !project.page_pack_approved || !getPack(runId)?.ready) {
+      throw new Error("approve the completed page pack before rendering slides");
+    }
+  }
   const std = normalizeStandards(standards);
-  if (templateId === "baslide-slides" && (standards == null || standards.hop2 == null)) {
+  if (["baslide-slides", "deck-audit-hop2", "long4hslides-slides"].includes(templateId) && (standards == null || standards.hop2 == null)) {
     std.hop2 = true;
   }
 

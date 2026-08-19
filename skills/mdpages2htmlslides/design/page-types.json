@@ -1,0 +1,43 @@
+{
+  "contract_version": "1.0.0",
+  "canvas": {"w": 2880, "h": 1620, "ratio": "16:9"},
+  "fill_ratio": {"min": 0.45, "max": 0.98, "target": 0.78},
+  "layouts": {
+    "full": {"regions": 1},
+    "hero-band": {"regions": 2},
+    "split-2": {"regions": 2},
+    "split-2-62": {"regions": 2},
+    "split-3": {"regions": 3},
+    "grid-2x2": {"regions": 4},
+    "grid-3x2": {"regions": 6},
+    "table-full": {"regions": 1},
+    "fig-rail": {"regions": 2},
+    "fig-strip": {"regions": 2}
+  },
+  "packs": ["air", "mid", "tight"],
+  "themes": ["TIANSIGHT", "magazine", "swiss", "tableai", "atelier"],
+  "logos": ["none", "compact", "full"],
+  "page_templates": [
+    "cover", "toc", "chapter", "statement", "kpi", "compare",
+    "matrix", "chart", "chart-table", "roster", "verdict", "readme"
+  ],
+  "legacy_translations": {
+    "quote": "statement",
+    "playbook": "verdict",
+    "gallery": "roster",
+    "interactive": "chart"
+  },
+  "blocks": {
+    "table": {"cols": {"max": 7}, "rows": {"max": 12}},
+    "embed": {"fallback_required": true}
+  },
+  "viz": [
+    "bubble", "calendar", "diverging-bar", "funnel", "heatmap", "hist-cdf",
+    "line-dual", "network", "pareto", "quadrant", "radar", "sankey",
+    "slope", "treemap", "venn", "waterfall"
+  ],
+  "viz_aliases": [
+    "bar", "line", "area", "stacked-bar", "scatter", "donut",
+    "timeline", "process", "org", "map", "gauge", "table"
+  ]
+}

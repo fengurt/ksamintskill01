@@ -20,7 +20,7 @@ Frees only port 7979 when the listener is this project's `server.js`.
 | Section | Role |
 |---------|------|
 | Home | Git branch / ahead-behind / dirty, skill counts, vendor freshness, gate strip |
-| Skills | Gallery of authored + vendored skills (source, version, install targets), search, graph |
+| Skills | Starred, trending, and complete gallery views; capability map; source, version, search, export, and graph |
 | Projects | First-class projects in `gui/data/projects.json` + template runner |
 | Runs | `.work/<run>/` artifact viewer + audit inspector |
 | Registry | `sources.yaml`, upstream drift check, symlink integrity |
@@ -36,16 +36,13 @@ Frees only port 7979 when the listener is this project's `server.js`.
 
 ## Templates
 
-- `alongslides` — long document → **developable file pack**. Zip is `original/` (source file) + `pages/` (per-page MD + slide-plan) + `audit/` (REVIEW / hop1). HTML is not required.
-- `baslide-slides` — optional: clone `modules/baslide01` L2 jobs, draw L3 SVG, hop2. Deck: `/slides/<run>/deck.html`. Review zip: `GET /api/projects/:id/slides.zip` (`slides/` + `slide-plan.json` + hop2 audit).
-- `longdoc-to-deck` — same pack path without the Alongslides name
-- `deck-audit-hop2` — `audit-html.py --dump-slides` → report
+- `long4hslides` — normalize source → build/audit GF page pack → explicit approval checkpoint → render/measure → hop2. Its internal slides stage is hidden from the template picker; former template ids remain hidden executable compatibility aliases for old projects and job reruns.
 - `repo-sync` — sync-vendor → catalog → lint → scan-secrets
 - `install-links` — symlink install map
 
 `BASLIDE_ROOT` defaults to `modules/baslide01`.
 
-Project detail shows (1) skills + stages and (2) pack outputs. Stages b (outline) and c (pagination) of `longdoc-to-deck` remain **agent/model stages**; bootstrap is a mechanical draft.
+Project detail shows (1) skills + stages and (2) pack outputs. Stages b (outline) and c (pagination) of `longdoc2mdpages` remain **agent/model stages**; bootstrap is a mechanical draft.
 
 ## Data
 
@@ -58,3 +55,19 @@ Gates in the Python scripts remain authoritative; the GUI is an observability an
 
 Starred skills can be exported as one zip. Extract the chosen folders into a
 project's `.agents/skills/`, or into `~/.codex/skills/` for all Codex projects.
+
+## Rich skill pages
+
+Every skill detail page includes an overview and its complete file package. A skill can add richer tabs with a `showcase` path in flat `SKILL.md` frontmatter:
+
+```yaml
+metadata:
+  author: ksamint
+  origin: ksamint
+  repository: fengurt/ksamintskill01
+  showcase: showcase/showcase.json
+```
+
+Showcase manifest version 1 can declare an introduction, self-contained demo HTML, samples, semantic theme tokens, a deterministic Markdown lab, and validated generic controls. Presets are keyed by skill under ignored `gui/data/showcase-presets.json`; Export preset JSON is client-side. Referenced files must stay below the manifest directory, use `.html`, `.css`, `.md`, `.json`, or `.txt`, and remain under 2 MB.
+
+HTML previews run in sandboxed `srcdoc` frames with network access disabled. GF4p2slides can generate a brand adapter ZIP from official brand-source metadata, semantic tokens, and an optional PNG, JPEG, or WebP logo. Generation uses temporary staging only; the GUI still writes only `gui/data/` and `.work/`.

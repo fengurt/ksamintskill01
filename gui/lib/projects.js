@@ -57,7 +57,7 @@ export function createProject(input) {
   const project = {
     id,
     name: String(input.name || id).trim(),
-    template: input.template || "longdoc-to-deck",
+    template: input.template || "long4hslides",
     source,
     html,
     work,
@@ -66,6 +66,7 @@ export function createProject(input) {
     standards: normalizeStandards(input.standards),
     genre: input.genre || "diagnosis",
     notes: input.notes || "",
+    page_pack_approved: false,
     gate_history: [],
     created_at: now,
     updated_at: now,
@@ -86,6 +87,7 @@ export function updateProject(id, patch) {
   if (patch.work) next.work = relToRepo(safeWorkDir(patch.work));
   if (patch.theme) next.theme = patch.theme;
   if (patch.standards) next.standards = normalizeStandards(patch.standards);
+  if (typeof patch.page_pack_approved === "boolean") next.page_pack_approved = patch.page_pack_approved;
   data.projects[i] = next;
   save(data);
   return next;

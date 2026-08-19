@@ -1,0 +1,7 @@
+{
+  "recipes": [
+    "bubble", "calendar", "diverging-bar", "funnel", "heatmap", "hist-cdf",
+    "line-dual", "network", "pareto", "quadrant", "radar", "sankey",
+    "slope", "treemap", "venn", "waterfall"
+  ]
+}

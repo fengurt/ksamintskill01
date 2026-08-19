@@ -10,7 +10,7 @@ This private monorepo vendors **indexes and sync scripts** for third-party skill
 | [obra/superpowers](https://github.com/obra/superpowers) | See upstream LICENSE | `vendor/obra-superpowers` |
 | [travisvn/awesome-claude-skills](https://github.com/travisvn/awesome-claude-skills) | Curated list | `vendor/awesome-claude-skills` |
 | [ComposioHQ/awesome-claude-skills](https://github.com/ComposioHQ/awesome-claude-skills) | Curated list | `vendor/composio-awesome-claude-skills` |
-| [fengurt/ksa-mat-skills](https://github.com/fengurt/ksa-mat-skills) | MIT; fork of Matt Pocock's engineering skill set | `vendor/ksa-mat-skills` |
+| [mattpocock/skills](https://github.com/mattpocock/skills) | MIT; canonical engineering skill set | `vendor/mattpocock-skills` |
 
 ## Local-only mirrors (not cloned from GitHub)
 
@@ -28,4 +28,4 @@ This private monorepo vendors **indexes and sync scripts** for third-party skill
 
 ## Document skills (Anthropic)
 
-Claude's document skills (`docx`, `pdf`, `pptx`, `xlsx`) are source-available reference implementations. This repo may **point** at them after sync for conversion of non-Markdown inputs into Markdown before `longdoc-to-deck` segmentation. Do not republish those folders.
+Claude's document skills (`docx`, `pdf`, `pptx`, `xlsx`) are source-available reference implementations. This repo may **point** at them after sync for conversion of non-Markdown inputs into Markdown before `longdoc2mdpages` segmentation. Do not republish those folders.

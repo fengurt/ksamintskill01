@@ -15,7 +15,7 @@ function readJsonSafe(p) {
 
 /** Primary developable-pack files. HTML slides are not part of pack completion. */
 export const PACK_OUTPUTS = [
-  { id: "slide-plan.json", label: "slide-plan.json · Baslide01 开发输入", primary: true },
+  { id: "deck-plan.json", label: "deck-plan.json · GF4p2slides 开发输入", primary: true },
   { id: "deck.json", label: "deck.json · 分页素材", primary: true },
   { id: "pages/", label: "pages/ · 每页 Markdown", primary: true, dir: "pages" },
   { id: "outline.md", label: "outline.md · 零损失大纲", primary: true },
@@ -24,6 +24,8 @@ export const PACK_OUTPUTS = [
   { id: "index.md", label: "index.md · 单元目录", primary: true },
   { id: "MANIFEST.md", label: "MANIFEST.md · 包说明", primary: true },
   { id: "pack.json", label: "pack.json · 包清单", primary: true },
+  { id: "source-manifest.json", label: "source-manifest.json · 来源与排序", primary: false },
+  { id: "assets/tables/", label: "assets/tables/ · 附录表格", primary: false, dir: "assets/tables" },
   { id: "anchors.json", label: "anchors.json · hop1 锚点", primary: false },
   { id: "audit-source.json", label: "audit-source.json · hop1 结果", primary: false },
   { id: "audit.md", label: "audit.md · 校对报告", primary: false },
@@ -65,7 +67,9 @@ export function getPack(runId) {
   }
   if (!existsSync(abs)) return null;
   const packJson = readJsonSafe(join(abs, "pack.json"));
-  const plan = readJsonSafe(join(abs, "slide-plan.json"));
+  const plan = readJsonSafe(join(abs, "deck-plan.json")) || readJsonSafe(join(abs, "slide-plan.json"));
+  const fidelity = readJsonSafe(join(abs, "fidelity.json"));
+  const schema = readJsonSafe(join(abs, "schema-report.json"));
   const files = PACK_OUTPUTS.map((spec) => {
     const meta = fileMeta(abs, spec.dir ? `${spec.dir}/` : spec.id);
     return {
@@ -75,14 +79,17 @@ export function getPack(runId) {
     };
   });
   const primary = files.filter((f) => f.primary);
-  const ready = packJson?.ready === true && primary.filter((f) => f.id !== "pack.json").every((f) => f.present);
+  const gatesPassed =
+    packJson?.version !== "2.0" ||
+    (fidelity?.hard === 0 && schema?.hard === 0);
+  const ready = packJson?.ready === true && gatesPassed && primary.filter((f) => f.id !== "pack.json").every((f) => f.present);
   return {
     ready,
     path: relToRepo(abs),
     counts: packJson?.counts || null,
     fill_counts: packJson?.fill_counts || plan?.fill_counts || {},
     genre: packJson?.genre || plan?.genre || null,
-    skin: packJson?.skin || plan?.skin || null,
+    skin: packJson?.skin || plan?.theme || plan?.skin || null,
     emitted_at: packJson?.emitted_at || null,
     files,
     manifest: files.find((f) => f.id === "MANIFEST.md")?.present || false,
@@ -110,29 +117,29 @@ export const VIEW_STAGES = [
   {
     id: "a-segment",
     label: "1 · segment",
-    skill: "longdoc-to-deck",
+    skill: "longdoc2mdpages",
     goal: "切成单元账本，零损失",
     later: false,
   },
   {
     id: "b-outline",
     label: "2 · outline",
-    skill: "longdoc-to-deck",
+    skill: "longdoc2mdpages",
     goal: "大纲覆盖每一个 unit",
     later: false,
   },
   {
     id: "c-pagination",
     label: "3 · pages",
-    skill: "longdoc-to-deck",
+    skill: "longdoc2mdpages",
     goal: "拆成可开发的页面素材（还不是 slides）",
     later: false,
   },
   {
     id: "d-emit",
     label: "4 · pack",
-    skill: "longdoc-to-deck",
-    goal: "slide-plan + 文件包清单",
+    skill: "longdoc2mdpages",
+    goal: "deck-plan + 文件包清单",
     later: false,
   },
   {
@@ -145,7 +152,7 @@ export const VIEW_STAGES = [
   {
     id: "slides",
     label: "下一步 · slides",
-    skill: "md-to-html-slides",
+    skill: "mdpages2htmlslides",
     goal: "Baslide01 HTML，文件包完成之后才做",
     later: true,
   },
@@ -300,7 +307,7 @@ export function getStageView(runId, stageId, { source = null } = {}) {
     }
   } else if (abs && spec.id === "slides") {
     if (presentAt(abs, "slides/deck.html")) {
-      const plan = readJsonSafe(join(abs, "slide-plan.json"));
+      const plan = readJsonSafe(join(abs, "deck-plan.json")) || readJsonSafe(join(abs, "slide-plan.json"));
       const packMeta = readJsonSafe(join(abs, "pack.json"));
       const fillCounts = plan?.fill_counts || packMeta?.fill_counts || {};
       let planned = Object.values(fillCounts).reduce((n, v) => n + Number(v || 0), 0);

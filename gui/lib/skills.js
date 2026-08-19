@@ -4,6 +4,7 @@ import { DATA_DIR, REPO_ROOT } from "./paths.js";
 import { pathVersion } from "./repo.js";
 import { loadSources } from "./registry.js";
 import { skillRuntimeExtras, skillZipName } from "./archive.js";
+import { loadShowcase, readShowcaseAsset } from "./showcase.js";
 
 const STARS_FILE = join(DATA_DIR, "stars.json");
 
@@ -68,12 +69,22 @@ function parseFrontmatter(text) {
   const m = text.match(FRONTMATTER_RE);
   const meta = {};
   if (!m) return { meta, body: text };
+  let section = null;
   for (const line of m[1].split("\n")) {
     if (!line.includes(":")) continue;
     const i = line.indexOf(":");
     const k = line.slice(0, i).trim();
     const v = line.slice(i + 1).trim().replace(/^["']|["']$/g, "");
-    meta[k] = v;
+    if (!line.startsWith(" ") && !v) {
+      section = k;
+      meta[k] = {};
+      continue;
+    }
+    if (line.startsWith(" ") && section && typeof meta[section] === "object") meta[section][k] = v;
+    else {
+      section = null;
+      meta[k] = v;
+    }
   }
   return { meta, body: text.slice(m[0].length) };
 }
@@ -167,8 +178,8 @@ function vendorSourceFor(skillMdPath, sources) {
   return src || { id: top };
 }
 
-/** ksamint = this repo. ksa = KSA MAT fork. matt = ~/.agents. system = Cursor/CC shipped. */
-export const ORIGIN_RANK = { ksamint: 0, ksa: 1, matt: 2, other: 3, system: 4 };
+/** ksamint = this repo. mattpocock = canonical repo or ~/.agents. system = Cursor/CC shipped. */
+export const ORIGIN_RANK = { ksamint: 0, mattpocock: 1, other: 2, system: 3 };
 
 const SYSTEM_SOURCES = new Set([
   "cursor-skills-cursor",
@@ -178,10 +189,10 @@ const SYSTEM_SOURCES = new Set([
 ]);
 
 export function skillOrigin(skill) {
+  if (["ksamint", "mattpocock", "system", "other"].includes(skill.declaredOrigin)) return skill.declaredOrigin;
   if (skill.kind === "authored") return "ksamint";
   const id = skill.sourceId || skill.source || "";
-  if (id === "ksa-mat-skills") return "ksa";
-  if (id === "agents-skills-local") return "matt";
+  if (id === "mattpocock-skills" || id === "agents-skills-local") return "mattpocock";
   if (SYSTEM_SOURCES.has(id)) return "system";
   return "other";
 }
@@ -194,14 +205,18 @@ export function skillAgent(skill) {
 }
 
 export function skillCredit(skill, src = null) {
+  if (skill.declaredAuthor || skill.declaredRepository) {
+    return {
+      author: skill.declaredAuthor || skill.origin || "vendor",
+      repo: skill.declaredRepository || skill.sourceId || skill.source || "vendor",
+    };
+  }
   if (skill.kind === "authored" || skill.origin === "ksamint") {
     return { author: "ksamint", repo: "fengurt/ksamintskill01" };
   }
   const id = skill.sourceId || "";
-  if (id === "ksa-mat-skills") {
-    return { author: "Matt Pocock · KSA MAT", repo: "fengurt/ksa-mat-skills" };
-  }
-  if (id === "agents-skills-local") return { author: "matt", repo: "~/.agents/skills" };
+  if (id === "mattpocock-skills") return { author: "Matt Pocock", repo: "mattpocock/skills" };
+  if (id === "agents-skills-local") return { author: "Matt Pocock", repo: "~/.agents/skills" };
   if (id === "cursor-skills-cursor") return { author: "cursor", repo: "Cursor built-in" };
   if (id === "cursor-public-plugins") return { author: "cursor", repo: "cursor-public plugins" };
   if (id === "cc-switch-skills") return { author: "cc", repo: "~/.cc-switch/skills" };
@@ -290,6 +305,7 @@ export async function listSkills({ includeVendored = true } = {}) {
     const dir = join(skillMd, "..");
     const text = readFileSync(skillMd, "utf8");
     const { meta } = parseFrontmatter(text);
+    const declared = typeof meta.metadata === "object" ? meta.metadata : {};
     const folder = relative(join(REPO_ROOT, "skills"), dir).split(sep)[0];
     const name = meta.name || folder;
     const ver = await pathVersion(`skills/${folder}`);
@@ -302,6 +318,10 @@ export async function listSkills({ includeVendored = true } = {}) {
       path: relative(REPO_ROOT, dir),
       skillMd: relative(REPO_ROOT, skillMd),
       description: meta.description || "",
+      declaredAuthor: declared.author || meta.author || null,
+      declaredOrigin: declared.origin || meta.origin || null,
+      declaredRepository: declared.repository || meta.repository || null,
+      showcasePath: declared.showcase || meta.showcase || null,
       license: licenseHint(dir),
       installTargets: installMap[folder] || installMap[name] || [],
       version: ver,
@@ -319,6 +339,7 @@ export async function listSkills({ includeVendored = true } = {}) {
         continue;
       }
       const { meta } = parseFrontmatter(text);
+      const declared = typeof meta.metadata === "object" ? meta.metadata : {};
       const name = meta.name || relative(join(REPO_ROOT, "vendor"), dir).split(sep).pop();
       const src = vendorSourceFor(skillMd, sources);
       vendored.push({
@@ -330,6 +351,10 @@ export async function listSkills({ includeVendored = true } = {}) {
         path: relative(REPO_ROOT, dir),
         skillMd: relative(REPO_ROOT, skillMd),
         description: meta.description || "",
+        declaredAuthor: declared.author || meta.author || null,
+        declaredOrigin: declared.origin || meta.origin || null,
+        declaredRepository: declared.repository || meta.repository || null,
+        showcasePath: declared.showcase || meta.showcase || null,
         license: licenseHint(dir),
         installTargets: [],
         version: {
@@ -345,7 +370,7 @@ export async function listSkills({ includeVendored = true } = {}) {
   }
 
   const items = sortSkills(unifySkills([...authored, ...vendored]));
-  const byOrigin = { ksamint: 0, ksa: 0, matt: 0, system: 0, other: 0 };
+  const byOrigin = { ksamint: 0, mattpocock: 0, system: 0, other: 0 };
   for (const s of items) byOrigin[s.origin] = (byOrigin[s.origin] || 0) + 1;
   return {
     authored,
@@ -376,16 +401,32 @@ export async function getSkillDetail(kind, id) {
   const skillMdAbs = join(REPO_ROOT, skill.skillMd);
   const text = readFileSync(skillMdAbs, "utf8");
   const { meta, body } = parseFrontmatter(text);
+  const declared = typeof meta.metadata === "object" ? meta.metadata : {};
+  let showcase = null;
+  let showcaseError = null;
+  try {
+    showcase = loadShowcase(abs, declared.showcase || meta.showcase || skill.showcasePath);
+  } catch (error) {
+    showcaseError = error.message;
+  }
   return {
     ...skill,
     meta,
     body,
     raw: text,
+    showcase,
+    showcaseError,
     tree: fileTree(abs),
     zip: `/api/skills/${skill.kind}/${encodeURIComponent(skill.folder)}.zip`,
     zipName: skillZipName(skill.folder),
     runtime: skillRuntimeExtras(skill.folder),
   };
+}
+
+export async function getSkillShowcaseAsset(kind, id, file) {
+  const skill = await getSkillDetail(kind, id);
+  if (!skill) return null;
+  return readShowcaseAsset(join(REPO_ROOT, skill.path), skill.showcase, file);
 }
 
 export async function skillGraph() {

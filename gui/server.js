@@ -7,7 +7,7 @@ import { dirname, join, extname, basename } from "node:path";
 import { fileURLToPath } from "node:url";
 import { PORT, DATA_DIR, REPO_ROOT, GUI_ROOT, safeResolve, isDeniedPath, relToRepo, safeWorkDir } from "./lib/paths.js";
 import { repoStatus } from "./lib/repo.js";
-import { listSkills, getSkillDetail, skillGraph, searchSkills, toggleStar } from "./lib/skills.js";
+import { listSkills, getSkillDetail, getSkillShowcaseAsset, skillGraph, searchSkills, toggleStar } from "./lib/skills.js";
 import { registryStatus, checkUpstreamDrift } from "./lib/registry.js";
 import {
   listRuns,
@@ -30,7 +30,8 @@ import { listJobs, getJob, startJob, cancelJob, subscribe } from "./lib/jobs.js"
 import { healthSnapshot, symlinkIntegrity } from "./lib/health.js";
 import { baslideSummary, listThemes } from "./lib/themes.js";
 import { getPack, skillStagesFor, VIEW_STAGES, stageReady, getStageView } from "./lib/pack.js";
-import { streamPackZip, streamSkillZip, streamSkillsBundleZip, streamSlidesZip } from "./lib/archive.js";
+import { streamBrandSubskillZip, streamPackZip, streamSkillZip, streamSkillsBundleZip, streamSlidesZip } from "./lib/archive.js";
+import { getShowcasePreset, saveShowcasePreset } from "./lib/showcase.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PUBLIC = join(__dirname, "public");
@@ -53,17 +54,28 @@ function send(res, code, data, type = "application/json") {
   res.end(buf);
 }
 
-function readBody(req) {
-  return new Promise((resolve) => {
+function readBody(req, maxBytes = Infinity) {
+  return new Promise((resolve, reject) => {
     let b = "";
-    req.on("data", (c) => (b += c));
+    let failed = false;
+    req.on("data", (c) => {
+      if (failed) return;
+      b += c;
+      if (Buffer.byteLength(b) > maxBytes) {
+        failed = true;
+        b = "";
+        reject(new Error("request body too large"));
+      }
+    });
     req.on("end", () => {
+      if (failed) return;
       try {
         resolve(b ? JSON.parse(b) : {});
       } catch {
         resolve({});
       }
     });
+    req.on("error", reject);
   });
 }
 
@@ -175,6 +187,48 @@ async function handleApi(req, res, method, path, u) {
       return streamSkillsBundleZip(picked, res);
     } catch (e) {
       return send(res, 400, { error: e.message });
+    }
+  }
+  {
+    const m = path.match(/^\/api\/skills\/showcase\/([^/]+)\/(.+)$/);
+    if (method === "GET" && m) {
+      const file = u.searchParams.get("file") || "";
+      try {
+        const asset = await getSkillShowcaseAsset(decodeURIComponent(m[1]), decodeURIComponent(m[2]), file);
+        if (!asset) return send(res, 404, { error: "skill not found" });
+        return send(res, 200, asset);
+      } catch (e) {
+        return send(res, 400, { error: e.message });
+      }
+    }
+  }
+  {
+    const m = path.match(/^\/api\/skills\/([^/]+)\/(.+)\/showcase-preset$/);
+    if (m && (method === "GET" || method === "PUT")) {
+      const kind = decodeURIComponent(m[1]);
+      const id = decodeURIComponent(m[2]);
+      const detail = await getSkillDetail(kind, id);
+      if (!detail) return send(res, 404, { error: "skill not found" });
+      try {
+        const key = `${kind}/${id}`;
+        if (method === "GET") return send(res, 200, { preset: getShowcasePreset(key) });
+        return send(res, 200, { preset: saveShowcasePreset(key, await readBody(req, 64 * 1024), detail.showcase) });
+      } catch (e) {
+        return send(res, 400, { error: e.message });
+      }
+    }
+  }
+  {
+    const m = path.match(/^\/api\/skills\/([^/]+)\/(.+)\/brand-subskill\.zip$/);
+    if (method === "POST" && m) {
+      const detail = await getSkillDetail(decodeURIComponent(m[1]), decodeURIComponent(m[2]));
+      if (!detail) return send(res, 404, { error: "skill not found" });
+      if (detail.name !== "gf4p2slides") return send(res, 400, { error: "brand sub-skills require gf4p2slides" });
+      try {
+        return streamBrandSubskillZip(await readBody(req, 3 * 1024 * 1024), res);
+      } catch (e) {
+        return send(res, 400, { error: e.message });
+      }
     }
   }
   {
@@ -348,6 +402,11 @@ async function handleApi(req, res, method, path, u) {
       }
       if (method === "PATCH") {
         const body = await readBody(req);
+        if (body.page_pack_approved === true) {
+          const current = getProject(id);
+          const runId = (current?.work || "").replace(/^\.work\//, "");
+          if (!current || !getPack(runId)?.ready) return send(res, 409, { error: "page pack is not ready for approval" });
+        }
         const p = updateProject(id, body);
         if (!p) return send(res, 404, { error: "not found" });
         return send(res, 200, p);

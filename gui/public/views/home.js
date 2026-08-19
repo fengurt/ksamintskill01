@@ -39,9 +39,9 @@ export async function renderHome(root) {
     <div class="home-shell">
       <section class="home-hero" aria-labelledby="home-title">
         <div class="home-hero-copy">
-          <div class="home-kicker">Local skill operations</div>
-          <h1 id="home-title">Build, audit, and ship from one workspace.</h1>
-          <p>Skills, document pipelines, Baslide rendering, registry sync, and release jobs share one operational view.</p>
+          <div class="home-kicker">Local AI capability operations</div>
+          <h1 id="home-title">Build, evaluate, and ship from one workspace.</h1>
+          <p>Skills, context, tools, evaluation, document pipelines, and release jobs share one operational view.</p>
           <div class="home-actions">
             <a class="btn" href="#/projects/new">Create project</a>
             <a class="btn ghost" href="#/skills">Browse skills</a>
@@ -97,7 +97,7 @@ export async function renderHome(root) {
             <div class="workflow-track" aria-label="Alongslides stages">
               <span>Segment</span><i></i><span>Outline</span><i></i><span>Pages</span><i></i><span>Pack</span>
             </div>
-            <p>Coverage, fit, and hop1 fidelity must pass before <code>slide-plan.json</code> is emitted.</p>
+            <p>Coverage, fit, hop1 fidelity, and schema gates must pass around <code>deck-plan.json</code>.</p>
             <div class="workflow-links">
               <a href="#/projects">Open projects</a>
               <a href="#/runs">Inspect runs</a>
@@ -131,7 +131,7 @@ export async function renderHome(root) {
         <div class="home-modules">
           <a class="module-link module-skills" href="#/skills">
             <span class="module-name">Skills</span><strong>${status.skills?.authored ?? 0}</strong>
-            <p>Authored instructions, install targets, dependency graph, and full-text search.</p>
+            <p>Reusable workflows, provenance, freshness, install targets, and full-text search.</p>
           </a>
           <a class="module-link module-projects" href="#/projects">
             <span class="module-name">Projects</span><strong>${totals.projects ?? 0}</strong>

@@ -44,7 +44,7 @@ export function listThemes() {
 }
 
 export function baslideSummary() {
-  const taxonomy = join(BASLIDE_ROOT, "skills/md-to-html-slides/taxonomy.json");
+  const taxonomy = join(BASLIDE_ROOT, "skills/mdpages2htmlslides/taxonomy.json");
   let counts = {};
   if (existsSync(taxonomy)) {
     try {

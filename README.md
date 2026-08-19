@@ -14,7 +14,7 @@ scripts/                # segment, coverage, catalog, install-links, dev-up
 docs/ATTRIBUTION.md     # Licenses and source-available notes
 ```
 
-## Core skill: `longdoc-to-deck`
+## Core skill: `longdoc2mdpages`
 
 Turns arbitrarily long Markdown (or PDF/DOCX via upstream converters) into:
 
@@ -23,7 +23,7 @@ Turns arbitrarily long Markdown (or PDF/DOCX via upstream converters) into:
 3. **Page-by-page PPT material** — `deck.json` + `pages/p-NNNN.md`
 4. **Coverage that closes** — `check-coverage.py` asserts zero orphans / duplicates
 
-Downstream: `adapters/md-to-html-slides.md` maps `deck.json` → the `md-to-html-slides` slide-plan schema (HTML/CSS stays out of this skill).
+Downstream: `emit-pack.py` writes the shared GF4p2slides `deck-plan.json`; HTML/CSS stays out of this skill until the page-pack approval checkpoint.
 
 ## Quick start
 
@@ -38,10 +38,11 @@ bash scripts/install-links.sh
 bash scripts/sync-vendor.sh
 python3 scripts/build-catalog.py
 
-# Segment a long doc
-python3 skills/longdoc-to-deck/scripts/segment.py path/to/doc.md -o .work/run1
-python3 skills/longdoc-to-deck/scripts/check-coverage.py --stage index --work .work/run1
+# Normalize a Markdown file, directory, or safe ZIP
+python3 skills/longdoc2mdpages/scripts/normalize-source.py path/to/source.zip --work .work/run1
 ```
+
+In the Skill Hub choose `long4hslides`: build and audit the page pack, approve or edit `deck-plan.json`, then run the slides stage.
 
 To reuse vendored skills, star the ones you want in the Skill Hub and export
 the bundle. Extract it into a project's `.agents/skills/`, or into

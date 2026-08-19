@@ -54,11 +54,11 @@ try {
   rmSync(empty, { recursive: true, force: true });
 }
 
-assert.equal(skillZipName("md-to-html-slides"), "md-to-html-slides-skill.zip");
+assert.equal(skillZipName("mdpages2htmlslides"), "mdpages2htmlslides-skill.zip");
 const staged = assembleSkillZipStage({
-  path: "skills/md-to-html-slides",
-  folder: "md-to-html-slides",
-  name: "md-to-html-slides",
+  path: "skills/mdpages2htmlslides",
+  folder: "mdpages2htmlslides",
+  name: "mdpages2htmlslides",
 });
 try {
   const root = join(staged.stage, staged.rootName);

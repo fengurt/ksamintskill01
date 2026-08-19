@@ -2,8 +2,9 @@ import assert from "node:assert/strict";
 import { hasStar, pickCanonical, skillAgent, skillCredit, skillOrigin, sortSkills, starId, unifySkills } from "./skills.js";
 
 assert.equal(skillOrigin({ kind: "authored" }), "ksamint");
-assert.equal(skillOrigin({ kind: "vendored", sourceId: "ksa-mat-skills" }), "ksa");
-assert.equal(skillOrigin({ kind: "vendored", sourceId: "agents-skills-local" }), "matt");
+assert.equal(skillOrigin({ kind: "vendored", sourceId: "agents-skills-local", declaredOrigin: "ksamint" }), "ksamint");
+assert.equal(skillOrigin({ kind: "vendored", sourceId: "mattpocock-skills" }), "mattpocock");
+assert.equal(skillOrigin({ kind: "vendored", sourceId: "agents-skills-local" }), "mattpocock");
 assert.equal(skillOrigin({ kind: "vendored", sourceId: "cursor-skills-cursor" }), "system");
 assert.equal(skillOrigin({ kind: "vendored", sourceId: "anthropics-skills" }), "system");
 assert.equal(skillOrigin({ kind: "vendored", sourceId: "composio-awesome-claude-skills" }), "other");
@@ -12,12 +13,16 @@ assert.equal(skillAgent({ sourceId: "cursor-public-plugins" }), "cursor");
 assert.deepEqual(skillCredit({ kind: "authored" }), { author: "ksamint", repo: "fengurt/ksamintskill01" });
 assert.deepEqual(
   skillCredit(
-    { kind: "vendored", sourceId: "ksa-mat-skills", origin: "ksa" },
-    { url: "https://github.com/fengurt/ksa-mat-skills.git" }
+    { kind: "vendored", sourceId: "mattpocock-skills", origin: "mattpocock" },
+    { url: "https://github.com/mattpocock/skills.git" }
   ),
-  { author: "Matt Pocock · KSA MAT", repo: "fengurt/ksa-mat-skills" }
+  { author: "Matt Pocock", repo: "mattpocock/skills" }
 );
-assert.deepEqual(skillCredit({ kind: "vendored", sourceId: "agents-skills-local" }), { author: "matt", repo: "~/.agents/skills" });
+assert.deepEqual(skillCredit({ kind: "vendored", sourceId: "agents-skills-local" }), { author: "Matt Pocock", repo: "~/.agents/skills" });
+assert.deepEqual(
+  skillCredit({ kind: "vendored", sourceId: "agents-skills-local", origin: "ksamint", declaredAuthor: "ksamint", declaredRepository: "fengurt/ksamintskill01" }),
+  { author: "ksamint", repo: "fengurt/ksamintskill01" }
+);
 assert.deepEqual(
   skillCredit({ kind: "vendored", sourceId: "obra-superpowers" }, { url: "https://github.com/obra/superpowers.git" }),
   { author: "obra", repo: "obra/superpowers" }
@@ -31,12 +36,12 @@ assert.deepEqual(
   sorted.map((s) => s.name),
   ["star", "new", "old"]
 );
-assert.equal(starId("authored/md-to-html-slides"), "md-to-html-slides");
+assert.equal(starId("authored/mdpages2htmlslides"), "mdpages2htmlslides");
 assert.equal(
-  hasStar(new Set(["authored/md-to-html-slides"]), {
-    name: "md-to-html-slides",
+  hasStar(new Set(["authored/mdpages2htmlslides"]), {
+    name: "mdpages2htmlslides",
     kind: "authored",
-    folder: "md-to-html-slides",
+    folder: "mdpages2htmlslides",
   }),
   true
 );

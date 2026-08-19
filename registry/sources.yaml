@@ -36,13 +36,13 @@ sources:
     depth: 1
     synced_commit: be2a406907dbc61b73e6827ded415c96139d13a2
 
-  - id: ksa-mat-skills
+  - id: mattpocock-skills
     kind: git
-    url: https://github.com/fengurt/ksa-mat-skills.git
+    url: https://github.com/mattpocock/skills.git
     pin: main
     depth: 1
-    synced_commit: ed37663cc5fbef691ddfecd080dff42f7e7e350d
-    notes: "KSA MAT fork of Matt Pocock's MIT-licensed engineering skill set"
+    synced_commit: 9c9f36ccd3995266cd675468af71639c8dde1ec5
+    notes: "Matt Pocock's canonical MIT-licensed engineering skill set"
 
   - id: agents-skills-local
     kind: local

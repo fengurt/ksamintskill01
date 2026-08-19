@@ -3,10 +3,11 @@ import { spawn, spawnSync } from "node:child_process";
 import { tmpdir } from "node:os";
 import { basename, dirname, join } from "node:path";
 import { REPO_ROOT, safeResolve, safeWorkDir, underRoot } from "./paths.js";
+import { assembleBrandSubskillStage } from "./showcase.js";
 
 /** Extra files a skill zip must carry because SKILL.md only points at them. */
 export const SKILL_RUNTIME = {
-  "md-to-html-slides": [
+  "mdpages2htmlslides": [
     { from: "modules/baslide01/templates/TIANSIGHT", to: "runtime/templates/TIANSIGHT", why: "L2 HTML 壳 + TIANSIGHT CSS" },
     { from: "modules/baslide01/prompts/loop", to: "runtime/prompts/loop", why: "brand.md + 各 job 循环规范" },
     { from: "modules/baslide01/scripts/build-TIANSIGHT-deck.py", to: "runtime/scripts/build-TIANSIGHT-deck.py", why: "L3 svg_figure" },
@@ -18,19 +19,20 @@ export const PACK_FOLDERS = [
   {
     id: "original",
     title: "原文",
-    files: ["index.json", "index.md", "units.json", "anchors.json"],
+    files: ["index.json", "index.md", "units.json", "anchors.json", "source-manifest.json"],
     source: true,
   },
   {
     id: "pages",
     title: "逐页 md · HTML slides 开发",
-    files: ["deck.json", "outline.md", "slide-plan.json", "pack.json"],
+    files: ["deck.json", "outline.md", "deck-plan.json", "slide-plan.json", "pack.json"],
     pages: true,
+    assets: true,
   },
   {
     id: "audit",
     title: "审阅",
-    files: ["audit.md", "audit-source.json", "fit-report.json"],
+    files: ["audit.md", "audit-source.json", "fit-report.json", "fidelity.json", "schema-report.json", "audit-layout.json"],
     review: true,
   },
 ];
@@ -38,6 +40,7 @@ export const PACK_FOLDERS = [
 /** HTML slides plus the files another agent needs to review / give feedback. */
 const SLIDES_ENTRIES = [
   "slides",
+  "deck-plan.json",
   "slide-plan.json",
   "slides.json",
   "audit-html.json",
@@ -130,6 +133,21 @@ function streamZipFrom(cwd, entries, res, name) {
   return child;
 }
 
+export function streamBrandSubskillZip(input, res) {
+  if (!zipHasBin()) throw new Error("zip command not found");
+  const { stage, rootName, cleanup } = assembleBrandSubskillStage(input);
+  const child = streamZipFrom(stage, [rootName], res, `${rootName}-skill.zip`);
+  child.on("close", cleanup);
+  child.on("error", (err) => {
+    cleanup();
+    if (!res.writableEnded) {
+      if (!res.headersSent) res.writeHead(500, { "content-type": "application/json" });
+      res.end(JSON.stringify({ error: err.message }));
+    }
+  });
+  return child;
+}
+
 function streamWorkZip(runId, res, { entries, suffix, emptyError }) {
   if (!zipHasBin()) throw new Error("zip command not found");
   const abs = safeWorkDir(runId);
@@ -183,6 +201,10 @@ export function assemblePackZipStage(abs, { source = null } = {}) {
             if (linkIfPresent(join(pagesAbs, ent), join(dest, ent))) linked += 1;
           }
         }
+      }
+      if (folder.assets) {
+        const assetsAbs = join(abs, "assets");
+        if (existsSync(assetsAbs) && linkIfPresent(assetsAbs, join(dest, "assets"))) linked += 1;
       }
       for (const rel of folder.files) {
         if (linkIfPresent(join(abs, rel), join(dest, rel))) linked += 1;

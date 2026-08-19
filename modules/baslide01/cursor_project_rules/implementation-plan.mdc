@@ -43,11 +43,11 @@ Saved the 5-page indigo/cyan 16:9 sample as `decks/premium-ppt/presentation.html
 
 ## Step 10 · Ref MD→HTML taxonomy (4×12×16)
 Done
-Audited all 7 files in `ref/`, locked 4 L1 shells × 12 L2 jobs × 16 L3 viz for a two-model pipeline, wrote `ref/AUDIT-md-to-html-taxonomy.md` and `skills/md-to-html-slides`.
+Audited all 7 files in `ref/`, locked 4 L1 shells × 12 L2 jobs × 16 L3 viz for a two-model pipeline, wrote `ref/AUDIT-md-to-html-taxonomy.md` and `skills/mdpages2htmlslides`.
 
 ## Step 11 · Original samples per slide type
 Done
-Filled every L2 job × 5 genres with verbatim `ref/` cuts (job excerpts + overflow + 16 viz + folded types in `gaps.md`). Regenerator is `skills/md-to-html-slides/scripts/extract-samples.py`. Size each template against the densest sample in `samples/job/<id>.md`. Combined reading copy: `ref/REPORT-md-to-html-slide-types.md`.
+Filled every L2 job × 5 genres with verbatim `ref/` cuts (job excerpts + overflow + 16 viz + folded types in `gaps.md`). Regenerator is `skills/mdpages2htmlslides/scripts/extract-samples.py`. Size each template against the densest sample in `samples/job/<id>.md`. Combined reading copy: `ref/REPORT-md-to-html-slide-types.md`.
 
 ## Step 12 · Combined sample report
 Done

@@ -6,7 +6,7 @@ Goal: lock a **small HTML shell set** so a top model can write slot instructions
 **Recommendation: 4 L1 shells × 12 L2 jobs × 16 L3 viz recipes.**
 Do not ask the cheap model to pick among the workshop’s 17 `page-types.json` ids. Map those 17 onto this stack. Do not grow L2 past 12.
 
-Related: [skills/md-to-html-slides](../skills/md-to-html-slides/SKILL.md) · [page-types.json](../page-types.json) · [templates/TIANSIGHT/layouts.html](../templates/TIANSIGHT/layouts.html)
+Related: [skills/mdpages2htmlslides](../skills/mdpages2htmlslides/SKILL.md) · [page-types.json](../page-types.json) · [templates/TIANSIGHT/layouts.html](../templates/TIANSIGHT/layouts.html)
 
 ---
 
@@ -415,7 +415,7 @@ Pagination: if a table exceeds row budget, emit `job` again with `overflow_of` p
 
 ## Original samples (template design)
 
-Verbatim cuts from this corpus, one folder per type: [`skills/md-to-html-slides/samples/INDEX.md`](../skills/md-to-html-slides/samples/INDEX.md).
+Verbatim cuts from this corpus, one folder per type: [`skills/mdpages2htmlslides/samples/INDEX.md`](../skills/mdpages2htmlslides/samples/INDEX.md).
 
 Complete one-file report (taxonomy + every sample): [`REPORT-md-to-html-slide-types.md`](REPORT-md-to-html-slide-types.md).
 

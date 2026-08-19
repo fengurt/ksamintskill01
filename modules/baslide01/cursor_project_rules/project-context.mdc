@@ -12,7 +12,7 @@ Static HTML slide workshop. No build step. Serve the repo root and open `/`.
 - `demos/TIANSIGHT/` — 侍天 TIANSIGHT report prototype (D3, 58 analysis points, 8 page layouts, 1440×810 tokens)
 - `skills/guizang-ppt/` — Guizang HTML PPT skill (Style A magazine / B Swiss / C Table AI)
 - `skills/TIANSIGHT-html-slides/` — TIANSIGHT-token HTML slide skill
-- `skills/md-to-html-slides/` — MD→HTML two-model pipeline (4 shells × 12 jobs × 16 viz); original cuts in `skills/md-to-html-slides/samples/`; complete report `ref/REPORT-md-to-html-slide-types.md`
+- `skills/mdpages2htmlslides/` — MD→HTML two-model pipeline (4 shells × 12 jobs × 16 viz); original cuts in `skills/mdpages2htmlslides/samples/`; complete report `ref/REPORT-md-to-html-slide-types.md`
 - `skills/page-audit/` — 页面审计 Agent（checklist + `/audit/` 控制台）
 - `audit/` — live audit console
 - `templates/` — blank generators: magazine, swiss, tableai, atelier, TIANSIGHT (v2 jobs + gallery; v1 layouts.html)

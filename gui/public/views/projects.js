@@ -199,7 +199,7 @@ async function renderNewProject(root) {
       <div class="field"><label>Name</label><input id="name" style="width:100%" /></div>
       <div class="field"><label>Template</label>
         <select id="template" style="width:100%">
-          ${templates.map((t) => `<option value="${esc(t.id)}" ${t.id === "alongslides" ? "selected" : ""}>${esc(t.title)}</option>`).join("")}
+          ${templates.map((t) => `<option value="${esc(t.id)}" ${t.id === "long4hslides" ? "selected" : ""}>${esc(t.title)}</option>`).join("")}
         </select>
       </div>
       <div class="field"><label>Theme / skin（留给后续 Baslide01 开发）</label>
@@ -267,10 +267,13 @@ function stageTabHtml(p, current, s, key) {
 function bindJobButtons(root, p) {
   root.querySelector("#run-tpl")?.addEventListener("click", async () => {
     try {
+      if (p.page_pack_approved) {
+        await api(`/api/projects/${encodeURIComponent(p.id)}`, { method: "PATCH", body: { page_pack_approved: false } });
+      }
       const job = await api("/api/jobs", {
         method: "POST",
         body: {
-          template: p.template === "baslide-slides" ? "alongslides" : p.template,
+          template: "long4hslides",
           projectId: p.id,
           work: p.work,
           source: p.source,
@@ -284,12 +287,23 @@ function bindJobButtons(root, p) {
       root.querySelector("#err").textContent = e.message;
     }
   });
+  root.querySelector("#approve-pack")?.addEventListener("click", async () => {
+    try {
+      await api(`/api/projects/${encodeURIComponent(p.id)}`, { method: "PATCH", body: { page_pack_approved: true } });
+      p.page_pack_approved = true;
+      root.querySelector("#approve-pack").textContent = "文件包已批准";
+      root.querySelector("#approve-pack").disabled = true;
+      root.querySelector("#run-slides").disabled = false;
+    } catch (e) {
+      root.querySelector("#err").textContent = e.message;
+    }
+  });
   root.querySelector("#run-slides")?.addEventListener("click", async () => {
     try {
       const job = await api("/api/jobs", {
         method: "POST",
         body: {
-          template: "baslide-slides",
+          template: "long4hslides-slides",
           projectId: p.id,
           work: p.work,
           theme: p.theme,
@@ -516,7 +530,8 @@ async function renderProjectDetail(root, id, stageId) {
       <button class="btn" id="run-tpl">生成文件包</button>
       <a class="btn ghost" href="/api/projects/${esc(p.id)}/pack.zip" ${pack?.ready ? "" : "hidden"}>下载文件包</a>
       <a class="btn ghost" href="/api/projects/${esc(p.id)}/slides.zip" ${pack?.slides ? "" : "hidden"}>下载幻灯片评审包</a>
-      <button class="btn ghost" id="run-slides">下一步 · 开发幻灯片</button>
+      <button class="btn ghost" id="approve-pack" ${pack?.ready ? "" : "hidden"} ${p.page_pack_approved ? "disabled" : ""}>${p.page_pack_approved ? "文件包已批准" : "批准文件包"}</button>
+      <button class="btn ghost" id="run-slides" ${pack?.ready && p.page_pack_approved ? "" : "disabled"}>下一步 · 开发幻灯片</button>
       <button class="btn danger ghost" id="del">Delete</button>
     </div>
     <div class="row" style="align-items:baseline">
