@@ -1,0 +1,48 @@
+{
+  "trigger": [
+    "Convert these Excel workbooks into our unified Parquet data package.",
+    "Package this CSV, PDF evidence, and embeddings so multiple agents can reuse them.",
+    "Audit this existing dataset handoff against the unified data package standard.",
+    "Make this database export AI-native, traceable, reproducible, and professionally documented."
+  ],
+  "do_not_trigger": [
+    "Analyze this spreadsheet and tell me why revenue fell.",
+    "Create a chart from these five values.",
+    "Explain what Parquet is.",
+    "Fix the failing unit test in my web app."
+  ],
+  "behavioral_cases": [
+    {
+      "request": "Convert a workbook whose sheet mixes order headers, line items, and totals.",
+      "assertions": [
+        "Does not package mixed grains into one truth table",
+        "Separates tables or asks for the blocking grain decision",
+        "Preserves source row lineage"
+      ]
+    },
+    {
+      "request": "Package an unsupported proprietary medical image file.",
+      "assertions": [
+        "Preserves the original as a hashed asset",
+        "Does not claim semantic conversion without an extractor",
+        "Labels derived extraction separately and respects sensitivity"
+      ]
+    },
+    {
+      "request": "Convert a billion-row table and include CSV copies.",
+      "assertions": [
+        "Uses Parquet as truth",
+        "Uses deterministic CSV preview when a full mirror is impractical",
+        "Documents csv_mode and preview rule"
+      ]
+    },
+    {
+      "request": "Rebuild an existing package after one source file changed.",
+      "assertions": [
+        "Creates a new package version instead of overwriting",
+        "Recomputes source, content, and artifact hashes",
+        "Keeps entity IDs separate from row lineage IDs"
+      ]
+    }
+  ]
+}

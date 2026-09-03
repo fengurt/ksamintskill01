@@ -1,0 +1,52 @@
+{
+  "title": "A smaller decision loop",
+  "brand_skill": "gf4p2slides",
+  "mode": "slides",
+  "pages": [
+    {
+      "id": "p-001",
+      "template": "cover",
+      "title": "A smaller decision loop",
+      "source": "GF4p2slides fictional sample",
+      "takeaway": null,
+      "visualization": null,
+      "content": { "subtitle": "Reference deck using sample data" }
+    },
+    {
+      "id": "p-002",
+      "template": "kpi",
+      "title": "Two gates keep the decision visible",
+      "source": "GF4p2slides fictional sample",
+      "takeaway": "Review volume is not the same as decision quality.",
+      "visualization": null,
+      "content": { "metrics": [{ "value": 17, "label": "reviews" }, { "value": 4, "label": "open decisions" }, { "value": 2, "label": "release gates" }] }
+    },
+    {
+      "id": "p-003",
+      "template": "chart-table",
+      "title": "Review effort concentrates before release",
+      "source": "GF4p2slides fictional sample",
+      "takeaway": "Most review work should happen before the final gate.",
+      "visualization": "pareto",
+      "content": { "rows": [{ "stage": "Evidence", "reviews": 8 }, { "stage": "Decision", "reviews": 6 }, { "stage": "Release", "reviews": 3 }] }
+    },
+    {
+      "id": "p-004",
+      "template": "compare",
+      "title": "Stable ownership removes a handoff",
+      "source": "GF4p2slides fictional sample",
+      "takeaway": "The named-owner option has the clearest accountability.",
+      "visualization": null,
+      "content": { "options": ["Shared queue", "Named owner", "External handoff"] }
+    },
+    {
+      "id": "p-005",
+      "template": "verdict",
+      "title": "Name one owner before the next review",
+      "source": "GF4p2slides fictional sample",
+      "takeaway": "Choose the accountable owner now.",
+      "visualization": null,
+      "content": { "decision": "Use a named owner", "next_action": "Record the owner in the release brief" }
+    }
+  ]
+}

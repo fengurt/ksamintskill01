@@ -1,0 +1,69 @@
+{
+  "version": 1,
+  "intro": {
+    "summary": "One presentation grammar for slides, responsive HTML, and print documents. Narrative type, data visualization, and brand treatment stay independent.",
+    "highlights": [
+      "12 mutually exclusive page templates",
+      "16 data-visualization recipes",
+      "One semantic brand-token contract",
+      "Thin brand adapters instead of renderer forks"
+    ],
+    "workflow": [
+      "Classify each page by its communication job",
+      "Choose a visualization only for a concrete data question",
+      "Apply official brand tokens and assets",
+      "Render, check fit, and preserve source fidelity"
+    ]
+  },
+  "demo": {
+    "title": "GF4p2slides reference deck",
+    "html": "demo.html"
+  },
+  "samples": [
+    {
+      "id": "decision-brief",
+      "title": "Decision brief Markdown",
+      "description": "A compact source that exercises headings, KPIs, a table, a comparison, a takeaway, and provenance.",
+      "file": "samples/decision-brief.md"
+    },
+    {
+      "id": "page-plan",
+      "title": "Five-page plan",
+      "description": "The same reference story expressed through the stable page-plan interface.",
+      "file": "samples/page-plan.json"
+    }
+  ],
+  "theme": {
+    "title": "GF default theme",
+    "css": "theme.css",
+    "tokens": {
+      "surface": "#f4f1e8",
+      "ink": "#17201d",
+      "muted": "#66716b",
+      "grid": "#c9cec7",
+      "accent": "#0e6b5c",
+      "positive": "#217a58",
+      "negative": "#b1473c",
+      "warning": "#9a671b",
+      "fontBody": "Arial, Helvetica, sans-serif",
+      "fontNumber": "ui-monospace, SFMono-Regular, Menlo, monospace"
+    }
+  },
+  "lab": {
+    "defaultSample": "samples/decision-brief.md",
+    "templates": [
+      "cover",
+      "toc",
+      "chapter",
+      "readme",
+      "statement",
+      "verdict",
+      "kpi",
+      "roster",
+      "chart",
+      "chart-table",
+      "matrix",
+      "compare"
+    ]
+  }
+}

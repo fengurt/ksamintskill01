@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:unified-data-package:v1:manifest-schema",
+  "title": "Unified Data Package v1 manifest",
+  "type": "object",
+  "required": [
+    "package",
+    "package_version",
+    "spec_version",
+    "profiles",
+    "built_at",
+    "timezone",
+    "purpose",
+    "classification",
+    "source",
+    "tables",
+    "build",
+    "artifacts",
+    "validation"
+  ],
+  "properties": {
+    "package": {"type": "string", "pattern": "^[a-z0-9]+(?:_[a-z0-9]+)*_v[0-9]+(?:_[0-9]+){0,2}$"},
+    "package_version": {"type": "string", "minLength": 1},
+    "spec_version": {"const": "unified-data-package/v1"},
+    "profiles": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "built_at": {"type": "string", "format": "date-time"},
+    "timezone": {"type": "string", "minLength": 1},
+    "purpose": {"type": "string", "minLength": 1},
+    "classification": {"type": "string", "enum": ["public", "internal", "confidential", "restricted"]},
+    "license": {"type": ["string", "null"]},
+    "source": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["source_id", "file", "media_type", "sha256", "bytes_cnt", "rows", "cols"],
+        "properties": {
+          "source_id": {"type": "string", "minLength": 1},
+          "file": {"type": "string", "minLength": 1},
+          "media_type": {"type": "string", "minLength": 1},
+          "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "bytes_cnt": {"type": "integer", "minimum": 0},
+          "rows": {"type": "integer", "minimum": 0},
+          "cols": {"type": "integer", "minimum": 0}
+        },
+        "additionalProperties": true
+      }
+    },
+    "tables": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["name", "grain", "rows", "cols", "primary_key", "content_sha256", "roundtrip_diff_cells", "csv_mode"],
+        "properties": {
+          "name": {"type": "string", "pattern": "^[a-z][a-z0-9]*(?:_[a-z0-9]+){2,}$"},
+          "grain": {"type": "string", "minLength": 1},
+          "rows": {"type": "integer", "minimum": 0},
+          "cols": {"type": "integer", "minimum": 1},
+          "primary_key": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+          "content_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "roundtrip_diff_cells": {"type": "integer", "minimum": 0},
+          "csv_mode": {"enum": ["full", "preview"]},
+          "csv_rows": {"type": "integer", "minimum": 0},
+          "csv_preview_rule": {"type": ["string", "null"]}
+        },
+        "additionalProperties": true
+      }
+    },
+    "build": {
+      "type": "object",
+      "required": ["entrypoint", "code_sha256", "config_sha256", "random_seed"],
+      "properties": {
+        "entrypoint": {"type": "string", "minLength": 1},
+        "code_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "config_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "lock_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+        "random_seed": {"type": "integer"}
+      },
+      "additionalProperties": true
+    },
+    "artifacts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["path", "media_type", "sha256", "bytes_cnt"],
+        "properties": {
+          "path": {"type": "string", "minLength": 1},
+          "media_type": {"type": "string", "minLength": 1},
+          "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "bytes_cnt": {"type": "integer", "minimum": 0}
+        },
+        "additionalProperties": true
+      }
+    },
+    "validation": {
+      "type": "object",
+      "required": ["status", "errors_cnt", "warnings_cnt"],
+      "properties": {
+        "status": {"enum": ["pass", "fail"]},
+        "errors_cnt": {"type": "integer", "minimum": 0},
+        "warnings_cnt": {"type": "integer", "minimum": 0}
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

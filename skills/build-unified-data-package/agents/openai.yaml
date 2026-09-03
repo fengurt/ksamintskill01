@@ -1,0 +1,4 @@
+interface:
+  display_name: "Build Unified Data Package"
+  short_description: "Turn raw datasets into validated AI-native packages"
+  default_prompt: "Use $build-unified-data-package to convert this dataset into a validated unified data package."

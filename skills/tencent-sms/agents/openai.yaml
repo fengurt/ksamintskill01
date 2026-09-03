@@ -1,0 +1,4 @@
+interface:
+  display_name: "Tencent SMS"
+  short_description: "Operate Tencent SMS safely with runtime secrets"
+  default_prompt: "Use $tencent-sms to inspect Tencent SMS readiness."

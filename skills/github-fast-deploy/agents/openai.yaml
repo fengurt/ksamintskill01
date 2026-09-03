@@ -1,0 +1,4 @@
+interface:
+  display_name: "GitHub Fast Deploy"
+  short_description: "Route deployments between Actions and a safe local fallback"
+  default_prompt: "Use $github-fast-deploy to choose and execute the fastest safe deployment route."

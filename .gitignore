@@ -4,6 +4,7 @@ vendor/
 # Runtime / agent work product
 .work/
 .tmp/
+tmp/
 *.pyc
 __pycache__/
 .Python

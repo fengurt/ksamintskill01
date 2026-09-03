@@ -1,0 +1,5 @@
+pandas>=2.2,<4
+pyarrow>=17,<30
+openpyxl>=3.1,<4
+PyYAML>=6,<7
+jsonschema>=4.23,<5

@@ -23,3 +23,10 @@ apuch-tencent-sms	codex
 iptrust-taste-skill	codex
 ksamint-macos-sign-release	codex
 ksamint-mcp-skill-publisher	codex
+html-quatracheck	cursor,claude,codex
+contrast-audit	cursor,claude,codex
+github-fast-deploy	cursor,claude,codex
+ksamint-githubaction-skill	cursor,claude,codex
+tencent-sms	cursor,claude,codex
+build-unified-data-package	cursor,claude,codex
+gf4p2slides	cursor,claude,codex

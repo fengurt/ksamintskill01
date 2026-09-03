@@ -1,0 +1,4 @@
+interface:
+  display_name: "Ksamint GitHub Actions Optimizer"
+  short_description: "Reduce redundant GitHub Actions usage"
+  default_prompt: "Use $ksamint-githubaction-skill to audit and optimize this repository's GitHub Actions usage."

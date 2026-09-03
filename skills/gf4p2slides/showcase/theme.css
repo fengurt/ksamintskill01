@@ -1,0 +1,12 @@
+:root {
+  --gf-surface: #f4f1e8;
+  --gf-ink: #17201d;
+  --gf-muted: #66716b;
+  --gf-grid: #c9cec7;
+  --gf-accent: #0e6b5c;
+  --gf-positive: #217a58;
+  --gf-negative: #b1473c;
+  --gf-warning: #9a671b;
+  --gf-font-body: Arial, Helvetica, sans-serif;
+  --gf-font-number: ui-monospace, SFMono-Regular, Menlo, monospace;
+}

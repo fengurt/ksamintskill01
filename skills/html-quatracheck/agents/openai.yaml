@@ -1,0 +1,4 @@
+interface:
+  display_name: "HTML QuatraCheck"
+  short_description: "Prioritize root-cause defects across four HTML QA passes"
+  default_prompt: "Use $html-quatracheck to audit this rendered HTML or slide deck and return the highest-value fixes first."

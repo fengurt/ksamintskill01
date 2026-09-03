@@ -1,0 +1,4 @@
+interface:
+  display_name: "GF4p2slides"
+  short_description: "Generic branded slides, HTML, and documents"
+  default_prompt: "Use $gf4p2slides to classify this material into page templates and plan a brand-consistent deck."

@@ -1,0 +1,77 @@
+package:
+  name: demo_orders_normalize_v1
+  version: 1.0.0
+  spec_version: unified-data-package/v1
+  timezone: Asia/Shanghai
+  purpose: Convert source orders into a reusable agent-native table.
+  profiles: [tabular/v1]
+  classification: internal
+  license: null
+  conclusions:
+    - Replace this with a conclusion supported by the packaged truth, or remove it.
+  assumptions: []
+  limitations: []
+
+sources:
+  - source_id: source_001
+    path: ./orders.xlsx
+    tables:
+      - selector: Orders
+        name: sales_orders_order_line
+        title_zh: 销售订单明细
+        description: One record for each source order line.
+        grain: 一行=一个订单明细行
+        header_row: 1
+        excel_formula_mode: formula
+        source_row_number_start: 2
+        source_key: null
+        primary_key: [row_uid]
+        business_keys: [order_id, line_id]
+        foreign_keys: []
+        csv_mode: full
+        source_null_tokens: [""]
+        columns:
+          - source: Order ID
+            name: order_id
+            title_zh: 订单编号
+            description: Stable order identifier from the source system.
+            physical_type: string
+            logical_type: identifier
+            semantic_role: identifier
+            unit: null
+            nullable: false
+            null_means: null
+            sensitivity: internal
+            derived: false
+          - source: Line ID
+            name: line_id
+            title_zh: 行号
+            description: Line identifier within the order; stored as text.
+            physical_type: string
+            logical_type: identifier
+            semantic_role: identifier
+            unit: null
+            nullable: false
+            null_means: null
+            sensitivity: internal
+            derived: false
+          - source: Net Amount
+            name: net_amount_cny
+            title_zh: 订单净额
+            description: Exact net amount in Chinese yuan.
+            physical_type: decimal(18,2)
+            logical_type: monetary_amount
+            semantic_role: measure
+            unit: CNY
+            nullable: true
+            null_means: Source did not provide an amount.
+            sensitivity: internal
+            derived: false
+            constraints:
+              minimum: "0.00"
+
+assets: []
+asset_table:
+  name: demo_assets_asset
+  title_zh: 资产索引
+  grain: 一行=一个二进制资产

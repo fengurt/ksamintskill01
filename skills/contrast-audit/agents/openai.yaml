@@ -1,0 +1,4 @@
+interface:
+  display_name: "Contrast Audit"
+  short_description: "Audit contrast across project artifacts"
+  default_prompt: "Use $contrast-audit to audit this project for contrast failures."
