@@ -34,6 +34,15 @@ LOCKED_L3 = (
     "calendar",
 )
 
+SEMANTIC_L3 = {"network", "calendar", "venn"}
+
+ANALYTIC_TITLE_RE = re.compile(
+    r"价格|评分|客单|门店|占比|结构|分布|趋势|对比|矩阵|密度|销量|收入|营收|成本|利润|时段|"
+    r"价格带|数量|排名|关键尺寸|面积|座位|点击|安全边际|盈亏|负荷|权重|指数|口碑|复购|消费|"
+    r"供给|供需|营业|人均|菜品|套餐|SKU|率|份额|TOP",
+    re.I,
+)
+
 RECIPE_TO_L3 = {
     "hbar": "diverging-bar",
     "timeline": "calendar",
@@ -157,6 +166,16 @@ def hint_fill(text: str) -> str | None:
     return None
 
 
+def semantic_fill(text: str) -> str | None:
+    if re.search(r"交集|重叠|兼具|两套|双线|二元", text, re.I):
+        return "venn"
+    if re.search(r"阶段|路径|路线|步骤|历程|里程碑|节奏|时序", text, re.I):
+        return "calendar"
+    if re.search(r"接口|关系|链条|系统|框架|协同|联动|触点|网络|推导|一图流", text, re.I):
+        return "network"
+    return None
+
+
 def first_gfm_table(md: str, builder: Any):
     lines = (md or "").replace("\r\n", "\n").split("\n")
     for i, line in enumerate(lines):
@@ -191,6 +210,19 @@ def series_from_table(table, title: str, builder: Any) -> tuple[list[str], list[
             labels.append(builder.strip_md(r[lcol] if lcol < len(r) else r[0]))
             values.append(float(parsed))
     return labels, values
+
+
+def semantic_labels(material: str, table, builder: Any) -> list[str]:
+    if table is not None and table.rows:
+        column = builder.label_col(table)
+        labels = [builder.strip_md(row[column] if column < len(row) else row[0]) for row in table.rows]
+    else:
+        labels = [
+            re.sub(r"^\s*(?:[-*+]|\d+[.)])\s+", "", line).strip()
+            for line in (material or "").splitlines()
+            if re.match(r"^\s*(?:[-*+]|\d+[.)])\s+", line)
+        ]
+    return [label for label in labels if label][:8]
 
 
 def pick_recipe(title: str, material: str, table, labels: list[str], values: list[float], builder: Any) -> str | None:
@@ -243,23 +275,49 @@ def table_preview_html(table, builder: Any, limit: int = 8) -> str:
 
 def _custom_svg(fill: str, labels: list[str], values: list[float]) -> str | None:
     """The four graph/set/time recipes Baslide previously disguised as bars."""
-    labs = [str(label)[:14] for label in labels[:8]] or ["A", "B", "C", "D"]
-    vals = values[: len(labs)] or [4.0, 3.0, 2.0, 1.0]
-    text = lambda x, y, value, anchor="middle": f'<text x="{x}" y="{y}" text-anchor="{anchor}" fill="var(--gf-ink,var(--sd-ink-100))" font-size="18">{_esc(value)}</text>'
+    def clip_label(value: object, width: int = 12) -> str:
+        text_value, used = re.sub(r"\s+", " ", str(value)).strip(), 0
+        out = []
+        for char in text_value:
+            step = 1 if ord(char) < 128 else 2
+            if used + step > width:
+                return re.sub(r"\s*\d[\d,.，]*$", "", "".join(out)) + "…"
+            out.append(char)
+            used += step
+        return "".join(out)
+
+    labs = [clip_label(label) for label in labels[:8]] or ["A", "B", "C", "D"]
+    vals = values[: len(labs)]
+    text = lambda x, y, value, anchor="middle", size=22, fill="var(--gf-ink,var(--sd-ink-100))", weight=600: f'<text x="{x}" y="{y}" text-anchor="{anchor}" fill="{fill}" font-size="{size}" font-weight="{weight}">{_esc(value)}</text>'
     if fill == "calendar":
-        xs = [100 + i * 930 / max(1, len(labs) - 1) for i in range(len(labs))]
-        body = '<path d="M100 250H1030" stroke="var(--gf-grid,var(--sd-ink-28))" stroke-width="4"/>'
-        for x, label, value in zip(xs, labs, vals):
-            body += f'<circle cx="{x:.1f}" cy="250" r="14" fill="var(--gf-accent,var(--sd-accent))"/>' + text(x, 220, label) + text(x, 292, value)
+        xs = [115 + i * 940 / max(1, len(labs) - 1) for i in range(len(labs))]
+        body = '<path d="M115 250H1055" stroke="var(--gf-accent,var(--sd-accent))" stroke-width="5"/>'
+        for index, (x, label) in enumerate(zip(xs, labs)):
+            up = index % 2 == 0
+            box_y = 112 if up else 304
+            stem_y = box_y + 58 if up else box_y
+            body += f'<line x1="{x:.1f}" y1="250" x2="{x:.1f}" y2="{stem_y}" stroke="var(--gf-accent,var(--sd-accent))" stroke-width="3"/>'
+            body += f'<circle cx="{x:.1f}" cy="250" r="13" fill="var(--gf-negative,var(--sd-secondary))" stroke="var(--gf-ink,var(--sd-ink-100))" stroke-width="3"/>'
+            body += f'<rect x="{x-76:.1f}" y="{box_y:.1f}" width="152" height="58" rx="2" fill="var(--gf-accent,var(--sd-accent))"/>'
+            body += text(x, box_y + 36, label, size=18, fill="var(--gf-paper,var(--sd-paper))")
     elif fill == "venn":
-        body = '<circle cx="470" cy="245" r="150" fill="var(--gf-accent,var(--sd-accent))" fill-opacity=".28"/><circle cx="690" cy="245" r="150" fill="var(--gf-negative,var(--sd-secondary))" fill-opacity=".25"/>'
-        body += text(410, 250, labs[0]) + text(750, 250, labs[1] if len(labs) > 1 else "B") + text(580, 250, "∩")
+        body = '<circle cx="445" cy="245" r="190" fill="var(--gf-accent,var(--sd-accent))" fill-opacity=".26" stroke="var(--gf-accent,var(--sd-accent))" stroke-width="3"/><circle cx="725" cy="245" r="190" fill="var(--gf-negative,var(--sd-secondary))" fill-opacity=".22" stroke="var(--gf-negative,var(--sd-secondary))" stroke-width="3"/>'
+        body += text(365, 250, labs[0], size=24, fill="var(--gf-paper,var(--sd-paper))") + text(805, 250, labs[1] if len(labs) > 1 else "B", size=24, fill="var(--gf-paper,var(--sd-paper))") + text(585, 250, "共同价值", size=21, fill="var(--gf-paper,var(--sd-paper))")
     elif fill == "network":
         import math
-        pts = [(585 + 205 * math.cos(i * 2 * math.pi / len(labs)), 250 + 175 * math.sin(i * 2 * math.pi / len(labs))) for i in range(len(labs))]
-        body = "".join(f'<line x1="{pts[i][0]:.1f}" y1="{pts[i][1]:.1f}" x2="{pts[(i+1)%len(pts)][0]:.1f}" y2="{pts[(i+1)%len(pts)][1]:.1f}" stroke="var(--gf-grid,var(--sd-ink-28))" stroke-width="4"/>' for i in range(len(pts)))
-        body += "".join(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="28" fill="var(--gf-accent,var(--sd-accent))"/>{text(x, y+6, label)}' for (x, y), label in zip(pts, labs))
+        center = (585, 250)
+        outer = labs[1:] or labs
+        pts = [(585 + 330 * math.cos(i * 2 * math.pi / len(outer)), 250 + 185 * math.sin(i * 2 * math.pi / len(outer))) for i in range(len(outer))]
+        body = "".join(f'<line x1="{center[0]}" y1="{center[1]}" x2="{x:.1f}" y2="{y:.1f}" stroke="var(--gf-accent,var(--sd-accent))" stroke-opacity=".38" stroke-width="5"/>' for x, y in pts)
+        body += "".join(
+            f'<rect x="{x-88:.1f}" y="{y-28:.1f}" width="176" height="56" rx="2" fill="var(--gf-accent,var(--sd-accent))"/>'
+            f'<text x="{x:.1f}" y="{y+7:.1f}" text-anchor="middle" fill="var(--gf-paper,var(--sd-paper))" font-size="18" font-weight="600">{_esc(label)}</text>'
+            for (x, y), label in zip(pts, outer)
+        )
+        body += '<circle cx="585" cy="250" r="80" fill="var(--gf-negative,var(--sd-secondary))" stroke="var(--gf-ink,var(--sd-ink-100))" stroke-width="4"/>'
+        body += text(585, 258, labs[0], size=22, fill="var(--gf-paper,var(--sd-paper))", weight=700)
     elif fill == "sankey":
+        vals = vals or [4.0, 3.0, 2.0, 1.0]
         scale = 170 / max(max(abs(v) for v in vals), 1)
         body = ""
         for i, (label, value) in enumerate(zip(labs[:4], vals[:4])):
@@ -306,7 +364,15 @@ def figure_for_page(
     table = first_gfm_table(material, builder)
     labels, values = series_from_table(table, title, builder) if table else ([], [])
     recipe = preset_fill or pick_recipe(title, material, table, labels, values, builder)
+    if table is not None:
+        numeric = builder.numeric_cols(table)
+        if len(numeric) == 1 and re.fullmatch(r"年份|年|月份|月|日期|时间|时点", builder.strip_md(table.headers[numeric[0]]), re.I):
+            recipe = "calendar"
     fill = lock_fill(recipe)
+    if fill in SEMANTIC_L3 and not values:
+        labels = semantic_labels(material, table, builder)
+        if len(labels) < 2:
+            return None
     if fill is None and not values:
         return None
     if fill is None:
@@ -337,7 +403,7 @@ def figure_for_page(
                 if vcols:
                     unit = next(key for key, group in groups.items() if group[:2] == vcols)
         caption = builder.figure_caption(recipe or fill, value_header, len(labels), unit, title)
-        caption = re.sub(r"^n=\d+ · ", "", caption)
+        caption = re.sub(r"^n=\d+(?:\s*·\s*)?", "", caption)
     svg = (_raw_heatmap_svg(table, builder) if fill == "heatmap" and table is not None else None) or _custom_svg(fill, labels, values) or builder.svg_figure(
         recipe or fill,
         labels,
@@ -363,18 +429,38 @@ def figure_for_page(
 
 def assign_page_fill(title: str, material: str, role: str, *, baslide: Path | None = None) -> dict[str, str | None]:
     """Return {fill, recipe, how_to_read} for deck-plan. fill is locked L3 or null."""
-    if role not in {"chart", "chart-table"}:
-        hinted = hint_fill(f"{title}\n{material}")
-        return {"fill": hinted, "recipe": hinted, "how_to_read": HOW_FOR_FILL.get(hinted or "", "") if hinted else ""}
     try:
         builder = load_builder(baslide)
     except FileNotFoundError:
-        hinted = hint_fill(f"{title}\n{material}")
+        hinted = hint_fill(f"{title}\n{material}") or semantic_fill(f"{title}\n{material}")
         return {"fill": hinted, "recipe": hinted, "how_to_read": HOW_FOR_FILL.get(hinted or "", "")}
     table = first_gfm_table(material, builder)
     labels, values = series_from_table(table, title, builder) if table else ([], [])
-    recipe = pick_recipe(title, material, table, labels, values, builder)
+    blob = f"{title}\n{material}"
+    hinted = hint_fill(blob)
+    selected_header = ""
+    if table is not None:
+        numeric = builder.numeric_cols(table)
+        if numeric:
+            selected_header = builder.strip_md(table.headers[builder.pick_value_col(table, numeric, title)]).strip()
+    useful_measure = (
+        not title.startswith("附录")
+        and len(values) >= 3
+        and len(set(values)) >= 2
+        and bool(ANALYTIC_TITLE_RE.search(f"{title} {selected_header}"))
+        and not re.fullmatch(r"#|序号|编号|id|日期|时间|时点|年份|年|月|周期", selected_header, re.I)
+    )
+    if role not in {"chart", "chart-table"}:
+        recipe = hinted if useful_measure else None
+        if recipe is None and role in {"roster", "compare", "matrix", "statement"} and table is not None and 3 <= len(table.rows) <= 8 and useful_measure:
+            recipe = builder.pick_fill(title, table, labels, values)
+        if recipe is None and role in {"roster", "compare", "matrix", "statement"} and (table is None or len(table.rows) <= 8) and len(semantic_labels(material, table, builder)) >= 3:
+            recipe = semantic_fill(blob)
+    else:
+        recipe = pick_recipe(title, material, table, labels, values, builder)
     fill = lock_fill(recipe)
+    if values and fill in {"treemap", "funnel", "venn"} and not (abs(sum(values) - 100) <= 2 or abs(sum(values) - 1) <= .02):
+        fill = recipe = "diverging-bar"
     return {
         "fill": fill,
         "recipe": recipe,

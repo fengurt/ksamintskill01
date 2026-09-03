@@ -319,7 +319,16 @@ export function getStageView(runId, stageId, { source = null } = {}) {
         drawn = 0;
       }
       const deck = readJsonSafe(join(abs, "deck.json"));
-      const pages = deck?.pages || [];
+      const sourcePages = deck?.pages || [];
+      const rendered = readJsonSafe(join(abs, "slides.json"))?.slides || [];
+      const pages = rendered.length && rendered.length !== sourcePages.length
+        ? rendered.map((s, i) => ({
+            id: s.id || `slide-${i + 1}`,
+            title: s.title || String(s.text || "").trim().split(/\n+/)[0] || `Slide ${i + 1}`,
+            role: "slide",
+            outline_path: [],
+          }))
+        : sourcePages;
       const roles = { ...(packMeta?.counts?.roles || {}) };
       if (!Object.keys(roles).length) {
         for (const page of pages) {

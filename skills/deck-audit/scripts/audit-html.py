@@ -212,7 +212,7 @@ def plan_authorized_material(pages: list[dict]) -> dict[str, set[str]]:
 def renderer_derived_norms(page: dict, slide_index: int | None = None) -> set[str]:
     """Known labels mechanically derived by the named SVG recipe."""
     viz = page.get("visualization")
-    rows = (page.get("content") or {}).get("rows") or []
+    rows = [row for row in ((page.get("content") or {}).get("rows") or []) if not (row and re.search(r"^(?:合计|总计|小计)$", str(row[0]).strip()))]
     width = max((len(row) for row in rows if isinstance(row, list)), default=0)
     columns = []
     for index in range(width):
@@ -247,6 +247,12 @@ def renderer_derived_norms(page: dict, slide_index: int | None = None) -> set[st
             out.update({rounded, normalize_value(rounded + "%"), normalize_value(rounded + "万")})
             if abs(value) >= 10000:
                 out.add(normalize_value(f"{value / 10000:.1f}万"))
+    for row in rows:
+        for cell in row:
+            match = re.search(r"[-−]?\d[\d,]*(?:\.\d+)?", str(cell))
+            if match and "万" in str(cell):
+                value = float(match.group(0).replace("−", "-").replace(",", "")) * 10000
+                out.add(normalize_value(f"{abs(value):,.0f}"))
     if viz == "bubble":
         out.add("0")
         for values in columns:
@@ -258,7 +264,7 @@ def renderer_derived_norms(page: dict, slide_index: int | None = None) -> set[st
                 else:
                     out.add(normalize_value(f"{(min(values) + max(values)) / 2:.1f}"))
     if viz in {"hist-cdf", "pareto"}:
-        out.update(normalize_value(f"{tick}%") for tick in (0, 25, 50, 75, 100))
+        out.update(normalize_value(f"{tick}%") for tick in (0, 25, 50, 75, 80, 100))
         for values in columns:
             top = nice_max(max(values))
             for index in range(5):
@@ -272,8 +278,10 @@ def renderer_derived_norms(page: dict, slide_index: int | None = None) -> set[st
                     running += abs(value)
                     out.add(normalize_value(f"{round(running / total * 100)}%"))
     if viz == "quadrant":
-        ceiling = min(100, int(max((max(values) for values in columns), default=0)))
-        out.update(str(value) for value in range(0, ceiling + 1, 5))
+        top = nice_max(max((max(values) for values in columns), default=1))
+        out.update(formatted(top * index / 4) for index in range(5))
+        out.update(formatted(value) for value in (.25, .5, .75, 1))
+        out.update(str(value) for value in range(0, 101, 5))
         for values in columns:
             ordered = sorted(values)
             if ordered:

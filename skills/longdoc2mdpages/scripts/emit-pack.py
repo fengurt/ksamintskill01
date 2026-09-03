@@ -474,6 +474,7 @@ def build_deck_plan(work: Path, deck: dict, *, genre: str, skin: str, viz) -> di
     root_id = (deck.get("pages") or [{}])[0].get("id")
     deck_name = deck_name_for(work, deck)
     argument_nodes = []
+    promoted_titles = set()
     for page_index, page in enumerate(deck.get("pages") or []):
         page = dict(page)
         if page_index == 0 and clean_inline(page.get("title") or "").lower() in {"", "deck", "slides", "presentation"}:
@@ -484,6 +485,12 @@ def build_deck_plan(work: Path, deck: dict, *, genre: str, skin: str, viz) -> di
         assigned = viz.assign_page_fill(page.get("title") or "", material, role)
         fill = assigned.get("fill")
         recipe = assigned.get("recipe")
+        promoted = role not in {"chart", "chart-table"} and bool(fill)
+        promoted_title = re.sub(r"\s*(?:续|·\s*\d+/\d+)\s*$", "", clean_inline(page.get("title") or ""))
+        if promoted and (page.get("overflow_of") or "续" in str(page.get("title") or "") or promoted_title in promoted_titles):
+            fill = recipe = None
+        elif promoted:
+            promoted_titles.add(promoted_title)
         content = content_from_page(page, material, job)
         if job == "kpi" and sum(block.get("kind") == "kpi-card" for block in content["blocks"]) < 2:
             job = "statement"
@@ -504,7 +511,7 @@ def build_deck_plan(work: Path, deck: dict, *, genre: str, skin: str, viz) -> di
                 if block.get("kind") == "table":
                     block["columns"], block["rows"] = content["columns"], content["rows"]
         profile = data_profile(content["columns"], content["rows"])
-        if fill and not profile["measures"]:
+        if fill and not profile["measures"] and fill not in viz.SEMANTIC_L3:
             fill = recipe = None
         if job == "chart" and not fill:
             job = "statement"
@@ -512,17 +519,23 @@ def build_deck_plan(work: Path, deck: dict, *, genre: str, skin: str, viz) -> di
             job = "roster"
         if job == "roster" and fill:
             job = "chart-table"
+        elif fill and job in {"statement", "compare", "matrix"}:
+            job = "chart-table" if content["columns"] and content["rows"] else "chart"
         if fill:
             fill_counts[fill] = fill_counts.get(fill, 0) + 1
         path = page.get("outline_path") or []
         how = (page.get("how_to_read") or "").strip() or assigned.get("how_to_read") or ""
         if fill:
+            figure_columns, figure_rows = content["columns"], content["rows"]
+            if not figure_rows:
+                labels = content.get("bullets") or []
+                figure_columns, figure_rows = ["label"], [[label] for label in labels[:8]]
             content["blocks"].insert(0, {
                 "kind": "fig",
                 "viz": fill,
-                "data": {"columns": content["columns"], "rows": content["rows"]},
+                "data": {"columns": figure_columns, "rows": figure_rows},
                 "caption": how,
-                "fallback": {"columns": content["columns"], "rows": content["rows"]},
+                "fallback": {"columns": figure_columns, "rows": figure_rows},
             })
         source = page.get("source") or deck.get("source") or " ".join(page.get("units") or [])
         provenance = source_provenance(work, deck, material, page.get("units") or [])
@@ -544,6 +557,8 @@ def build_deck_plan(work: Path, deck: dict, *, genre: str, skin: str, viz) -> di
                     "scenario": "actual",
                 }
             evidence.append(item)
+        elif fill and visible_data:
+            evidence.append({"kind": "diagram", "source": provenance})
         elif any(block.get("kind") == "kpi-card" for block in content["blocks"]):
             evidence.append({"kind": "number", "profile": profile, "source": provenance})
         graph_role = node_role(page, job, page_index, bool(evidence))

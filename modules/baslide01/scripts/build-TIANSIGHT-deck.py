@@ -725,7 +725,7 @@ def parse_list(lines: list[str], start: int) -> tuple[Block, int]:
     return Block(kind="list", items=items, ordered=ordered), i
 
 
-def parse_markdown(text: str) -> tuple[list[str], list[Chapter], list[Unit], list[Table]]:
+def parse_markdown(text: str, cover_h1_count: int | None = None) -> tuple[list[str], list[Chapter], list[Unit], list[Table]]:
     lines = text.replace("\r\n", "\n").split("\n")
     cover_titles: list[str] = []
     chapters: list[Chapter] = []
@@ -763,7 +763,9 @@ def parse_markdown(text: str) -> tuple[list[str], list[Chapter], list[Unit], lis
             level = len(hm.group(1))
             title = hm.group(2).strip()
             if level == 1:
-                if not saw_chapter and not CHAPTER_RE.search(title):
+                if not saw_chapter and (
+                    len(cover_titles) < cover_h1_count if cover_h1_count is not None else not CHAPTER_RE.search(title)
+                ):
                     cover_titles.append(title)
                     i += 1
                     continue
@@ -830,7 +832,7 @@ def parse_markdown(text: str) -> tuple[list[str], list[Chapter], list[Unit], lis
 
 
 def is_index_header(header: str) -> bool:
-    return strip_md(header) in {"排名", "#", "序", "序号", "No", "NO"}
+    return strip_md(header) in {"排名", "#", "序", "序号", "编号", "ID", "Id", "id", "No", "NO"}
 
 
 def is_label_header(header: str) -> bool:
@@ -1977,7 +1979,8 @@ def svg_vbars(labels: list[str], values: list[float], *, cdf: bool, mark80: bool
         for cx, cy, share, i in cdf_meta:
             parts.append(f'<circle cx="{cx:.1f}" cy="{cy:.1f}" r="3.5" fill="var(--sd-secondary)"/>')
             if i == highlight or i == n - 1:
-                parts.append(svg_text(cx + 8, cy - 6, f"{share * 100:.0f}%", size=FIG_TICK, fill="var(--sd-secondary)", family="var(--sd-font-mono)", weight="600"))
+                label = f"{share * 100:.0f}%"
+                parts.append(svg_text(cx, top - 10, label, size=FIG_TICK, fill="var(--sd-ink-100)", anchor="middle", family="var(--sd-font-mono)", weight="600"))
         parts.append(f'<line x1="{FIG_W - right}" y1="{top}" x2="{FIG_W - right}" y2="{FIG_H - bot}" stroke="var(--sd-ink-14)" stroke-width="2"/>')
         for pct in (0, 25, 50, 75, 100):
             y = FIG_H - bot - inner_h * (pct / 100)
@@ -1985,7 +1988,7 @@ def svg_vbars(labels: list[str], values: list[float], *, cdf: bool, mark80: bool
         if mark80:
             y80 = top + inner_h * 0.2
             parts.append(f'<line x1="{left}" y1="{y80:.1f}" x2="{FIG_W - right}" y2="{y80:.1f}" stroke="var(--sd-secondary)" stroke-width="1.2" stroke-dasharray="5 5"/>')
-            parts.append(svg_text(FIG_W - right - 8, y80 - 8, "累计 80%", size=FIG_TICK, fill="var(--sd-secondary)", anchor="end", family="var(--sd-font-mono)"))
+            parts.append(svg_text(FIG_W - right - 8, top - 10, "累计 80%", size=FIG_TICK, fill="var(--sd-ink-100)", anchor="end", family="var(--sd-font-mono)"))
             if cross80 is not None:
                 parts.append(f'<line x1="{cross80}" y1="{top}" x2="{cross80}" y2="{FIG_H - bot}" stroke="var(--sd-ink-28)" stroke-width="1" stroke-dasharray="3 4"/>')
     parts.extend(value_labels)
@@ -2320,6 +2323,28 @@ def svg_slots(groups: list[dict[str, Any]], caption: str = "") -> str:
             parts.append(svg_text(40, y + 66 + j * 28, item, size=20, fill="var(--sd-ink-72)"))
     if caption:
         parts.append(svg_caption(caption))
+    return svg_root("".join(parts))
+
+
+def svg_categorical_grid(groups: list[dict[str, Any]], caption: str = "") -> str:
+    groups = groups[:9]
+    n = max(1, len(groups))
+    cols = 3 if n >= 5 else 2
+    rows = math.ceil(n / cols)
+    gap, side, top, bot = 14, 18, 30, 24
+    cw = (FIG_W - side * 2 - gap * (cols - 1)) / cols
+    ch = (FIG_H - top - bot - gap * (rows - 1)) / rows
+    parts: list[str] = []
+    if caption:
+        parts.append(svg_text(side, 21, caption, size=FIG_CAPTION, fill="var(--sd-ink-60)", family="var(--sd-font-mono)"))
+    for i, group in enumerate(groups):
+        x = side + (i % cols) * (cw + gap)
+        y = top + (i // cols) * (ch + gap)
+        parts.append(f'<rect x="{x:.1f}" y="{y:.1f}" width="{cw:.1f}" height="{ch:.1f}" fill="var(--sd-paper)" stroke="var(--sd-ink-14)" stroke-width="2" rx="5"/>')
+        parts.append(f'<rect x="{x:.1f}" y="{y:.1f}" width="8" height="{ch:.1f}" fill="var(--sd-accent)" rx="2"/>')
+        parts.append(svg_text(x + 24, y + 34, truncate(group["title"], 14), size=20, weight="700"))
+        for j, item in enumerate(group.get("items", [])[:2]):
+            parts.append(svg_text(x + 24, y + 66 + j * 28, truncate(item, 22), size=16, fill="var(--sd-ink-72)"))
     return svg_root("".join(parts))
 
 
@@ -3074,6 +3099,8 @@ def classify_table(title: str, table: Table, genre: str) -> str:
         return "chart"
     if n >= 4 and has_price and n <= CHART_ROWS and short_labels:
         return "chart"
+    if "viz" in genre and 3 <= n <= BIN_CHART_ROWS and short_labels and avg_cell_len(table) <= 24:
+        return "chart"
     if n == 2 and nums and short_labels and compact:
         return "kpi" if len(table.headers) <= 3 else "roster"
     if n == 2 and nums and len(table.headers) <= 3:
@@ -3159,7 +3186,7 @@ def rail_cards(slide: Slide, issued: str) -> str:
   </div>'''
 
 
-LOGO_HREF = "../../templates/TIANSIGHT/logo/侍天.png"
+LOGO_HREF = "logo/侍天.png"
 
 
 def logo_img(style: str = "") -> str:
@@ -3680,6 +3707,16 @@ class DeckBuilder:
         headers = ["项", "内容"]
         rows = [[str(i + 1), it] for i, it in enumerate(lst.items)]
         fake = Table(headers=headers, rows=rows, source_index=-1)
+        if "dossier-viz" in self.meta["genre"] and 4 <= len(rows) <= 9:
+            groups = [{"title": row[0], "items": [strip_md(row[1])]} for row in rows]
+            self.emit_figure_slide(
+                unit,
+                title,
+                svg_categorical_grid(groups, f"n={len(rows)} · 分类清单；完整文字见后页清单"),
+                "slots",
+                inventory=fake,
+            )
+            return
         self.emit_roster(title, fake, unit, close_sum=False)
 
     def emit_table(self, title: str, table: Table, unit: Unit, claim: str = "") -> None:
@@ -3687,6 +3724,33 @@ class DeckBuilder:
             return
         if table.source_index >= 0:
             self.table_emitted.add(table.source_index)
+        rows = [r for r in table.rows if not is_sum_row(r)]
+        if (
+            "dossier-viz" in self.meta["genre"]
+            and not numeric_cols(table)
+            and 3 <= len(rows) <= 10
+            and 2 <= len(table.headers) <= 4
+        ):
+            groups = [
+                {
+                    "title": strip_md(row[0]),
+                    "items": [
+                        f"{strip_md(table.headers[i])}：{strip_md(row[i])}"
+                        for i in range(1, min(len(row), len(table.headers)))
+                        if strip_md(row[i])
+                    ],
+                }
+                for row in rows
+            ]
+            self.emit_figure_slide(
+                unit,
+                title,
+                svg_categorical_grid(groups, f"n={len(rows)} · 分类映射；完整文字见后页清单"),
+                "slots",
+                claim,
+                inventory=Table(headers=table.headers, rows=rows, source_index=-1),
+            )
+            return
         job = classify_table(title, table, self.meta["genre"])
         if job == "kpi":
             self.emit_kpi(title, table, unit, claim=claim)
@@ -4219,8 +4283,9 @@ def render_slide(slide: Slide, index: int, total: int, meta: dict) -> str:
 
 
 def document(title: str, slides_html: str) -> str:
+    logo = base64.b64encode(LOGO_PATH.read_bytes()).decode("ascii")
     css = CSS_PATH.read_text(encoding="utf-8").replace(
-        'url("logo/侍天.png")', 'url("../../templates/TIANSIGHT/logo/侍天.png")'
+        'url("logo/侍天.png")', f'url("data:image/png;base64,{logo}")'
     )
     js = JS_PATH.read_text(encoding="utf-8")
     return f'''<!DOCTYPE html>
@@ -4346,7 +4411,9 @@ DECKS = [
 def build_one(meta: dict) -> dict[str, Any]:
     src = ROOT / meta["source"]
     text = rewrite_report_copy(strip_cite(src.read_text(encoding="utf-8")))
-    cover_titles, chapters, preamble, tables = parse_markdown(text)
+    if meta.get("promote_subheads"):
+        text = re.sub(r"^(#{2,3})(?=\s)", lambda m: m.group(1)[1:], text, flags=re.M)
+    cover_titles, chapters, preamble, tables = parse_markdown(text, meta.get("cover_h1_count"))
     builder = DeckBuilder(meta, cover_titles, chapters, preamble, tables)
     slides = builder.build()
     jobs_used = sorted({s.job for s in slides})
@@ -4376,6 +4443,9 @@ def build_one(meta: dict) -> dict[str, Any]:
     html_slides = "\n".join(render_slide(s, i + 1, total, meta) for i, s in enumerate(slides))
     out = ROOT / meta["out"]
     out.parent.mkdir(parents=True, exist_ok=True)
+    logo_out = out.parent / "logo/侍天.png"
+    logo_out.parent.mkdir(exist_ok=True)
+    logo_out.write_bytes(LOGO_PATH.read_bytes())
     html_doc = document(meta["deck_name"], html_slides)
     assert_no_cite(html_doc, str(out))
     assert_complete_canvas(slides, html_doc, str(out))
@@ -4453,6 +4523,11 @@ def build_one(meta: dict) -> dict[str, Any]:
 
 
 def main() -> int:
+    if sys.argv[1:] == ["--self-check"]:
+        svg = svg_categorical_grid([{"title": str(i), "items": ["内容"]} for i in range(12)], "检查")
+        assert svg.count("<rect") == 19 and "10</text>" not in svg
+        print("TIANSIGHT visualization self-check: ok")
+        return 0
     reports = []
     targets = sys.argv[1:]
     decks = DECKS

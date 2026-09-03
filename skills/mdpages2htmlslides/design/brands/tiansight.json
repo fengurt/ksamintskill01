@@ -1,8 +1,9 @@
 {
   "id": "tiansight",
   "name": "侍天 - 智慧餐饮",
-  "source_url": "https://apuch.art/brand?brand=sidera",
-  "api_url": "https://apuch.art/api/brands/sidera.json",
+  "source_url": "https://apuch.art/brand.html?brand=tiansight",
+  "api_url": "https://apuch.art/api/brands/tiansight.json",
+  "primary_guide": "Sidera/sidera_design.md",
   "version": {
     "hash": "97409964b2887b3882c3d0e2637e16b082de0505",
     "date": "2026-08-16T09:01:13+08:00"
@@ -15,6 +16,13 @@
     "height": 2000,
     "clear_space": "one compass-ring radius",
     "minimum_px": 24
+  },
+  "transparent_logo": {
+    "sha256": "b41625b9b765230a1266eccac85885e3ea3bef7f44c816eb55fb991496e5c0e1",
+    "mime": "image/png",
+    "width": 240,
+    "height": 240,
+    "provenance": "TIANSIGHT demo-deck transparent export; artwork matches the canonical logo"
   },
   "tokens": {
     "primary": "#EFE6D2",

@@ -589,16 +589,18 @@ async function handleApi(req, res, method, path, u) {
 }
 
 function serveDeck(res, path) {
-  const m = path.match(/^\/slides\/([^/]+)\/deck\.html$/);
+  const m = path.match(/^\/slides\/([^/]+)\/(.+)$/);
   if (!m) return send(res, 404, { error: "not found" });
   let abs;
   try {
-    abs = join(safeWorkDir(decodeURIComponent(m[1])), "slides/deck.html");
+    const slides = join(safeWorkDir(decodeURIComponent(m[1])), "slides");
+    abs = resolve(slides, decodeURIComponent(m[2]));
+    if (!underRoot(abs, slides) || isDeniedPath(abs)) throw new Error("bad path");
   } catch (e) {
     return send(res, 400, { error: e.message });
   }
   if (!existsSync(abs) || !statSync(abs).isFile()) return send(res, 404, { error: "deck not rendered" });
-  res.writeHead(200, { "content-type": "text/html; charset=utf-8", "cache-control": "no-store" });
+  res.writeHead(200, { "content-type": MIME[extname(abs)] || "application/octet-stream", "cache-control": "no-store" });
   createReadStream(abs).pipe(res);
 }
 

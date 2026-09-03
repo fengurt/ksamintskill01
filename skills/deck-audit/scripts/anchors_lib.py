@@ -12,7 +12,7 @@ NUMBER_RE = re.compile(
     r"[\d,]+(?:\.\d+)?\s*%|"
     r"[\d,]+(?:\.\d+)?\s*％|"
     r"\d+\s*[:/]\s*\d+|"
-    r"[\d,]+(?:\.\d+)?\s*(?:天|店|行|列|页|个|款|SKU|sku|万|亿)?"
+    r"[\d,]+(?:\.\d+)?\s*(?:天|店|家|行|列|页|个|款|SKU|sku|元|万|亿)?"
     r")(?![\w.])"
 )
 DATE_RE = re.compile(r"\b\d{4}[-/.年]\d{1,2}([-/.月]\d{1,2})?日?\b")
@@ -132,7 +132,7 @@ def classify_token(raw: str) -> str:
         return "ratio"
     if DATE_RE.search(t):
         return "date"
-    if re.search(r"(天|店|行|列|页|个|款|sku|万|亿)$", t, re.I):
+    if re.search(r"(天|店|家|行|列|页|个|款|sku|元|万|亿)$", t, re.I):
         return "quantity"
     if re.fullmatch(r"[\d,]+(?:\.\d+)?", t.replace(" ", "")):
         return "number"
