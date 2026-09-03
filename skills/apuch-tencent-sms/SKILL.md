@@ -6,7 +6,8 @@ description: Operate and validate the APUCH Tencent Cloud SMS production setup u
 # APUCH Tencent SMS
 
 Use 1Password item `iwyz7yrtu5l3ijp5f3k6wdr6te` in vault `Personal` as the source of
-truth. Never copy credentials from a personal `tccli` profile into production.
+truth. It selects the verified `同泽科技` production signature. Never copy credentials
+from a personal `tccli` profile into production.
 
 Read [references/configuration.md](references/configuration.md) before changing credentials,
 CAM permissions, application selection, signatures, templates, or production configuration.
@@ -75,11 +76,14 @@ Never enable shell tracing around this sequence.
 1. Run the readiness check.
 2. Normalize the user-supplied mainland number to E.164, such as `+8613800138000`.
 3. Generate a six-digit test code. Do not use a production OTP stored in Redis.
-4. Call `SendSms` once with the selected SDK AppID, sign, template, one template parameter, and the
+4. Prefer the application's Tencent Node SDK for the test so its request shape matches production.
+   If `tccli` is required, use `--cli-unfold-argument`; do not pass JSON strings to its array
+   parameters.
+5. Call `SendSms` once with the selected SDK AppID, sign, template, one template parameter, and the
    explicit phone number.
-5. Record only Tencent's request ID, serial number, status code, and message. Do not repeat the full
+6. Record only Tencent's request ID, serial number, status code, and message. Do not repeat the full
    phone number in logs or the final response.
-6. Query delivery status only when the user asks or delivery must be verified.
+7. Query delivery status only when the user asks or delivery must be verified.
 
 Use `TemplateParamSet` with exactly one value because template `1876280` contains only `{1}`.
 
@@ -90,7 +94,8 @@ When the user authorizes a production configuration change:
 1. Back up `/opt/promese01/.env`.
 2. Read secrets from 1Password without printing them.
 3. Set the five variables documented in
-   [references/configuration.md](references/configuration.md).
+   [references/configuration.md](references/configuration.md) in the target `.env`; preserve every
+   unrelated variable.
 4. Restrict `.env` to mode `600`.
 5. Recreate only the API service unless another service changed.
 6. Verify the container health endpoint and the public `/v1/health` endpoint.

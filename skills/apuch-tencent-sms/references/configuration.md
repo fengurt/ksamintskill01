@@ -18,8 +18,8 @@ Never place either value in this file or any other documentation.
 | Purpose | Value |
 | --- | --- |
 | Qualification ID | `1203313` |
-| Sign ID | `542203` |
-| Sign name | `APUCH` |
+| Sign ID | `541989` |
+| Sign name | `同泽科技` |
 | Selected application | `apuch` |
 | Selected SDK AppID | `1401087332` |
 | Verification template ID | `1876280` |
@@ -36,25 +36,26 @@ replacement passes the same readiness checks.
 TENCENT_SECRET_ID=<1Password username>
 TENCENT_SECRET_KEY=<1Password credential>
 TENCENT_SMS_SDK_APP_ID=1401087332
-TENCENT_SMS_SIGN_NAME=APUCH
+TENCENT_SMS_SIGN_NAME=同泽科技
 TENCENT_SMS_TEMPLATE_ID=1876280
 ```
 
 ## CAM permissions
 
-The dedicated custom policy permits only:
+The dedicated custom policy should permit only:
 
 - `name/sms:SendSms`
 - `name/sms:DescribeSmsSignList`
 - `name/sms:DescribeSmsTemplateList`
 - `name/sms:SmsPackagesStatistics`
+- `name/sms:PullSmsSendStatusByPhoneNumber` when delivery diagnosis is required.
 
 All actions require resource `*` because Tencent server-side SMS APIs do not support resource-level
 authorization.
 
 ## Expected readiness
 
-- `DescribeSmsSignList`: sign `542203`, name `APUCH`, status `0`.
+- `DescribeSmsSignList`: sign `541989`, name `同泽科技`, status `0`.
 - `DescribeSmsTemplateList`: template `1876280`, status `0`, one variable.
 - `SmsPackagesStatistics`: the query succeeds for AppID `1401087332`. `packageCount` is
   informational because it counts packages created during the requested time window.
@@ -73,3 +74,10 @@ authorization.
 
 Before changing requirements or policy syntax, verify against current official Tencent Cloud SMS
 and CAM documentation.
+
+## Verified delivery
+
+On 2026-08-22, the production Node SDK sent with sign `同泽科技`, AppID `1401087332`, and
+template `1876280`; Tencent returned `Ok` and the carrier receipt was `SUCCESS / DELIVRD`.
+`APUCH / 542203` remains historical only after returning `FAIL / GB:0007` (number-portability
+routing failure) for the authorized test destination.
