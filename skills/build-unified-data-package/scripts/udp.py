@@ -607,7 +607,11 @@ def build_readme(package_cfg: dict[str, Any], table_schemas: list[dict[str, Any]
 
 def artifact_manifest(package_root: Path) -> list[dict[str, Any]]:
     artifacts = []
-    for path in sorted(p for p in package_root.rglob("*") if p.is_file() and p.name != "manifest.json"):
+    for path in sorted(
+        p
+        for p in package_root.rglob("*")
+        if p.is_file() and p.relative_to(package_root).as_posix() != "manifest.json"
+    ):
         artifacts.append(
             {
                 "path": path.relative_to(package_root).as_posix(),
@@ -959,12 +963,20 @@ def validate_package(package_root: Path) -> dict[str, Any]:
     if schema.get("timezone") != manifest.get("timezone"):
         errors.append("schema timezone does not match manifest timezone")
 
+    recorded_validation = manifest.get("validation") or {}
+    if recorded_validation.get("status") != "pass":
+        errors.append("manifest validation status is not pass")
+    if recorded_validation.get("errors_cnt") != 0:
+        errors.append("manifest validation errors_cnt is not zero")
+
     artifact_paths: set[str] = set()
     for artifact in manifest.get("artifacts", []):
         rel = str(artifact.get("path", ""))
         if rel.startswith("/") or ".." in Path(rel).parts:
             errors.append(f"Unsafe artifact path: {rel}")
             continue
+        if rel in artifact_paths:
+            errors.append(f"Duplicate artifact path: {rel}")
         artifact_paths.add(rel)
         path = package_root / rel
         if not path.is_file():
@@ -974,6 +986,16 @@ def validate_package(package_root: Path) -> dict[str, Any]:
             errors.append(f"Artifact checksum mismatch: {rel}")
         if path.stat().st_size != artifact.get("bytes_cnt"):
             errors.append(f"Artifact size mismatch: {rel}")
+
+    actual_artifact_paths = {
+        path.relative_to(package_root).as_posix()
+        for path in package_root.rglob("*")
+        if path.is_file() and path.relative_to(package_root).as_posix() != "manifest.json"
+    }
+    for rel in sorted(actual_artifact_paths - artifact_paths):
+        errors.append(f"Unlisted artifact: {rel}")
+    for rel in sorted(artifact_paths - actual_artifact_paths):
+        errors.append(f"Listed artifact is not distributable: {rel}")
 
     manifest_tables = {str(item.get("name")): item for item in manifest.get("tables", [])}
     schema_tables = require_list(schema.get("tables", []), "schema tables")

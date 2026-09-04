@@ -3,7 +3,7 @@
 Single file, inline CSS/JS, no CDN. Every view is captioned with its source CSV and rule,
 and falls back to the table if it cannot render. Usage: python build_html.py <audit_dir>
 """
-import csv, json, os, sys
+import csv, html as html_lib, json, os, sys
 
 TABLES = ["priorities", "tree", "routes", "models", "permissions", "audit_points", "cross_calls", "links"]
 EDITABLE = {"tree": ["responsibility"], "routes": ["note"], "models": ["note"], "permissions": ["note"],
@@ -27,7 +27,9 @@ def build(out):
     annotations = json.load(open(ann_p, encoding="utf-8")) if os.path.exists(ann_p) else {"version": 1, "entries": {}}
     payload = json.dumps({"data": data, "manifest": manifest, "annotations": annotations, "editable": EDITABLE, "keys": KEYS},
                          ensure_ascii=False).replace("</", "<\\/")
-    html = TEMPLATE.replace("__PAYLOAD__", payload).replace("__PROJECT__", manifest.get("project", ""))
+    html = TEMPLATE.replace("__PAYLOAD__", payload).replace(
+        "__PROJECT__", html_lib.escape(str(manifest.get("project", "")), quote=True)
+    )
     with open(os.path.join(out, "index.html"), "w", encoding="utf-8") as f:
         f.write(html)
     return os.path.join(out, "index.html")

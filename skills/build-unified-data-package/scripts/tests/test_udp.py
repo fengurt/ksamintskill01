@@ -211,6 +211,26 @@ class UnifiedDataPackageCLITest(unittest.TestCase):
         self.run_cli("archive", str(package), "--output", str(archive_b))
         self.assertEqual(hashlib.sha256(archive_a.read_bytes()).hexdigest(), hashlib.sha256(archive_b.read_bytes()).hexdigest())
 
+        original_manifest = json.loads((package / "manifest.json").read_text(encoding="utf-8"))
+        failed_manifest = dict(original_manifest)
+        failed_manifest["validation"] = {"status": "fail", "errors_cnt": 1, "warnings_cnt": 0}
+        (package / "manifest.json").write_text(json.dumps(failed_manifest), encoding="utf-8")
+        self.run_cli("archive", str(package), "--output", str(self.root / "failed.zip"), expected=2)
+        (package / "manifest.json").write_text(json.dumps(original_manifest), encoding="utf-8")
+
+        unlisted = package / "unlisted.txt"
+        unlisted.write_text("not in manifest", encoding="utf-8")
+        failed = self.run_cli("validate", str(package), "--json", expected=1)
+        self.assertIn("Unlisted artifact: unlisted.txt", json.loads(failed.stdout)["errors"])
+        self.run_cli("archive", str(package), "--output", str(self.root / "unlisted.zip"), expected=2)
+        unlisted.unlink()
+
+        nested_manifest = package / "data" / "manifest.json"
+        nested_manifest.write_text("{}", encoding="utf-8")
+        failed = self.run_cli("validate", str(package), "--json", expected=1)
+        self.assertIn("Unlisted artifact: data/manifest.json", json.loads(failed.stdout)["errors"])
+        nested_manifest.unlink()
+
         readme = package / "README.md"
         readme.write_text(readme.read_text(encoding="utf-8") + "\ntampered\n", encoding="utf-8")
         failed = self.run_cli("validate", str(package), "--json", expected=1)

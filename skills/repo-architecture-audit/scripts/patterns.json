@@ -10,6 +10,8 @@
     "out",
     "target",
     "vendor",
+    "secrets",
+    "credentials",
     "__pycache__",
     ".venv",
     "venv",
