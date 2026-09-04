@@ -30,3 +30,4 @@ ksamint-githubaction-skill	cursor,claude,codex
 tencent-sms	cursor,claude,codex
 build-unified-data-package	cursor,claude,codex
 gf4p2slides	cursor,claude,codex
+repo-architecture-audit	cursor,claude,codex

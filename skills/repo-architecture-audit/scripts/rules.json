@@ -1,0 +1,13 @@
+{
+  "_doc": "Thresholds for priority rules. Override per project in docs/audit/rules.local.json (same keys). Rule IDs are fixed; do not add subjective rules here.",
+  "write_methods": ["POST", "PUT", "PATCH", "DELETE", "ANY"],
+  "P0-1": {"enabled": true, "treat_ANY_as_write": true},
+  "P0-2": {"enabled": true, "min_services": 2, "ignore_tables": ["migrations", "schema_migrations", "flyway_schema_history", "__EFMigrationsHistory", "alembic_version"]},
+  "P0-3": {"enabled": true, "min_confidence": "medium"},
+  "P1-1": {"enabled": true, "match_scope": "file"},
+  "P1-2": {"enabled": true, "normalize": {"lowercase": true, "strip_chars": "_-", "strip_suffixes": []}, "min_variants": 2, "ignore_columns": ["id", "created_at", "updated_at", "createdAt", "updatedAt", "deleted_at", "deletedAt"]},
+  "P1-3": {"enabled": true},
+  "P1-4": {"enabled": true, "min_ref_count": 1},
+  "P2-1": {"enabled": true},
+  "P2-2": {"enabled": true, "max_depth": 3, "top_loc_fraction": 0.2}
+}

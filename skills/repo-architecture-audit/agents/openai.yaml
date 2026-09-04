@@ -1,0 +1,4 @@
+interface:
+  display_name: "Repo Architecture Audit"
+  short_description: "Build evidence-linked architecture inventories"
+  default_prompt: "Use $repo-architecture-audit to inventory this repository and produce an offline architecture review."

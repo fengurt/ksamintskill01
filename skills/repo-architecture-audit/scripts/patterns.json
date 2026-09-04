@@ -1,0 +1,1344 @@
+{
+  "_doc": "Regex catalogue. Named groups are the contract: path, methods, method, handler, table, column, type, nullable, pk, fk, default, name, roles, event, url, topic, pkg. Add project patterns in docs/audit/patterns.local.json with the same shape; local ids override bundled ids.",
+  "exclude_dirs": [
+    "node_modules",
+    ".git",
+    ".hg",
+    ".svn",
+    "dist",
+    "build",
+    "out",
+    "target",
+    "vendor",
+    "__pycache__",
+    ".venv",
+    "venv",
+    "env",
+    ".tox",
+    ".mypy_cache",
+    ".pytest_cache",
+    "coverage",
+    ".next",
+    ".nuxt",
+    ".svelte-kit",
+    ".turbo",
+    ".cache",
+    "bin",
+    "obj",
+    "Pods",
+    "DerivedData",
+    ".idea",
+    ".vscode",
+    "audit"
+  ],
+  "exclude_globs": [
+    "*.min.js",
+    "*.min.css",
+    "*.map",
+    "*.lock",
+    "package-lock.json",
+    "yarn.lock",
+    "pnpm-lock.yaml",
+    "*.snap",
+    "*.svg",
+    "*.png",
+    "*.jpg",
+    "*.jpeg",
+    "*.gif",
+    "*.ico",
+    "*.woff",
+    "*.woff2",
+    "*.ttf",
+    "*.pdf",
+    "*.zip",
+    "*.gz",
+    "*.tar",
+    "*.jar",
+    "*.class",
+    "*.pyc",
+    "*.so",
+    "*.dll",
+    "*.exe",
+    "*.wasm"
+  ],
+  "secret_globs": [
+    ".env",
+    ".env.*",
+    "*.pem",
+    "*.key",
+    "*.p12",
+    "*.pfx",
+    "id_rsa*",
+    "*.keystore",
+    "secrets.*",
+    "credentials.*"
+  ],
+  "extensions": {
+    "py": "python",
+    "js": "javascript",
+    "jsx": "javascript",
+    "mjs": "javascript",
+    "cjs": "javascript",
+    "ts": "typescript",
+    "tsx": "typescript",
+    "vue": "vue",
+    "svelte": "svelte",
+    "java": "java",
+    "kt": "kotlin",
+    "go": "go",
+    "rb": "ruby",
+    "php": "php",
+    "cs": "csharp",
+    "rs": "rust",
+    "sql": "sql",
+    "prisma": "prisma",
+    "graphql": "graphql",
+    "gql": "graphql",
+    "proto": "proto",
+    "scala": "scala",
+    "swift": "swift",
+    "dart": "dart",
+    "ex": "elixir",
+    "exs": "elixir"
+  },
+  "framework_hints": [
+    {
+      "id": "flask",
+      "langs": [
+        "python"
+      ],
+      "regex": "from flask import|import flask"
+    },
+    {
+      "id": "fastapi",
+      "langs": [
+        "python"
+      ],
+      "regex": "from fastapi import|APIRouter\\("
+    },
+    {
+      "id": "django",
+      "langs": [
+        "python"
+      ],
+      "regex": "from django\\.|django\\.urls"
+    },
+    {
+      "id": "sqlalchemy",
+      "langs": [
+        "python"
+      ],
+      "regex": "sqlalchemy"
+    },
+    {
+      "id": "express",
+      "langs": [
+        "javascript",
+        "typescript"
+      ],
+      "regex": "require\\(['\"]express['\"]\\)|from ['\"]express['\"]"
+    },
+    {
+      "id": "koa",
+      "langs": [
+        "javascript",
+        "typescript"
+      ],
+      "regex": "from ['\"]koa|require\\(['\"]koa"
+    },
+    {
+      "id": "nestjs",
+      "langs": [
+        "typescript"
+      ],
+      "regex": "@nestjs/"
+    },
+    {
+      "id": "nextjs",
+      "langs": [
+        "javascript",
+        "typescript"
+      ],
+      "regex": "from ['\"]next/"
+    },
+    {
+      "id": "react-router",
+      "langs": [
+        "javascript",
+        "typescript"
+      ],
+      "regex": "react-router"
+    },
+    {
+      "id": "vue-router",
+      "langs": [
+        "javascript",
+        "typescript",
+        "vue"
+      ],
+      "regex": "vue-router"
+    },
+    {
+      "id": "prisma",
+      "langs": [
+        "prisma"
+      ],
+      "regex": "model \\w+ \\{"
+    },
+    {
+      "id": "typeorm",
+      "langs": [
+        "typescript"
+      ],
+      "regex": "from ['\"]typeorm['\"]"
+    },
+    {
+      "id": "sequelize",
+      "langs": [
+        "javascript",
+        "typescript"
+      ],
+      "regex": "sequelize"
+    },
+    {
+      "id": "knex",
+      "langs": [
+        "javascript",
+        "typescript"
+      ],
+      "regex": "knex"
+    },
+    {
+      "id": "spring",
+      "langs": [
+        "java",
+        "kotlin"
+      ],
+      "regex": "org\\.springframework"
+    },
+    {
+      "id": "jpa",
+      "langs": [
+        "java",
+        "kotlin"
+      ],
+      "regex": "javax\\.persistence|jakarta\\.persistence"
+    },
+    {
+      "id": "gin",
+      "langs": [
+        "go"
+      ],
+      "regex": "gin-gonic/gin"
+    },
+    {
+      "id": "echo",
+      "langs": [
+        "go"
+      ],
+      "regex": "labstack/echo"
+    },
+    {
+      "id": "gorm",
+      "langs": [
+        "go"
+      ],
+      "regex": "gorm\\.io|jinzhu/gorm|gorm:\""
+    },
+    {
+      "id": "rails",
+      "langs": [
+        "ruby"
+      ],
+      "regex": "Rails\\.application|ActiveRecord::"
+    },
+    {
+      "id": "laravel",
+      "langs": [
+        "php"
+      ],
+      "regex": "Illuminate\\\\"
+    },
+    {
+      "id": "aspnet",
+      "langs": [
+        "csharp"
+      ],
+      "regex": "Microsoft\\.AspNetCore"
+    },
+    {
+      "id": "efcore",
+      "langs": [
+        "csharp"
+      ],
+      "regex": "Microsoft\\.EntityFrameworkCore"
+    },
+    {
+      "id": "actix",
+      "langs": [
+        "rust"
+      ],
+      "regex": "actix_web"
+    },
+    {
+      "id": "axum",
+      "langs": [
+        "rust"
+      ],
+      "regex": "axum::"
+    },
+    {
+      "id": "remix",
+      "langs": [
+        "javascript",
+        "typescript"
+      ],
+      "regex": "@remix-run/"
+    }
+  ],
+  "guard_keywords": [
+    "auth",
+    "permission",
+    "permit",
+    "role",
+    "guard",
+    "protect",
+    "require",
+    "jwt",
+    "login",
+    "authorize",
+    "authoriz",
+    "policy",
+    "can_",
+    "ensure",
+    "secured",
+    "preauthorize",
+    "rolesallowed",
+    "sanctum",
+    "gate",
+    "ability",
+    "current_user",
+    "currentuser",
+    "superuser",
+    "bearer",
+    "principal",
+    "apikey",
+    "api_key",
+    "depends"
+  ],
+  "guard_negative": [
+    "noauth",
+    "no_auth",
+    "allowanonymous",
+    "allow_any",
+    "allowany",
+    "public",
+    "skipauth",
+    "unauthenticated",
+    "authneutral",
+    "permitall"
+  ],
+  "guard_lookback_lines": 6,
+  "write_methods": [
+    "POST",
+    "PUT",
+    "PATCH",
+    "DELETE"
+  ],
+  "patterns": [
+    {
+      "id": "fastapi_router_prefix",
+      "category": "route_prefix",
+      "langs": [
+        "python"
+      ],
+      "regex": "APIRouter\\([^\\)]*prefix\\s*=\\s*['\"](?P<path>[^'\"]+)['\"]"
+    },
+    {
+      "id": "flask_blueprint_prefix",
+      "category": "route_prefix",
+      "langs": [
+        "python"
+      ],
+      "regex": "Blueprint\\([^\\)]*url_prefix\\s*=\\s*['\"](?P<path>[^'\"]+)['\"]"
+    },
+    {
+      "id": "flask_route",
+      "category": "route_api",
+      "langs": [
+        "python"
+      ],
+      "regex": "@(?:\\w+\\.)+route\\(\\s*['\"](?P<path>[^'\"]+)['\"](?:.*?methods\\s*=\\s*[\\[\\(](?P<methods>[^\\]\\)]+)[\\]\\)])?",
+      "handler_from": "next_def",
+      "default_method": "GET"
+    },
+    {
+      "id": "flask_fastapi_verb",
+      "category": "route_api",
+      "langs": [
+        "python"
+      ],
+      "regex": "@(?:\\w+\\.)+(?P<method>get|post|put|patch|delete|options|head)\\(\\s*['\"](?P<path>[^'\"]+)['\"]",
+      "handler_from": "next_def"
+    },
+    {
+      "id": "django_path",
+      "category": "route_api",
+      "langs": [
+        "python"
+      ],
+      "regex": "\\b(?:re_)?path\\(\\s*r?['\"](?P<path>[^'\"]*)['\"]\\s*,\\s*(?P<handler>[\\w\\.]+)",
+      "default_method": "ANY"
+    },
+    {
+      "id": "django_url",
+      "category": "route_api",
+      "langs": [
+        "python"
+      ],
+      "regex": "\\burl\\(\\s*r?['\"](?P<path>[^'\"]*)['\"]\\s*,\\s*(?P<handler>[\\w\\.]+)",
+      "default_method": "ANY"
+    },
+    {
+      "id": "express_verb",
+      "category": "route_api",
+      "langs": [
+        "javascript",
+        "typescript"
+      ],
+      "regex": "\\b(?:app|router|server|api|r|v\\d+)\\.(?P<method>get|post|put|patch|delete|all|options|head)\\(\\s*['\"`](?P<path>[^'\"`]+)['\"`]",
+      "handler_from": "same_line_idents"
+    },
+    {
+      "id": "express_route_chain",
+      "category": "route_api",
+      "langs": [
+        "javascript",
+        "typescript"
+      ],
+      "regex": "\\.route\\(\\s*['\"`](?P<path>[^'\"`]+)['\"`]\\s*\\)\\s*\\.(?P<method>get|post|put|patch|delete)",
+      "handler_from": "same_line_idents"
+    },
+    {
+      "id": "nest_verb",
+      "category": "route_api",
+      "langs": [
+        "typescript"
+      ],
+      "regex": "@(?P<method>Get|Post|Put|Patch|Delete|All)\\(\\s*(?:['\"`](?P<path>[^'\"`]*)['\"`])?\\s*\\)",
+      "handler_from": "next_def",
+      "path_default": "/"
+    },
+    {
+      "id": "nest_controller",
+      "category": "route_prefix",
+      "langs": [
+        "typescript"
+      ],
+      "regex": "@Controller\\(\\s*['\"`](?P<path>[^'\"`]*)['\"`]"
+    },
+    {
+      "id": "react_router_route",
+      "category": "route_page",
+      "langs": [
+        "javascript",
+        "typescript"
+      ],
+      "regex": "<Route\\b[^>]*\\bpath\\s*=\\s*[{]?['\"`](?P<path>[^'\"`]+)['\"`]",
+      "handler_from": "same_line_component"
+    },
+    {
+      "id": "router_object_path",
+      "category": "route_page",
+      "langs": [
+        "javascript",
+        "typescript",
+        "vue"
+      ],
+      "regex": "^\\s*\\{?\\s*path\\s*:\\s*['\"`](?P<path>/[^'\"`]*)['\"`]\\s*,",
+      "handler_from": "same_line_component"
+    },
+    {
+      "id": "spring_mapping",
+      "category": "route_api",
+      "langs": [
+        "java",
+        "kotlin"
+      ],
+      "regex": "@(?P<method>Get|Post|Put|Patch|Delete|Request)Mapping\\(\\s*(?:value\\s*=\\s*|path\\s*=\\s*)?[\\[\\(]?\\s*\"(?P<path>[^\"]*)\"",
+      "handler_from": "next_def"
+    },
+    {
+      "id": "spring_mapping_empty",
+      "category": "route_api",
+      "langs": [
+        "java",
+        "kotlin"
+      ],
+      "regex": "@(?P<method>Get|Post|Put|Patch|Delete)Mapping\\s*(?:\\(\\s*\\))?\\s*$",
+      "handler_from": "next_def",
+      "path_default": "/"
+    },
+    {
+      "id": "spring_class_prefix",
+      "category": "route_prefix",
+      "langs": [
+        "java",
+        "kotlin"
+      ],
+      "regex": "@RequestMapping\\(\\s*(?:value\\s*=\\s*|path\\s*=\\s*)?\"(?P<path>[^\"]*)\"\\s*\\)\\s*$"
+    },
+    {
+      "id": "go_gin_echo",
+      "category": "route_api",
+      "langs": [
+        "go"
+      ],
+      "regex": "\\b\\w+\\.(?P<method>GET|POST|PUT|PATCH|DELETE|Any|Handle)\\(\\s*\"(?P<path>[^\"]+)\"\\s*,\\s*(?P<handler>[\\w\\.\\(\\)]+(?:\\s*,\\s*[\\w\\.\\(\\)]+)*)",
+      "handler_from": "group_last"
+    },
+    {
+      "id": "go_http_handle",
+      "category": "route_api",
+      "langs": [
+        "go"
+      ],
+      "regex": "\\b(?:HandleFunc|Handle)\\(\\s*\"(?P<path>[^\"]+)\"\\s*,\\s*(?P<handler>[\\w\\.]+)",
+      "default_method": "ANY"
+    },
+    {
+      "id": "go_chi",
+      "category": "route_api",
+      "langs": [
+        "go"
+      ],
+      "regex": "\\b\\w+\\.(?P<method>Get|Post|Put|Patch|Delete)\\(\\s*\"(?P<path>[^\"]+)\"\\s*,\\s*(?P<handler>[\\w\\.]+)",
+      "handler_from": "group"
+    },
+    {
+      "id": "rails_resources",
+      "category": "route_api",
+      "langs": [
+        "ruby"
+      ],
+      "regex": "^\\s*(?:resources|resource)\\s+:(?P<path>\\w+)",
+      "default_method": "ANY",
+      "path_prefix_slash": true
+    },
+    {
+      "id": "rails_verb",
+      "category": "route_api",
+      "langs": [
+        "ruby"
+      ],
+      "regex": "^\\s*(?P<method>get|post|put|patch|delete)\\s+['\"](?P<path>[^'\"]+)['\"](?:.*to:\\s*['\"](?P<handler>[^'\"]+)['\"])?"
+    },
+    {
+      "id": "laravel_route",
+      "category": "route_api",
+      "langs": [
+        "php"
+      ],
+      "regex": "Route::(?P<method>get|post|put|patch|delete|any|match|resource|apiResource)\\(\\s*['\"](?P<path>[^'\"]+)['\"]\\s*,\\s*(?P<handler>[^\\)]+)\\)",
+      "handler_from": "group"
+    },
+    {
+      "id": "aspnet_http",
+      "category": "route_api",
+      "langs": [
+        "csharp"
+      ],
+      "regex": "\\[Http(?P<method>Get|Post|Put|Patch|Delete)(?:\\(\\s*\"(?P<path>[^\"]*)\"\\s*\\))?\\]",
+      "handler_from": "next_def",
+      "path_default": "/"
+    },
+    {
+      "id": "aspnet_route_prefix",
+      "category": "route_prefix",
+      "langs": [
+        "csharp"
+      ],
+      "regex": "\\[Route\\(\\s*\"(?P<path>[^\"]*)\"\\s*\\)\\]"
+    },
+    {
+      "id": "aspnet_minimal",
+      "category": "route_api",
+      "langs": [
+        "csharp"
+      ],
+      "regex": "\\.Map(?P<method>Get|Post|Put|Patch|Delete)\\(\\s*\"(?P<path>[^\"]+)\"",
+      "handler_from": "same_line_idents"
+    },
+    {
+      "id": "rust_actix",
+      "category": "route_api",
+      "langs": [
+        "rust"
+      ],
+      "regex": "#\\[(?P<method>get|post|put|patch|delete)\\(\\s*\"(?P<path>[^\"]+)\"",
+      "handler_from": "next_def"
+    },
+    {
+      "id": "rust_axum",
+      "category": "route_api",
+      "langs": [
+        "rust"
+      ],
+      "regex": "\\.route\\(\\s*\"(?P<path>[^\"]+)\"\\s*,\\s*(?P<method>get|post|put|patch|delete)\\((?P<handler>\\w+)",
+      "handler_from": "group"
+    },
+    {
+      "id": "graphql_op",
+      "category": "route_api",
+      "langs": [
+        "graphql"
+      ],
+      "regex": "^\\s*(?P<handler>\\w+)\\s*(?:\\([^\\)]*\\))?\\s*:\\s*[\\[\\w!\\]]+\\s*$",
+      "default_method": "GRAPHQL",
+      "requires_scope": [
+        "Query",
+        "Mutation",
+        "Subscription"
+      ]
+    },
+    {
+      "id": "cron_job",
+      "category": "route_job",
+      "langs": [
+        "python",
+        "javascript",
+        "typescript",
+        "go",
+        "ruby",
+        "php",
+        "java",
+        "kotlin",
+        "csharp"
+      ],
+      "regex": "(?:@(?:scheduled|Scheduled|cron|periodic_task|shared_task|Cron)|cron\\.schedule|schedule\\.every)\\(?\\s*(?:['\"](?P<path>[^'\"]*)['\"])?",
+      "handler_from": "next_def",
+      "default_method": ""
+    },
+    {
+      "id": "sql_create_table",
+      "category": "model_table",
+      "langs": [
+        "sql",
+        "python",
+        "javascript",
+        "typescript",
+        "go",
+        "ruby",
+        "php",
+        "java",
+        "kotlin",
+        "csharp",
+        "rust"
+      ],
+      "regex": "CREATE\\s+TABLE\\s+(?:IF\\s+NOT\\s+EXISTS\\s+)?[`\"\\[]?(?:\\w+[`\"\\]]?\\.)?[`\"\\[]?(?P<table>\\w+)[`\"\\]]?",
+      "source": "ddl",
+      "column_scope": "paren",
+      "column_pattern": "sql_column"
+    },
+    {
+      "id": "sql_column",
+      "category": "model_column",
+      "langs": [
+        "*"
+      ],
+      "regex": "^\\s*[`\"\\[]?(?P<column>\\w+)[`\"\\]]?\\s+(?P<type>[A-Za-z]+(?:\\s*\\([^\\)]*\\))?)(?P<rest>.*)$",
+      "skip_if": "^\\s*(?:PRIMARY|FOREIGN|UNIQUE|CONSTRAINT|KEY|INDEX|CHECK|\\)|--)",
+      "flags_from_rest": {
+        "pk": "PRIMARY\\s+KEY",
+        "nullable_false": "NOT\\s+NULL",
+        "fk": "REFERENCES\\s+[`\"]?(?P<fk>\\w+)[`\"]?(?:\\s*\\(\\s*[`\"]?(?P<fkcol>\\w+))?",
+        "default": "DEFAULT\\s+(?P<default>[^,\\s]+)"
+      }
+    },
+    {
+      "id": "sqlmodel_table",
+      "category": "model_table",
+      "langs": [
+        "python"
+      ],
+      "regex": "^\\s*class\\s+(?P<table>\\w+)\\s*\\([^\\)]*table\\s*=\\s*True[^\\)]*\\)\\s*:",
+      "source": "orm",
+      "column_scope": "indent",
+      "column_pattern": "py_annotated_field",
+      "tablename_pattern": "__tablename__\\s*=\\s*['\"](?P<table>\\w+)['\"]",
+      "inherit_fields": true
+    },
+    {
+      "id": "py_annotated_field",
+      "category": "model_column",
+      "langs": [
+        "python"
+      ],
+      "regex": "^\\s+(?P<column>[a-z_]\\w*)\\s*:\\s*(?P<type>[\\w\\.\\[\\]\\|, ]+?)\\s*(?:=\\s*(?P<rest>.*))?$",
+      "skip_if": "^\\s+(?:def|class|@|#|\"\"\"|'''|return|if|for|with)\\b",
+      "flags_from_rest": {
+        "pk": "primary_key\\s*=\\s*True",
+        "nullable_true": "nullable\\s*=\\s*True",
+        "fk": "foreign_key\\s*=\\s*['\"](?P<fk>[\\w\\.]+)['\"]",
+        "default": "default\\s*=\\s*(?P<default>[^,\\)]+)"
+      },
+      "nullable_from_type": "\\|\\s*None|Optional\\["
+    },
+    {
+      "id": "sqlalchemy_model",
+      "category": "model_table",
+      "langs": [
+        "python"
+      ],
+      "regex": "^\\s*class\\s+(?P<table>\\w+)\\s*\\([^\\)]*\\b(?:Base|Model|db\\.Model|DeclarativeBase)\\b(?![\\w=])[^\\)]*\\)\\s*:",
+      "source": "orm",
+      "column_scope": "indent",
+      "column_pattern": "sqlalchemy_column",
+      "tablename_pattern": "__tablename__\\s*=\\s*['\"](?P<table>\\w+)['\"]",
+      "inherit_fields": true
+    },
+    {
+      "id": "sqlalchemy_column",
+      "category": "model_column",
+      "langs": [
+        "python"
+      ],
+      "regex": "^\\s+(?P<column>\\w+)\\s*(?::\\s*Mapped\\[[^\\]]*\\])?\\s*=\\s*(?:db\\.)?(?:Column|mapped_column)\\((?P<rest>.*)\\)",
+      "flags_from_rest": {
+        "type": "^\\s*(?:['\"]\\w+['\"]\\s*,\\s*)?(?:db\\.)?(?P<type>\\w+(?:\\([^\\)]*\\))?)",
+        "pk": "primary_key\\s*=\\s*True",
+        "nullable_false": "nullable\\s*=\\s*False",
+        "nullable_true": "nullable\\s*=\\s*True",
+        "fk": "ForeignKey\\(\\s*['\"](?P<fk>[\\w\\.]+)['\"]",
+        "default": "default\\s*=\\s*(?P<default>[^,\\)]+)"
+      }
+    },
+    {
+      "id": "django_model",
+      "category": "model_table",
+      "langs": [
+        "python"
+      ],
+      "regex": "^\\s*class\\s+(?P<table>\\w+)\\s*\\([^\\)]*models\\.Model[^\\)]*\\)\\s*:",
+      "source": "orm",
+      "column_scope": "indent",
+      "column_pattern": "django_field",
+      "inherit_fields": true
+    },
+    {
+      "id": "django_field",
+      "category": "model_column",
+      "langs": [
+        "python"
+      ],
+      "regex": "^\\s+(?P<column>\\w+)\\s*=\\s*models\\.(?P<type>\\w+)\\((?P<rest>.*)\\)",
+      "flags_from_rest": {
+        "pk": "primary_key\\s*=\\s*True",
+        "nullable_true": "null\\s*=\\s*True",
+        "fk": "^\\s*['\"]?(?P<fk>[A-Z]\\w+)['\"]?\\s*,",
+        "default": "default\\s*=\\s*(?P<default>[^,\\)]+)"
+      },
+      "fk_types": [
+        "ForeignKey",
+        "OneToOneField",
+        "ManyToManyField"
+      ]
+    },
+    {
+      "id": "prisma_model",
+      "category": "model_table",
+      "langs": [
+        "prisma"
+      ],
+      "regex": "^\\s*model\\s+(?P<table>\\w+)\\s*\\{",
+      "source": "orm",
+      "column_scope": "brace",
+      "column_pattern": "prisma_field"
+    },
+    {
+      "id": "prisma_field",
+      "category": "model_column",
+      "langs": [
+        "prisma"
+      ],
+      "regex": "^\\s+(?P<column>\\w+)\\s+(?P<type>[\\w\\[\\]]+)(?P<nullable_mark>\\?)?(?P<rest>.*)$",
+      "flags_from_rest": {
+        "pk": "@id\\b",
+        "default": "@default\\((?P<default>[^\\)]*)\\)",
+        "fk": "@relation\\([^\\)]*references:\\s*\\[(?P<fk>\\w+)\\]"
+      },
+      "skip_if": "^\\s*(?:@@|//)"
+    },
+    {
+      "id": "typeorm_entity",
+      "category": "model_table",
+      "langs": [
+        "typescript"
+      ],
+      "regex": "@Entity\\(\\s*(?:['\"](?P<table>\\w+)['\"])?",
+      "source": "orm",
+      "column_scope": "brace",
+      "column_pattern": "typeorm_column",
+      "table_from_next_class": true
+    },
+    {
+      "id": "typeorm_column",
+      "category": "model_column",
+      "langs": [
+        "typescript"
+      ],
+      "regex": "@(?:Primary(?:Generated)?Column|Column|CreateDateColumn|UpdateDateColumn|ManyToOne|OneToOne|OneToMany|ManyToMany|JoinColumn)\\((?P<rest>[^\\)]*)\\)",
+      "column_from_next_prop": true,
+      "flags_from_rest": {
+        "type": "type\\s*:\\s*['\"](?P<type>\\w+)['\"]",
+        "nullable_true": "nullable\\s*:\\s*true",
+        "default": "default\\s*:\\s*(?P<default>[^,\\}]+)"
+      },
+      "pk_if_decorator": "Primary"
+    },
+    {
+      "id": "sequelize_define",
+      "category": "model_table",
+      "langs": [
+        "javascript",
+        "typescript"
+      ],
+      "regex": "\\.define\\(\\s*['\"](?P<table>\\w+)['\"]",
+      "source": "orm",
+      "column_scope": "brace",
+      "column_pattern": "sequelize_attr"
+    },
+    {
+      "id": "sequelize_attr",
+      "category": "model_column",
+      "langs": [
+        "javascript",
+        "typescript"
+      ],
+      "regex": "^\\s+(?P<column>\\w+)\\s*:\\s*\\{?\\s*(?:type\\s*:\\s*)?(?:DataTypes|Sequelize)\\.(?P<type>\\w+)(?P<rest>.*)$",
+      "flags_from_rest": {
+        "pk": "primaryKey\\s*:\\s*true",
+        "nullable_false": "allowNull\\s*:\\s*false",
+        "default": "defaultValue\\s*:\\s*(?P<default>[^,\\}]+)"
+      }
+    },
+    {
+      "id": "mongoose_schema",
+      "category": "model_table",
+      "langs": [
+        "javascript",
+        "typescript"
+      ],
+      "regex": "new\\s+(?:mongoose\\.)?Schema\\s*(?:<[^>]*>)?\\s*\\(\\s*\\{",
+      "source": "orm",
+      "column_scope": "brace",
+      "column_pattern": "mongoose_field",
+      "table_from_var": "(?:const|let|var)\\s+(?P<table>\\w+)"
+    },
+    {
+      "id": "mongoose_field",
+      "category": "model_column",
+      "langs": [
+        "javascript",
+        "typescript"
+      ],
+      "regex": "^\\s+(?P<column>\\w+)\\s*:\\s*(?:\\{\\s*type\\s*:\\s*)?(?P<type>[\\w\\.]+)(?P<rest>.*)$",
+      "flags_from_rest": {
+        "nullable_false": "required\\s*:\\s*true",
+        "fk": "ref\\s*:\\s*['\"](?P<fk>\\w+)['\"]",
+        "default": "default\\s*:\\s*(?P<default>[^,\\}]+)"
+      }
+    },
+    {
+      "id": "jpa_entity",
+      "category": "model_table",
+      "langs": [
+        "java",
+        "kotlin"
+      ],
+      "regex": "@Entity\\b",
+      "source": "orm",
+      "column_scope": "brace",
+      "column_pattern": "jpa_column",
+      "table_from_next_class": true,
+      "tablename_pattern": "@Table\\(\\s*name\\s*=\\s*\"(?P<table>\\w+)\""
+    },
+    {
+      "id": "jpa_column",
+      "category": "model_column",
+      "langs": [
+        "java",
+        "kotlin"
+      ],
+      "regex": "^\\s+(?:private|protected|public|val|var)\\s+(?P<type>[\\w<>\\[\\]]+)\\s+(?P<column>\\w+)\\s*[;=]",
+      "pk_from_lookback": "@Id\\b",
+      "nullable_from_lookback": "nullable\\s*=\\s*false",
+      "fk_from_lookback": "@(?:ManyToOne|OneToOne|JoinColumn)"
+    },
+    {
+      "id": "gorm_struct",
+      "category": "model_table",
+      "langs": [
+        "go"
+      ],
+      "regex": "^type\\s+(?P<table>\\w+)\\s+struct\\s*\\{",
+      "source": "orm",
+      "column_scope": "brace",
+      "column_pattern": "go_struct_field",
+      "requires_in_scope": "gorm|json:|db:|bson:"
+    },
+    {
+      "id": "go_struct_field",
+      "category": "model_column",
+      "langs": [
+        "go"
+      ],
+      "regex": "^\\s+(?P<column>[A-Z]\\w*)\\s+(?P<type>[\\*\\[\\]\\w\\.]+)(?P<rest>.*)$",
+      "flags_from_rest": {
+        "pk": "primaryKey|primary_key",
+        "nullable_false": "not null",
+        "default": "default:(?P<default>[^;\"]+)"
+      }
+    },
+    {
+      "id": "efcore_dbset",
+      "category": "model_table",
+      "langs": [
+        "csharp"
+      ],
+      "regex": "DbSet<(?P<table>\\w+)>",
+      "source": "orm"
+    },
+    {
+      "id": "csharp_entity_class",
+      "category": "model_table",
+      "langs": [
+        "csharp"
+      ],
+      "regex": "^\\s*public\\s+(?:partial\\s+)?class\\s+(?P<table>\\w+)\\s*(?::|\\{|$)",
+      "source": "orm",
+      "column_scope": "brace",
+      "column_pattern": "csharp_property",
+      "requires_in_scope": "\\{\\s*get;"
+    },
+    {
+      "id": "csharp_property",
+      "category": "model_column",
+      "langs": [
+        "csharp"
+      ],
+      "regex": "^\\s+public\\s+(?P<type>[\\w<>\\?\\[\\]]+)\\s+(?P<column>\\w+)\\s*\\{\\s*get;",
+      "pk_from_lookback": "\\[Key\\]",
+      "nullable_from_type": "\\?$",
+      "fk_from_lookback": "\\[ForeignKey\\(\\s*\"(?P<fk>\\w+)\""
+    },
+    {
+      "id": "rails_create_table",
+      "category": "model_table",
+      "langs": [
+        "ruby"
+      ],
+      "regex": "create_table\\s+[:'\"](?P<table>\\w+)",
+      "source": "migration",
+      "column_scope": "ruby_block",
+      "column_pattern": "rails_column"
+    },
+    {
+      "id": "rails_column",
+      "category": "model_column",
+      "langs": [
+        "ruby"
+      ],
+      "regex": "^\\s+t\\.(?P<type>\\w+)\\s+[:'\"](?P<column>\\w+)['\"]?(?P<rest>.*)$",
+      "flags_from_rest": {
+        "nullable_false": "null:\\s*false",
+        "default": "default:\\s*(?P<default>[^,\\s]+)"
+      },
+      "fk_types": [
+        "references",
+        "belongs_to"
+      ]
+    },
+    {
+      "id": "laravel_schema_create",
+      "category": "model_table",
+      "langs": [
+        "php"
+      ],
+      "regex": "Schema::create\\(\\s*['\"](?P<table>\\w+)['\"]",
+      "source": "migration",
+      "column_scope": "brace",
+      "column_pattern": "laravel_column"
+    },
+    {
+      "id": "laravel_column",
+      "category": "model_column",
+      "langs": [
+        "php"
+      ],
+      "regex": "\\$table->(?P<type>\\w+)\\(\\s*['\"](?P<column>\\w+)['\"](?P<rest>.*)$",
+      "flags_from_rest": {
+        "nullable_true": "->nullable\\(",
+        "default": "->default\\((?P<default>[^\\)]*)\\)",
+        "fk": "->constrained\\(\\s*['\"]?(?P<fk>\\w*)"
+      },
+      "pk_types": [
+        "id",
+        "increments",
+        "bigIncrements",
+        "uuid"
+      ]
+    },
+    {
+      "id": "knex_create",
+      "category": "model_table",
+      "langs": [
+        "javascript",
+        "typescript"
+      ],
+      "regex": "createTable\\(\\s*['\"](?P<table>\\w+)['\"]",
+      "source": "migration",
+      "column_scope": "brace",
+      "column_pattern": "knex_column"
+    },
+    {
+      "id": "knex_column",
+      "category": "model_column",
+      "langs": [
+        "javascript",
+        "typescript"
+      ],
+      "regex": "\\b(?:table|t)\\.(?P<type>\\w+)\\(\\s*['\"](?P<column>\\w+)['\"](?P<rest>.*)$",
+      "flags_from_rest": {
+        "nullable_false": "\\.notNullable\\(",
+        "pk": "\\.primary\\(",
+        "fk": "\\.references\\(\\s*['\"](?P<fk>[\\w\\.]+)['\"]",
+        "default": "\\.defaultTo\\((?P<default>[^\\)]*)\\)"
+      },
+      "pk_types": [
+        "increments",
+        "bigIncrements"
+      ]
+    },
+    {
+      "id": "graphql_type",
+      "category": "model_table",
+      "langs": [
+        "graphql"
+      ],
+      "regex": "^\\s*(?:type|input)\\s+(?P<table>\\w+)\\s*(?:implements\\s+\\w+\\s*)?\\{",
+      "source": "orm",
+      "column_scope": "brace",
+      "column_pattern": "graphql_field",
+      "skip_tables": [
+        "Query",
+        "Mutation",
+        "Subscription"
+      ]
+    },
+    {
+      "id": "graphql_field",
+      "category": "model_column",
+      "langs": [
+        "graphql"
+      ],
+      "regex": "^\\s+(?P<column>\\w+)\\s*(?:\\([^\\)]*\\))?\\s*:\\s*(?P<type>[\\[\\w\\]]+)(?P<nullable_mark>!)?",
+      "nullable_mark_means": "not_null"
+    },
+    {
+      "id": "proto_message",
+      "category": "model_table",
+      "langs": [
+        "proto"
+      ],
+      "regex": "^\\s*message\\s+(?P<table>\\w+)\\s*\\{",
+      "source": "orm",
+      "column_scope": "brace",
+      "column_pattern": "proto_field"
+    },
+    {
+      "id": "proto_field",
+      "category": "model_column",
+      "langs": [
+        "proto"
+      ],
+      "regex": "^\\s+(?:optional\\s+|repeated\\s+)?(?P<type>[\\w\\.]+)\\s+(?P<column>\\w+)\\s*=\\s*\\d+"
+    },
+    {
+      "id": "py_decorator_guard",
+      "category": "guard",
+      "langs": [
+        "python"
+      ],
+      "regex": "^\\s*@(?P<name>[\\w\\.]*(?:login_required|permission_required|roles_required|require_\\w+|authorize|authenticated|jwt_required|has_permission|admin_required|staff_required)\\w*)(?:\\((?P<roles>[^\\)]*)\\))?",
+      "mechanism": "decorator"
+    },
+    {
+      "id": "py_permission_classes",
+      "category": "guard",
+      "langs": [
+        "python"
+      ],
+      "regex": "permission_classes\\s*=\\s*[\\[\\(](?P<roles>[^\\]\\)]+)",
+      "mechanism": "policy",
+      "name_const": "permission_classes"
+    },
+    {
+      "id": "nest_guard",
+      "category": "guard",
+      "langs": [
+        "typescript"
+      ],
+      "regex": "@(?P<name>UseGuards|Roles|Permissions|Auth|Public|SetMetadata)\\((?P<roles>[^\\)]*)\\)",
+      "mechanism": "guard"
+    },
+    {
+      "id": "spring_secured",
+      "category": "guard",
+      "langs": [
+        "java",
+        "kotlin"
+      ],
+      "regex": "@(?P<name>PreAuthorize|Secured|RolesAllowed|PermitAll|DenyAll|PostAuthorize)(?:\\((?P<roles>[^\\)]*)\\))?",
+      "mechanism": "decorator"
+    },
+    {
+      "id": "aspnet_authorize",
+      "category": "guard",
+      "langs": [
+        "csharp"
+      ],
+      "regex": "\\[(?P<name>Authorize|AllowAnonymous)(?:\\((?P<roles>[^\\)]*)\\))?\\]",
+      "mechanism": "decorator"
+    },
+    {
+      "id": "laravel_middleware",
+      "category": "guard",
+      "langs": [
+        "php"
+      ],
+      "regex": "->middleware\\(\\s*(?P<roles>[^\\)]+)\\)",
+      "mechanism": "middleware",
+      "name_const": "middleware"
+    },
+    {
+      "id": "laravel_gate",
+      "category": "guard",
+      "langs": [
+        "php"
+      ],
+      "regex": "\\b(?P<name>Gate::(?:allows|denies|authorize|define)|\\$this->authorize|can)\\(\\s*['\"](?P<roles>[^'\"]+)['\"]",
+      "mechanism": "policy"
+    },
+    {
+      "id": "rails_before_action",
+      "category": "guard",
+      "langs": [
+        "ruby"
+      ],
+      "regex": "before_action\\s+:(?P<name>\\w*(?:auth|authenticate|authorize|require|admin|permission)\\w*)",
+      "mechanism": "middleware"
+    },
+    {
+      "id": "role_const",
+      "category": "role_const",
+      "langs": [
+        "*"
+      ],
+      "regex": "\\b(?P<name>(?:ROLE|PERM|PERMISSION|SCOPE)_[A-Z0-9_]+)\\b"
+    },
+    {
+      "id": "role_enum_member",
+      "category": "role_const",
+      "langs": [
+        "*"
+      ],
+      "regex": "\\b(?:Role|Roles|Permission|Permissions|UserRole)\\.(?P<name>[A-Za-z_][\\w]*)\\b"
+    },
+    {
+      "id": "audit_call",
+      "category": "audit",
+      "langs": [
+        "*"
+      ],
+      "regex": "\\b(?P<name>(?:audit|Audit)\\w*(?:log|Log|record|Record|event|Event|trail|Trail)\\w*|AuditLog\\w*|audit_log\\w*|log_activity|logActivity|record_activity|track_event|trackEvent|write_audit|ActivityLog\\w*|EventLog\\w*)\\s*[\\.\\(]",
+      "mechanism": "audit_table"
+    },
+    {
+      "id": "logger_warn_error",
+      "category": "audit",
+      "langs": [
+        "*"
+      ],
+      "regex": "\\b(?:logger|log|logging|Log|zap|slog|Rails\\.logger|Logger)\\.(?P<name>warn|warning|error|critical|fatal|Warn|Error|Fatal|Warnf|Errorf)\\s*\\(",
+      "mechanism": "logger"
+    },
+    {
+      "id": "event_publish",
+      "category": "audit",
+      "langs": [
+        "*"
+      ],
+      "regex": "\\b(?P<name>(?:event_bus|eventBus|EventBus|events|emitter|bus|dispatcher)\\.(?:emit|publish|dispatch|fire|trigger|Dispatch))\\s*\\(",
+      "mechanism": "event"
+    },
+    {
+      "id": "http_client_url",
+      "category": "cross_http",
+      "langs": [
+        "*"
+      ],
+      "regex": "\\b(?:fetch|axios(?:\\.\\w+)?|requests\\.\\w+|httpx\\.\\w+|http\\.(?:Get|Post|Put|Delete|NewRequest)|client\\.(?:get|post|put|patch|delete|Get|Post|Do|request)|restTemplate\\.\\w+|webClient\\.\\w+|HttpClient\\.\\w+|Http::\\w+|\\$http\\.\\w+|urllib\\.request\\.urlopen|got(?:\\.\\w+)?|ky(?:\\.\\w+)?|superagent\\.\\w+|Net::HTTP\\.\\w+|Faraday\\.\\w+|_client\\.\\w+Async)\\s*\\(\\s*(?P<url>(?:[fFrRbBu]{1,2})?['\"`][^'\"`]{3,}['\"`]|[\\w\\.]+(?:\\s*\\+\\s*['\"`][^'\"`]*['\"`])?)"
+    },
+    {
+      "id": "grpc_client",
+      "category": "cross_grpc",
+      "langs": [
+        "*"
+      ],
+      "regex": "\\bNew(?P<url>\\w+)(?:Client|ServiceClient)\\s*\\(|grpc\\.(?:Dial|NewClient|insecure_channel|secure_channel|Channel)\\(\\s*['\"]?(?P<url2>[^'\"\\),]+)"
+    },
+    {
+      "id": "mq_topic",
+      "category": "cross_mq",
+      "langs": [
+        "*"
+      ],
+      "regex": "\\b(?:publish|Publish|send|Send|produce|Produce|subscribe|Subscribe|consume|Consume|sendToQueue|assertQueue|assertExchange|basic_publish|SendMessage|enqueue|perform_async|apply_async|add_job|createTopic|subscription)\\s*\\(\\s*(?:topic\\s*[=:]\\s*)?['\"`](?P<topic>[\\w\\.\\-/:]{3,})['\"`]",
+      "require_context": "kafka|rabbit|amqp|sqs|sns|pubsub|nats|redis|bull|celery|sidekiq|\\bmq\\b|queue|topic|broker|mqtt|eventhub|servicebus"
+    },
+    {
+      "id": "js_import_pkg",
+      "category": "import_pkg",
+      "langs": [
+        "javascript",
+        "typescript",
+        "vue",
+        "svelte"
+      ],
+      "regex": "(?:from\\s+|require\\(\\s*)['\"](?P<pkg>@[\\w\\-]+/[\\w\\-]+|[\\w\\-]+)(?:/[^'\"]*)?['\"]"
+    },
+    {
+      "id": "py_import_pkg",
+      "category": "import_pkg",
+      "langs": [
+        "python"
+      ],
+      "regex": "^\\s*(?:from\\s+(?P<pkg>[\\w]+)|import\\s+(?P<pkg2>[\\w]+))"
+    },
+    {
+      "id": "go_import_pkg",
+      "category": "import_pkg",
+      "langs": [
+        "go"
+      ],
+      "regex": "^\\s*\"(?P<pkg>[\\w\\.\\-/]+)\"\\s*$"
+    },
+    {
+      "id": "java_import_pkg",
+      "category": "import_pkg",
+      "langs": [
+        "java",
+        "kotlin"
+      ],
+      "regex": "^\\s*import\\s+(?P<pkg>[\\w\\.]+)"
+    },
+    {
+      "id": "rust_use_crate",
+      "category": "import_pkg",
+      "langs": [
+        "rust"
+      ],
+      "regex": "^\\s*use\\s+(?P<pkg>[\\w]+)::"
+    },
+    {
+      "id": "csharp_using",
+      "category": "import_pkg",
+      "langs": [
+        "csharp"
+      ],
+      "regex": "^\\s*using\\s+(?P<pkg>[\\w\\.]+)\\s*;"
+    },
+    {
+      "id": "php_use",
+      "category": "import_pkg",
+      "langs": [
+        "php"
+      ],
+      "regex": "^\\s*use\\s+(?P<pkg>[\\w\\\\]+)"
+    }
+  ],
+  "page_file_routing": [
+    {
+      "id": "nextjs_pages",
+      "root_glob": "pages",
+      "exts": [
+        "js",
+        "jsx",
+        "ts",
+        "tsx"
+      ],
+      "exclude_prefix": [
+        "_"
+      ],
+      "index_file": "index",
+      "api_subdir": "api"
+    },
+    {
+      "id": "nextjs_app",
+      "root_glob": "app",
+      "exts": [
+        "js",
+        "jsx",
+        "ts",
+        "tsx"
+      ],
+      "page_file": "page",
+      "api_file": "route"
+    },
+    {
+      "id": "nuxt_pages",
+      "root_glob": "pages",
+      "exts": [
+        "vue"
+      ],
+      "index_file": "index"
+    },
+    {
+      "id": "sveltekit_routes",
+      "root_glob": "routes",
+      "exts": [
+        "svelte",
+        "ts",
+        "js"
+      ],
+      "page_file": "+page",
+      "api_file": "+server"
+    },
+    {
+      "id": "remix_routes",
+      "root_glob": "routes",
+      "exts": [
+        "tsx",
+        "jsx",
+        "ts",
+        "js"
+      ],
+      "dot_routing": true,
+      "requires_hint": "remix"
+    }
+  ],
+  "test_dir_names": [
+    "tests",
+    "test",
+    "__tests__",
+    "spec",
+    "specs",
+    "e2e",
+    "cypress",
+    "playwright",
+    "fixtures",
+    "__mocks__",
+    "testdata"
+  ]
+}

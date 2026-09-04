@@ -1,6 +1,6 @@
 # ksamintskill01
 
-Private skill monorepo: single source of truth for authored Agent Skills, plus an index/sync layer for well-known upstream skill libraries.
+Public skill monorepo: single source of truth for authored Agent Skills, plus an index/sync layer for well-known upstream skill libraries.
 
 ## Layout
 
