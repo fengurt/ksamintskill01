@@ -35,6 +35,10 @@ After adding or renaming a skill:
 python3 scripts/build-catalog.py
 ```
 
+## Skill import releases
+
+When the user supplies a skill package for this repository and asks to add or install it, validate it, rebuild the catalog, update local links, commit to `main`, push, and deploy the exact remote `main` SHA to the existing Skill Hub production target. Stop before publication if the worktree has unrelated changes, validation fails, the remote diverges, or the established deployment target, rollback path, or smoke checks are unavailable.
+
 ## Skill Hub GUI
 
 Local panel at `gui/` (`bash scripts/dev-up.sh` → http://127.0.0.1:7979). It observes repo/sync status, skills, `.work` runs, and can launch **allowlisted** templates. Coverage and fidelity gates remain authoritative in the Python scripts — do not treat the GUI as a substitute for `check-coverage.py` / `deck-audit`. Stages b–c of `longdoc2mdpages` are still agent-written; bootstrap output is a mechanical draft.

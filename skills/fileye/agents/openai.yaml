@@ -1,0 +1,4 @@
+interface:
+  display_name: "fileye"
+  short_description: "Identify and fingerprint files before use"
+  default_prompt: "Use $fileye to identify, fingerprint, and inventory this file before processing it."
