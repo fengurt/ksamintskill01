@@ -1,13 +1,19 @@
 ---
 name: ksamint-githubaction-skill
-description: Audit and optimize GitHub Actions triggers, job fan-out, schedules, hosted-runner usage, and failing workflows. Use when Actions minutes spike, workflows run twice, jobs fail before a runner starts, CI and deploy duplicate work, or a repository needs lower-cost CI/CD without weakening required checks.
+description: Audit and optimize GitHub Actions triggers, job fan-out, schedules, hosted-runner usage, and failing workflows. Use when Actions minutes spike, workflows run twice, jobs fail before a runner starts, CI and deploy duplicate work, a test or release path is too slow, or a repository needs lower-cost CI/CD without weakening required checks.
 ---
 
 # Ksamint GitHub Actions Optimizer
 
-Reduce **billable fan-out**, not just the wall-clock duration shown on a workflow page. One workflow can allocate several runners, repeat setup in every job, and consume far more runner time than its visible duration suggests.
+Optimize the user's stated objective: elapsed time, runner cost, reliability, or a combination. Workflow duration and total runner time are different measurements; report the one relevant to the request without treating either as the universal target.
 
-## Measure the real execution graph
+## Match evidence to scope
+
+For a focused bottleneck fix, inspect the affected workflow, slow job or step, runner resources, and checks or release boundaries the change can affect. Use an existing representative run as the baseline. Do not require an unrelated billing review, runner migration assessment, or classification of every workflow before improving that path. Increase test workers within an existing job when resource capacity and test isolation support it; this does not require adding jobs.
+
+For a repository-wide cost or execution audit, use the full graph procedure below. Expand a focused review only when evidence reveals a dependency or failure that affects the requested outcome.
+
+## Measure the full execution graph when in scope
 
 1. Establish the repository visibility, default and protected branches, required check names, deployment path, runner types, workflow files, and relevant billing owner.
 2. Inspect workflow runs and jobs over a representative period with `gh run list`, `gh run view`, and the GitHub Actions API. Group by repository, workflow, event, head SHA, conclusion, runner, and job.
@@ -16,9 +22,11 @@ Reduce **billable fan-out**, not just the wall-clock duration shown on a workflo
 
 Treat repository and deployment topology as evidence, not inference. A GitHub-hosted runner is an ephemeral build machine. Blue and green containers can run on one production server. Neither implies a second production server.
 
-The measurement is complete when every active workflow is classified as necessary, duplicate, excessive, or unable to succeed.
+A full audit is measured when every active workflow in scope is classified as necessary, duplicate, excessive, or unable to succeed. A focused review is measured when the affected path has a baseline and enough evidence to choose and validate the fix.
 
-## Remove work in this order
+## Choose the smallest relevant change
+
+For a full waste audit, prioritize the following sources of unnecessary work. For a focused latency or reliability request, address the measured bottleneck directly; this list is not a prerequisite checklist.
 
 1. **Unable to succeed:** pause the trigger or make deployment manual until missing secrets, tools, artifacts, permissions, and build order are fixed. A repeatedly failing deploy is not a release gate.
 2. **Duplicate triggers:** map which events run the same checks for the same commit. Keep distinct PR, merge, release, and scheduled guarantees only where each protects a real boundary.
@@ -45,13 +53,16 @@ Audit read-only by default. Edit workflows when the user requests optimization. 
 
 ## Verify one path, once
 
-Run local equivalents and workflow syntax checks first. Inspect the final trigger graph and required-check names before spending runner time. When external verification is authorized, dispatch or observe the smallest single run that exercises the changed path. Do not re-run the same failure until its cause changed.
+Reuse completed checks when the code tree, dependencies, configuration, and test inputs are unchanged. Run missing local equivalents and syntax checks relevant to the change, and inspect affected triggers and required-check names. Do not repeat a full suite merely because the work entered another review or release phase. Required CI on the exact release commit remains mandatory where repository policy requires it.
+
+When external verification is authorized, dispatch or observe the smallest single run that exercises the changed path. Compare the relevant result with the baseline. Repeat checks only for changed inputs, a new failure, or an unresolved concern; do not re-run the same failure until its cause changed.
 
 Return:
 
-- a baseline by repository and workflow, including visibility, triggers, run count, job count, observed duration, estimated billable minutes, and failure class;
-- a ranked waste ledger with evidence;
-- the smallest changes made or proposed, expected savings, and preserved gates; and
-- verification results plus any account-level blocker that code cannot fix.
+- the requested objective and affected path, its baseline, and the measured result or remaining uncertainty;
+- the smallest changes made or proposed and preserved gates; and
+- verification results plus any blocker that code cannot fix.
 
-The work is complete when the intended event produces exactly the expected checks, superseded verification cancels safely, deployment runs only from an authorized release boundary, and required gates still pass.
+For a full cost audit, also include a baseline by repository and workflow with visibility, triggers, run and job counts, observed duration, estimated billable minutes, failure classes, and a ranked waste ledger. Billing estimates and this broader inventory are unnecessary for a focused latency fix unless the user requested them or they materially affect the decision.
+
+The work is complete when the changed path has relevant verification evidence and its required gates still pass. For trigger, concurrency, or deployment changes, also verify the affected event produces the expected checks, superseded verification cancels safely, and deployment stays within its authorized release boundary.
