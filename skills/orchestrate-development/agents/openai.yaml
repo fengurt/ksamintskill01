@@ -1,0 +1,14 @@
+interface:
+  display_name: Orchestrate Development
+  short_description: Route development work across models and agents
+  default_prompt: Use $orchestrate-development to deliver this change with a capable
+    technical lead, bounded lower-cost work, and evidence-based acceptance.
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+policy:
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas
+  allow_implicit_invocation: true
