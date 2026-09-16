@@ -7,6 +7,7 @@ import { skillRuntimeExtras, skillZipName } from "./archive.js";
 import { loadShowcase, readShowcaseAsset } from "./showcase.js";
 
 const STARS_FILE = join(DATA_DIR, "stars.json");
+const ALIASES_FILE = join(REPO_ROOT, "registry", "skill-aliases.json");
 
 export function skillKey(skill) {
   return `${skill.kind}/${skill.folder}`;
@@ -108,6 +109,34 @@ export function loadInstallMap() {
     map[name] = (targets || "").split(",").map((s) => s.trim()).filter(Boolean);
   }
   return map;
+}
+
+export function loadSkillAliases() {
+  try {
+    const data = JSON.parse(readFileSync(ALIASES_FILE, "utf8"));
+    if (!data || typeof data.aliases !== "object" || Array.isArray(data.aliases)) return {};
+    return Object.fromEntries(
+      Object.entries(data.aliases).filter(([alias, target]) =>
+        /^[a-z0-9][a-z0-9-]*$/.test(alias) && typeof target === "string"
+      )
+    );
+  } catch {
+    return {};
+  }
+}
+
+export function skillBrief(description) {
+  const text = String(description || "").trim();
+  const first = text.split(/(?<=[.!?。！？])\s+/)[0] || "";
+  return first.length <= 120 ? first : `${first.slice(0, 117)}…`;
+}
+
+export function skillAliases(skill, aliases = {}) {
+  const names = new Set([skill.name, skill.folder].filter(Boolean));
+  return Object.entries(aliases)
+    .filter(([, target]) => names.has(target))
+    .map(([alias]) => alias)
+    .sort();
 }
 
 function walkSkillMd(root, maxDepth = 8) {
@@ -248,7 +277,7 @@ export function sortSkills(list) {
   });
 }
 
-function decorate(skill, src, skillMdAbs, stars) {
+function decorate(skill, src, skillMdAbs, stars, aliases) {
   const origin = skillOrigin(skill);
   const credit = skillCredit({ ...skill, origin }, src);
   return {
@@ -257,6 +286,10 @@ function decorate(skill, src, skillMdAbs, stars) {
     agent: skillAgent(skill),
     author: credit.author,
     repo: credit.repo,
+    brief: skillBrief(skill.description),
+    aliases: skillAliases(skill, aliases),
+    declaredVersion: skill.declaredVersion || null,
+    versionLabel: skill.declaredVersion ? `v${String(skill.declaredVersion).replace(/^v/, "")}` : skill.version?.hash ? `git:${skill.version.hash}` : "unversioned",
     updatedAt: skillUpdatedAt(skillMdAbs, skill.version?.date),
     starred: hasStar(stars, skill),
   };
@@ -296,6 +329,7 @@ export function unifySkills(rows) {
 
 export async function listSkills({ includeVendored = true } = {}) {
   const installMap = loadInstallMap();
+  const aliases = loadSkillAliases();
   const sources = loadSources();
   const stars = loadStars();
   const authored = [];
@@ -321,12 +355,13 @@ export async function listSkills({ includeVendored = true } = {}) {
       declaredAuthor: declared.author || meta.author || null,
       declaredOrigin: declared.origin || meta.origin || null,
       declaredRepository: declared.repository || meta.repository || null,
+      declaredVersion: declared.version || meta.version || null,
       showcasePath: declared.showcase || meta.showcase || null,
       license: licenseHint(dir),
       installTargets: installMap[folder] || installMap[name] || [],
       version: ver,
     });
-    authored[authored.length - 1] = decorate(authored[authored.length - 1], null, skillMd, stars);
+    authored[authored.length - 1] = decorate(authored[authored.length - 1], null, skillMd, stars, aliases);
   }
 
   if (includeVendored) {
@@ -354,6 +389,7 @@ export async function listSkills({ includeVendored = true } = {}) {
         declaredAuthor: declared.author || meta.author || null,
         declaredOrigin: declared.origin || meta.origin || null,
         declaredRepository: declared.repository || meta.repository || null,
+        declaredVersion: declared.version || meta.version || null,
         showcasePath: declared.showcase || meta.showcase || null,
         license: licenseHint(dir),
         installTargets: [],
@@ -365,7 +401,7 @@ export async function listSkills({ includeVendored = true } = {}) {
           synced_commit: src?.synced_commit || null,
         },
       });
-      vendored[vendored.length - 1] = decorate(vendored[vendored.length - 1], src, skillMd, stars);
+      vendored[vendored.length - 1] = decorate(vendored[vendored.length - 1], src, skillMd, stars, aliases);
     }
   }
 
@@ -476,7 +512,7 @@ export async function searchSkills(q) {
     } catch {
       continue;
     }
-    const hay = `${s.name}\n${s.description}\n${text}`.toLowerCase();
+    const hay = `${s.name}\n${s.aliases?.join(" ") || ""}\n${s.description}\n${text}`.toLowerCase();
     if (!hay.includes(query)) continue;
     const idx = hay.indexOf(query);
     const start = Math.max(0, idx - 40);

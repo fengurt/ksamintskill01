@@ -4,6 +4,8 @@
 from __future__ import annotations
 
 import re
+import json
+import subprocess
 import sys
 from pathlib import Path
 
@@ -11,6 +13,7 @@ ROOT = Path(__file__).resolve().parent.parent
 SKILLS = ROOT / "skills"
 VENDOR = ROOT / "vendor"
 OUT = ROOT / "CATALOG.md"
+ALIASES = ROOT / "registry" / "skill-aliases.json"
 
 FRONTMATTER_RE = re.compile(r"^---\s*\n(.*?)\n---\s*\n", re.S)
 
@@ -50,8 +53,43 @@ def license_hint(skill_dir: Path) -> str:
     return "—"
 
 
+def load_aliases() -> dict[str, str]:
+    try:
+        raw = json.loads(ALIASES.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {}
+    aliases = raw.get("aliases", {})
+    return {str(alias): str(target) for alias, target in aliases.items()} if isinstance(aliases, dict) else {}
+
+
+def brief(description: str) -> str:
+    text = re.split(r"(?<=[.!?。！？])\s+", description.strip(), maxsplit=1)[0]
+    return text if len(text) <= 96 else text[:93] + "…"
+
+
+def version_hint(meta: dict[str, str], skill_dir: Path) -> str:
+    declared = meta.get("version")
+    if declared:
+        return f"v{declared.lstrip('v')}"
+    try:
+        rel = skill_dir.relative_to(ROOT).as_posix()
+        out = subprocess.run(
+            ["git", "log", "-1", "--format=%h", "--", rel],
+            cwd=ROOT,
+            check=False,
+            capture_output=True,
+            text=True,
+        ).stdout.strip()
+        if out:
+            return f"git:{out}"
+    except OSError:
+        pass
+    return "unversioned"
+
+
 def main() -> int:
     authored = find_skills(SKILLS)
+    aliases = load_aliases()
     lines = [
         "# Skill catalog",
         "",
@@ -59,15 +97,18 @@ def main() -> int:
         "",
         "## Authored (this repo)",
         "",
-        "| name | description | path | license file |",
-        "|------|-------------|------|--------------|",
+        "| id | shortcuts | brief | version | path | license file |",
+        "|----|-----------|-------|---------|------|--------------|",
     ]
     for name, path, meta in authored:
         desc = (meta.get("description") or "").replace("|", "\\|")
-        if len(desc) > 120:
-            desc = desc[:117] + "…"
         rel = path.parent.relative_to(ROOT).as_posix()
-        lines.append(f"| `{name}` | {desc} | [`{rel}`]({rel}/) | {license_hint(path.parent)} |")
+        shortcuts = [alias for alias, target in aliases.items() if target in {name, path.parent.name}]
+        commands = " ".join(f"`{alias}`" for alias in shortcuts) or "—"
+        lines.append(
+            f"| `{name}` | {commands} | {brief(desc)} | {version_hint(meta, path.parent)} | "
+            f"[`{rel}`]({rel}/) | {license_hint(path.parent)} |"
+        )
 
     lines += [
         "",

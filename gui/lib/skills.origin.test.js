@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { hasStar, pickCanonical, skillAgent, skillCredit, skillOrigin, sortSkills, starId, unifySkills } from "./skills.js";
+import { hasStar, loadSkillAliases, pickCanonical, skillAgent, skillAliases, skillBrief, skillCredit, skillOrigin, sortSkills, starId, unifySkills } from "./skills.js";
 
 assert.equal(skillOrigin({ kind: "authored" }), "ksamint");
 assert.equal(skillOrigin({ kind: "vendored", sourceId: "agents-skills-local", declaredOrigin: "ksamint" }), "ksamint");
@@ -37,6 +37,8 @@ assert.deepEqual(
   ["star", "new", "old"]
 );
 assert.equal(starId("authored/mdpages2htmlslides"), "mdpages2htmlslides");
+assert.equal(skillBrief("First sentence. Second sentence."), "First sentence.");
+assert.deepEqual(skillAliases({ name: "orchestrate-development" }, loadSkillAliases()), ["orche"]);
 assert.equal(
   hasStar(new Set(["authored/mdpages2htmlslides"]), {
     name: "mdpages2htmlslides",

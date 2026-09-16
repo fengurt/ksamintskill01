@@ -1,6 +1,6 @@
 ---
 name: orchestrate-development
-description: Route software development between a capable technical lead and lower-cost workers, with bounded handoffs, escalation, and evidence-based acceptance. Use for model routing, delegated implementation, cost optimization, and build-feedback-repair loops. Keep small edits single-agent.
+description: Route software development between a capable technical lead and lower-cost workers, with bounded handoffs, escalation, and evidence-based acceptance. Use for model routing, delegated implementation, cost optimization, and build-feedback-repair loops. Keep small edits single-agent. Users may say "orche" as shorthand.
 metadata:
   author: ksamint
   origin: ksamint

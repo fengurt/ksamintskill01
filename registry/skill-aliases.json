@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "aliases": {
+    "orche": "orchestrate-development",
+    "deploy": "github-fast-deploy",
+    "file": "fileye",
+    "gfslides": "gf4p2slides",
+    "repoaudit": "repo-architecture-audit"
+  }
+}

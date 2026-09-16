@@ -111,6 +111,7 @@ export async function renderSkills(root, parts) {
     const copies = (s.copies || []).length;
     const href = `#/skills/${esc(s.kind)}/${encodeURIComponent(s.folder)}`;
     const id = esc(s.id || s.name);
+    const commands = [`$${s.id || s.name}`, ...(s.aliases || []).map((alias) => alias)].join(" · ");
     return `<article class="skill-card">
       <div class="row">
         <button type="button" class="star ${s.starred ? "on" : ""}" data-star="${id}" aria-label="${s.starred ? "Unstar" : "Star"} ${esc(s.name)}" aria-pressed="${Boolean(s.starred)}">★</button>
@@ -120,8 +121,8 @@ export async function renderSkills(root, parts) {
         ${s.zip ? `<a class="btn ghost skill-export" href="${esc(s.zip)}" download="${esc(s.zipName || `${s.name}-skill.zip`)}">Export</a>` : ""}
       </div>
       <a class="skill-card-body" href="${href}">
-        <p class="muted" style="margin:.4rem 0;font-size:.88rem">${esc((s.description || "").slice(0, 140))}${(s.description || "").length > 140 ? "…" : ""}</p>
-        <div class="skill-meta mono muted"><span>${esc(s.author || s.origin)}</span><span>${esc(s.repo || s.source)}</span><time>${esc(fmtTime(s.updatedAt))}</time></div>
+        <p class="muted" style="margin:.4rem 0;font-size:.88rem">${esc(s.brief || s.description || "")}</p>
+        <div class="skill-meta mono muted"><span>${esc(commands)}</span><span>${esc(s.versionLabel || "unversioned")}</span><span>${esc(s.author || s.origin)}</span><time>${esc(fmtTime(s.updatedAt))}</time></div>
       </a>
     </article>`;
   }
