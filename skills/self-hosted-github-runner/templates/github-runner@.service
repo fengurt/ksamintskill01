@@ -1,0 +1,33 @@
+# /etc/systemd/system/github-runner@.service
+# 一个实例一个 job；并行就启多个实例：systemctl enable --now github-runner@{1,2,3}
+[Unit]
+Description=Ephemeral GitHub Actions runner instance %i
+After=network-online.target docker.service
+Wants=network-online.target
+Requires=docker.service
+
+[Service]
+Type=simple
+User=runner
+Group=runner
+Environment=INSTANCE=%i
+Environment=RUNNER_HOME=/opt/actions-runner
+Environment=GITHUB_REPOSITORY={{OWNER}}/{{REPO}}
+EnvironmentFile=/etc/github-runner/env
+WorkingDirectory=/opt/actions-runner
+ExecStart=/opt/actions-runner/runner-loop.sh
+Restart=always
+RestartSec=10
+KillMode=process
+TimeoutStopSec=600
+
+# 加固：runner 用户不能写系统目录；只放开它需要的路径
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true
+ReadWritePaths=/opt/actions-runner /srv/ci-cache /tmp
+# 生产密钥、云主账号密钥不得挂到这里；这台机器上根本不该有
+
+[Install]
+WantedBy=multi-user.target

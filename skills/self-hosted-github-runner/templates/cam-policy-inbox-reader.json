@@ -1,0 +1,22 @@
+{
+  "_comment": "腾讯云 CAM 策略 · 境内 apply 代理用的子账号：只读境内桶的 release-inbox/，只写 release-outbox/。没有删除权限，没有境外桶的任何权限。",
+  "version": "2.0",
+  "statement": [
+    {
+      "effect": "allow",
+      "action": ["cos:GetObject", "cos:HeadObject"],
+      "resource": ["qcs::cos:{{PROD_REGION}}:uid/{{APPID}}:{{INBOX_BUCKET_PROD}}/release-inbox/*"]
+    },
+    {
+      "effect": "allow",
+      "action": ["cos:GetBucket"],
+      "resource": ["qcs::cos:{{PROD_REGION}}:uid/{{APPID}}:{{INBOX_BUCKET_PROD}}/"],
+      "condition": { "string_like": { "cos:prefix": ["release-inbox/*"] } }
+    },
+    {
+      "effect": "allow",
+      "action": ["cos:PutObject", "cos:HeadObject"],
+      "resource": ["qcs::cos:{{PROD_REGION}}:uid/{{APPID}}:{{INBOX_BUCKET_PROD}}/release-outbox/*"]
+    }
+  ]
+}

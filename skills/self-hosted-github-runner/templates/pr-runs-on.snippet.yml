@@ -1,0 +1,63 @@
+# pr-runs-on.snippet.yml · PR 门禁 job 的 runner 开关
+#
+# 目标：一个仓库变量决定 PR job 落到哪里；变量不存在时回落 GitHub 托管。
+# 设置：Settings → Secrets and variables → Actions → Variables
+#   PR_RUNNER_LABELS = ["self-hosted","linux","x64","ci-ephemeral","ap-singapore"]
+# 删除该变量即回到托管 runner，无需改代码。
+#
+# 注意：
+#   - 自建 runner 的标签集合必须与 runner-setup.sh 写进 /etc/github-runner/env 的完全一致
+#   - PR job 落到自建 runner 的前提是该 runner 为 ephemeral 且不持有任何生产凭据（角色 A）
+#   - 不要给自建 runner 打 ubuntu-latest / ubuntu-24.04 标签
+#   - 需要 apt 安装工具的步骤用 runner.environment 守卫，自建 runner 上应已预装
+
+jobs:
+  select:
+    # 几十秒的选择器：文档改动不该消耗 14 计费分钟。用受影响文件决定后续 job 是否真正执行。
+    runs-on: ${{ fromJSON(vars.PR_RUNNER_LABELS || '["ubuntu-24.04"]') }}
+    timeout-minutes: 5
+    outputs:
+      affected: ${{ steps.affected.outputs.affected }}
+      asset_change: ${{ steps.affected.outputs.asset_change }}
+    steps:
+      - uses: actions/checkout@{{CHECKOUT_SHA}} # v7.x
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+      - id: affected
+        run: |
+          # 项目自己的受影响范围脚本；输出 affected=true/false, asset_change=true/false
+          node scripts/ci-affected.mjs --base="${{ github.event.pull_request.base.sha }}" --head="${{ github.sha }}" --list --github-output
+
+  affected-tests:
+    needs: select
+    if: needs.select.outputs.affected == 'true'
+    runs-on: ${{ fromJSON(vars.PR_RUNNER_LABELS || '["ubuntu-24.04"]') }}
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@{{CHECKOUT_SHA}} # v7.x
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+      - uses: actions/setup-node@{{SETUP_NODE_SHA}} # v7.x
+        if: runner.environment == 'github-hosted'   # 自建 runner 已预装并锁版本
+        with:
+          node-version-file: .node-version
+      - name: Install Chromium for browser contracts
+        if: runner.environment == 'github-hosted'
+        run: npx playwright-core install chromium
+      - run: npm ci --no-audit --no-fund
+      - run: npm run ci:affected
+
+  reproducible-assets:
+    needs: select
+    if: needs.select.outputs.asset_change == 'true'
+    runs-on: ${{ fromJSON(vars.PR_RUNNER_LABELS || '["ubuntu-24.04"]') }}
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@{{CHECKOUT_SHA}} # v7.x
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+      - run: npm ci --no-audit --no-fund
+      - run: npm run assets:build && npm run assets:verify

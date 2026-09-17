@@ -1,0 +1,25 @@
+# /etc/systemd/system/apply-agent.service
+# 由 apply-agent.timer 触发；单次运行；失败不重试（下一个 tick 会再来）
+[Unit]
+Description=In-region release apply agent (pull-based, signed manifests only)
+After=network-online.target docker.service
+Wants=network-online.target
+Requires=docker.service
+
+[Service]
+Type=oneshot
+User=release-agent
+Group=docker
+ExecStart=/usr/local/sbin/apply-agent.sh --once
+TimeoutStartSec=1500
+Nice=5
+
+# 加固：代理只写自己的状态目录；不读家目录；无新特权
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/release-agent
+ReadOnlyPaths=/etc/release-agent
+# 钩子需要访问项目部署目录时在这里追加，例如：
+# ReadWritePaths=/var/lib/release-agent /srv/tableai-can01

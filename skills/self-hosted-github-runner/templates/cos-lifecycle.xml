@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  COS 生命周期 · 两个桶都应用同一份。
+  inbox 14 天：保留至少最近 10 个 release 供回滚；发布频率低于两周一次时把 14 调大，不要减少保留数。
+  outbox 30 天。历史版本（版本控制开启后每次覆盖产生）1 天后删除，避免存储只增不减。
+  跨地域复制规则单独配置：只对 release-inbox/ 与 release-outbox/ 前缀，两个方向各一条。
+-->
+<LifecycleConfiguration>
+  <Rule>
+    <ID>release-inbox-expire</ID>
+    <Filter><Prefix>release-inbox/</Prefix></Filter>
+    <Status>Enabled</Status>
+    <Expiration><Days>14</Days></Expiration>
+    <NoncurrentVersionExpiration><NoncurrentDays>1</NoncurrentDays></NoncurrentVersionExpiration>
+    <AbortIncompleteMultipartUpload><DaysAfterInitiation>2</DaysAfterInitiation></AbortIncompleteMultipartUpload>
+  </Rule>
+  <Rule>
+    <ID>release-outbox-expire</ID>
+    <Filter><Prefix>release-outbox/</Prefix></Filter>
+    <Status>Enabled</Status>
+    <Expiration><Days>30</Days></Expiration>
+    <NoncurrentVersionExpiration><NoncurrentDays>1</NoncurrentDays></NoncurrentVersionExpiration>
+  </Rule>
+</LifecycleConfiguration>

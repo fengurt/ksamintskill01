@@ -1,0 +1,33 @@
+{
+  "_comment": "腾讯云 CAM 策略 · 境外发布 job 用的子账号：只能往境外桶的 release-inbox/ 前缀写和回读，不能列举其他前缀，不能删除。阿里 RAM / 华为 IAM 按同样意图改写。",
+  "version": "2.0",
+  "statement": [
+    {
+      "effect": "allow",
+      "action": [
+        "cos:PutObject",
+        "cos:InitiateMultipartUpload",
+        "cos:UploadPart",
+        "cos:CompleteMultipartUpload",
+        "cos:AbortMultipartUpload",
+        "cos:HeadObject",
+        "cos:GetObject"
+      ],
+      "resource": [
+        "qcs::cos:{{OVERSEAS_REGION}}:uid/{{APPID}}:{{INBOX_BUCKET_OVERSEAS}}/release-inbox/*"
+      ]
+    },
+    {
+      "effect": "allow",
+      "action": ["cos:GetBucket"],
+      "resource": ["qcs::cos:{{OVERSEAS_REGION}}:uid/{{APPID}}:{{INBOX_BUCKET_OVERSEAS}}/"],
+      "condition": { "string_like": { "cos:prefix": ["release-inbox/*", "release-outbox/*"] } }
+    },
+    {
+      "effect": "allow",
+      "action": ["cos:GetObject", "cos:HeadObject"],
+      "resource": ["qcs::cos:{{OVERSEAS_REGION}}:uid/{{APPID}}:{{INBOX_BUCKET_OVERSEAS}}/release-outbox/*"],
+      "_comment": "读取生产侧回写的结果，用于回写 GitHub Deployment 状态"
+    }
+  ]
+}

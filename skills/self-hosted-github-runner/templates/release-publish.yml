@@ -1,0 +1,148 @@
+# release-publish.yml · 角色 B：境外发布 job
+#
+# 只由 main 触发；绑定 GitHub Environment "release-inbox"（可配 required reviewers）；
+# 只持有 inbox 只写密钥与签名私钥；不知道生产主机的存在。
+# 产物按 references/release-protocol.md 的顺序上传，签名文件最后。
+name: Release Publish
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  deployments: write
+
+concurrency:
+  group: release-publish
+  cancel-in-progress: false      # 发布不可被后一次取消，否则 inbox 里留下半个目录
+
+jobs:
+  publish:
+    runs-on: ${{ fromJSON(vars.PUBLISH_RUNNER_LABELS || '["ubuntu-24.04"]') }}
+    environment: release-inbox
+    timeout-minutes: 45
+    env:
+      IMAGE_LOCAL_REF: {{IMAGE_LOCAL_REF}}
+      INBOX_BUCKET: {{INBOX_BUCKET_OVERSEAS}}
+      INBOX_REGION: {{OVERSEAS_REGION}}
+      MAX_TAR_BYTES: "800000000"           # 大小预算；超出即失败，而不是默默付跨境复制费
+      RCLONE_CONFIG_INBOX_TYPE: s3
+      RCLONE_CONFIG_INBOX_PROVIDER: TencentCOS
+      RCLONE_CONFIG_INBOX_ENDPOINT: cos.{{OVERSEAS_REGION}}.myqcloud.com
+      RCLONE_CONFIG_INBOX_ACCESS_KEY_ID: ${{ secrets.INBOX_WRITER_SECRET_ID }}
+      RCLONE_CONFIG_INBOX_SECRET_ACCESS_KEY: ${{ secrets.INBOX_WRITER_SECRET_KEY }}
+    steps:
+      - uses: actions/checkout@{{CHECKOUT_SHA}} # v7.x
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Resolve release identity
+        id: rel
+        run: |
+          set -euo pipefail
+          sha7="${GITHUB_SHA:0:7}"
+          release_id="$(date -u +%Y%m%dT%H%M%SZ)-${sha7}"
+          tree_sha="$(git rev-parse HEAD^{tree})"
+          echo "release_id=$release_id" >> "$GITHUB_OUTPUT"
+          echo "tree_sha=$tree_sha" >> "$GITHUB_OUTPUT"
+
+      - name: Require green receipts for this exact tree
+        run: |
+          # 项目自己的收据解析：只有在该 tree 上跑过并通过的 PR 门禁收据才允许发布
+          node scripts/can01-release-evidence.mjs resolve --job=affected-tests --head="$GITHUB_SHA" --require
+          node scripts/can01-release-evidence.mjs resolve --job=reproducible-assets --head="$GITHUB_SHA" --require
+
+      - name: Secret scan on the tree that will be built
+        run: node scripts/scan-secrets.mjs
+
+      - name: Build image
+        run: |
+          set -euo pipefail
+          docker build --pull -t "${IMAGE_LOCAL_REF}:${{ steps.rel.outputs.release_id }}" \
+            --build-arg APP_RELEASE="${{ steps.rel.outputs.release_id }}" .
+          docker image inspect "${IMAGE_LOCAL_REF}:${{ steps.rel.outputs.release_id }}" --format '{{.Id}}' > image_id.txt
+
+      - name: Refuse images that carry data or env files
+        run: |
+          set -euo pipefail
+          cid=$(docker create "${IMAGE_LOCAL_REF}:${{ steps.rel.outputs.release_id }}")
+          if docker export "$cid" | tar -t | grep -E '(^|/)(\.env|.*\.db|.*\.sqlite|data/projects/)' | head -5 | grep .; then
+            echo "::error::image contains env or data files; fix .dockerignore"; docker rm "$cid"; exit 1
+          fi
+          docker rm "$cid"
+
+      - name: Save and compress
+        run: |
+          set -euo pipefail
+          mkdir -p out/receipts
+          docker save "${IMAGE_LOCAL_REF}:${{ steps.rel.outputs.release_id }}" | zstd -T0 -19 -o out/image.tar.zst
+          bytes=$(stat -c %s out/image.tar.zst)
+          if [ "$bytes" -gt "$MAX_TAR_BYTES" ]; then echo "::error::tar $bytes bytes exceeds budget $MAX_TAR_BYTES"; exit 1; fi
+          (cd out && sha256sum image.tar.zst > image.tar.zst.sha256)
+          cp .runtime/ci-evidence/*.json out/receipts/ 2>/dev/null || true
+
+      - name: Write manifest
+        run: |
+          set -euo pipefail
+          node - <<'EOF'
+          const fs = require('fs'), crypto = require('crypto');
+          const sha = (p) => crypto.createHash('sha256').update(fs.readFileSync(p)).digest('hex');
+          const receipts = fs.readdirSync('out/receipts').map((f) => ({ path: `receipts/${f}`, sha256: sha(`out/receipts/${f}`) }));
+          const now = new Date();
+          const manifest = {
+            schema_version: 'release-manifest/v1',
+            release_id: process.env.RELEASE_ID,
+            repository: process.env.GITHUB_REPOSITORY,
+            channel: 'production',
+            commit_sha: process.env.GITHUB_SHA,
+            tree_sha: process.env.TREE_SHA,
+            created_at: now.toISOString(),
+            expires_at: new Date(now.getTime() + 14 * 86400e3).toISOString(),
+            image: {
+              local_ref: process.env.IMAGE_LOCAL_REF,
+              image_id: fs.readFileSync('image_id.txt', 'utf8').trim(),
+              tar: { path: 'image.tar.zst', sha256: sha('out/image.tar.zst'), bytes: fs.statSync('out/image.tar.zst').size },
+            },
+            receipts,
+            publisher: { workflow: process.env.GITHUB_WORKFLOW, run_id: process.env.GITHUB_RUN_ID, key_id: process.env.SIGNER_KEY_ID },
+          };
+          fs.writeFileSync('out/manifest.json', JSON.stringify(manifest, null, 2));
+          EOF
+        env:
+          RELEASE_ID: ${{ steps.rel.outputs.release_id }}
+          TREE_SHA: ${{ steps.rel.outputs.tree_sha }}
+          SIGNER_KEY_ID: ${{ vars.SIGNER_KEY_ID }}
+
+      - name: Sign manifest
+        env:
+          SIGNER_KEY_PEM: ${{ secrets.SIGNER_KEY_PEM }}
+        run: |
+          set -euo pipefail
+          umask 077
+          printf '%s' "$SIGNER_KEY_PEM" > /dev/shm/publisher.key
+          openssl pkeyutl -sign -inkey /dev/shm/publisher.key -rawin -in out/manifest.json -out out/manifest.json.sig
+          shred -u /dev/shm/publisher.key
+
+      - name: Upload in protocol order, signature last
+        run: |
+          set -euo pipefail
+          dest="inbox:${INBOX_BUCKET}/release-inbox/${{ steps.rel.outputs.release_id }}"
+          rclone copyto out/image.tar.zst        "$dest/image.tar.zst"        --s3-chunk-size 64M --checksum
+          rclone copyto out/image.tar.zst.sha256 "$dest/image.tar.zst.sha256" --checksum
+          rclone copy   out/receipts             "$dest/receipts"             --checksum
+          rclone copyto out/manifest.json        "$dest/manifest.json"        --checksum
+          rclone copyto out/manifest.json.sig    "$dest/manifest.json.sig"    --checksum
+          # 回读校验：上传成功不等于内容正确
+          rclone check out "$dest" --one-way --checksum
+
+      - name: Open GitHub Deployment (pending)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api "repos/${GITHUB_REPOSITORY}/deployments" --method POST \
+            -f ref="$GITHUB_SHA" -f environment=production -F auto_merge=false -F required_contexts='[]' \
+            -f description="release ${{ steps.rel.outputs.release_id }} published to inbox; awaiting in-region apply" > deployment.json
+          echo "deployment_id=$(jq -r .id deployment.json)" >> "$GITHUB_STEP_SUMMARY"

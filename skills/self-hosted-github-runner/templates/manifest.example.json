@@ -1,0 +1,25 @@
+{
+  "schema_version": "release-manifest/v1",
+  "release_id": "20260917T083000Z-dabd529",
+  "repository": "fengurt/vanahom-fb-hom01",
+  "channel": "production",
+  "commit_sha": "dabd529dab0c12fa04cc11ca09fd115844b2be45",
+  "tree_sha": "8f2c0a9d3e4b5c6d7e8f90112233445566778899aabbccddeeff001122334455",
+  "created_at": "2026-09-17T08:30:00Z",
+  "expires_at": "2026-10-01T08:30:00Z",
+  "image": {
+    "local_ref": "tableai/can01-app",
+    "image_id": "sha256:b12810e8915a33c6b22bb21c50dc75c746a316a74280981f6ef9b9fe0790ed9d",
+    "tar": {
+      "path": "image.tar.zst",
+      "sha256": "c210da2f6fe42c770fb471ed2db317cb28f82a823df15b1ce373337aea8d4c1e",
+      "bytes": 312345678
+    }
+  },
+  "receipts": [
+    { "path": "receipts/affected-tests-dabd529dab0c12fa04cc11ca09fd115844b2be45.json", "sha256": "4383b6b4634d64263cfeaf43dcad22a26dc1275fecfa3075f38f7b3a225f8807" },
+    { "path": "receipts/reproducible-assets-dabd529dab0c12fa04cc11ca09fd115844b2be45.json", "sha256": "1f76b55fc8e2de10303bbb00b689c294751045e509bfc906f10ea8888e21037c" }
+  ],
+  "publisher": { "workflow": "Release Publish", "run_id": "35169925206", "key_id": "publisher-2026-09" },
+  "notes": "no hostnames, no ip addresses, no credentials"
+}
