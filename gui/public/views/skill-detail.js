@@ -1,4 +1,4 @@
-import { api, badge, copyText, esc, fmtTime } from "./util.js";
+import { api, badge, copyText, esc, fmtTime, isLocalSkillStarred, toggleLocalSkillStar } from "./util.js";
 
 const COLOR_KEYS = ["surface", "ink", "muted", "grid", "accent", "positive", "negative", "warning"];
 const EVIDENCE_TEMPLATES = new Set(["kpi", "roster", "chart", "chart-table", "matrix", "compare", "verdict"]);
@@ -316,6 +316,7 @@ export async function renderRichSkillDetail(root, kind, id) {
   root.classList.remove("studio-page");
   root.innerHTML = '<p class="muted">Loading skill...</p>';
   const s = await api("/api/skills/" + encodeURIComponent(kind) + "/" + encodeURIComponent(id));
+  s.starred = isLocalSkillStarred(s);
   const extras = s.runtime || [];
   const showcase = s.showcase;
   let apuch = { themes: [], credentialConfigured: false, syncedAt: null };
@@ -427,12 +428,12 @@ export async function renderRichSkillDetail(root, kind, id) {
     });
   });
 
-  root.querySelector("#star-one")?.addEventListener("click", async () => {
-    const out = await api("/api/skills/star", { method: "POST", body: { id: s.id || s.name } });
+  root.querySelector("#star-one")?.addEventListener("click", () => {
+    const starred = toggleLocalSkillStar(s);
     const button = root.querySelector("#star-one");
-    button.classList.toggle("on", out.starred);
-    button.setAttribute("aria-pressed", String(out.starred));
-    button.setAttribute("aria-label", (out.starred ? "Unstar " : "Star ") + s.name);
+    button.classList.toggle("on", starred);
+    button.setAttribute("aria-pressed", String(starred));
+    button.setAttribute("aria-label", (starred ? "Unstar " : "Star ") + s.name);
   });
 
   const demoHtml = assets.demo?.text || "";

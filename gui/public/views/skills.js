@@ -1,4 +1,4 @@
-import { api, badge, esc, fmtTime } from "./util.js";
+import { api, badge, esc, fmtTime, isLocalSkillStarred, localSkillStars, toggleLocalSkillStar } from "./util.js";
 import { renderRichSkillDetail } from "./skill-detail.js";
 
 const FILTERS = [
@@ -30,7 +30,7 @@ export async function renderSkills(root, parts) {
   root.innerHTML = `<p class="muted">Loading skills…</p>`;
   const data = await api("/api/skills");
   const graph = await api("/api/skills/graph").catch(() => ({ nodes: [], edges: [] }));
-  const all = data.items || [...(data.authored || []), ...(data.vendored || [])];
+  const all = (data.items || [...(data.authored || []), ...(data.vendored || [])]).map((skill) => ({ ...skill, starred: isLocalSkillStarred(skill) }));
   const totals = data.totals || {};
   const on = new Set(["ksamint", "mattpocock", "system"]);
   const copyNote =
@@ -70,7 +70,7 @@ export async function renderSkills(root, parts) {
           .map(([id, [label]]) => `<button type="button" role="tab" data-view="${id}" aria-selected="${id === view}">${label}<span data-view-count="${id}"></span></button>`)
           .join("")}
       </div>
-      <a class="btn ghost" id="export-starred" href="/api/skills/export.zip?starred=1" hidden>Export starred</a>
+      <a class="btn ghost" id="export-starred" href="/api/skills/export.zip" hidden>Export starred</a>
     </div>
 
     <div class="toolbar skill-toolbar">
@@ -145,9 +145,8 @@ export async function renderSkills(root, parts) {
         e.preventDefault();
         e.stopPropagation();
         const key = btn.getAttribute("data-star");
-        const out = await api("/api/skills/star", { method: "POST", body: { id: key } });
         const hit = all.find((s) => (s.id || s.name) === key || s.name === key);
-        if (hit) hit.starred = out.starred;
+        if (hit) hit.starred = toggleLocalSkillStar(key);
         refresh();
       });
     });
@@ -156,6 +155,7 @@ export async function renderSkills(root, parts) {
     if (exportBtn) {
       exportBtn.hidden = starredN === 0;
       exportBtn.textContent = starredN ? `Export starred ${starredN}` : "Export starred";
+      exportBtn.href = `/api/skills/export.zip?ids=${encodeURIComponent([...localSkillStars()].join(","))}`;
     }
     root.querySelector('[data-view-count="starred"]').textContent = ` ${starredN}`;
     root.querySelector('[data-view-count="trending"]').textContent = ` ${Math.min(24, all.length)}`;
@@ -178,6 +178,7 @@ export async function renderSkills(root, parts) {
       paint(
         (hits || []).map((s) => ({
           ...s,
+          starred: isLocalSkillStarred(s),
           origin: s.origin || (s.kind === "authored" ? "ksamint" : "other"),
         })),
         origins,

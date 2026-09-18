@@ -5,6 +5,34 @@ const esc = (s) =>
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
 
+const SKILL_STARS_KEY = "kskill.starred.v1";
+
+function skillStarId(skill) {
+  return String(typeof skill === "object" ? skill.id || skill.name : skill || "").trim().toLowerCase();
+}
+
+export function localSkillStars() {
+  try {
+    const value = JSON.parse(localStorage.getItem(SKILL_STARS_KEY) || "[]");
+    return new Set(Array.isArray(value) ? value.map(skillStarId).filter(Boolean) : []);
+  } catch {
+    return new Set();
+  }
+}
+
+export function isLocalSkillStarred(skill) {
+  return localSkillStars().has(skillStarId(skill));
+}
+
+export function toggleLocalSkillStar(skill) {
+  const id = skillStarId(skill);
+  const stars = localSkillStars();
+  if (stars.has(id)) stars.delete(id);
+  else stars.add(id);
+  localStorage.setItem(SKILL_STARS_KEY, JSON.stringify([...stars]));
+  return stars.has(id);
+}
+
 export async function api(path, opts = {}) {
   const res = await fetch(path, {
     headers: { "content-type": "application/json", ...(opts.headers || {}) },
