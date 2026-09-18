@@ -2,7 +2,11 @@ import { api, badge, esc } from "./util.js";
 
 export async function renderRegistry(root) {
   root.innerHTML = `<p class="muted">Loading…</p>`;
-  const [reg, health] = await Promise.all([api("/api/registry"), api("/api/health")]);
+  const [reg, health] = await Promise.all([api("/api/registry"), api("/api/health").catch(() => null)]);
+  if (!health) {
+    root.innerHTML = `<h1>Registry</h1><p>Health checks are unavailable. Source status: ${reg.sources.filter((s) => s.present).length} installed of ${reg.sources.length} configured.</p>`;
+    return;
+  }
   const links = health.links || { rows: [], summary: {} };
 
   root.innerHTML = `

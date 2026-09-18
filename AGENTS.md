@@ -37,6 +37,8 @@ python3 scripts/build-catalog.py
 
 ## Skill import releases
 
+This public repository deploys only through GitHub-hosted Actions on `main`, after its checks pass. Production credentials belong to the main-only `production` Environment. PR jobs run validation without production secrets. Follow the deployment run through completion and verify the live SHA, catalog, projects, runs, registry, and jobs before reporting success. Direct local/TAT application deployment requires an explicit user override. Initial installation of the restricted deployment receiver is infrastructure setup, not an alternate release route.
+
 When the user supplies a skill package for this repository and asks to add or install it, validate it, rebuild the catalog, update local links, commit to `main`, push, and deploy the exact remote `main` SHA to the existing Skill Hub production target. Stop before publication if the worktree has unrelated changes, validation fails, the remote diverges, or the established deployment target, rollback path, or smoke checks are unavailable.
 
 ## Skill Hub GUI

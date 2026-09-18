@@ -8,6 +8,7 @@ import { installShortcuts } from "./shortcuts.js?v=20260819d";
 
 const app = document.getElementById("app");
 const nav = document.getElementById("nav");
+const capabilities = fetch("/api/config").then((r) => r.json());
 
 function routeParts() {
   const h = location.hash.replace(/^#\/?/, "").split("?")[0];
@@ -34,6 +35,13 @@ async function route() {
     else if (top === "jobs") await renderJobs(app, parts);
     else if (top === "registry") await renderRegistry(app);
     else app.innerHTML = `<div class="empty">Unknown route</div>`;
+    if ((await capabilities).readOnly && ["projects", "runs", "registry", "jobs"].includes(top)) {
+      const notice = document.createElement("p");
+      notice.className = "muted";
+      notice.textContent = "Public read-only view. Use the local app to edit projects, sync sources, or start jobs.";
+      app.prepend(notice);
+      app.querySelectorAll('#sync, #links, [data-drift], a[href="#/projects/new"], #create, #cancel').forEach((el) => { el.hidden = true; });
+    }
   } catch (e) {
     app.innerHTML = `<div class="card"><h2>Error</h2><pre class="pre light">${String(e.message || e)}</pre></div>`;
   }

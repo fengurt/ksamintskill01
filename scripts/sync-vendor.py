@@ -83,7 +83,15 @@ def main() -> int:
     VENDOR.mkdir(parents=True, exist_ok=True)
     entries = parse_sources(SOURCES.read_text(encoding="utf-8"))
     git_only = "--git-only" in sys.argv[1:]
+    production = "--production" in sys.argv[1:]
     for entry in entries:
+        if production:
+            if entry.get("publish") != "true":
+                continue
+            if entry.get("kind") != "git" or not re.fullmatch(r"[0-9a-f]{40}", entry.get("synced_commit", "")):
+                raise ValueError("Published sources require a Git source and full synced_commit")
+        if not re.fullmatch(r"[a-z0-9][a-z0-9-]*", entry["id"]):
+            raise ValueError("Invalid source id")
         dest = VENDOR / entry["id"]
         kind = entry.get("kind")
         if kind == "git":

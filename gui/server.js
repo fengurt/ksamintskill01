@@ -142,11 +142,14 @@ const server = createServer(async (req, res) => {
 });
 
 async function handleApi(req, res, method, path, u) {
+  const readOnly = process.env.PUBLIC_READ_ONLY === "1";
+  if (readOnly && method !== "GET") return send(res, 403, { error: "Public hub is read-only. Use the local app to edit or run jobs." });
+  if (method === "GET" && path === "/api/config") return send(res, 200, { readOnly });
   // Home / status
   if (method === "GET" && path === "/api/status") {
     const [repo, skills, registry, projects, jobs, runs] = await Promise.all([
       repoStatus(),
-      listSkills({ includeVendored: false }),
+      listSkills(),
       registryStatus(),
       Promise.resolve(listProjects()),
       Promise.resolve(listJobs()),

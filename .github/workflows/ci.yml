@@ -20,3 +20,36 @@ jobs:
       - run: node --test gui/lib/*.test.js
       - run: python3 scripts/lint-skills.py
       - run: bash scripts/scan-secrets.sh skills/
+      - run: bash -n scripts/package-release.sh scripts/receive-release.sh
+  deploy:
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: test
+    runs-on: ubuntu-latest
+    environment: production
+    concurrency:
+      group: skill-hub-production
+      cancel-in-progress: false
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Package commit and pinned benchmark sources
+        run: bash scripts/package-release.sh
+      - name: Deploy and verify production
+        env:
+          DEPLOY_KEY: ${{ secrets.SKILL_HUB_DEPLOY_KEY }}
+          DEPLOY_HOST: ${{ secrets.SKILL_HUB_DEPLOY_HOST }}
+          KNOWN_HOSTS: ${{ secrets.SKILL_HUB_KNOWN_HOSTS }}
+        run: |
+          set -euo pipefail
+          umask 077
+          printf '%s\n' "$DEPLOY_KEY" > "$RUNNER_TEMP/deploy-key"
+          printf '%s\n' "$KNOWN_HOSTS" > "$RUNNER_TEMP/known-hosts"
+          trap 'rm -f "$RUNNER_TEMP/deploy-key"' EXIT
+          ssh -T -i "$RUNNER_TEMP/deploy-key" -o BatchMode=yes -o ConnectTimeout=20 -o ServerAliveInterval=15 -o ServerAliveCountMax=4 -o StrictHostKeyChecking=yes -o UserKnownHostsFile="$RUNNER_TEMP/known-hosts" "root@$DEPLOY_HOST" < "$RUNNER_TEMP/kskill-release.tar.gz"
+          curl -fsS --retry 3 https://kskill.opcglobal.cn/api/status | python3 -c 'import json,os,sys; d=json.load(sys.stdin); assert os.environ["GITHUB_SHA"].startswith(d["repo"]["head"]["hash"]); assert d["skills"]["mattpocock"]>0'
+          for endpoint in projects runs registry jobs health; do
+            curl -fsS "https://kskill.opcglobal.cn/api/$endpoint" | python3 -c 'import json,sys; assert isinstance(json.load(sys.stdin),dict)'
+          done
