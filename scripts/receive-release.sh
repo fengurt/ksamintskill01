@@ -8,7 +8,23 @@ stage=$(mktemp -d "$root/incoming.XXXXXX")
 candidate=kskill-release-candidate
 cleanup() { docker stop -t 1 "$candidate" >/dev/null 2>&1 || true; rm -rf "$stage"; }
 trap cleanup EXIT
-timeout 600 head -c 104857601 > "$stage/input.tar.gz"
+IFS= read -r -t 30 artifact_url
+python3 - "$artifact_url" <<'PY'
+import sys,urllib.parse
+u=urllib.parse.urlparse(sys.argv[1])
+assert len(sys.argv[1])<16384 and u.scheme=='https' and u.port in (None,443)
+assert not u.username and not u.password
+assert u.hostname and u.hostname.endswith(('.blob.core.windows.net','.actions.githubusercontent.com'))
+PY
+curl --silent --show-error --fail --retry 3 --connect-timeout 20 --max-time 600 --max-filesize 104857600 "$artifact_url" -o "$stage/artifact.zip"
+python3 - "$stage" <<'PY'
+import pathlib,sys,zipfile
+p=pathlib.Path(sys.argv[1])
+with zipfile.ZipFile(p/'artifact.zip') as z:
+    assert z.namelist()==['kskill-release.tar.gz']
+    assert z.getinfo('kskill-release.tar.gz').file_size<=104857600
+    (p/'input.tar.gz').write_bytes(z.read('kskill-release.tar.gz'))
+PY
 test "$(stat -c %s "$stage/input.tar.gz")" -le 104857600
 sha=$(python3 - "$stage" <<'PY'
 import hashlib,json,pathlib,re,sys,tarfile

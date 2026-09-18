@@ -22,6 +22,9 @@ jobs:
       - run: bash scripts/scan-secrets.sh skills/
       - run: bash -n scripts/package-release.sh scripts/receive-release.sh
   deploy:
+    permissions:
+      contents: read
+      actions: read
     if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     needs: test
     runs-on: ubuntu-latest
@@ -37,18 +40,31 @@ jobs:
           persist-credentials: false
       - name: Package commit and pinned benchmark sources
         run: bash scripts/package-release.sh
+      - uses: actions/upload-artifact@v4
+        id: release
+        with:
+          name: production-release
+          path: ${{ runner.temp }}/kskill-release.tar.gz
+          retention-days: 1
+          compression-level: 0
       - name: Deploy and verify production
         env:
           DEPLOY_KEY: ${{ secrets.SKILL_HUB_DEPLOY_KEY }}
           DEPLOY_HOST: ${{ secrets.SKILL_HUB_DEPLOY_HOST }}
           KNOWN_HOSTS: ${{ secrets.SKILL_HUB_KNOWN_HOSTS }}
+          GH_TOKEN: ${{ github.token }}
+          ARTIFACT_ID: ${{ steps.release.outputs.artifact-id }}
         run: |
           set -euo pipefail
           umask 077
           printf '%s\n' "$DEPLOY_KEY" > "$RUNNER_TEMP/deploy-key"
           printf '%s\n' "$KNOWN_HOSTS" > "$RUNNER_TEMP/known-hosts"
           trap 'rm -f "$RUNNER_TEMP/deploy-key"' EXIT
-          ssh -T -i "$RUNNER_TEMP/deploy-key" -o BatchMode=yes -o ConnectTimeout=20 -o ServerAliveInterval=15 -o ServerAliveCountMax=4 -o StrictHostKeyChecking=yes -o UserKnownHostsFile="$RUNNER_TEMP/known-hosts" "root@$DEPLOY_HOST" < "$RUNNER_TEMP/kskill-release.tar.gz"
+          curl -fsS -D "$RUNNER_TEMP/artifact-headers" -o /dev/null -H "Authorization: Bearer $GH_TOKEN" "https://api.github.com/repos/$GITHUB_REPOSITORY/actions/artifacts/$ARTIFACT_ID/zip"
+          artifact_url=$(sed -n 's/^[Ll]ocation: //p' "$RUNNER_TEMP/artifact-headers" | tr -d '\r')
+          test -n "$artifact_url"
+          echo "::add-mask::$artifact_url"
+          printf '%s\n' "$artifact_url" | ssh -T -i "$RUNNER_TEMP/deploy-key" -o BatchMode=yes -o ConnectTimeout=20 -o ServerAliveInterval=15 -o ServerAliveCountMax=4 -o StrictHostKeyChecking=yes -o UserKnownHostsFile="$RUNNER_TEMP/known-hosts" "root@$DEPLOY_HOST"
           curl -fsS --retry 3 https://kskill.opcglobal.cn/api/status | python3 -c 'import json,os,sys; d=json.load(sys.stdin); assert os.environ["GITHUB_SHA"].startswith(d["repo"]["head"]["hash"]); assert d["skills"]["mattpocock"]>0'
           for endpoint in projects runs registry jobs health; do
             curl -fsS "https://kskill.opcglobal.cn/api/$endpoint" | python3 -c 'import json,sys; assert isinstance(json.load(sys.stdin),dict)'
