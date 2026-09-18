@@ -8,7 +8,7 @@ stage=$(mktemp -d "$root/incoming.XXXXXX")
 candidate=kskill-release-candidate
 cleanup() { docker stop -t 1 "$candidate" >/dev/null 2>&1 || true; rm -rf "$stage"; }
 trap cleanup EXIT
-timeout 180 head -c 104857601 > "$stage/input.tar.gz"
+timeout 600 head -c 104857601 > "$stage/input.tar.gz"
 test "$(stat -c %s "$stage/input.tar.gz")" -le 104857600
 sha=$(python3 - "$stage" <<'PY'
 import hashlib,json,pathlib,re,sys,tarfile
