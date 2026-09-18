@@ -2,7 +2,7 @@
   "version": 1,
   "aliases": {
     "orche": "orchestrate-development",
-    "deploy": "github-fast-deploy",
+    "deploy": "self-hosted-github-runner",
     "file": "fileye",
     "gfslides": "gf4p2slides",
     "repoaudit": "repo-architecture-audit"
