@@ -28,8 +28,9 @@ function save(data) {
 }
 
 export function listProjects() {
-  const saved = load().projects.map(decorateReport);
-  return [...saved, ...discoverHistoryProjects(historyRoots(), saved)].sort(
+  const data = load();
+  const saved = data.projects.map(decorateReport);
+  return [...saved, ...(data.historyEnabled === false ? [] : discoverHistoryProjects(historyRoots(), saved))].sort(
     (a, b) => (b.updated_at || 0) - (a.updated_at || 0)
   );
 }
@@ -215,6 +216,16 @@ export function deleteProject(id) {
   data.projects = data.projects.filter((p) => p.id !== id);
   save(data);
   return before !== data.projects.length;
+}
+
+// Explicit maintenance operation. Never remove reports, sources, or run folders.
+export function clearProjects() {
+  const data = load();
+  const visible = listProjects();
+  const backup = join(DATA_DIR, `projects-backup-${Date.now()}-${randomBytes(3).toString("hex")}.json`);
+  writeFileSync(backup, JSON.stringify({ ...data, visibleProjects: visible }, null, 2) + "\n", { flag: "wx", mode: 0o600 });
+  save({ ...data, projects: [], historyEnabled: false });
+  return { removed: visible.length, backup, preservedFiles: true };
 }
 
 export function appendGate(id, gate) {

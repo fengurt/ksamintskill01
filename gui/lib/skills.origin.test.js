@@ -38,7 +38,7 @@ assert.deepEqual(
 );
 assert.equal(starId("authored/mdpages2htmlslides"), "mdpages2htmlslides");
 assert.equal(skillBrief("First sentence. Second sentence."), "First sentence.");
-assert.deepEqual(skillAliases({ name: "orchestrate-development" }, loadSkillAliases()), ["orche"]);
+assert.deepEqual(skillAliases({ name: "orchestrate-development" }, loadSkillAliases()), ["k023", "orche"]);
 assert.equal(
   hasStar(new Set(["authored/mdpages2htmlslides"]), {
     name: "mdpages2htmlslides",

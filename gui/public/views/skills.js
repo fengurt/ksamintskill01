@@ -1,5 +1,5 @@
-import { api, badge, esc, fmtTime, isLocalSkillStarred, localSkillStars, toggleLocalSkillStar } from "./util.js";
-import { renderRichSkillDetail } from "./skill-detail.js";
+import { api, badge, bindCopyButtons, esc, fmtTime, isLocalSkillStarred, localSkillStars, toggleLocalSkillStar } from "./util.js";
+import { renderRichSkillDetail, qualityReviewHtml } from "./skill-detail.js";
 
 const FILTERS = [
   { id: "ksamint", label: "ksamint" },
@@ -17,6 +17,7 @@ const CAPABILITIES = [
 ];
 
 const VIEWS = {
+  review: ["Quality review", "Purpose, evidence, and recommendations for the 68 published skills. No skills have been deleted."],
   starred: ["Starred", "Your saved set for repeat work."],
   trending: ["Trending", "Recently updated here. Freshness, not internet popularity."],
   all: ["All skills", "Every unique skill from the selected sources."],
@@ -37,7 +38,7 @@ export async function renderSkills(root, parts) {
     totals.copies && totals.unique && totals.copies !== totals.unique
       ? `${totals.unique} unique from ${totals.copies} copies`
       : "";
-  let view = "trending";
+  let view = "review";
   let searchToken = 0;
 
   root.innerHTML = `
@@ -45,7 +46,7 @@ export async function renderSkills(root, parts) {
       <div>
         <p class="skills-kicker">AI capability library</p>
         <h1>Learn the whole loop, not only skills.</h1>
-        <p>Skills make good judgment repeatable. Durable advantage also needs context, tools, evaluation, and disciplined shipping.</p>
+        <p>Search by stable ID or short command. Copy the canonical invocation for use in an agent with that skill installed. Review recommendations before choosing what to keep.</p>
       </div>
       <dl class="skills-summary">
         <div><dt>Unique skills</dt><dd>${totals.unique ?? all.length}</dd></div>
@@ -74,7 +75,8 @@ export async function renderSkills(root, parts) {
     </div>
 
     <div class="toolbar skill-toolbar">
-      <input class="search" id="q" aria-label="Search skills" placeholder="Search names and SKILL.md" />
+      <input class="search" id="q" aria-label="Search skills" placeholder="Search ID, short command, name, or purpose" />
+      <select id="recommendation" aria-label="Filter review recommendation"><option value="">All recommendations</option><option value="keep">Keep</option><option value="improve">Improve</option><option value="merge-candidate">Merge candidates</option><option value="retire-candidate">Retire candidates</option></select>
       ${FILTERS.map(
         (f) =>
           `<label class="filter-chip"><input type="checkbox" data-origin="${f.id}" ${on.has(f.id) ? "checked" : ""} /> ${esc(f.label)} <span class="mono muted">${totals[f.id] ?? 0}</span></label>`
@@ -115,21 +117,27 @@ export async function renderSkills(root, parts) {
     return `<article class="skill-card">
       <div class="row">
         <button type="button" class="star ${s.starred ? "on" : ""}" data-star="${id}" aria-label="${s.starred ? "Unstar" : "Star"} ${esc(s.name)}" aria-pressed="${Boolean(s.starred)}">★</button>
-        <a class="skill-card-title" href="${href}"><h3 style="margin:0">${esc(s.name)}</h3></a>
+        <a class="skill-card-title" href="${href}"><h3 style="margin:0">${esc(s.shortName || s.name)}</h3></a>
         ${who}${dirty}${copies > 1 ? badge("", `${copies} 处`) : ""}
         <span class="spacer"></span>
         ${s.githubUrl ? `<a class="btn ghost" href="${esc(s.githubUrl)}" target="_blank" rel="noopener noreferrer" aria-label="${esc(s.name)} on GitHub">GitHub ↗</a>` : `<span class="muted">Local-only source</span>`}
         ${s.zip ? `<a class="btn ghost skill-export" href="${esc(s.zip)}" download="${esc(s.zipName || `${s.name}-skill.zip`)}">Export</a>` : ""}
       </div>
       <a class="skill-card-body" href="${href}">
-        <p class="muted" style="margin:.4rem 0;font-size:.88rem">${esc(s.brief || s.description || "")}</p>
+        <p class="mono">${esc(s.commandId || s.id)} · ${esc(s.command || s.name)}</p>
+        <p class="muted" style="margin:.4rem 0;font-size:.88rem">${esc(s.purpose || s.brief || s.description || "")}</p>
         <div class="skill-meta mono muted"><span>${esc(commands)}</span><span>${esc(s.versionLabel || "unversioned")}</span><span>${esc(s.author || s.origin)}</span><time>${esc(fmtTime(s.updatedAt))}</time></div>
       </a>
+      <button type="button" class="btn ghost" data-copy="${esc(`Use $${s.name} to: [describe your task]`)}">Copy command</button>
+      ${view === "review" ? qualityReviewHtml(s) : ""}
     </article>`;
   }
 
   function paint(list, origins, { searching = false } = {}) {
     let shown = [...list].filter((s) => origins.has(s.origin || "other"));
+    const recommendation = root.querySelector("#recommendation").value;
+    if (recommendation) shown = shown.filter((s) => s.qualityReview?.recommendation === recommendation);
+    if (view === "review") shown = shown.filter((s) => s.qualityReview).sort((a, b) => a.commandId.localeCompare(b.commandId));
     let title = "Search results";
     let description = "Matches across names, descriptions, and skill instructions.";
     if (!searching) {
@@ -151,6 +159,7 @@ export async function renderSkills(root, parts) {
         refresh();
       });
     });
+    bindCopyButtons(results);
     const exportBtn = root.querySelector("#export-starred");
     const starredN = all.filter((s) => s.starred).length;
     if (exportBtn) {
@@ -161,6 +170,7 @@ export async function renderSkills(root, parts) {
     root.querySelector('[data-view-count="starred"]').textContent = ` ${starredN}`;
     root.querySelector('[data-view-count="trending"]').textContent = ` ${Math.min(24, all.length)}`;
     root.querySelector('[data-view-count="all"]').textContent = ` ${all.length}`;
+    root.querySelector('[data-view-count="review"]').textContent = ` ${all.filter((s) => s.qualityReview).length}`;
     root.querySelectorAll("[data-view]").forEach((button) => button.setAttribute("aria-selected", String(button.dataset.view === view)));
   }
 
@@ -199,6 +209,7 @@ export async function renderSkills(root, parts) {
   root.querySelectorAll("[data-origin]").forEach((el) => {
     el.addEventListener("change", refresh);
   });
+  root.querySelector("#recommendation").addEventListener("change", refresh);
 
   let searchTimer;
   root.querySelector("#q").addEventListener("input", () => {

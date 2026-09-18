@@ -1,0 +1,597 @@
+[
+  {
+    "name": "ali-tongyi",
+    "shortName": "Tongyi API",
+    "command": "tongyi",
+    "purpose": "Configure Bailian Token Plan credentials and call text, vision or image models through plan-specific endpoints.",
+    "recommendation": "improve",
+    "quality": "Useful seat-key versus pay-as-you-go distinction and runtime secret loading; subscription model lists lack a verification date and JSON-object example requests an array.",
+    "evidence": [
+      "skills/ali-tongyi/SKILL.md: Quick Config separates Token Plan and standard DashScope URLs.",
+      "skills/ali-tongyi/SKILL.md: JSON / Structured Output requests a JSON array with response_format json_object."
+    ],
+    "overlaps": [
+      "llm-hub"
+    ],
+    "reviewedAt": "2026-09-18",
+    "reviewedHash": "c5bc310f3ff212bbef6f992e542e1e475bb144206e0af1587da554e46954438d",
+    "commandId": "k001"
+  },
+  {
+    "name": "apuch-tencent-sms",
+    "shortName": "Apuch SMS",
+    "command": "apuchsms",
+    "purpose": "Inspect and operate the specific APUCH SMS production account and Promese01 configuration.",
+    "recommendation": "merge-candidate",
+    "quality": "Detailed readiness and safe rotation sequence; hardcoded account and host paths duplicate the general SMS skill, while CLI credentials are exposed as process arguments.",
+    "evidence": [
+      "skills/apuch-tencent-sms/SKILL.md: Readiness check uses /Users/af/.codex/skills; Inject Promese01 production specifies /opt/promese01/.env.",
+      "skills/apuch-tencent-sms/scripts/check-readiness.sh:39-57 passes secretId and secretKey as tccli command arguments."
+    ],
+    "overlaps": [
+      "tencent-sms"
+    ],
+    "reviewedAt": "2026-09-18",
+    "reviewedHash": "feb84ab795d82f0c2eca5894a74f4ed3eec1b895eb2362e34975858b3558f3ae",
+    "commandId": "k002"
+  },
+  {
+    "name": "ark-api",
+    "shortName": "Ark Voice API",
+    "command": "ark",
+    "purpose": "Call Doubao chat models and separately configure Volcengine TTS and ASR services.",
+    "recommendation": "improve",
+    "quality": "Correctly distinguishes chat and speech credentials; TTS sample performs one immediate query without timeout, status checks or completion polling, and model freshness is unqualified.",
+    "evidence": [
+      "skills/ark-api/SKILL.md: Voice / Speech Models separates service URL and authentication.",
+      "skills/ark-api/SKILL.md: Python TTS Example indexes task_id directly and performs one requests.get."
+    ],
+    "overlaps": [
+      "llm-hub"
+    ],
+    "reviewedAt": "2026-09-18",
+    "reviewedHash": "de3ac0ac9a5de06978ddb6a0b7b8ee0b0c532cad2ffd46e92fcc2c74e5373bec",
+    "commandId": "k003"
+  },
+  {
+    "name": "build-unified-data-package",
+    "shortName": "Unified Data Pack",
+    "command": "udp",
+    "purpose": "Build reproducible Parquet truth tables, CSV views, schemas, manifests and lineage with release validation.",
+    "recommendation": "keep",
+    "quality": "Explicit data contract, immutable outputs and independent semantic review make this a strong reusable packaging workflow; unsupported formats are honestly bounded and require extractors.",
+    "evidence": [
+      "skills/build-unified-data-package/SKILL.md: Transform deterministically requires new output target and explicit transformations.",
+      "skills/build-unified-data-package/SKILL.md: Validate independently and Source support boundary separate mechanical validation from semantics."
+    ],
+    "overlaps": [
+      "three-layer-data-pack",
+      "fileye"
+    ],
+    "reviewedAt": "2026-09-18",
+    "reviewedHash": "a2a121f5f4491cbedc6bdafff26f71b45fca29f819bd1861282d0dc66de53d2f",
+    "commandId": "k004"
+  },
+  {
+    "name": "context7-mcp",
+    "shortName": "Library Docs",
+    "command": "docs7",
+    "purpose": "Resolve library versions and retrieve current documentation through Context7.",
+    "recommendation": "improve",
+    "quality": "Small actionable resolve-query workflow with official-source preference; activation covers almost every library mention and has no unavailable-tool or missing-version fallback.",
+    "evidence": [
+      "skills/context7-mcp/SKILL.md: When to Use This Skill triggers on mentions of common frameworks.",
+      "skills/context7-mcp/SKILL.md: How to Fetch Documentation assumes resolve-library-id and query-docs are callable."
+    ],
+    "overlaps": [],
+    "reviewedAt": "2026-09-18",
+    "reviewedHash": "6f07fd4d6cbf96c00c66ef859c2981efb0795315069f55af30c0ae4f28b77690",
+    "commandId": "k005"
+  },
+  {
+    "name": "contrast-audit",
+    "shortName": "Contrast Audit",
+    "command": "contrast",
+    "purpose": "Produce a location-based contrast failure ledger and JSON gate for HTML, with visual review of flattened formats.",
+    "recommendation": "improve",
+    "quality": "Strong distinction between computed evidence and manual review; audit wording implicitly requests fixes and completion requires zero failures even for an audit-only assignment.",
+    "evidence": [
+      "skills/contrast-audit/SKILL.md: HTML audit distinguishes failures, manual_review and errors.",
+      "skills/contrast-audit/SKILL.md:35 and Deliverable require fixes and rerendering without an audit-only exception."
+    ],
+    "overlaps": [
+      "html-quatracheck"
+    ],
+    "reviewedAt": "2026-09-18",
+    "reviewedHash": "ac458dc5641525b667d6d87849cf83b194c142e3e54c07fe33e8967e2637a31b",
+    "commandId": "k006"
+  },
+  {
+    "name": "deck-audit",
+    "shortName": "Deck Fidelity",
+    "command": "fidelity",
+    "purpose": "Compare source units, page material and HTML slides for dropped or changed factual anchors.",
+    "recommendation": "keep",
+    "quality": "Well-separated fidelity role, explicit hard-fail codes and adjudication artifacts; structural and lexical passes are deliberately supplemented by model review.",
+    "evidence": [
+      "skills/deck-audit/SKILL.md: Boundaries separates structural coverage, fidelity and surface hygiene.",
+      "skills/deck-audit/SKILL.md: Stages 2-4 define hard failures, mapping ambiguities and reasoned accepted drifts."
+    ],
+    "overlaps": [
+      "longdoc2mdpages",
+      "html-quatracheck"
+    ],
+    "reviewedAt": "2026-09-18",
+    "reviewedHash": "70b8a36cd2f982edf8cd1111ca0dc71c85f5aaf6e82bc86c24c4426da52042e2",
+    "commandId": "k007"
+  },
+  {
+    "name": "deepseek-api",
+    "shortName": "DeepSeek API",
+    "command": "deepseek",
+    "purpose": "Configure DeepSeek chat, thinking, tool calls and Anthropic-compatible clients.",
+    "recommendation": "improve",
+    "quality": "Broad copyable API coverage, but request examples are brittle: usage-enabled streaming indexes choices[0] without checking for an empty usage chunk; model claims have no dated sources.",
+    "evidence": [
+      "skills/deepseek-api/SKILL.md: Streaming enables include_usage and then directly indexes chunk.choices[0].",
+      "skills/deepseek-api/SKILL.md: Models and Key Parameters present model and parameter claims without documentation links or verification date."
+    ],
+    "overlaps": [
+      "llm-hub"
+    ],
+    "reviewedAt": "2026-09-18",
+    "reviewedHash": "bb4749a771d2c5e830017ee56a571f3eda038e507c9cdc638214177926203bd6",
+    "commandId": "k008"
+  },
+  {
+    "name": "design-prompts",
+    "shortName": "Design Inspiration",
+    "command": "styles",
+    "purpose": "Find curated UI aesthetic prompts and adapt a chosen source into a design brief.",
+    "recommendation": "merge-candidate",
+    "quality": "Useful style index, but mostly a directory of external references with no acceptance check; title claims seven sources while listing eight, and local catalog lives outside the package.",
+    "evidence": [
+      "skills/design-prompts/SKILL.md: Available Design Prompt Sources enumerates sources 1 through 8.",
+      "skills/design-prompts/SKILL.md: Backup & Reference points to ~/.claude/projects/-Users-af/memory/designref/."
+    ],
+    "overlaps": [
+      "design-taste-frontend"
+    ],
+    "reviewedAt": "2026-09-18",
+    "reviewedHash": "087c02e080997e8fc120277f82d4f280791d8cc5668a6dfaa52cca5c58e49493",
+    "commandId": "k009"
+  },
+  {
+    "name": "design-taste-frontend",
+    "shortName": "Frontend Taste",
+    "command": "taste",
+    "purpose": "Design or redesign marketing pages and portfolios using inferred visual direction and a preflight checklist.",
+    "recommendation": "improve",
+    "quality": "Useful redesign preservation and accessibility guidance is buried in 1206 lines of mandatory aesthetics; some prescriptions conflict and force assets or dependencies beyond the brief.",
+    "evidence": [
+      "skills/iptrust-taste-skill/SKILL.md: Sections 4.8 and 10 respectively require real hero visuals and allow an Editorial Manifesto Hero with no asset.",
+      "skills/iptrust-taste-skill/SKILL.md: Sections 3.C and 14 mandate approved icon libraries and exhaustive aesthetic checks; Section 9.D suggests messy mock numbers while 4.9 forbids unlabeled fake precision."
+    ],
+    "overlaps": [
+      "design-prompts"
+    ],
+    "reviewedAt": "2026-09-18",
+    "reviewedHash": "aa194351b246b8b4799099d4ed7b033d29eab6e6e3d58d8d2172978be7b3ec89",
+    "commandId": "k010"
+  },
+  {
+    "name": "fileye",
+    "shortName": "File Identity",
+    "command": "file",
+    "purpose": "Fingerprint file bytes, inventory structure and state conversion preservation levels.",
+    "recommendation": "improve",
+    "quality": "Excellent distinction between original bytes, claimed provenance and derived views; content-identical does not prove only metadata changed because the workbook hash intentionally excludes formatting.",
+    "evidence": [
+      "skills/fileye/SKILL.md: Step 5 describes byte differences plus matching content hash as re-save or metadata edit.",
+      "skills/fileye/SKILL.md: Two hashes, two questions excludes styles and column widths; scripts/fileye.py:508-532 hashes values and formulas only."
+    ],
+    "overlaps": [
+      "build-unified-data-package",
+      "three-layer-data-pack"
+    ],
+    "reviewedAt": "2026-09-18",
+    "reviewedHash": "6ff8cad93cfad3fd8a88080aa1424ff04fc5cb9b5340117331bf6818c44e900b",
+    "commandId": "k011"
+  },
+  {
+    "name": "gf4p2slides",
+    "shortName": "Presentation Grammar",
+    "command": "gfslides",
+    "purpose": "Plan brand-aware slides, responsive HTML and documents using one page and visualization vocabulary.",
+    "recommendation": "keep",
+    "quality": "Clean separation of narrative, visualization and brand with explicit accessibility requirements; honestly describes the missing universal renderer instead of promising one.",
+    "evidence": [
+      "skills/gf4p2slides/SKILL.md: Brand source resolves latest official guide and assets.",
+      "skills/gf4p2slides/SKILL.md: Current boundary states that this version defines contracts and does not bundle a universal renderer."
+    ],
+    "overlaps": [
+      "mdpages2htmlslides",
+      "TIANSIGHT-html-slides"
+    ],
+    "reviewedAt": "2026-09-18",
+    "reviewedHash": "0fa10b86981486f28efa84f9465ee5b2f17c9e5cd2e5d2cad2fed2d75bc8c6ec",
+    "commandId": "k012"
+  },
+  {
+    "name": "guizang-ppt-skill",
+    "shortName": "Swipe Decks",
+    "command": "swipedeck",
+    "purpose": "Create keyboard and touch navigable single-file magazine, Swiss or Table AI presentation decks.",
+    "recommendation": "improve",
+    "quality": "Rich templates and visual QA rules; long duplicated style instructions can conflict, arbitrary user colors are forbidden, and required visual reference points to another user's local path.",
+    "evidence": [
+      "skills/guizang-ppt/SKILL.md: Step 2.2 forbids user-specified hex colors.",
+      "skills/guizang-ppt/SKILL.md: Step 4.0 requires original reference at /Users/guohao/Documents/...; source attribution identifies an upstream maintained skill."
+    ],
+    "overlaps": [
+      "TIANSIGHT-html-slides",
+      "gf4p2slides"
+    ],
+    "reviewedAt": "2026-09-18",
+    "reviewedHash": "c92cf06bfca7ef4650564bfe77d0a2e17db6d932322bcb48b9cd3ff98f84ef97",
+    "commandId": "k013"
+  },
+  {
+    "name": "html-quatracheck",
+    "shortName": "HTML Quality",
+    "command": "htmlqa",
+    "purpose": "Rank rendered HTML and slide defects across geometry, typography, accessibility and export integrity.",
+    "recommendation": "keep",
+    "quality": "Strong root-cause deduplication, confidence-aware ranking and explicit audit-only boundary; reproducibility requirements and sampling disclosure make findings reviewable.",
+    "evidence": [
+      "skills/html-quatracheck/SKILL.md: Four passes requires screenshot confirmation for geometry candidates and distinguishes axe incomplete results.",
+      "skills/html-quatracheck/SKILL.md: Report format says not to fix unless requested and provides evidence fields."
+    ],
+    "overlaps": [
+      "contrast-audit",
+      "page-audit",
+      "deck-audit"
+    ],
+    "reviewedAt": "2026-09-18",
+    "reviewedHash": "ca621bc3eae0542a851709cef0950c88422a3eff0d31ce011a8edfda1037ca98",
+    "commandId": "k014"
+  },
+  {
+    "name": "ksamint-githubaction-skill",
+    "shortName": "Actions Optimizer",
+    "command": "actions",
+    "purpose": "Measure and reduce GitHub Actions latency, waste and failure while preserving release checks.",
+    "recommendation": "keep",
+    "quality": "Evidence-based scope selection, required-check preservation and separate duration versus billing measures; explicitly limits external mutations and avoids repeated testing without changed inputs.",
+    "evidence": [
+      "skills/ksamint-githubaction-skill/SKILL.md: Match evidence to scope distinguishes focused optimization from full execution audits.",
+      "skills/ksamint-githubaction-skill/SKILL.md: Preserve release discipline and Verify one path, once define authorization and validation boundaries."
+    ],
+    "overlaps": [
+      "self-hosted-github-runner"
+    ],
+    "reviewedAt": "2026-09-18",
+    "reviewedHash": "36d16fc579a9794f5ef267a8ba98af9a88b113b7a83a1dbdf9e29d7805c65449",
+    "commandId": "k015"
+  },
+  {
+    "name": "ksamint-macos-sign-release",
+    "shortName": "Mac Signed Release",
+    "command": "macrelease",
+    "purpose": "Build, sign, notarize, verify and safely replace the exact-commit ksamint MarkEdit macOS app.",
+    "recommendation": "keep",
+    "quality": "Specific architecture, signing, backup and rollback gates with direct installed-app verification; intentionally product-specific and requires its external repository and signing environment.",
+    "evidence": [
+      "skills/ksamint-macos-sign-release/SKILL.md: Start here requires complete runbook and release-state inspection.",
+      "skills/ksamint-macos-sign-release/SKILL.md: Completion gates cover commit, architectures, signatures, stapling, extensions and rollback."
+    ],
+    "overlaps": [],
+    "reviewedAt": "2026-09-18",
+    "reviewedHash": "9bfc68d90beafd0d7129a407c6cece8f217aeada2849fdb8e276388b0351dc51",
+    "commandId": "k016"
+  },
+  {
+    "name": "ksamint-mcp-skill-publisher",
+    "shortName": "Skill Publisher",
+    "command": "publishskill",
+    "purpose": "Stage a validated skill and publish its catalog update through an MCP-managed GitHub pull request.",
+    "recommendation": "improve",
+    "quality": "Clear validation and review boundary with scoped runtime key; deployment repository and credential item are hardcoded, and local publisher availability is assumed.",
+    "evidence": [
+      "skills/ksamint-mcp-skill-publisher/SKILL.md: Stage and validate blocks rejected content and unvalidated drafts.",
+      "skills/ksamint-mcp-skill-publisher/SKILL.md: Publish runs npm run skills:publish in the Ksamint repository and creates a PR in fengurt/cfker01."
+    ],
+    "overlaps": [],
+    "reviewedAt": "2026-09-18",
+    "reviewedHash": "7cb630a8e00fd6e8f266cc557f64bdbc85b915360481de0390969c2070f0841b",
+    "commandId": "k017"
+  },
+  {
+    "name": "llm-hub",
+    "shortName": "Model Gateway",
+    "command": "llm",
+    "purpose": "Load provider credentials from a registry and route model requests through a shared gateway.",
+    "recommendation": "improve",
+    "quality": "Central secret-reference registry and model discovery are useful; skill combines local loaders, GUI, server deployment and provider notes, with personal install paths and stale-prone duplicated model tables.",
+    "evidence": [
+      "skills/llm-hub/SKILL.md: Use it fixes H to ~/.cursor/skills/llm-hub/scripts.",
+      "skills/llm-hub/SKILL.md: Official providers, GUI gateway & deployment and Using it from code cover distinct responsibilities; final note says models drift."
+    ],
+    "overlaps": [
+      "ali-tongyi",
+      "deepseek-api",
+      "ark-api",
+      "n1n-ai-gateway"
+    ],
+    "reviewedAt": "2026-09-18",
+    "reviewedHash": "67841ab03c34b97d4e07f30e5030dbf314081d1a9a26e3a5c6bcb78527ce8217",
+    "commandId": "k018"
+  },
+  {
+    "name": "longdoc2mdpages",
+    "shortName": "Document Page Plan",
+    "command": "docpages",
+    "purpose": "Turn a long source document into paginated deck material with a closing unit-coverage ledger.",
+    "recommendation": "keep",
+    "quality": "Concrete staged artifacts and hard coverage/fidelity gates protect against silent content loss; numeric fit remains a planning heuristic and rendering is correctly deferred.",
+    "evidence": [
+      "skills/longdoc2mdpages/SKILL.md: Stages a-d define artifacts and executable coverage gates.",
+      "skills/longdoc2mdpages/SKILL.md: After this skill defines file pack completion; appendix bypass preserves oversized tables."
+    ],
+    "overlaps": [
+      "deck-audit",
+      "mdpages2htmlslides",
+      "gf4p2slides"
+    ],
+    "reviewedAt": "2026-09-18",
+    "reviewedHash": "bb3f1a5582a537c9a2879dd9c5894c698ab584aa742c26a7f2036b31d3ca67ef",
+    "commandId": "k019"
+  },
+  {
+    "name": "mac-clean",
+    "shortName": "Mac Cleanup",
+    "command": "macclean",
+    "purpose": "Scan macOS cleanup candidates, classify risk and move authorized items to Trash.",
+    "recommendation": "improve",
+    "quality": "Dry-run and Trash-only defaults are good; cleaner trusts a writable candidate list without restricting canonical paths to scanned safe roots and labels bytes moved to Trash as freed.",
+    "evidence": [
+      "skills/mac-clean/scripts/safe_clean.sh: blocked() checks selected substrings and two aggregate paths, then passes each remaining list entry to trash.",
+      "skills/mac-clean/scripts/safe_clean.sh: apply branch increments freed by du size after trash; SKILL.md: Resolve scripts downloads an unpinned main-branch script fallback."
+    ],
+    "overlaps": [],
+    "reviewedAt": "2026-09-18",
+    "reviewedHash": "2d2858cac0272d048fb4db40dff285879df6fb5f06b3fad42f42c3e364801748",
+    "commandId": "k020"
+  },
+  {
+    "name": "mdpages2htmlslides",
+    "shortName": "Report HTML Slides",
+    "command": "mdslides",
+    "purpose": "Render structured report page plans into TIANSIGHT HTML and gated 16:9 PDF exports.",
+    "recommendation": "improve",
+    "quality": "Schema, layout and PDF gates form a clear delivery contract; workflow also instructs a cheap model to clone templates, leaving two competing rendering paths and mandatory role assumptions.",
+    "evidence": [
+      "skills/mdpages2htmlslides/SKILL.md: Intro identifies One deterministic renderer scripts/render-deck.py.",
+      "skills/mdpages2htmlslides/SKILL.md: Workflow steps 2 and 4 prescribe top-model planning and cheap-model template filling."
+    ],
+    "overlaps": [
+      "gf4p2slides",
+      "TIANSIGHT-html-slides",
+      "page-loop"
+    ],
+    "reviewedAt": "2026-09-18",
+    "reviewedHash": "dc749c55d5f937d977f529f20f8b583ce54ac8bd962921f95666d1f5278c1f72",
+    "commandId": "k021"
+  },
+  {
+    "name": "n1n-ai-gateway",
+    "shortName": "N1n Gateway",
+    "command": "n1n",
+    "purpose": "Connect OpenAI-compatible clients to the n1n model gateway and discover its model catalog.",
+    "recommendation": "merge-candidate",
+    "quality": "Useful gateway endpoints and model discovery, but explicit instruction to echo the API key leaks secrets; provider configuration is already covered by llm-hub.",
+    "evidence": [
+      "skills/n1n-ai-gateway/SKILL.md: API Key (from env) instructs source ~/.zshrc && echo $N1N_API_KEY.",
+      "skills/n1n-ai-gateway/SKILL.md: Key Models is dated 2026-05-27; Finding Model Names says verify before hardcoding."
+    ],
+    "overlaps": [
+      "llm-hub"
+    ],
+    "reviewedAt": "2026-09-18",
+    "reviewedHash": "aa96f16de1a7c62fe1b5758a1bd2997c517739fa63ef83705c80bcee856a9c66",
+    "commandId": "k022"
+  },
+  {
+    "name": "orchestrate-development",
+    "shortName": "Agent Orchestration",
+    "command": "orche",
+    "purpose": "Route bounded development work among technical leads and routine workers with evidence-based acceptance.",
+    "recommendation": "keep",
+    "quality": "Strong host-capability checks, single-agent fallback and explicit ownership; escalation and cost reporting avoid pretending model switches or savings occurred.",
+    "evidence": [
+      "skills/orchestrate-development/SKILL.md: Select the simplest viable mode preserves chosen models and keeps small tasks sequential.",
+      "skills/orchestrate-development/SKILL.md: Escalate on evidence limits worker repair attempts; Measure and report marks unavailable metrics unknown."
+    ],
+    "overlaps": [],
+    "reviewedAt": "2026-09-18",
+    "reviewedHash": "2f2005fb152e02425102b2b6054a2c458c9d79437e6f5e3a87e7bb19064c2efc",
+    "commandId": "k023"
+  },
+  {
+    "name": "page-audit",
+    "shortName": "Workshop Page Audit",
+    "command": "pageaudit",
+    "purpose": "Check Baslide01 gallery pages for HTTP, navigation, assets, slide roots and token violations.",
+    "recommendation": "merge-candidate",
+    "quality": "Small project-specific checklist with audit-only behavior; depends entirely on an external gallery server and duplicates the surface preflight already routed by HTML QuatraCheck.",
+    "evidence": [
+      "skills/page-audit/SKILL.md: Live console assumes /audit/, catalog.json and scripts/dev-up.sh.",
+      "skills/page-audit/SKILL.md: Checklist and serving chrome are Baslide01-specific; no bundled audit implementation in this skill."
+    ],
+    "overlaps": [
+      "html-quatracheck"
+    ],
+    "reviewedAt": "2026-09-18",
+    "reviewedHash": "23007c53edb79e9920dd371ae580fbb0972148f99c9acf49fc6833ec5349ba2d",
+    "commandId": "k024"
+  },
+  {
+    "name": "page-loop",
+    "shortName": "Slide Constraint Loop",
+    "command": "pageloop",
+    "purpose": "Apply Baslide01 brand and page-type checks during slide generation with bounded repair iterations.",
+    "recommendation": "merge-candidate",
+    "quality": "Useful three-iteration ceiling but almost entirely external prompt routing; seventeen-type registry conflicts with neighboring twelve-job vocabulary unless explicitly mapped.",
+    "evidence": [
+      "skills/page-loop/SKILL.md: Files references external prompts/loop and page-types.json.",
+      "skills/page-loop/SKILL.md: When generating says do not invent an eighteenth type; mdpages2htmlslides uses twelve L2 jobs."
+    ],
+    "overlaps": [
+      "mdpages2htmlslides",
+      "TIANSIGHT-html-slides",
+      "html-quatracheck"
+    ],
+    "reviewedAt": "2026-09-18",
+    "reviewedHash": "568dfeb8a81d59014720f20dd04c8604c87343fa085315a64e4558e1dc658984",
+    "commandId": "k025"
+  },
+  {
+    "name": "paper-fetch",
+    "shortName": "Paper Downloads",
+    "command": "papers",
+    "purpose": "Resolve DOI or title inputs to locally downloaded paper PDFs with structured batch results.",
+    "recommendation": "improve",
+    "quality": "Detailed output/error contracts, size limits and SSRF boundary; automatic third-party mirror fallback and low-confidence title fallback need explicit source and identity policy, with provenance preserved as an upstream skill.",
+    "evidence": [
+      "skills/paper-fetch/SKILL.md: Resolution order enables Sci-Hub by default and may scrape fresh mirrors.",
+      "skills/paper-fetch/SKILL.md: Title resolution permits Crossref low-confidence best guess; frontmatter credits Agents365-ai and upstream repository."
+    ],
+    "overlaps": [],
+    "reviewedAt": "2026-09-18",
+    "reviewedHash": "aff72b69208a8fed6a90cf651b0b92d8b30d6c1918b850285f6beab4d300c58c",
+    "commandId": "k026"
+  },
+  {
+    "name": "repo-architecture-audit",
+    "shortName": "Architecture Map",
+    "command": "repoaudit",
+    "purpose": "Extract repository structure, routes, models and controls into CSV inventories and an offline review page.",
+    "recommendation": "improve",
+    "quality": "Evidence-linked outputs and disclosed extractor limits are strong; keyword absence becomes P0 missing-guard claims, and compulsory confirmation plus no manual gap review can block useful audits.",
+    "evidence": [
+      "skills/repo-architecture-audit/SKILL.md: Priority rules P0-1 flags routes with no guard; Where things go wrong says guard detection is keyword-based.",
+      "skills/repo-architecture-audit/SKILL.md: Stage 0 requires stop and wait and forbids reading files by hand to fill gaps."
+    ],
+    "overlaps": [],
+    "reviewedAt": "2026-09-18",
+    "reviewedHash": "94bfb6ecafe94f544cbae20fb8771a894b0cabad6fedcd9d1946b183da5adae2",
+    "commandId": "k027"
+  },
+  {
+    "name": "self-hosted-github-runner",
+    "shortName": "China Deployment",
+    "command": "deploy",
+    "purpose": "Design and diagnose GitHub-to-mainland deployment paths with protected CI and signed artifact transfer.",
+    "recommendation": "improve",
+    "quality": "Detailed trust boundaries, release verification and reusable templates; generic pull-only rules conflict with allowed existing cloud-control paths and application-specific assumptions crowd the reusable procedure.",
+    "evidence": [
+      "skills/self-hosted-github-runner/SKILL.md: Section 0 allows existing TAT/cloud API routes then defines absolute pull-only rules.",
+      "skills/self-hosted-github-runner/SKILL.md: Section 5 describes apply credentials as read-only; templates/cam-policy-inbox-reader.json also grants outbox PutObject, required by templates/apply-agent.sh:66."
+    ],
+    "overlaps": [
+      "ksamint-githubaction-skill"
+    ],
+    "reviewedAt": "2026-09-18",
+    "reviewedHash": "65bc7406d0d764f8dfd14f79903a946068425fea96fc3c2eb844845a131931c2",
+    "commandId": "k028"
+  },
+  {
+    "name": "stitch-export-reuse",
+    "shortName": "Stitch Export",
+    "command": "stitch",
+    "purpose": "Export Stitch screen image and HTML URLs into downloaded files and a manifest.",
+    "recommendation": "improve",
+    "quality": "Concrete export manifest workflow; OAuth command prints a live token and curl downloads omit --fail, so HTTP error pages can be reported as downloaded assets.",
+    "evidence": [
+      "skills/stitch-export-reuse/SKILL.md: One-Time Prerequisites runs gcloud auth application-default print-access-token.",
+      "skills/stitch-export-reuse/SKILL.md: Download via curl -L uses check=True without curl --fail or content validation."
+    ],
+    "overlaps": [],
+    "reviewedAt": "2026-09-18",
+    "reviewedHash": "db46895feaa271c2ac4c3c67d7974cba6365227ef0fd4eaab717e19d751fd4ad",
+    "commandId": "k029"
+  },
+  {
+    "name": "tableuser",
+    "shortName": "Table AI Identity",
+    "command": "uac",
+    "purpose": "Integrate apps with TableUser discovery, SDK authentication and TAID-based resource authorization.",
+    "recommendation": "keep",
+    "quality": "Discovery-first endpoint resolution and separation of coarse token roles from resource grants address real authorization pitfalls; live access and external SDK documentation remain required.",
+    "evidence": [
+      "skills/tableuser/SKILL.md: Refresh live endpoints and Safety instruct discovery over memorized paths.",
+      "skills/tableuser/SKILL.md: Identity contract prohibits treating global org:admin as permission for every organization."
+    ],
+    "overlaps": [],
+    "reviewedAt": "2026-09-18",
+    "reviewedHash": "64304736a42a5be45d49696f75b0bc2c14427a07517f5da9c53f2e1c0cd0765b",
+    "commandId": "k030"
+  },
+  {
+    "name": "tencent-sms",
+    "shortName": "Tencent SMS",
+    "command": "sms",
+    "purpose": "Inspect, configure and diagnose Tencent SMS with runtime credentials and authorized test sends.",
+    "recommendation": "keep",
+    "quality": "Clear per-send authorization, secret handling and safe credential rotation; separates API acceptance from delivery and requires application-specific contract discovery.",
+    "evidence": [
+      "skills/tencent-sms/SKILL.md: Safety boundary requires explicit recipient and authorization for every send.",
+      "skills/tencent-sms/SKILL.md: Authorized test send separates acceptance from delivery; Credential rotation retains old key through verification and rollback window."
+    ],
+    "overlaps": [
+      "apuch-tencent-sms"
+    ],
+    "reviewedAt": "2026-09-18",
+    "reviewedHash": "8460c9b81dff5b84cd6c804559391ef5f421fb0c0b6bc3256f2efdcb72598e8c",
+    "commandId": "k031"
+  },
+  {
+    "name": "three-layer-data-pack",
+    "shortName": "Queryable Data Pack",
+    "command": "datapack",
+    "purpose": "Preserve raw sources and produce JSONL, SQLite, DuckDB and a catalog for agent business queries.",
+    "recommendation": "merge-candidate",
+    "quality": "Useful grain, join and raw-value guidance overlaps Unified Data Package; public unsalted phone hashes are guessable, and lossless self-contained claims conflict with originals left outside the output folder.",
+    "evidence": [
+      "skills/three-layer-data-pack/SKILL.md: Output layout omits originals and says keep raw files where they are, while introduction promises pack-only use.",
+      "skills/three-layer-data-pack/SKILL.md: PII specifies phone_hash sha256; Reference implementation is an absolute external local path."
+    ],
+    "overlaps": [
+      "build-unified-data-package",
+      "fileye"
+    ],
+    "reviewedAt": "2026-09-18",
+    "reviewedHash": "998eac80a6ada7f144f8fec1c8282c850e82f8d614b00b1c2cd4035215d45975",
+    "commandId": "k032"
+  },
+  {
+    "name": "TIANSIGHT-html-slides",
+    "shortName": "Tiansight Slides",
+    "command": "tianslides",
+    "purpose": "Generate fixed 2880×1620 TIANSIGHT report slides from twelve job templates.",
+    "recommendation": "improve",
+    "quality": "Clear page jobs, typography and export rules; host-project templates are not bundled, and bubble area proportional to square root of size distorts quantitative encoding.",
+    "evidence": [
+      "skills/TIANSIGHT-html-slides/SKILL.md: Tokens (locked) and Workflow refer to templates/TIANSIGHT and scripts/dev-up.sh outside this skill.",
+      "skills/TIANSIGHT-html-slides/SKILL.md: Nine rendering rules, rule 7 says area proportional to square root of size."
+    ],
+    "overlaps": [
+      "mdpages2htmlslides",
+      "gf4p2slides",
+      "page-loop"
+    ],
+    "reviewedAt": "2026-09-18",
+    "reviewedHash": "4842e5581bcfd3e421d84ec8bd6c42bd0202abf0074d87ebd22659dd15c137ce",
+    "commandId": "k033"
+  }
+]

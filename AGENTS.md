@@ -29,6 +29,8 @@ Any plaintext key blocks the commit.
 
 ## Catalog
 
+When the user names a short skill command or ID (for example `orche` or `k023`), resolve its `name` using `registry/reviews-authored.json` or `registry/reviews-mattpocock.json`, then read that skill's SKILL.md before using it. These files are the command directory and static quality-review ledger. Keep assigned commandId values stable; append new IDs and never recycle deleted ones. Recommendations are review evidence, not permission to delete skills. Other repositories need this directory or the canonical skill name to resolve these shortcuts.
+
 After adding or renaming a skill:
 
 ```bash

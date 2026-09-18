@@ -5,6 +5,8 @@ import { pathVersion } from "./repo.js";
 import { loadSources } from "./registry.js";
 import { skillRuntimeExtras, skillZipName } from "./archive.js";
 import { loadShowcase, readShowcaseAsset } from "./showcase.js";
+import { createHash } from "node:crypto";
+import { loadSkillDirectory } from "./skill-directory.js";
 
 const STARS_FILE = join(DATA_DIR, "stars.json");
 const ALIASES_FILE = join(REPO_ROOT, "registry", "skill-aliases.json");
@@ -111,17 +113,18 @@ export function loadInstallMap() {
   return map;
 }
 
-export function loadSkillAliases() {
+export function loadSkillAliases(directory = loadSkillDirectory()) {
+  const commands = Object.fromEntries(Object.values(directory).flatMap((row) => [[row.commandId, row.name], [row.command, row.name]]));
   try {
     const data = JSON.parse(readFileSync(ALIASES_FILE, "utf8"));
-    if (!data || typeof data.aliases !== "object" || Array.isArray(data.aliases)) return {};
-    return Object.fromEntries(
+    if (!data || typeof data.aliases !== "object" || Array.isArray(data.aliases)) return commands;
+    return { ...Object.fromEntries(
       Object.entries(data.aliases).filter(([alias, target]) =>
         /^[a-z0-9][a-z0-9-]*$/.test(alias) && typeof target === "string"
       )
-    );
+    ), ...commands };
   } catch {
-    return {};
+    return commands;
   }
 }
 
@@ -289,9 +292,10 @@ export function skillGithubUrl(skill, src = null) {
   return `https://github.com/${repo}`;
 }
 
-function decorate(skill, src, skillMdAbs, stars, aliases) {
+function decorate(skill, src, skillMdAbs, stars, aliases, directory) {
   const origin = skillOrigin(skill);
   const credit = skillCredit({ ...skill, origin }, src);
+  const review = directory[skill.name];
   return {
     ...skill,
     origin,
@@ -299,6 +303,11 @@ function decorate(skill, src, skillMdAbs, stars, aliases) {
     author: credit.author,
     repo: credit.repo,
     githubUrl: skillGithubUrl(skill, src),
+    commandId: review?.commandId || null,
+    shortName: review?.shortName || skill.name,
+    command: review?.command || skill.name,
+    purpose: review?.purpose || skillBrief(skill.description),
+    qualityReview: review ? { ...review, current: createHash("sha256").update(readFileSync(skillMdAbs)).digest("hex") === review.reviewedHash } : null,
     brief: skillBrief(skill.description),
     aliases: skillAliases(skill, aliases),
     declaredVersion: skill.declaredVersion || null,
@@ -342,7 +351,8 @@ export function unifySkills(rows) {
 
 export async function listSkills({ includeVendored = true } = {}) {
   const installMap = loadInstallMap();
-  const aliases = loadSkillAliases();
+  const directory = loadSkillDirectory();
+  const aliases = loadSkillAliases(directory);
   const sources = loadSources();
   const stars = loadStars();
   const authored = [];
@@ -374,7 +384,7 @@ export async function listSkills({ includeVendored = true } = {}) {
       installTargets: installMap[folder] || installMap[name] || [],
       version: ver,
     });
-    authored[authored.length - 1] = decorate(authored[authored.length - 1], null, skillMd, stars, aliases);
+    authored[authored.length - 1] = decorate(authored[authored.length - 1], null, skillMd, stars, aliases, directory);
   }
 
   if (includeVendored) {
@@ -414,7 +424,7 @@ export async function listSkills({ includeVendored = true } = {}) {
           synced_commit: src?.synced_commit || null,
         },
       });
-      vendored[vendored.length - 1] = decorate(vendored[vendored.length - 1], src, skillMd, stars, aliases);
+      vendored[vendored.length - 1] = decorate(vendored[vendored.length - 1], src, skillMd, stars, aliases, directory);
     }
   }
 
@@ -439,6 +449,7 @@ export async function getSkillDetail(kind, id) {
   const { items } = await listSkills();
   const needle = String(id || "").toLowerCase();
   const skill = items.find((s) => {
+    if (s.commandId === needle || s.command === needle || s.aliases?.includes(needle)) return true;
     if (s.id === needle || s.folder === id || s.name === id || s.path === id) return true;
     if (s.kind === kind && (s.folder === id || s.name === id)) return true;
     return (s.copies || []).some(
@@ -525,7 +536,7 @@ export async function searchSkills(q) {
     } catch {
       continue;
     }
-    const hay = `${s.name}\n${s.aliases?.join(" ") || ""}\n${s.description}\n${text}`.toLowerCase();
+    const hay = `${s.name}\n${s.commandId}\n${s.shortName}\n${s.purpose}\n${s.aliases?.join(" ") || ""}\n${s.description}\n${text}`.toLowerCase();
     if (!hay.includes(query)) continue;
     const idx = hay.indexOf(query);
     const start = Math.max(0, idx - 40);

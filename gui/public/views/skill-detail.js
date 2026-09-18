@@ -1,4 +1,4 @@
-import { api, badge, copyText, esc, fmtTime, isLocalSkillStarred, toggleLocalSkillStar } from "./util.js";
+import { api, badge, bindCopyButtons, copyText, esc, fmtTime, isLocalSkillStarred, toggleLocalSkillStar } from "./util.js";
 
 const COLOR_KEYS = ["surface", "ink", "muted", "grid", "accent", "positive", "negative", "warning"];
 const EVIDENCE_TEMPLATES = new Set(["kpi", "roster", "chart", "chart-table", "matrix", "compare", "verdict"]);
@@ -213,9 +213,18 @@ function runtimeHtml(extras) {
   return '<h3>ZIP runtime</h3><ul>' + extras.map((item) => '<li class="mono">' + esc(item.to) + ' <span class="muted">' + esc(item.why) + "</span></li>").join("") + "</ul>";
 }
 
+export function qualityReviewHtml(s) {
+  const review = s.qualityReview;
+  if (!review) return '<p class="muted">Not reviewed yet.</p>';
+  return `<section class="skill-quality"><h3>${esc(review.recommendation.replaceAll("-", " "))}${review.current ? "" : " · Review outdated"}</h3>
+    <p>${esc(review.quality)}</p><p class="muted">Static instruction/code review · ${esc(review.reviewedAt)} · Not a runtime certification. No deletion approved.</p>
+    ${review.overlaps?.length ? `<p>Compare with: ${review.overlaps.map(esc).join(", ")}</p>` : ""}
+    <details><summary>Review evidence</summary><ul>${review.evidence.map((item) => `<li>${esc(item)}</li>`).join("")}</ul></details></section>`;
+}
+
 function overviewHtml(s) {
   const intro = s.showcase?.intro;
-  const summary = intro?.summary || s.description;
+  const summary = s.purpose || intro?.summary || s.description;
   const highlights = intro?.highlights || [];
   const workflow = intro?.workflow || [];
   return [
@@ -226,12 +235,14 @@ function overviewHtml(s) {
     highlights.length ? '<div class="skill-highlight-list">' + highlights.map((item) => "<span>" + esc(item) + "</span>").join("") + "</div>" : "",
     "</div>",
     '<aside class="skill-facts">',
+    '<div><span>Short name</span><strong>' + esc(s.shortName || s.name) + '</strong></div>',
     '<div><span>Author</span><strong>' + esc(s.author || "not set") + "</strong></div>",
     '<div><span>Repository</span><strong>' + esc(s.repo || s.source || "not set") + "</strong></div>",
     '<div><span>Updated</span><strong>' + esc(s.updatedAt ? fmtTime(s.updatedAt) : "not set") + "</strong></div>",
     '<div><span>License</span><strong>' + esc(s.license || "not set") + "</strong></div>",
     "</aside>",
     "</div>",
+    qualityReviewHtml(s),
     workflow.length
       ? '<div class="skill-workflow"><h2>Working loop</h2><ol>' + workflow.map((item) => "<li>" + esc(item) + "</li>").join("") + "</ol></div>"
       : '<div class="skill-workflow"><h2>Instructions</h2><pre class="skill-instructions">' + esc((s.body || "").trim()) + "</pre></div>",
@@ -395,6 +406,8 @@ export async function renderRichSkillDetail(root, kind, id) {
     '<button type="button" class="star ' + (s.starred ? "on" : "") + '" id="star-one" aria-label="' + (s.starred ? "Unstar " : "Star ") + esc(s.name) + '" aria-pressed="' + Boolean(s.starred) + '">★</button>',
     badge("", s.origin || s.kind),
     s.agent ? badge("", s.agent) : "",
+    '<span class="mono">' + esc(s.commandId || s.id) + ' · ' + esc(s.command || s.name) + '</span>',
+    '<button type="button" class="btn ghost" data-copy="' + esc(`Use $${s.name} to: [describe your task]`) + '">Copy command</button>',
     s.githubUrl ? '<a class="btn ghost" href="' + esc(s.githubUrl) + '" target="_blank" rel="noopener noreferrer">View on GitHub ↗</a>' : '<span class="muted">Local-only source</span>',
     s.zip ? '<a class="btn" href="' + esc(s.zip) + '">Export</a>' : "",
     "</div>",
@@ -408,6 +421,7 @@ export async function renderRichSkillDetail(root, kind, id) {
     detailPanel("files", filesHtml(s, extras)),
   ].join("");
 
+  bindCopyButtons(root);
   const selectTab = (name) => {
     root.querySelectorAll("[data-skill-tab]").forEach((button) => {
       const on = button.dataset.skillTab === name;
