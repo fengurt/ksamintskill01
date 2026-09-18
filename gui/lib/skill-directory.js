@@ -9,7 +9,7 @@ export function loadSkillDirectory() {
   const keys = new Map();
   const labels = new Set();
   for (const row of rows) {
-    if (!/^[km]\d{3}$/.test(row.commandId) || !/^[a-z][a-z0-9-]*$/.test(row.command)) throw new Error("Invalid skill command identifier");
+    if (!/^[km]\d{3}$/.test(row.commandId) || !/^[a-z]{1,5}$/.test(row.command) || row.shortName !== row.command) throw new Error("Skill shortcuts must be one to five lowercase letters and match the short name");
     for (const key of [row.name, row.commandId, row.command]) {
       const previous = keys.get(key.toLowerCase());
       if (previous && previous !== row) throw new Error(`Duplicate skill identifier: ${key}`);

@@ -2,12 +2,16 @@
 name: self-hosted-github-runner
 description: 为「代码托管在 GitHub、生产在中国大陆云（腾讯云 / 阿里云 / 华为云）」的项目设计、搭建、改造和排障 self-hosted GitHub Actions runner 与跨境发布链路。只要任务涉及 runs-on、runner 注册或标签、GitHub Actions 分钟额度 / 计费 / 消费上限、CI 从国内服务器跑得慢或超时、镜像仓库跨境推拉（TCR / ACR / SWR / ghcr / Docker Hub）、发布或部署工作流、COS / OSS / OBS 产物交接、生产端 apply 脚本或双槽切换，或者用户只是说「CI 很慢」「额度用完了」「runner」「部署脚本」「镜像推不上去」，都要先读本技能；在此类仓库里修改任何 .github/workflows、deploy/ 或发布脚本之前也必须先读。Use for self-hosted GitHub runners, cross-border CI/CD, deploying from GitHub to mainland-China production, Actions quota exhaustion, slow checkout / npm ci / docker push from a China host.
 metadata:
+  short-name: ship
+  command-id: k028
   author: ksamint
   origin: ksamint
   repository: fengurt/ksamintskill01
 ---
 
-# Self-hosted GitHub Runner · 跨境发布链路
+# ship
+
+GitHub Actions runners and deployment. Skill Hub shortcut: `ship` (`k028`). Canonical invocation: `$self-hosted-github-runner`.
 
 ## 0. 这个技能解决什么
 

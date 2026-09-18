@@ -131,7 +131,6 @@ export async function renderProjects(root, parts) {
   root.innerHTML = `
     <div class="row"><h1 style="margin:0">Projects</h1><span class="spacer"></span>
       <a class="btn" href="#/projects/new">New project</a></div>
-    <p class="lede">文件包 zip 分三栏：original/ 原文 · pages/ 逐页 md · audit/ 审阅。Baslide01 历史 HTML 会作为只读项目出现。</p>
     <div class="project-bulkbar row" aria-label="Project bulk actions">
       <label class="row"><input type="checkbox" id="project-select-all" /> 全选</label>
       <span id="project-selected" class="muted">0 selected</span>
