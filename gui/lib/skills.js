@@ -1,6 +1,6 @@
 import { existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from "node:fs";
 import { join, relative, sep } from "node:path";
-import { DATA_DIR, REPO_ROOT } from "./paths.js";
+import { DATA_DIR, REPO_ROOT, VENDOR_ROOT, relToWorkspace, resolveWorkspacePath } from "./paths.js";
 import { pathVersion } from "./repo.js";
 import { loadSources } from "./registry.js";
 import { skillRuntimeExtras, skillZipName } from "./archive.js";
@@ -200,7 +200,7 @@ function fileTree(dir, depth = 0, maxDepth = 3) {
 }
 
 function vendorSourceFor(skillMdPath, sources) {
-  const rel = relative(join(REPO_ROOT, "vendor"), skillMdPath);
+  const rel = relative(VENDOR_ROOT, skillMdPath);
   if (rel.startsWith("..")) return null;
   const top = rel.split(sep)[0];
   const src = sources.find((s) => s.id === top);
@@ -365,7 +365,7 @@ export async function listSkills({ includeVendored = true } = {}) {
   }
 
   if (includeVendored) {
-    for (const skillMd of walkSkillMd(join(REPO_ROOT, "vendor"), 10)) {
+    for (const skillMd of walkSkillMd(VENDOR_ROOT, 10)) {
       const dir = join(skillMd, "..");
       let text = "";
       try {
@@ -375,16 +375,16 @@ export async function listSkills({ includeVendored = true } = {}) {
       }
       const { meta } = parseFrontmatter(text);
       const declared = typeof meta.metadata === "object" ? meta.metadata : {};
-      const name = meta.name || relative(join(REPO_ROOT, "vendor"), dir).split(sep).pop();
+      const name = meta.name || relative(VENDOR_ROOT, dir).split(sep).pop();
       const src = vendorSourceFor(skillMd, sources);
       vendored.push({
         name,
-        folder: relative(join(REPO_ROOT, "vendor"), dir),
+        folder: relative(VENDOR_ROOT, dir),
         kind: "vendored",
         source: src?.id || "vendor",
         sourceId: src?.id || null,
-        path: relative(REPO_ROOT, dir),
-        skillMd: relative(REPO_ROOT, skillMd),
+        path: relToWorkspace(dir),
+        skillMd: relToWorkspace(skillMd),
         description: meta.description || "",
         declaredAuthor: declared.author || meta.author || null,
         declaredOrigin: declared.origin || meta.origin || null,
@@ -433,8 +433,8 @@ export async function getSkillDetail(kind, id) {
     );
   });
   if (!skill) return null;
-  const abs = join(REPO_ROOT, skill.path);
-  const skillMdAbs = join(REPO_ROOT, skill.skillMd);
+  const abs = resolveWorkspacePath(skill.path);
+  const skillMdAbs = resolveWorkspacePath(skill.skillMd);
   const text = readFileSync(skillMdAbs, "utf8");
   const { meta, body } = parseFrontmatter(text);
   const declared = typeof meta.metadata === "object" ? meta.metadata : {};
@@ -462,7 +462,7 @@ export async function getSkillDetail(kind, id) {
 export async function getSkillShowcaseAsset(kind, id, file) {
   const skill = await getSkillDetail(kind, id);
   if (!skill) return null;
-  return readShowcaseAsset(join(REPO_ROOT, skill.path), skill.showcase, file);
+  return readShowcaseAsset(resolveWorkspacePath(skill.path), skill.showcase, file);
 }
 
 export async function skillGraph() {
@@ -471,7 +471,7 @@ export async function skillGraph() {
   const nodes = authored.map((s) => ({ id: s.folder, name: s.name }));
   const edges = [];
   for (const s of authored) {
-    const abs = join(REPO_ROOT, s.skillMd);
+    const abs = resolveWorkspacePath(s.skillMd);
     let text = "";
     try {
       text = readFileSync(abs, "utf8");
@@ -505,7 +505,7 @@ export async function searchSkills(q) {
   const { items } = await listSkills();
   const hits = [];
   for (const s of items) {
-    const abs = join(REPO_ROOT, s.skillMd);
+    const abs = resolveWorkspacePath(s.skillMd);
     let text = "";
     try {
       text = readFileSync(abs, "utf8");

@@ -6,6 +6,8 @@ import { fileURLToPath } from "node:url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 export const GUI_ROOT = resolve(__dirname, "..");
 export const REPO_ROOT = resolve(GUI_ROOT, "..");
+/** Persistent upstream cache. Production sets this outside immutable releases. */
+export const VENDOR_ROOT = resolve(process.env.VENDOR_ROOT || join(REPO_ROOT, "vendor"));
 export const DATA_DIR = process.env.DATA_DIR || join(GUI_ROOT, "data");
 export const WORK_DIR = join(REPO_ROOT, ".work");
 export const PORT = Number(process.env.PORT || 7979);
@@ -95,4 +97,18 @@ export function relToRepo(abs) {
   if (n === r) return ".";
   if (n.startsWith(r + sep)) return n.slice(r.length + 1);
   return abs;
+}
+
+/** Keep API paths portable when the vendor cache lives outside a release. */
+export function relToWorkspace(abs) {
+  if (underRoot(abs, VENDOR_ROOT)) return join("vendor", relative(VENDOR_ROOT, abs));
+  return relToRepo(abs);
+}
+
+/** Resolve the portable paths emitted by the skill catalog. */
+export function resolveWorkspacePath(path) {
+  const value = String(path || "");
+  if (value === "vendor") return VENDOR_ROOT;
+  if (value.startsWith("vendor/")) return resolve(VENDOR_ROOT, value.slice("vendor/".length));
+  return resolve(REPO_ROOT, value);
 }

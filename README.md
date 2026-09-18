@@ -9,7 +9,7 @@ skills/                 # Authored skills (source of truth)
 gui/                    # Skill Hub local control panel (port 7979)
 modules/baslide01/      # In-repo Baslide01 (templates, L3 viz recipes, gold decks)
 registry/sources.yaml   # Upstream libs, pinned commits
-vendor/                 # gitignored; populated by sync-vendor.sh
+vendor/                 # gitignored local cache; production uses persistent VENDOR_ROOT
 scripts/                # segment, coverage, catalog, install-links, dev-up
 docs/ATTRIBUTION.md     # Licenses and source-available notes
 ```
@@ -37,7 +37,7 @@ bash scripts/dev-up.sh
 bash scripts/install-links.sh
 
 # Sync upstream catalogs into vendor/ (optional)
-bash scripts/sync-vendor.sh
+bash scripts/sync-vendor.sh # checks out each recorded synced_commit
 python3 scripts/build-catalog.py
 
 # Normalize a Markdown file, directory, or safe ZIP

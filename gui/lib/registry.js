@@ -2,7 +2,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 import { join } from "node:path";
-import { REPO_ROOT } from "./paths.js";
+import { VENDOR_ROOT } from "./paths.js";
 import { remoteHead } from "./repo.js";
 
 const execFileAsync = promisify(execFile);
@@ -57,7 +57,7 @@ export async function registryStatus() {
   const sources = loadSources();
   const rows = [];
   for (const s of sources) {
-    const vendorPath = join(REPO_ROOT, "vendor", s.id);
+    const vendorPath = join(VENDOR_ROOT, s.id);
     const present = existsSync(vendorPath);
     let head = null;
     if (present && s.kind === "git") {
@@ -92,7 +92,7 @@ export async function checkUpstreamDrift(sourceId) {
   const s = sources.find((x) => x.id === sourceId);
   if (!s) throw new Error(`unknown source: ${sourceId}`);
   if (s.kind !== "git" || !s.url) throw new Error(`source ${sourceId} is not a git remote`);
-  const vendorPath = join(REPO_ROOT, "vendor", s.id);
+  const vendorPath = join(VENDOR_ROOT, s.id);
   if (!existsSync(vendorPath)) throw new Error(`vendor/${s.id} missing — run sync-vendor first`);
   const remote = await remoteHead(vendorPath, "origin", s.pin || "HEAD");
   let local = null;

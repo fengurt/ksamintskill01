@@ -2,7 +2,7 @@ import { copyFileSync, existsSync, mkdirSync, mkdtempSync, readFileSync, readdir
 import { spawn, spawnSync } from "node:child_process";
 import { tmpdir } from "node:os";
 import { basename, dirname, join } from "node:path";
-import { REPO_ROOT, safeResolve, safeWorkDir, underRoot } from "./paths.js";
+import { REPO_ROOT, VENDOR_ROOT, resolveWorkspacePath, safeResolve, safeWorkDir, underRoot } from "./paths.js";
 import { assembleBrandSubskillStage } from "./showcase.js";
 
 /** Extra files a skill zip must carry because SKILL.md only points at them. */
@@ -363,10 +363,10 @@ export function skillRuntimeExtras(folder) {
 }
 
 export function assembleSkillZipStage({ path, folder, name, sourceId }) {
-  const abs = join(REPO_ROOT, path);
-  const vendorRoot = join(REPO_ROOT, "vendor");
+  const abs = resolveWorkspacePath(path);
+  const vendorRoot = VENDOR_ROOT;
   if (!existsSync(abs)) throw new Error("skill folder missing");
-  if (!underRoot(abs, join(REPO_ROOT, "skills")) && !underRoot(abs, join(REPO_ROOT, "vendor"))) {
+  if (!underRoot(abs, join(REPO_ROOT, "skills")) && !underRoot(abs, vendorRoot)) {
     throw new Error("skill path denied");
   }
   const rootName = safeStem(name || String(folder).split("/").pop() || "skill");

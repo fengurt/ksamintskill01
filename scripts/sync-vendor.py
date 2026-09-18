@@ -11,7 +11,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-VENDOR = ROOT / "vendor"
+VENDOR = Path(os.environ.get("VENDOR_ROOT", ROOT / "vendor")).expanduser().resolve()
 SOURCES = ROOT / "registry" / "sources.yaml"
 
 
@@ -38,7 +38,7 @@ def parse_sources(text: str) -> list[dict]:
 
 def sync_git(entry: dict, dest: Path) -> None:
     url = entry["url"]
-    pin = entry.get("pin", "main")
+    pin = entry.get("synced_commit") or entry.get("pin", "main")
     depth = str(entry.get("depth", "1"))
     if dest.exists() and (dest / ".git").exists():
         print(f"update {entry['id']}")
@@ -50,13 +50,14 @@ def sync_git(entry: dict, dest: Path) -> None:
         if dest.exists():
             shutil.rmtree(dest)
         print(f"clone {entry['id']}")
-        try:
-            subprocess.check_call(
-                ["git", "clone", "--depth", depth, "--branch", pin, url, str(dest)]
-            )
-        except subprocess.CalledProcessError:
-            subprocess.check_call(["git", "clone", "--depth", depth, url, str(dest)])
-            print(f"  cloned via default branch (requested pin={pin})")
+        subprocess.check_call(["git", "clone", "--depth", depth, "--no-checkout", url, str(dest)])
+        subprocess.check_call(["git", "-C", str(dest), "fetch", "--depth", depth, "origin", pin])
+        subprocess.check_call(["git", "-C", str(dest), "checkout", "-q", "FETCH_HEAD"])
+    expected = entry.get("synced_commit")
+    if expected:
+        head = subprocess.check_output(["git", "-C", str(dest), "rev-parse", "HEAD"], text=True).strip()
+        if head != expected:
+            raise RuntimeError(f"{entry['id']} expected {expected}, got {head}")
     for rel in entry.get("exclude_paths") or []:
         path = dest / rel
         if path.exists():
@@ -81,12 +82,15 @@ def sync_local(entry: dict, dest: Path) -> None:
 def main() -> int:
     VENDOR.mkdir(parents=True, exist_ok=True)
     entries = parse_sources(SOURCES.read_text(encoding="utf-8"))
+    git_only = "--git-only" in sys.argv[1:]
     for entry in entries:
         dest = VENDOR / entry["id"]
         kind = entry.get("kind")
         if kind == "git":
             sync_git(entry, dest)
         elif kind == "local":
+            if git_only:
+                continue
             sync_local(entry, dest)
         else:
             print(f"unknown kind for {entry['id']}: {kind}", file=sys.stderr)
