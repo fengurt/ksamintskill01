@@ -2,7 +2,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 import { join } from "node:path";
-import { VENDOR_ROOT } from "./paths.js";
+import { REPO_ROOT, VENDOR_ROOT } from "./paths.js";
 import { remoteHead } from "./repo.js";
 
 const execFileAsync = promisify(execFile);
