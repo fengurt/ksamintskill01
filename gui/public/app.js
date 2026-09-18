@@ -17,7 +17,7 @@ function routeParts() {
 
 function setActive(parts) {
   const top = parts[0] || "";
-  nav.querySelectorAll("a").forEach((a) => {
+  nav.querySelectorAll("a[data-route]").forEach((a) => {
     a.classList.toggle("active", (a.dataset.route || "") === top);
   });
 }

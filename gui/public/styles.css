@@ -753,3 +753,20 @@ tr.clickable:hover td { background: rgba(14, 107, 92, 0.06); }
 @media (prefers-reduced-motion: reduce) {
   .module-link, .card.clickable { transition: none; }
 }
+
+.resource-home { display: grid; gap: 2.5rem; padding-bottom: 3rem; }
+.resource-intro { max-width: 850px; padding: .5rem 0; }
+.resource-intro h1 { font-size: clamp(2.4rem, 5vw, 4rem); line-height: 1.02; letter-spacing: -.04em; margin: 1rem 0; }
+.resource-intro > p { max-width: 700px; }
+.resource-review { font-size: .8rem; margin-top: 1.5rem; }
+.resource-heading { display: flex; gap: 1rem; align-items: baseline; border-top: 1px solid var(--line); padding-top: 1.25rem; margin-bottom: 1.25rem; }
+.resource-heading h2 { margin: 0; }
+.resource-heading p { margin: .5rem 0 0; }
+.resource-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+.resource-card { display: flex; flex-direction: column; padding: 1.4rem; border: 1px solid var(--line); border-radius: 12px; color: var(--ink); background: rgba(255,255,255,.35); text-decoration: none; }
+.resource-card:hover, .resource-card:focus-visible { border-color: var(--accent); background: rgba(255,255,255,.65); }
+.resource-card h3 { display: flex; justify-content: space-between; gap: .5rem; margin: 1rem 0 .5rem; }
+.resource-card p { font-size: .93rem; flex: 1; }
+.resource-card small { overflow-wrap: anywhere; margin-top: 1rem; }
+@media (max-width: 1000px) { .resource-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .resource-grid { grid-template-columns: 1fr; } .resource-intro { padding-top: 0; } }

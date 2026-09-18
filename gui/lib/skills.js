@@ -277,6 +277,18 @@ export function sortSkills(list) {
   });
 }
 
+export function skillGithubUrl(skill, src = null) {
+  const encodePath = (path) => path.split("/").map(encodeURIComponent).join("/");
+  if (skill.kind === "authored") return `https://github.com/fengurt/ksamintskill01/blob/main/${encodePath(skill.skillMd)}`;
+  const repo = String(src?.url || skill.declaredRepository || (src?.id === "agents-skills-local" ? "mattpocock/skills" : "")).replace(/^https:\/\/github\.com\//, "").replace(/\.git\/?$/, "").replace(/\/$/, "");
+  if (!/^[\w.-]+\/[\w.-]+$/.test(repo) || repo.split("/").some((part) => part === "." || part === "..")) return null;
+  const prefix = `${src?.id}/`;
+  if (src?.kind === "git" && skill.folder?.startsWith(prefix) && /^[a-f0-9]{40}$/.test(src.synced_commit || "")) {
+    return `https://github.com/${repo}/blob/${src.synced_commit}/${encodePath(skill.folder.slice(prefix.length))}/SKILL.md`;
+  }
+  return `https://github.com/${repo}`;
+}
+
 function decorate(skill, src, skillMdAbs, stars, aliases) {
   const origin = skillOrigin(skill);
   const credit = skillCredit({ ...skill, origin }, src);
@@ -286,6 +298,7 @@ function decorate(skill, src, skillMdAbs, stars, aliases) {
     agent: skillAgent(skill),
     author: credit.author,
     repo: credit.repo,
+    githubUrl: skillGithubUrl(skill, src),
     brief: skillBrief(skill.description),
     aliases: skillAliases(skill, aliases),
     declaredVersion: skill.declaredVersion || null,

@@ -395,6 +395,7 @@ export async function renderRichSkillDetail(root, kind, id) {
     '<button type="button" class="star ' + (s.starred ? "on" : "") + '" id="star-one" aria-label="' + (s.starred ? "Unstar " : "Star ") + esc(s.name) + '" aria-pressed="' + Boolean(s.starred) + '">★</button>',
     badge("", s.origin || s.kind),
     s.agent ? badge("", s.agent) : "",
+    s.githubUrl ? '<a class="btn ghost" href="' + esc(s.githubUrl) + '" target="_blank" rel="noopener noreferrer">View on GitHub ↗</a>' : '<span class="muted">Local-only source</span>',
     s.zip ? '<a class="btn" href="' + esc(s.zip) + '">Export</a>' : "",
     "</div>",
     '<header class="skill-detail-hero"><p class="skills-kicker">' + esc(s.author || s.origin || "skill") + '</p><h1>' + esc(s.name) + '</h1><p>' + esc(s.brief || s.description) + '</p><div class="skill-detail-byline"><span>' + esc(`$${s.id || s.name}`) + ((s.aliases || []).length ? " · " + esc(s.aliases.join(", ")) : "") + "</span><span>" + esc(s.versionLabel || "unversioned") + "</span><span>" + esc(s.repo || s.source || "") + "</span><span>" + esc(s.updatedAt ? fmtTime(s.updatedAt) : "not dated") + "</span></div></header>",

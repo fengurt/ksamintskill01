@@ -118,6 +118,7 @@ export async function renderSkills(root, parts) {
         <a class="skill-card-title" href="${href}"><h3 style="margin:0">${esc(s.name)}</h3></a>
         ${who}${dirty}${copies > 1 ? badge("", `${copies} 处`) : ""}
         <span class="spacer"></span>
+        ${s.githubUrl ? `<a class="btn ghost" href="${esc(s.githubUrl)}" target="_blank" rel="noopener noreferrer" aria-label="${esc(s.name)} on GitHub">GitHub ↗</a>` : `<span class="muted">Local-only source</span>`}
         ${s.zip ? `<a class="btn ghost skill-export" href="${esc(s.zip)}" download="${esc(s.zipName || `${s.name}-skill.zip`)}">Export</a>` : ""}
       </div>
       <a class="skill-card-body" href="${href}">
