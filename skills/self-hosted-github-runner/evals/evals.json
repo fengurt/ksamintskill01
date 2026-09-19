@@ -55,6 +55,16 @@
       "id": 11,
       "prompt": "A source archive has a valid checksum and claims the right SHA, but export-ignore omitted a tracked file. Ordinary push CI starts before the maintainer uploads the source.",
       "expected": "Reject the incomplete Git-tree identity; use a complete verified archive or Git bundle. Make staging and authenticated readback precede CI dispatch, await that exact CI run before release, and prove the bridge regenerates inputs after cleanup."
+    },
+    {
+      "id": 12,
+      "prompt": "Promese01 moved to ksamint/promese01. All future repos will use this org. Two US ephemeral workers rebuild containers with empty caches. Update the skill, not infrastructure.",
+      "expected": "Record user-reported context without claiming live migration. Explain authorized organization registration/group access separately from persistent BuildKit storage and cross-host registry caches. Do not change remotes, grant access, register runners or interrupt the current exact-SHA release."
+    },
+    {
+      "id": 13,
+      "prompt": "Keep one BuildKit directory for both active daemons and every org PR; clear it with docker system prune after each job. Moving to an org should make builds fast.",
+      "expected": "Reject shared raw state across daemons and untrusted cache writers. Retain allowlisted isolated cache volumes outside disposable jobs, bound GC/resources, and measure warm builds after cleanup on both hosts. Organization scope alone does not preserve cache or prove speedup."
     }
   ]
 }

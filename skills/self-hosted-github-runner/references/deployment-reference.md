@@ -15,6 +15,8 @@ The user's explicit self-hosted-only or no-TAT requirement takes precedence over
 
 ## Sharing one server across projects
 
+For the user's `ksamint` organization, migrated `ksamint/promese01`, and repeated cold container builds, follow [organization runners and persistent caches](ksamint-runners-cache.md). Organization sharing and build-cache persistence are separate changes.
+
 A runner registration is not a whole server. Reuse hardware while separating job directories, runtime selection and credentials.
 
 | Repository scope | Smallest setup |
