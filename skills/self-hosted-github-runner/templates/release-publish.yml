@@ -20,7 +20,7 @@ concurrency:
 
 jobs:
   publish:
-    runs-on: ${{ fromJSON(vars.PUBLISH_RUNNER_LABELS || '["ubuntu-24.04"]') }}
+    runs-on: ${{ fromJSON(vars.PUBLISH_RUNNER_LABELS) }}
     environment: release-inbox
     timeout-minutes: 45
     env:

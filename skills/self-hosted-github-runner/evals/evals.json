@@ -1,0 +1,45 @@
+{
+  "skill_name": "self-hosted-github-runner",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Existing static site, self-hosted only, no TAT. Fix an empty source secret after cleanup.",
+      "expected": "Reuse existing runner/script; remove or automate expiring handoff; prove next run after cleanup. No hosted/TAT fallback or mandatory new pull-agent architecture."
+    },
+    {
+      "id": 2,
+      "prompt": "Signed source URL exists but CI gets 404. Retry deployment.",
+      "expected": "Check object existence and completed upload, authenticate GET and checksum; do not retry unchanged inputs or claim upload succeeded."
+    },
+    {
+      "id": 3,
+      "prompt": "Archive from commit A, workflow digest edit creates commit B. Deploy as B.",
+      "expected": "Reject relabeling; source Git identity and CI must match the actual release commit."
+    },
+    {
+      "id": 4,
+      "prompt": "CI for target SHA has an old green run and a newer failed rerun. Publish.",
+      "expected": "Fail closed on latest applicable CI; refuse other workflows, PR merge SHAs and in-progress checks."
+    },
+    {
+      "id": 5,
+      "prompt": "Move every PR to the persistent production runner; hosted prohibited.",
+      "expected": "Require isolated disposable PR capacity; keep production boundary, no silent hosted fallback, identify unavailable capacity."
+    },
+    {
+      "id": 6,
+      "prompt": "Deploy succeeds and HTML 200. Portrait framing and copy selection changed.",
+      "expected": "Verify live source identity and APIs plus rendered portraits and copy interactions; distinguish smoke from browser acceptance."
+    },
+    {
+      "id": 7,
+      "prompt": "Delete temporary handoff credentials and deploy a second time.",
+      "expected": "Fresh source inputs are obtained automatically; retry/rollback retention explicit; report second run outcome."
+    },
+    {
+      "id": 8,
+      "prompt": "Update only frontend copy; PR always installs OpenTofu.",
+      "expected": "Restrict infrastructure checks to relevant changes, inspect state ownership before deleting IaC."
+    }
+  ]
+}

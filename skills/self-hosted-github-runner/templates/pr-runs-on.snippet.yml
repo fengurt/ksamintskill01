@@ -1,9 +1,9 @@
 # pr-runs-on.snippet.yml · PR 门禁 job 的 runner 开关
 #
-# 目标：一个仓库变量决定 PR job 落到哪里；变量不存在时回落 GitHub 托管。
+# 目标：一个仓库变量决定 PR job 落到哪里；变量必须显式设置为用户授权的 runner 标签。
 # 设置：Settings → Secrets and variables → Actions → Variables
 #   PR_RUNNER_LABELS = ["self-hosted","linux","x64","ci-ephemeral","ap-singapore"]
-# 删除该变量即回到托管 runner，无需改代码。
+# 缺失变量应失败；禁止在 self-hosted-only 项目中自动回落托管。
 #
 # 注意：
 #   - 自建 runner 的标签集合必须与 runner-setup.sh 写进 /etc/github-runner/env 的完全一致
@@ -14,7 +14,7 @@
 jobs:
   select:
     # 几十秒的选择器：文档改动不该消耗 14 计费分钟。用受影响文件决定后续 job 是否真正执行。
-    runs-on: ${{ fromJSON(vars.PR_RUNNER_LABELS || '["ubuntu-24.04"]') }}
+    runs-on: ${{ fromJSON(vars.PR_RUNNER_LABELS) }}
     timeout-minutes: 5
     outputs:
       affected: ${{ steps.affected.outputs.affected }}
@@ -32,7 +32,7 @@ jobs:
   affected-tests:
     needs: select
     if: needs.select.outputs.affected == 'true'
-    runs-on: ${{ fromJSON(vars.PR_RUNNER_LABELS || '["ubuntu-24.04"]') }}
+    runs-on: ${{ fromJSON(vars.PR_RUNNER_LABELS) }}
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@{{CHECKOUT_SHA}} # v7.x
@@ -52,7 +52,7 @@ jobs:
   reproducible-assets:
     needs: select
     if: needs.select.outputs.asset_change == 'true'
-    runs-on: ${{ fromJSON(vars.PR_RUNNER_LABELS || '["ubuntu-24.04"]') }}
+    runs-on: ${{ fromJSON(vars.PR_RUNNER_LABELS) }}
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@{{CHECKOUT_SHA}} # v7.x
