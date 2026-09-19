@@ -491,18 +491,19 @@
     "name": "self-hosted-github-runner",
     "shortName": "ship",
     "command": "ship",
-    "purpose": "Design and diagnose GitHub-to-mainland deployment paths with protected CI and signed artifact transfer.",
+    "purpose": "Recover and verify repeatable GitHub Actions releases to mainland China while preserving the authorized runner and transport.",
     "recommendation": "improve",
-    "quality": "Detailed trust boundaries, release verification and reusable templates; generic pull-only rules conflict with allowed existing cloud-control paths and application-specific assumptions crowd the reusable procedure.",
+    "quality": "The entrypoint now separates recovery from optional pull architecture and requires exact source identity, CI gating, shared-host isolation and next-run verification. Advanced architecture still needs permission-table cleanup and verification of broad runner/network claims; scenario cases are not production certification.",
     "evidence": [
-      "skills/self-hosted-github-runner/SKILL.md: Section 0 allows existing TAT/cloud API routes then defines absolute pull-only rules.",
-      "skills/self-hosted-github-runner/SKILL.md: Section 5 describes apply credentials as read-only; templates/cam-policy-inbox-reader.json also grants outbox PutObject, required by templates/apply-agent.sh:66."
+      "SKILL.md: Choose the smallest working route, Source checks and release identity, and Verify and report cover the supplied recovery guide.",
+      "references/advanced-architecture.md: Sections 2 and 5 still describe the apply account as read-only although templates/cam-policy-inbox-reader.json permits outbox writes.",
+      "evals/evals.json: scenarios 1-11 cover release recovery, identity, cleanup, shared hosts and authorized hosted routes."
     ],
     "overlaps": [
       "ksamint-githubaction-skill"
     ],
-    "reviewedAt": "2026-09-18",
-    "reviewedHash": "42fd538538db13ea1f2b2d78d40a677aff0cc370ec0213b8f2445d0057cbeb17",
+    "reviewedAt": "2026-09-19",
+    "reviewedHash": "455140ac947238a12760726f1e533145ef5a86bd45b7651df9bd7f1b4b1d9bfa",
     "commandId": "k028"
   },
   {

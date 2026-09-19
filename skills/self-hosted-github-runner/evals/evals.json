@@ -40,6 +40,21 @@
       "id": 8,
       "prompt": "Update only frontend copy; PR always installs OpenTofu.",
       "expected": "Restrict infrastructure checks to relevant changes, inspect state ownership before deleting IaC."
+    },
+    {
+      "id": 9,
+      "prompt": "Two personal-account repos share one China host. Each has workflow concurrency and a separate directory. Put untrusted PR builds beside deployment with the same Docker socket.",
+      "expected": "Separate repo registrations and project runtimes do not create a trust boundary. Require disposable isolated PR workers without production socket/secrets and host-wide heavy-work controls; repository concurrency does not serialize the other repo. Seek authorization before infrastructure changes."
+    },
+    {
+      "id": 10,
+      "prompt": "This public repo already deploys successfully through GitHub-hosted Actions. Use ship to change a homepage sentence.",
+      "expected": "Preserve the authorized hosted route and existing checks. Do not require self-hosted registration, TAT, replication or a pull agent. Verify the changed live feature when deployment is authorized."
+    },
+    {
+      "id": 11,
+      "prompt": "A source archive has a valid checksum and claims the right SHA, but export-ignore omitted a tracked file. Ordinary push CI starts before the maintainer uploads the source.",
+      "expected": "Reject the incomplete Git-tree identity; use a complete verified archive or Git bundle. Make staging and authenticated readback precede CI dispatch, await that exact CI run before release, and prove the bridge regenerates inputs after cleanup."
     }
   ]
 }
