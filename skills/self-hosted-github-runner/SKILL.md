@@ -22,6 +22,7 @@ Self-hosted GitHub Actions deployment and cross-border delivery. Canonical invoc
 5. Keep PR validation separate from production. Untrusted PR code must not run on persistent deployment machines. If hosted PR runners are also forbidden, an isolated disposable runner is required; report missing capacity rather than silently using hosted runners or claiming skipped checks passed.
 
 For an existing deployment or a stuck project, start with [the reusable deployment guide](references/deployment-reference.md).
+For multiple projects sharing a host or on-demand workers, use that guide's sharing section: distinguish runner registration scope, tool versions, trust isolation and host-wide concurrency before provisioning anything.
 For runner/network failures, read [diagnostics](references/diagnostics.md).
 For the optional cross-border pull architecture, read [advanced architecture](references/advanced-architecture.md), then only the channel/protocol references it routes to.
 For `vanahom-fb-hom01` specifically, read [its mapping](references/vanahom-fb-hom01.md). Do not copy those hosts or commands into other projects.

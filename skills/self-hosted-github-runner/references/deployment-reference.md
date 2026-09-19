@@ -13,6 +13,26 @@ Before changing anything, record:
 
 The user's explicit self-hosted-only or no-TAT requirement takes precedence over template defaults. PR validation needs its own trust boundary; never send untrusted PR code to a persistent production deployment runner.
 
+## Sharing one server across projects
+
+A runner registration is not a whole server. Reuse hardware while separating job directories, runtime selection and credentials.
+
+| Repository scope | Smallest setup |
+| --- | --- |
+| Several repositories in one organization | Organization runner pool with access limited to selected repositories |
+| Repositories under a personal account | Separate repository-scoped runner registrations/processes on the same host, each with its own configuration and work directory |
+| Untrusted PRs or projects with different trust | Disposable isolated worker environments; do not reuse a production runner's account, Docker socket or secrets |
+
+Use versioned tool paths or pinned container images. Each job selects Node/Python/etc. from its project baseline; changing PATH for one job does not uninstall another project's tools. Share trusted read-only tool caches; namespace dependency caches by trust scope, OS/architecture, runtime and lockfile. Never reuse another project's node_modules or writable secrets.
+
+Limit host-wide heavy work according to measured CPU/RAM. One organization worker can process queued jobs serially. Multiple per-repository workers need host-wide scheduling/resource controls: GitHub concurrency groups are repository-scoped and do not limit other repositories on the same machine. Separate work directories alone are not a security boundary.
+
+A stopped runner can be started again; no project-specific VM snapshot is required. Idle runner processes normally have little work, but cloud server billing does not necessarily stop when the process stops. For on-demand workers, keep a clean image plus tool caches and create a fresh job environment when needed. An ephemeral runner deregisters after one job; the host/controller must still clean the environment, preserve logs and register a fresh runner. Do not snapshot job tokens or production secrets.
+
+Start with the existing shared host and a small fixed worker count. Add autoscaling or orchestration only when queue times/resource measurements justify it. Repository transfers, new runner registrations, host services and credential redistribution are separate infrastructure changes, not implied by editing a project's release workflow.
+
+Sources: [runner registration scopes](https://docs.github.com/en/actions/how-tos/manage-runners/self-hosted-runners/add-runners), [repository-scoped concurrency](https://docs.github.com/en/actions/how-tos/write-workflows/choose-when-workflows-run/control-workflow-concurrency), [ephemeral runner lifecycle](https://docs.github.com/en/actions/reference/runners/self-hosted-runners), [stopping and restarting runners](https://docs.github.com/en/actions/how-tos/manage-runners/self-hosted-runners/remove-runners).
+
 ## Find the failing layer
 
 ```sh
