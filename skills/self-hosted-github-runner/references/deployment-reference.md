@@ -79,7 +79,9 @@ Automate a source handoff; do not create a new manual release ritual:
 - pass metadata per release instead of committing archive digests into workflows;
 - generate fresh credentials for the next release and retain retry/rollback artifacts appropriately.
 
-A checksum alone does not establish Git identity. Prefer a Git bundle when an archive cannot prove the source commit. Never mark an archive of A as release B, even when their application files happen to match.
+A checksum alone does not establish Git identity. An archive can be verified by rebuilding its Git tree and comparing it with the requested commit's tree fetched from the authenticated GitHub API, before executing project scripts. Missing/export-ignored files must fail this comparison. Otherwise use a Git bundle that proves identity. Never mark an archive of A as release B, even when their application files happen to match.
+
+For a maintainer-triggered source bridge, expose one command that prepares immutable source, generates commit-scoped temporary credentials, verifies readback, dispatches CI, waits for its exact successful run, dispatches deployment and cleans up after terminal success. Explicitly document the trigger contract: CI must start after staging, not race an ordinary push. A second invocation must regenerate everything it needs. Keep the source bridge separate from production build/publish, which stays on the authorized runner.
 
 ## What to simplify
 
